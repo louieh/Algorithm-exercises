@@ -1,0 +1,2864 @@
+### 1.Two Sum
+
+```python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        if not nums:
+            return []
+        
+        ans = []
+        temp_dict = dict()
+        
+        for i in range(len(nums)):
+            c = target - nums[i]
+            
+            if c in temp_dict.keys():
+                return[i, temp_dict[c]]
+            else:
+                temp_dict[nums[i]] = i
+```
+
+
+
+### 2. Add Two Numbers
+
+```python
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        if not l1 and not l2:
+            return
+        if not l1 or not l2:
+            return l1 or l2
+        
+        temp = 0
+        dummy = ans = ListNode(0)
+        
+        while l1 or l2:
+            l1_num = l1.val if l1 else 0
+            l2_num = l2.val if l2 else 0
+            temp_result = l1_num + l2_num + temp
+            temp = temp_result // 10
+            dummy.next = ListNode(temp_result % 10)
+            l1 = l1.next if l1 else l1
+            l2 = l2.next if l2 else l2
+            dummy = dummy.next
+        
+#         while l1:
+#             temp_result = (l1 or l2).val + temp
+#             temp = temp_result // 10
+#             dummy.next = ListNode(temp_result % 10)
+            
+#             dummy = dummy.next
+        
+#         while l2:
+#             temp_result = l2.val + temp
+#             temp = temp_result // 10
+#             dummy.next = ListNode(temp_result % 10)
+#             l2 = l2.next
+#             dummy = dummy.next
+        
+        if temp:
+            dummy.next = ListNode(temp)
+        
+        return ans.next
+```
+
+```python
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        if not l1 or not l2:
+            return l1 or l2
+        
+        res = head = ListNode(0)
+        plus = 0
+        while l1 and l2:
+            temp = l1.val + l2.val + plus
+            head.next = ListNode(temp % 10)
+            plus = temp // 10
+            l1 = l1.next
+            l2 = l2.next
+            head = head.next
+        l = l1 or l2
+        while l:
+            temp = l.val + plus
+            head.next = ListNode(temp % 10)
+            plus = temp // 10
+            l = l.next
+            head = head.next
+        if plus:
+            head.next = ListNode(plus)
+        return res.next
+```
+
+
+
+
+
+### 7. Reverse Integer
+
+```c++
+class Solution {
+    public:
+    int reverse(int x){
+        //x=1999999999 考虑溢出的问题
+        long long ans = 0;
+        const int maxint = 0x7fffffff;//2147483647
+        const int minint = 0x80000000;//-2147483648
+        while( x!=0 )
+        {
+            ans = ans*10+(x%10);
+            x/=10; //x的各位变成ans最高位
+        }
+        //判断溢出
+        if( ans<minint || ans>maxint )
+        {
+            ans=0;
+        }
+        return ans;
+    }
+};
+```
+
+```python
+# 10/25/2019
+class Solution:
+    def reverse(self, x):
+        if not x:
+            return x
+        max_num = 2147483647
+        min_num = -2147483648
+        if x < 0:
+            x = -x
+            sign = -1
+        else:
+            sign = 1
+        
+        ans = 0
+        
+        while x != 0:
+            ans = ans * 10 + x % 10
+            x //= 10
+        
+        ans = ans if sign == 1 else -ans
+        
+        import sys
+        if ans > max_num or ans < min_num:
+            return 0
+        else:
+            return ans
+```
+
+
+
+### 8. String to Ineger (atoi)
+
+```c++
+Class Solution{
+    public:
+    int myAtoi(string str){
+        
+        const int maxint = 0x7fffffff;
+        const int minint = 0x80000000;
+        
+        long long ans = 0;
+        bool flag = false;
+        int st = 0;
+         while (st<str.length() && str[st]==' ')
+         {
+             st++;
+         }
+        if (st<str.length() && str[st]=='+')
+        {
+            st++;
+        }
+        else
+        {
+            if (st<str.length() && str[st]=='-')
+            {
+                flag=true;
+                st++;
+            }
+        }
+        for(int i=st;i<str.length();i++)
+        {
+            if(str[i]<='9' && str[i]>='0')
+            {
+                ans = ans*10+str[i]-'0';
+            }
+            else
+            {
+                break;
+            }
+        }
+        if (flag) ans = -ans;
+        if (ans>maxint) ans = manint;
+        if (ans<minint) ans = minint;
+        return ans;
+    }
+}
+```
+
+```python
+# 10/25/2019
+class Solution:
+    def myAtoi(self, str: str) -> int:
+        if not str:
+            return 0
+        
+        max_num = 2147483647
+        min_num = -2147483648
+        ans = 0
+        begin = False
+        sign = 1
+        for i in range(len(str)):
+            if str[i] == ' ':
+                if not begin:
+                    continue
+                else:
+                    break
+            elif str[i] == '+' or str[i] == '-':
+                if not begin:
+                    sign = -1 if str[i] == '-' else 1
+                    begin = True
+                    continue
+                else:
+                    break
+            elif (ord(str[i]) < 48 or ord(str[i]) > 57) and not begin:
+                return 0
+            elif (ord(str[i]) < 48 or ord(str[i]) > 57) and begin:
+                break
+            begin = True
+            ans = ans * 10 + (ord(str[i]) - 48)
+        
+        ans = ans if sign == 1 else -ans
+        
+        if ans > max_num:
+            return max_num
+        elif ans < min_num:
+            return min_num
+        return ans
+```
+
+
+
+### 20. Valid Parentheses
+
+```python
+class Solution:
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        temp = [];
+        for each in s:
+            if each in ['(','[','{']:
+                temp.append(each)
+            elif each in [')',']','}']:
+                if not temp:
+                    return False
+                poptemp = temp.pop()
+                if poptemp == '(' and each != ')' or poptemp == '[' and each != ']' or poptemp == '{' and each != '}':
+                    return False
+        if not temp:
+            return True
+        else:
+             return False
+```
+
+20 和 921 两道关于合法括号的题目，原理相似，921 难度为中等反而更简单些。
+
+
+
+### 21. Merge Two Sorted Lists
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def mergeFunction(self, l1, l2, temp):
+        if l1 and not l2:
+            temp.next = l1
+            return
+        elif l2 and not l1:
+            temp.next = l2
+            return
+        else:
+            if l1.val <= l2.val:
+                temp.next = l1
+                self.mergeFunction(l1.next, l2, temp.next)
+            else:
+                temp.next = l2
+                self.mergeFunction(l1, l2.next, temp.next)
+    
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        if not l1 and not l2:
+            return
+        
+        ans = ListNode(0)
+        temp = ans
+        self.mergeFunction(l1, l2, temp)
+        
+        return ans.next
+```
+
+```python
+# 10/19/2019
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        if not l1 and not l2:
+            return
+        if not l1 or not l2:
+            return l1 or l2
+        
+        dummy = head = ListNode(0)
+        
+        while l1 and l2:
+            if l1.val <= l2.val:
+                dummy.next = ListNode(l1.val)
+                l1 = l1.next
+            else:
+                dummy.next = ListNode(l2.val)
+                l2 = l2.next
+            dummy = dummy.next
+
+        dummy.next = l1 or l2
+        return head.next
+```
+
+```python
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        
+        def mergeTwoLists_helper(head, l1, l2):
+            if l1 and l2:
+                if l1.val <= l2.val:
+                    head.next = ListNode(l1.val)
+                    mergeTwoLists_helper(head.next, l1.next, l2)
+                else:
+                    head.next = ListNode(l2.val)
+                    mergeTwoLists_helper(head.next, l1, l2.next)
+            else:
+                head.next = l1 or l2
+                return
+        head = ListNode(0)
+        temp = head
+        mergeTwoLists_helper(temp, l1, l2)
+        return head.next
+```
+
+```python
+# 02/22/2020
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        if not l1 or not l2:
+            return l1 or l2
+        
+        head = ListNode(0)
+        res = head
+        while l1 and l2:
+            if l1.val <= l2.val:
+                head.next = l1
+                l1 = l1.next
+            else:
+                head.next = l2
+                l2 = l2.next
+            head = head.next
+        head.next = l1 or l2
+        return res.next
+```
+
+
+
+### 23. Merge k Sorted Lists
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    import sys
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        if not lists:
+            return
+        
+        dummy = ListNode(0)
+        ans = dummy
+        
+        while 1:
+            mark = 0
+            min_index = None
+            min_value = sys.maxsize
+            
+            for i in range(len(lists)):
+                if lists[i]:
+                    mark += 1
+                    if lists[i].val < min_value:
+                        min_value = lists[i].val
+                        min_index = i
+            if mark == 0:
+                break
+            dummy.next = ListNode(min_value)
+            dummy = dummy.next
+            lists[min_index] = lists[min_index].next
+            
+        return ans.next
+```
+
+
+
+### 24. Swap Nodes in Pairs
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def swapPairs(self, head: ListNode) -> ListNode:
+        if not head: return
+        
+        def swapPaires_helper(node):
+            if not node or not node.next: return
+            node.val, node.next.val = node.next.val, node.val
+            swapPaires_helper(node.next.next)
+        
+        node = head
+        swapPaires_helper(node)
+        return head
+```
+
+
+
+
+
+### 26. Remove Duplicates from Sorted Array
+
+```python
+# two pointers
+# 将循环变量作为fast
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        
+        slow = 0
+        
+        for fast in range(1, len(nums)):
+            if nums[slow] != nums[fast]:
+                slow += 1
+                nums[slow] = nums[fast]
+        return slow+1
+```
+
+
+
+### 27. Remove Element
+
+```python
+class Solution:
+    def removeElement(self, nums, val):
+        """
+        :type nums: List[int]
+        :type val: int
+        :rtype: int
+        """
+        num = 0
+        last_num = 1
+        number = len(nums)
+        for i in range(number):
+            if nums[i] == val:
+                num += 1
+                while number-last_num != i:
+                    if nums[number-last_num] != val:
+                        temp = nums[i]
+                        nums[i] = nums[number-last_num]
+                        nums[number-last_num] = temp
+                        last_num += 1
+                        break
+                    else:
+                        num += 1
+                        last_num += 1
+            if number-last_num == i:
+                break
+                    
+        return len(nums)-num
+```
+
+```python
+# 10/5/2019
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        if not nums:
+            return 0
+        
+        k = 0
+        for i in range(len(nums)):
+            if nums[i] != val:
+                nums[k] = nums[i]
+                k += 1
+        return k
+```
+
+
+
+### 28. Implement strStr()
+
+```python
+class Solution:
+    def strStr(self, haystack, needle):
+        """
+        :type haystack: str
+        :type needle: str
+        :rtype: int
+        """
+        if needle not in haystack:
+            return -1
+        elif needle == "":
+            return 0
+        else:
+            for i in range(0,len(haystack)-len(needle)+1):
+                prefect = 0
+                for j in range(0,len(needle)):
+                    if needle[j] != haystack[i+j]:
+                        prefect = 0
+                        break
+                    else:
+                        prefect = 1
+                if prefect == 1:
+                    return i
+                    break
+```
+
+```python
+# 10/3/2019
+class Solution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        if not haystack and needle:
+            return -1
+        if not haystack or not needle:
+            return 0
+        if len(needle) > len(haystack):
+            return -1
+
+        for i in range(len(haystack)):
+            ifans = True
+            if haystack[i] == needle[0]:
+                if len(haystack) - i - 1 < len(needle) - 1:
+                    return -1
+                for j in range(len(needle) - 1):
+                    if haystack[i + j + 1] != needle[j + 1]:
+                        if i + j + 2 <= len(haystack) - 1:
+                            ifans = False
+                            break
+                        else:
+                            return -1
+                if ifans:
+                    return i
+        return -1
+```
+
+
+
+### 46. Permutations
+
+```python
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        if not nums:
+            return []
+        
+        ans = []
+        
+        def permute_tool(nums, left, right):
+            if left == right:
+                ans.append(nums[::])
+            else:
+                for i in range(left, right+1):
+                    nums[i], nums[left] = nums[left], nums[i]
+                    permute_tool(nums, left+1, right)
+                    nums[i], nums[left] = nums[left], nums[i]
+        
+        permute_tool(nums, 0, len(nums)-1)
+        return ans
+```
+
+注意最后append的时候要重新复制一遍数组，改变数据地址。
+
+https://blog.csdn.net/zhoufen12345/article/details/53560099
+
+
+
+### 50. Pow(x, n)
+
+```python
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n == 0:
+            return 1
+        
+        def myPow_helper(x, n, temp):
+            if n == 1:
+                return x * temp
+            return myPow_helper(x, n-1, x*temp)
+        
+        if n > 0:
+            return myPow_helper(x, n, 1)
+        else:
+            return 1/myPow_helper(x, -n, 1)
+```
+
+recursionError: maximum recursion depth exceeded in comparison
+
+```python
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        
+        def myPow_helper(x, n):
+            if n == 1:
+                return x
+            if n == 0:
+                return 1
+            
+            temp = myPow_helper(x, n//2)
+            
+            if n % 2 == 0:
+                return temp * temp
+            else:
+                return temp * temp * x
+        
+        if n > 0:
+            return myPow_helper(x, n)
+        else:
+            return 1/myPow_helper(x, -n)
+```
+
+
+
+### 61. Rotate List
+
+```python
+class Solution:
+    def rotateRight(self, head: ListNode, k: int) -> ListNode:
+        if not head or k == 0:
+            return head
+        
+        temp_move = temp_l = head
+        
+        # get length of linked list
+        length = 0
+        while temp_l:
+            length += 1
+            temp_l = temp_l.next
+        
+        # 计算倒数第几个
+        num = k % length
+        if num == 0:
+            return head
+        
+        # 将指针挪到上面那个数的前一个, 并取出后面那个数作为新头且断开与后面那个数的链接
+        for i in range(length-num-1):
+            temp_move = temp_move.next
+        new_head = temp3 = temp_move.next
+        temp_move.next = None
+        
+        # 将结尾与原来的头链接
+        while temp3 and temp3.next:
+            temp3 = temp3.next
+        temp3.next = head
+        
+        return new_head
+```
+
+
+
+### 66. Plus one
+
+```python
+class Solution:
+    def plusOne(self, digits):
+        """
+        :type digits: List[int]
+        :rtype: List[int]
+        """
+        temp_text = ""
+        for each in digits:
+            temp_text += str(each)
+            
+        temp_text = str(int(temp_text) + 1)
+        
+        temp_return = []
+        for each in temp_text:
+            temp_return.append(int(each))
+        return temp_return
+```
+
+```java
+// 9/28/2019
+class Solution {
+    public int[] plusOne(int[] digits) {
+        
+        if(digits.length == 0){
+            return null;
+        }
+        
+        int wait_plus = 0;
+        
+        for(int i=digits.length-1; i>=0; i--){
+            int temp = i == digits.length-1 ? digits[i] + wait_plus + 1 : digits[i] + wait_plus;
+            int digit_ten = temp / 10;
+            int digit_one = temp % 10;
+            digits[i] = digit_one;
+            wait_plus = digit_ten;
+        }
+        if (wait_plus != 0){
+            int[] ans = new int[digits.length+1];
+            ans[0] = wait_plus;
+            for(int i=1; i<ans.length; i++){
+                ans[i] = digits[i-1];
+            }
+            return ans;
+        }
+        else{
+            return digits;
+        }
+        
+    }
+}
+```
+
+
+
+### 67. Add Binary
+
+```python
+class Solution:
+    def addBinary(self, a, b):
+        """
+        :type a: str
+        :type b: str
+        :rtype: str
+        """
+        if len(a) > len(b):
+            for i in range(len(a)-len(b)):
+                b = "0" + b
+        if len(b) > len(a):
+            for i in range(len(b)-len(a)):
+                a = "0" + a
+
+        re_a = a[::-1]
+        re_b = b[::-1]
+        is_Carry = 0 #是否有进位
+        return_num_str = ""
+        for i in range(len(a)):
+            if int(re_a[i]) + int(re_b[i]) + is_Carry == 3: #1+1+1
+                #digit = 1 #个位数字
+                return_num_str += "1"
+                is_Carry = 1
+            if int(re_a[i]) + int(re_b[i]) + is_Carry == 2: #1+1+0
+                #digit = 0
+                return_num_str += "0"
+                is_Carry = 1
+            if int(re_a[i]) + int(re_b[i]) + is_Carry == 0: #0+0+0
+                #digit = 0
+                return_num_str += "0"
+                is_Carry = 0
+            if int(re_a[i]) + int(re_b[i]) + is_Carry == 1: #1+0+0
+                #digit = 1
+                return_num_str += "1"
+                is_Carry = 0
+        if is_Carry == 1:
+            return_num_str += "1"
+
+        return_num = return_num_str[::-1]
+        return return_num
+
+```
+
+```python
+# 10/3/2019
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        temp = 0
+        ans = ''
+        
+        l_min = min(len(a), len(b))
+        for i in range(l_min):
+            num = int(a[len(a)-1-i]) + int(b[len(b)-1-i]) + temp
+            if num == 2:
+                temp = 1
+                ans = '0' + ans
+            elif num == 3:
+                temp = 1
+                ans = '1' + ans
+            else:
+                temp = 0
+                ans = str(num) + ans
+        
+        l = len(a) - len(b)
+        i = abs(l)
+        if l < 0:
+            while i-1>=0:
+                num = int(b[i-1]) + temp
+                if num == 2:
+                    temp = 1
+                    ans = '0' + ans
+                elif num == 3:
+                    temp = 1
+                    ans = '1' + ans
+                else:
+                    temp = 0
+                    ans = str(num) + ans
+                i -= 1
+        elif l > 0:
+            while i-1>=0:
+                num = int(a[i-1]) + temp
+                if num == 2:
+                    temp = 1
+                    ans = '0' + ans
+                elif num == 3:
+                    temp = 1
+                    ans = '1' + ans
+                else:
+                    temp = 0
+                    ans = str(num) + ans
+                i -= 1
+        
+        if temp == 1:
+            ans = '1' + ans
+        return ans
+```
+
+
+
+### 70. Climbing Stairs
+
+```python
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        cache = dict()
+        
+        def climbStairs_helper(i, n):
+            if i in cache:
+                return cache[i]
+            
+            if i > n:
+                return 0
+            if i == n:
+                return 1
+            temp = climbStairs_helper(i+1, n) + climbStairs_helper(i+2, n)
+            cache[i] = temp
+            return temp
+        
+        return climbStairs_helper(0, n)
+```
+
+
+
+### 88. Merge Sorted Array
+
+```python
+class Solution:
+    def merge(self, nums1, m, nums2, n):
+        """
+        :type nums1: List[int]
+        :type m: int
+        :type nums2: List[int]
+        :type n: int
+        :rtype: void Do not return anything, modify nums1 in-place instead.
+        """
+        if n == 0:
+            #nums1[:] = nums1 + nums2
+            nums1 += nums2
+        else:
+            nums1[:] = nums1[:-n] + nums2
+        temp_num = 0
+        for i in range(len(nums1)):
+            for j in range(len(nums1)-i):
+                if j+1 == len(nums1):
+                    break
+                if nums1[j] > nums1[j+1]:
+                    temp_num = nums1[j]
+                    nums1[j] = nums1[j+1]
+                    nums1[j+1] = temp_num
+```
+
+
+
+### 118. Pascal's Triangle
+
+```python
+class Solution:
+    def generate(self, numRows):
+        """
+        :type numRows: int
+        :rtype: List[List[int]]
+        """
+        ans = []
+        for i in range(1,numRows+1):
+            row_list = []
+            if i == 1:
+                row_list = [1]
+                ans.append(row_list)
+                continue
+            elif i == 2:
+                row_list = [1,1]
+                ans.append(row_list)
+                continue
+            else:
+                row_list.append(1)
+                for j in range(i-2):
+                    row_list.append(ans[i-2][j]+ans[i-2][j+1])
+                row_list.append(1)
+                ans.append(row_list)
+        
+        
+        return ans
+```
+
+```python
+# 10/2/2019
+class Solution:
+    def generate(self, numRows: int) -> List[List[int]]:
+        if not numRows:
+            return []
+        
+        ans = [[1],[1,1]]
+        last_temp = [1,1]
+        
+        if numRows == 1:
+            return [[1]]
+        elif numRows == 2:
+            return [[1],[1,1]]
+        
+        for i in range(numRows-2):
+            temp = [1]
+            for j in range(len(last_temp)-1):
+                temp.append(last_temp[j]+last_temp[j+1])
+            temp.append(1)
+            ans.append(temp)
+            last_temp = temp
+        return ans
+```
+
+```python
+# 12/17/2019
+class Solution:
+    def generate(self, numRows: int) -> List[List[int]]:
+        if not numRows:
+            return []
+        ans = [[1]]
+        for i in range(numRows-1):
+            last_row = ans[-1]
+            temp = [1]
+            for j in range(len(last_row)-1):
+                temp.append(last_row[j]+last_row[j+1])
+            temp.append(1)
+            ans.append(temp)
+        
+        return ans
+```
+
+
+
+### 119. Pascal's Triangle II
+
+```python
+class Solution:
+    def getRow(self, rowIndex: int) -> List[int]:
+        if rowIndex == 0:
+            return [1]
+        elif rowIndex == 1:
+            return [1,1]
+        
+        temp = [1,1]
+
+        for i in range(rowIndex-1):
+            ans = [1]
+            for j in range(len(temp)-1):
+                ans.append(temp[j]+temp[j+1])
+            ans.append(1)
+            temp = ans
+        
+        return ans
+```
+
+```python
+class Solution:
+    def getRow(self, rowIndex: int) -> List[int]:
+        
+        ans = [1]
+        
+        for i in range(1, rowIndex+1):
+            temp = [1] * (i+1)
+            for j in range(1,i):
+                temp[j] = ans[j-1] + ans[j]
+            ans = temp
+        
+        return ans
+```
+
+
+
+### 141.Linked List Cycle
+
+```python
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def hasCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: bool
+        """
+        if not head or not head.next:
+            return False
+        
+        slow = head
+        fast = head.next
+        
+        while slow != fast:
+            if not fast or not fast.next:
+                return False
+            
+            slow = slow.next
+            fast = fast.next.next
+            
+        return True
+```
+
+
+
+### 142. Linked List Cycle II
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def detectCycle(self, head: ListNode) -> ListNode:
+        if not head or not head.next:
+            return
+        
+        slow = fast = head
+        
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if fast == slow:
+                start = head
+                while slow != start:
+                    slow = slow.next
+                    start = start.next
+                return slow
+```
+
+
+
+### 146. LRU Cache
+
+```python
+from collections import OrderedDict
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.LRU = OrderedDict()
+        
+    def get(self, key: int) -> int:
+        if key not in self.LRU:
+            return -1
+        self.LRU.move_to_end(key,last = True)
+        return self.LRU[key]
+            
+    def put(self, key: int, value: int) -> None:
+        if key in self.LRU:
+            self.LRU.move_to_end(key,last = True)
+        self.LRU[key] = value
+        if len(self.LRU) > self.capacity:
+            self.LRU.popitem(last = False)  #Pop first item
+```
+
+```python
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.temp_list = []
+        self.temp_dict = {}
+
+    def get(self, key: int) -> int:
+        if key not in self.temp_dict:
+            return -1
+        self.temp_list.remove(key)
+        self.temp_list.append(key)
+        return self.temp_dict[key]
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.temp_dict:
+            self.temp_dict[key] = value
+            self.temp_list.remove(key)
+            self.temp_list.append(key)
+        else:
+            self.temp_list.append(key)
+            self.temp_dict[key] = value
+            if len(self.temp_list) > self.capacity:
+                old_key = self.temp_list.pop(0)
+                self.temp_dict.pop(old_key)
+```
+
+
+
+### 151. Reverse Words in a String
+
+```python
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        if not s:
+            return s
+        
+        i = len(s) - 1
+        ans = ""
+        temp = ""
+        
+        while i >= 0:
+            if s[i] != " ":
+                temp = s[i] + temp
+            elif temp:
+                ans += temp if not ans else (" " + temp)
+                temp = ""
+            i -= 1
+        if temp:
+            ans += temp if not ans else (" " + temp)
+            
+        return ans
+```
+
+
+
+### 155. Min Stack
+
+```python
+class MinStack:
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.min_stack = []
+        self.mini_list = []
+        self.mini_num = 2**32-1
+        
+
+    def push(self, x: int) -> None:
+        if x <= self.mini_num:
+            self.mini_num = x
+            self.mini_list.append(x)
+        self.min_stack.append(x)
+
+    def pop(self) -> None:
+        if self.min_stack.pop() == self.mini_num:
+            self.mini_list.pop()
+            if self.mini_list:
+                self.mini_num = self.mini_list[-1]
+            else:
+                self.mini_num = 2**32-1
+
+    def top(self) -> int:
+        return self.min_stack[-1]
+
+    def getMin(self) -> int:
+        return self.mini_num
+```
+
+
+
+### 231. Power of Two
+
+```
+1 1
+2 10
+4 100
+8 1000
+```
+
+```c++
+bool isPowerOfTwo(int n){
+    if( n<=0 ) return false;
+    return ((n&(n-1))==0)
+}
+```
+
+### Power of Three
+
+```c++
+bool is PowerOfThree(int n){
+    //3 9 27 81
+    //big3 % n==0; big3 是大于n的3的幂，如果等式成立则n也是3的幂。则问题转化为求big3:int范围内最大的3的幂，此方法只对素数有用
+    //big3 = 3^k;
+    //k=log3(maxint);
+    const int maxint = 0x7fffffff;
+    int k = log(maxint)/log(3);
+    int big3 = pow(3,k);
+    return (big3 % n == 0);
+}
+```
+
+
+
+### Power of Four
+
+```c++
+bool isPowerOfFour(int n){
+    //2 8 false 2 : 10 8 : 1000
+    //4 16 true
+    //5 101
+    //0101 & 8 1000 = 0000
+    //0101 & 4 0100 = 0100
+    if( n<=0 ) return false;
+    return ((n&(n-1))==0 && (n&0x55555555) );
+}
+```
+
+
+
+### 138. Copy List with Random Pointer
+
+```python
+# 不太懂
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, next, random):
+        self.val = val
+        self.next = next
+        self.random = random
+"""
+class Solution:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        if not head:
+            return
+        
+        head_dict = dict()
+        
+        def copyRandomList_tool(head):
+            if not head:
+                return
+            
+            if head in head_dict.keys():
+                return head_dict[head]
+            
+            cp_head = Node(head.val, None, None)
+            head_dict[head] = cp_head
+            
+            cp_head.random = copyRandomList_tool(head.random)
+            cp_head.next = copyRandomList_tool(head.next)
+            
+            return cp_head
+            
+        return copyRandomList_tool(head)
+```
+
+
+
+### 172. Factorial Traniling Zeroes
+
+```c++
+#n!
+#num = a * 10^k = a*(5^k*2^k)
+int trailingZeroes(int n){
+    int sum = 0;
+    /*
+    for (int i=5;i<=n;i+=5)
+    {
+        int x=i;
+        while(x%5==0)
+        {
+            x/=5;
+            sum++;
+        }
+    }
+    */
+    while(n>0)
+    {
+        sum += n/5;
+        # n/5 是 n/5 之前5的个数
+        # 比如 12! = 12 *..* 10 *..* 5 *..* 2 * 1
+        # 12 / 5 = 2 是 2 之前的质因数里有几个5，就是12*11*10*9*8*7*6*5*4*3里面质因数里有个几个5，显然10里面有一个，5里面有一个，一共2个。
+        n/=5; 
+        # 上面求出了 2 之前有几个5后，问题转化为2后面有几个5，所以 n = n / 5, n = 2.
+        
+    }
+    return sum;
+}
+```
+
+
+
+### 189. Rotate Array
+
+```python
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        if not nums:
+            return
+        k = k % len(nums);
+        count = 0
+        for i in range(len(nums)):
+            last_starter = i
+            index = i
+            temp1 = nums[index]
+            temp2 = None
+            while 1:
+                wait_index = (index + k) % len(nums)
+                temp2 = nums[wait_index]
+                nums[wait_index] = temp1
+                index = wait_index
+                temp1 = temp2
+                count += 1
+                if count == len(nums):
+                    return
+                if wait_index == last_starter:
+                    break
+```
+
+
+
+### 190. Reverse Bits
+
+```python
+    def reverseBits(self, n):
+        n_bin = bin(n)
+        is_positive = False
+        if '-' in n_bin:
+            n_bin = n_bin[3:]
+            is_positive = True
+        else:
+            n_bin = n_bin[2:]
+
+        for i in range(32 - len(n_bin)):
+            n_bin = '0' + n_bin
+
+        re_n_bin = n_bin[::-1]
+        if is_positive == True:
+            re_n_bin = '-' + re_n_bin
+        int_re_n_bin = int(re_n_bin, 2)
+        return int_re_n_bin
+    
+
+'''
+        reverse = 0
+        count = 0
+        while count < 32:
+            reverse = reverse << 1
+            bit = n & 1
+            reverse = reverse + bit
+            n = n >> 1
+            count += 1
+        return reverse
+'''
+```
+
+n & 1 一个数&1是取到这个数二进制的最后一位k
+
+
+
+### 191.Number of 1 Bits
+
+```c++
+int bammingWeight(uint32_t n){
+    int ans = 0;
+    while(n>0){
+        n=n&(n-1);//最低位1=0
+        ans++;
+    }
+    return ans;
+}
+```
+
+这种方法速度比较快，其运算次数与输入n的大小无关，只与n中1的个数有关。如果n的二进制表示中有k个1，那么这个方法只需要循环k次即可。其原理是不断清除n的二进制表示中最右边的1，同时累加计数器，直至n为0。
+
+为什么n &= (n – 1)能清除最右边的1呢？因为从二进制的角度讲，n相当于在n - 1的最低位加上1。举个例子，8（1000）= 7（0111）+ 1（0001），所以8 & 7 = （1000）&（0111）= 0（0000），清除了8最右边的1（其实就是最高位的1，因为8的二进制中只有一个1）。再比如7（0111）= 6（0110）+ 1（0001），所以7 & 6 = （0111）&（0110）= 6（0110），清除了7的二进制表示中最右边的1（也就是最低位的1）。
+
+
+
+### 202. Happy Number
+
+```python
+def leetcode202(n):  # Accept happy number
+    def sum_digit(num):
+        sum = 0
+        while True:
+            digit = num - int(num / 10) * 10  # 4316
+            sum += digit * digit  # sum += (num % 10)**2 注意这里遍历各个位直接%10，平方**2
+            num = int(num / 10)
+            if num == 0:
+                break
+        return sum
+
+    n_list = [n]
+    while True:
+        n = sum_digit(n)
+        if n == 1:
+            return True
+        if n in n_list:
+            return False
+        else:
+            n_list.append(n)
+```
+
+```python
+# 最快解
+if n == 1 or n == 7 or n == 1111111:
+    return True
+while n > 9:
+    sum = 0
+    while n:
+        sum += (n % 10)**2
+        n /= 10
+    if sum == 1:
+        return True
+    n = sum
+return False
+```
+
+
+
+### 203. Remove Linked List Elements
+
+```python
+class Solution:
+    def removeElements(self, head, val):
+        """
+        :type head: ListNode
+        :type val: int
+        :rtype: ListNode
+        """
+        if not head:
+            return
+        while head.val == val:
+            head = head.next
+            if not head:
+                return head
+        tempNode = head
+        while tempNode.next:
+            if tempNode.next.val == val:
+                if tempNode.next.next:
+                    tempNode.next = tempNode.next.next
+                    continue
+                else:
+                    tempNode.next = None
+            tempNode = tempNode.next
+            if not tempNode:
+                return head
+        return head
+```
+
+```python
+# 02/15/2020
+class Solution:
+    def removeElements(self, head: ListNode, val: int) -> ListNode:
+        if not head:
+            return
+        
+        temp_head = head
+        while head and head.val == val:
+            head = head.next
+            temp_head = head
+        
+        while head:
+            if head.next and head.next.val == val:
+                head.next = head.next.next
+            else:
+                head = head.next
+        return temp_head
+```
+
+
+
+### 206. Reverse Linked List
+
+```java
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null){
+            return null;
+        }
+      // 1->2->3->4->5->NULL
+      // 一共三个标记，node, head, nxt
+      // 第一次循环node为空
+      // 之后三个标记变量依次往后挪，最后 node 为反转后的链表头
+        ListNode node = null;
+        while (head != null){
+            ListNode nxt = head.next;
+            head.next = node;
+            node = head;
+            head = nxt;
+        }
+        return node;
+    }
+}
+```
+
+```python
+# 10/27/2019
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        if not head or not head.next:
+            return head
+        
+        old_head = None
+        while head:
+            new_head = ListNode(head.val)
+            new_head.next = old_head
+            old_head = new_head
+            head = head.next
+        
+        return new_head
+```
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        if not head or not head.next:
+            return head
+        
+        ans_head = self.reverseList(head.next)
+        head.next.next = head
+        head.next = None
+        return ans_head
+```
+
+```python
+# 02/15/2020
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        if not head:
+            return 
+        
+        temp_head = head
+        while head.next:
+            temp = head.next
+            head.next = head.next.next
+            temp.next = temp_head
+            temp_head = temp
+        return temp_head
+```
+
+
+
+### 234. Palindrome Linked List
+
+```python
+def isPalindrome(self, head: ListNode) -> bool:
+    if not head:    # 0 node
+        return True
+    if not head.next: # 1 node
+        return True
+		# 找中点，slow 为中点
+    fast = slow = head 
+    while fast and fast.next:
+        fast = fast.next.next
+        slow = slow.next
+		
+    # 反转从 slow 开始后面的链表
+    node = None
+    while slow:
+        nxt = slow.next
+        slow.next = node
+        node = slow
+        slow = nxt
+		
+    # 用 slow 前的部分和 slow 后已经反转的部分比较，相等则是回文
+    while head and node:
+        if head.val != node.val:
+            return False
+        head = head.next
+        node = node.next
+    return True
+```
+
+```python
+# 02/15/2020
+class Solution:
+    def isPalindrome(self, head: ListNode) -> bool:
+        if not head or not head.next:
+            return True
+        
+        # find the middle node
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        # reverse the linked list from slow node
+        temp = None
+        while slow:
+            nxt = slow.next
+            slow.next = temp
+            temp = slow
+            slow = nxt
+        
+        # compare
+        while head and temp:
+            if head.val != temp.val:
+                return False
+            head = head.next
+            temp = temp.next
+        return True
+```
+
+
+
+### 258. Add Digits
+
+```c++
+# ab = a*10+b
+# ab%9 = (a*9+a+b)%9 = (a+b)%9
+# abc = a*100+b*10+c
+# abc%9 = (a*99+b*9+a+b+c)%9 = (a+b+c)%9
+# 38%9=2; 11%9=2
+int addDigits(int num) {
+    if(num==0) return 0;
+    return( (num-1)%9 + 1 ); 
+}
+```
+
+
+
+### 283. Move Zeroes
+
+```python
+# two pointers 一个快一个慢，把所有非零数放到前面后，后面全部置零。
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        nonzero_num = 0
+        for each in nums:
+            if each:
+                nonzero_num += 1
+        
+        slow = 0
+        fast = 0
+        
+        while slow <= nonzero_num-1:
+            if nums[fast]:
+                nums[slow] = nums[fast]
+                slow += 1
+                fast += 1
+            else:
+                fast += 1
+        for i in range(slow, len(nums)):
+            nums[i] = 0
+```
+
+```c++
+// 更漂亮的写法
+void moveZeroes(vector<int>& nums) {
+    int lastNonZeroFoundAt = 0;
+    // If the current element is not 0, then we need to
+    // append it just in front of last non 0 element we found. 
+    for (int i = 0; i < nums.size(); i++) {
+        if (nums[i] != 0) {
+            nums[lastNonZeroFoundAt++] = nums[i];
+        }
+    }
+ 	// After we have finished processing new elements,
+ 	// all the non-zero elements are already at beginning of array.
+ 	// We just need to fill remaining array with 0's.
+    for (int i = lastNonZeroFoundAt; i < nums.size(); i++) {
+        nums[i] = 0;
+    }
+}
+```
+
+```c++
+// 优化，交换slow和fast指针，这样不用最后置零。
+void moveZeroes(vector<int>& nums) {
+    for (int lastNonZeroFoundAt = 0, cur = 0; cur < nums.size(); cur++) {
+        if (nums[cur] != 0) {
+            swap(nums[lastNonZeroFoundAt++], nums[cur]);
+        }
+    }
+}
+```
+
+
+
+### Missing Number
+
+### 292. Nim Game
+
+```c++
+bool canWinNim(int n) {
+    return (n%4!=0);
+}
+```
+
+```c++
+bool canWinNim(int n) {
+    vector<bool> f(n+1, false);
+    for(int i=0;i<n;i++)
+    {
+        if(!f[i])
+        {
+            for(int j=1;j<=3;j++)
+            {
+                f[i+j]=true;
+            }
+        }
+    }
+    return f[n];
+}
+```
+
+
+
+如果n存在一种方式一步到达必输状态
+
+存在x，f[n-x]==必输 其中1<=x<=3 那么f[n]则是必胜
+
+不存在x就是必输状态，就是怎么走别人都是必胜
+
+![image-20180619182030574](/var/folders/8g/vw4sgnn93vb5whntp_n610g80000gn/T/abnerworks.Typora/image-20180619182030574.png)
+
+问题2:
+
+两堆石子一堆a个，一堆b个，甲乙两个人取石子
+
+每次2种取法：
+
+1.从任意一堆中取走任意个
+
+2.从两堆中取走相同个
+
+取走最后一个的获胜
+
+
+
+### 400.
+
+### 263. Ugly Number
+
+浮点转int
+
+2.999 -> 2
+
+3.000 -> 3
+
+Int (f+0.000001)
+
+---
+
+(a-x)%base = (a+base-x)%base
+
+---
+
+base=9
+
+n%base=[0...8]
+
+(n-1)%base + 1 =[1...9]
+
+
+
+### 328. Odd Even Linked List
+
+```python
+class Solution:
+    def oddEvenList(self, head: ListNode) -> ListNode:
+        if not head or not head.next or not head.next.next:
+            return head
+        
+        wait_to_add = None
+        temp_head = head
+        while head.next:
+            if not wait_to_add:
+                wait_to_add = head.next
+                temp_wait_to_add = wait_to_add
+            else:
+                wait_to_add.next = head.next
+                wait_to_add = wait_to_add.next
+            head.next = head.next.next
+            if head.next:
+                head = head.next
+            
+        wait_to_add.next = None
+        head.next = temp_wait_to_add
+        return temp_head
+```
+
+```python
+class Solution:
+    def oddEvenList(self, head: ListNode) -> ListNode:
+        if not head:
+            return
+        
+        odd = head
+        even = head.next
+        even_head = even
+        while even and even.next:
+            odd.next = even.next
+            odd = odd.next
+            even.next = odd.next
+            even = even.next
+        odd.next = even_head
+        return head
+```
+
+
+
+ ### 387. First Unique Character in a String
+
+string.find()/string.rfind() (返回第一次/最后一次字母下标)
+
+string.count()
+
+
+
+### 430. Flatten a Multilevel Doubly Linked List
+
+```python
+class Solution:
+    def flatten(self, head: 'Node') -> 'Node':
+        if not head:
+            return
+        
+        res = temp = Node(0)
+        
+        def helper(head):
+            nonlocal temp
+            new_node = Node(head.val)
+            new_node.prev = temp
+            temp.next = new_node
+            temp = temp.next
+            if head.child:
+                helper(head.child)
+            if head.next:
+                helper(head.next)
+        
+        helper(head)
+        res = res.next
+        res.prev = None // 把 prve 置空，否则会报is not a valid doubly linked list
+        return res
+```
+
+```python
+class Solution:
+    def flatten(self, head: 'Node') -> 'Node':
+        if not head:
+            return
+        
+        res = temp = Node(0)
+        
+        def helper(head):
+            if not head:
+                return 
+            nonlocal temp
+            new_node = Node(head.val)
+            new_node.prev = temp
+            temp.next = new_node
+            temp = temp.next
+            helper(head.child)
+            helper(head.next) // 少用 if 会比较快
+        
+        helper(head)
+        res = res.next
+        res.prev = None
+        return res
+```
+
+```python
+class Solution(object):
+    def flatten(self, head):
+        """
+        :type head: Node
+        :rtype: Node
+        """
+        def flattenR(head, parent):
+            
+            
+            if not head:
+                return None
+            
+            head.prev = parent
+            curr = head
+            prev = None
+            
+            while curr:
+                if curr.child:
+                    end = flattenR(curr.child, curr)
+                
+                    temp = curr.next
+                    curr.next = curr.child
+                    curr.child = None
+                    end.next = temp
+                    if temp:
+                        temp.prev = end
+                    
+                    prev = end
+                    curr = temp
+                else:
+                    prev = curr
+                    curr = curr.next
+                    
+            return prev
+        
+        
+        flattenR(head, None)
+        return head
+```
+
+
+
+
+
+### 476. Number Complement 
+
+```python
+ans = ''
+for i in range(len(bin(num)) - 2):
+	if num & 1 == 1:
+		ans += '0'
+	else:
+		ans += '1'
+	num >>= 1
+return int(ans[::-1], 2)
+'''
+if num < 1:
+	return 1
+i = 1
+while i <= num:
+    i <<= 1
+return (i-1) ^ num
+'''
+```
+
+求二进制数每位取反，用相同位个1与原数进行异或运算：1111 ^ 1011 = 0100
+
+
+
+### 509. Fibonacci Number
+
+```python
+class Solution:
+    def fib(self, N: int) -> int:
+        if N < 2:
+            return N
+        return self.fib(N-1) + self.fib(N-2)
+```
+
+```python
+class Solution:
+    def fib(self, N: int) -> int:
+        
+        cache = dict()
+        
+        def fib_helper(N):
+            if N < 2:
+                return N
+            if N in cache:
+                return cache.get(N)
+            else:
+                temp = fib_helper(N-1) + fib_helper(N-2)
+                cache[N] = temp
+                return temp
+        return fib_helper(N)
+```
+
+
+
+
+
+### 628.Maximum Product of Three Numbers
+
+```python
+        '''
+        if len(nums) == 3:
+            return nums[-1]*nums[-2]*nums[-3]
+        
+        nums.sort()
+        
+        if nums[0] >= 0 or nums[-1] <= 0:
+            return nums[-1]*nums[-2]*nums[-3]
+        
+        if len(nums) >= 5:
+            if nums[1] <0 and nums[-3] > 0:
+                return max(nums[0]*nums[1]*nums[-1],nums[-1]*nums[-2]*nums[-3])
+        
+        if len(nums) >= 4:
+            if (nums[0] < 0 and nums[1] <= 0 and nums[2] >= 0 and nums[3] > 0) or nums[-2] <= 0:
+                return nums[0]*nums[1]*nums[-1]
+            if nums[0] < 0 and nums[1] >= 0:
+                return nums[-1]*nums[-2]*nums[-3]
+        '''
+        nums.sort()
+        return max(nums[0]*nums[1]*nums[-1],nums[-1]*nums[-2]*nums[-3])
+```
+
+对数组进行排序非常耗时
+
+
+
+### 707. Design Linked List
+
+```python
+class MyLinkedList:
+
+    class Node(object):
+        def __init__(self, value):
+            self.val = value
+            self.next = None
+    
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.head = None
+        
+
+    def get(self, index: int) -> int:
+        """
+        Get the value of the index-th node in the linked list. If the index is invalid, return -1.
+        """
+        if not self.head:
+            return -1
+        if index == 0:
+            return self.head.val
+        
+        temp = self.head
+        for i in range(index):
+            if temp.next:
+                temp = temp.next
+            else:
+                return -1
+        return temp.val
+        
+
+    def addAtHead(self, val: int) -> None:
+        """
+        Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list.
+        """
+        newNode = self.Node(val)
+        if not self.head:
+            self.head = newNode
+        else:
+            newNode.next = self.head
+            self.head = newNode
+        # print("addAtHead: ")
+        # self.printLinkedList()
+        
+
+    def addAtTail(self, val: int) -> None:
+        """
+        Append a node of value val to the last element of the linked list.
+        """
+        if not self.head:
+            self.head = self.Node(val)
+        else:
+            temp = self.head
+            while temp.next:
+                temp = temp.next
+            newNode = self.Node(val)
+            temp.next = newNode
+        # print("addAtTail: ")
+        # self.printLinkedList()
+
+    def addAtIndex(self, index: int, val: int) -> None:
+        """
+        Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted.
+        """
+        if index == 0:
+            self.addAtHead(val)
+        else:
+            temp = self.head
+            for i in range(index-1):
+                if temp.next:
+                    temp = temp.next
+                else:
+                    return
+            newNode = self.Node(val)
+            newNode.next = temp.next
+            temp.next = newNode
+        # print("addAtIndex: ")
+        # self.printLinkedList()
+    
+    def printLinkedList(self):
+        if self.head:
+            temp = self.head
+            while temp:
+                print("{0}->".format(temp.val), end="")
+                temp = temp.next
+            print()
+        else:
+            print("None")
+        
+
+    def deleteAtIndex(self, index: int) -> None:
+        """
+        Delete the index-th node in the linked list, if the index is valid.
+        """
+        if not self.head:
+            return
+        if index == 0:
+            self.head = self.head.next
+        else:
+            temp = self.head
+            for i in range(index-1):
+                if temp.next:
+                    temp = temp.next
+                else:
+                    return
+            if temp.next:
+                temp.next = temp.next.next
+        # print("deleteAtIndex: ")
+        # self.printLinkedList()
+
+
+# Your MyLinkedList object will be instantiated and called as such:
+# obj = MyLinkedList()
+# param_1 = obj.get(index)
+# obj.addAtHead(val)
+# obj.addAtTail(val)
+# obj.addAtIndex(index,val)
+# obj.deleteAtIndex(index)
+```
+
+
+
+### 752. Open the Lock
+
+```python
+class Solution:
+    def openLock(self, deadends: List[str], target: str) -> int:
+        deadends = set(deadends)
+        if target in deadends or '0000' in deadends:
+            return -1
+        
+        ans = 0
+        
+        Q = ['0000']
+        seen = set()
+        
+        while Q:
+            size = len(Q)
+            for i in range(size):
+                curr = Q.pop(0)
+                if curr == target:
+                    return ans
+                for j in range(4):
+                    curr_digit = curr[j]
+                    if curr_digit == '0':
+                        temp1 = '1'
+                        temp2 = '9'
+                    elif curr_digit == '9':
+                        temp1 = '0'
+                        temp2 = '8'
+                    else:
+                        temp1 = chr(ord(curr_digit)+1)
+                        temp2 = chr(ord(curr_digit)-1)
+                    temp1 = curr[:j] + temp1 + curr[j + 1:]
+                    if temp1 not in seen:
+                        seen.add(temp1)
+                        if temp1 in deadends:
+                            deadends.remove(temp1)
+                        else:
+                            Q.append(temp1)
+                    temp2 = curr[:j] + temp2 + curr[j + 1:]
+                    if temp2 not in seen:
+                        seen.add(temp2)
+                        if temp2 in deadends:
+                            deadends.remove(temp2)
+                        else:
+                            Q.append(temp2)
+            ans += 1
+        return -1
+```
+
+列表的in操作比较耗时，可以remove该元素如果之后不再需要的话，remove后可以优化时间，但也比较有限。将 deadends 转为 set 后时间有明显缩短！因为 `Sets are significantly faster when it comes to determining if an object is present in the set (as in x in s)` set 操作是将列表转为字典，字典in操作平均为O(1)
+
+
+
+### 739. Daily Temperatures
+
+```python
+class Solution:
+    def dailyTemperatures(self, T: List[int]) -> List[int]:
+        if not T:
+            return []
+        
+        ans = [0] * len(T)
+        stack = []
+        
+        for i in range(len(T)-1, -1, -1):
+            while stack and T[i] >= T[stack[-1]]:
+                stack.pop()
+            if stack:
+                ans[i] = stack[-1] - i
+            
+            stack.append(i)
+        return ans
+```
+
+向stack中添加数的时候保证升序，不是升序的话pop，是升序的话，升序距离就是当前元素stack[-1]-index
+
+
+
+### 779. K-th Symbol in Grammar
+
+```python
+class Solution:
+    def kthGrammar(self, N: int, K: int) -> int:
+        if N == 1 or K == 1:
+            return 0
+        if K % 2 == 0:
+            return 1 - self.kthGrammar(N-1, K//2)
+        else:
+            return self.kthGrammar(N-1, K//2+1)
+```
+
+https://leetcode.com/problems/k-th-symbol-in-grammar/discuss/438528/Explanation-Python
+
+
+
+### 836. Rectangle Overlap
+
+```python
+        r1x1,r1y1,r1x2,r1y2 = rec1
+        r2x1,r2y1,r2x2,r2y2 = rec2
+        
+        finx1 = max(r1x1,r2x1)
+        finy1 = max(r1y1,r2y1)
+        finx2 = min(r1x2,r2x2)
+        finy2 = min(r1y2,r2y2)
+        
+        if (finx2 > finx1) and (finy1 < finy2):
+            return True
+        else:
+            return False
+```
+
+求相交矩阵坐标，并判断该坐标是否可构成矩阵
+
+[假定矩形是用一对点表达的(minx, miny) (maxx, maxy)，那么两个矩形 rect1{(minx1, miny1)(maxx1, maxy1)} rect2{(minx2, miny2)(maxx2, maxy2)}  ](https://www.cnblogs.com/0001/archive/2010/05/04/1726905.html)
+
+相交的结果一定是个矩形，构成这个相交矩形rect{(minx, miny) (maxx, maxy)}的点对坐标是：  
+
+minx=max(minx1, minx2)  
+
+miny=max(miny1, miny2)  
+
+maxx=min(maxx1, maxx2)  
+
+maxy=min(maxy1, maxy2)  
+
+如果两个矩形不相交，那么计算得到的点对坐标必然满足：  
+
+（ minx > maxx ） 或者 （ miny > maxy ） 
+
+ 判定是否相交，以及相交矩形是什么都可以用这个方法一体计算完成。
+
+从这个算法的结果上，我们还可以简单的生成出下面的两个内容：
+
+㈠ 相交矩形：  (minx, miny) (maxx, maxy)
+
+㈡ 面积： 面积的计算可以和判定一起进行
+        if ( minx>maxx ) return 0;
+        if ( miny>maxy ) return 0;
+        return (maxx-minx)*(maxy-miny)
+
+第二种方法
+
+两个矩形相交的条件:两个矩形的重心距离在X和Y轴上都小于两个矩形长或宽的一半之和.这样,分两次判断一下就行了.
+
+bool CrossLine(Rect r1,RECT r2)
+{
+if(abs((r1.x1+r1.x2)/2-(r2.x1+r2.x2)/2)<((r1.x2+r2.x2-r1.x1-r2.x1)/2) && abs((r1.y1+r1.y2)/2-(r2.y1+r2.y2)/2)<((r1.y2+r2.y2-r1.y1-r2.y1)/2))
+return true;
+return false;
+}
+
+
+
+### 410. Split Array Largest Sum
+
+```java
+public boolean guess(long mid, int[] nums, int m) {
+    long sum = 0;
+    long mm = 0;
+    for (int i=0;i<nums.length;++i) {
+        if (sum + nums[i] > mid) {
+            ++mm;
+            sum = nums[i];
+            if (nums[i] > mid) {
+                return false;
+            }
+        }
+            else {
+                sum += nums[i]
+            }
+    }
+    return mm < m;
+}
+
+public int splitArray(int[] nums, int m) {
+    long n = nums.length;
+    long R = 1; //m >= 1
+    for (int i=0;i<n;++1) {
+        R += nums[i];
+    }
+    long L = 0;
+    long ans = 0;
+    while (L < R) {
+        long mid = (L + R) / 2;
+        if (guess(mid, nums, m)) {
+            ans = mid;
+            R = mid;
+        } else {
+            L = mid + 1
+        }
+    }
+    return (int) ans;
+}
+```
+
+
+
+### Topo sort 
+
+```java
+# DFS + TOPO Sort 并判断是否有环，如果有环打印构成环的边，只能判断有一个环的图。
+# 要点：
+# 1. DFS 访问完成的顺序即为拓扑排序
+# 2. 若访问到一个点发现该点已经访问过但没有访问完成，也就是没有在访问完成栈里，则说明有环。
+# 3. DFS 遍历时，访问一个点将一个点入栈，访问完成出栈，如果到某个点发现有环，则栈顶到该点的所有点构成环。
+
+Stack topoStack = new Stack(); # 用来构成拓扑排序
+Stack st = new Stack(); # 用来打印环
+
+void DFS_recursive(int n, boolean visited[]) {
+    visited[n] = true;
+    st.push(n);
+    System.out.print(n + ","); # 此处打印出的顺序为 DFS 遍历顺序
+    Iterator<Integer> i = link[n].listIterator();
+    while (i.hasNext()) {
+        int temp = i.next();
+        if (visited[temp] == true && topoStack.search(temp) == -1) { # 此处判断该点已访问过但没有在topo栈里，说明没有完成，则说明有环
+            System.out.println("There is a cycle:");
+            printCycle(temp); # temp 为环关闭的点
+            return;
+        }
+        if (visited[temp] == false) {
+            DFS_recursive(temp, visited);
+        }
+    }
+    //add point which has already finished
+    topoStack.push(n); # 此处n点说明已经访问完成，加入topo栈，出栈顺序即为topo排序
+    if (st.empty() == false) {
+        st.pop();
+    } else {
+        topoStack.push(-1); # 若有环push一个-1进行标记，之后不进行打印topo排序
+        return;
+    }
+}
+
+void DFS(int n) { //visit start n
+    boolean visited[] = new boolean[Node_number];
+    DFS_recursive(n, visited);
+}
+
+void printCycle(int temp) {
+    int top = (Integer) st.peek(); # 取栈顶元素但不删除，留之后打印边用
+    while (st.empty() == false) { # 从栈顶到 temp 点，这几个点构成环儿，打印之
+        int a = (Integer) st.pop();
+        int b = (Integer) st.peek();
+        System.out.println(a + "<-" + b);
+        if (b == temp) {
+            System.out.println(b + "<-" + top);
+            break;
+        }
+    }
+}
+
+void getTOPO() {
+    if ((Integer) topoStack.peek() == -1) {
+        return;
+    }
+    System.out.println("\nTOPO Sort:");
+    while (topoStack.empty() == false) {
+        System.out.print(topoStack.pop());
+        System.out.print(',');
+    }
+}
+```
+
+
+
+### 344. Reverse String
+
+```java
+class Solution {
+    public void reverseString(char[] s) {
+        if (s.length == 0) return;
+        int low = 0;
+        int high = s.length-1;
+        while (low < high){
+            char temp = s[low];
+            s[low] = s[high];
+            s[high] = temp;
+            low++;
+            high--;
+        }
+    }
+}
+```
+
+```python
+class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        def reverseString_helper(i1, i2):
+            if i1 < i2:
+                s[i1], s[i2] = s[i2], s[i1]
+                reverseString_helper(i1+1, i2-1)
+        
+        reverseString_helper(0, len(s)-1)
+```
+
+
+
+
+
+### 394. Decode String
+
+```python
+class Solution:
+    def decodeString(self, s: str) -> str:
+        ans = ""
+        temp_ans = ""
+        temp_num = ""
+        stack = []
+        
+        import string
+        for i in range(len(s)-1, -1, -1):
+            if s[i] in string.digits:
+                temp_num = s[i] + temp_num
+            else:
+                if temp_ans and temp_num:
+                    temp = int(temp_num) * temp_ans
+                    if stack:
+                        stack[-1] = temp + stack[-1]
+                    else:
+                        ans = temp + ans
+                    temp_ans = ''
+                    temp_num = ''
+                if s[i] in string.ascii_letters:
+                    if not stack:
+                        ans = s[i] + ans
+                    else:
+                        stack[-1] = s[i] + stack[-1]
+                elif s[i] == ']':
+                    stack.append('')
+                elif s[i] == '[':
+                    temp_ans = stack.pop()
+        if temp_ans and temp_num:
+            ans = int(temp_num) * temp_ans + ans
+        
+        return ans
+```
+
+初始化一个空temp_ans用来存放临时ans，初始化一个空temp_num用来存放临时个数，初始化一个空stack
+
+从后向前遍历字符串，如果是数字则添加到temp_num中，不是数字的话先判断temp_num和temp_ans有没有东西，如果有的话相乘的结果添加到ans或stack[-1]中，这取决于stack是否为空，非空说明有嵌套。
+
+再判断如果是字母添加到ans或stack[-1]中，这取决于stack是否为空，
+
+如果是 ] 则添加一个空字符串到stack，
+
+如果是 [ 说明一个完整字符串遍历完整，stack.pop() 取出最后一个字符串放到 temp_ans中。
+
+最后循环完成后，再检查temp_ans中是否有东西需要加到ans
+
+
+
+### 557. Reverse Words in a String III
+
+```python
+class Solution(object):
+    def reverseWords(self, s):
+        fArray = []
+        strArray = s.split(" ")
+        for eachstr in strArray:
+            a = list(eachstr)
+            a.reverse()
+            a = "".join(a)
+            fArray.append(a)
+        return " ".join(fArray)
+```
+
+```python
+# 10/12/2019
+# two pointers 
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        if not s:
+            return s
+        
+        s = list(s)
+        
+        def reverseOneWord(s, head, tail):
+            if not s:
+                return
+            
+            while head < tail:
+                temp = s[head]
+                s[head] = s[tail]
+                s[tail] = temp
+                head += 1
+                tail -= 1
+            
+        head = 0
+        for i in range(len(s)):
+            if s[i] == ' ':
+                reverseOneWord(s, head, i-1)
+                head = i+1
+        reverseOneWord(s, head, len(s)-1)
+        
+        return "".join(s)
+```
+
+```python
+# 10/12/2019
+# 反向遍历，直接添加
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        if not s:
+            return s
+        
+        ans = ""
+        temp = ""
+        
+        i = len(s)-1
+        while i >= 0:
+            if s[i] != " ":
+                temp += s[i]
+            else:
+                temp = " " + temp
+                ans = temp + ans
+                temp = ""
+            i -= 1
+        return temp + ans
+```
+
+
+
+### 841. Keys and Rooms
+
+```python
+class Solution:
+    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+        Q = rooms[0]
+        room_num_set = set(rooms[0])
+        room_num_set.add(0)
+        while Q:
+            room_num = Q.pop(0)
+            for each in rooms[room_num]:
+                if each not in room_num_set:
+                    Q.append(each)
+                    room_num_set.add(each)
+            
+        if len(room_num_set) == len(rooms):
+            return True
+        else:
+            return False
+```
+
+
+
+### 921. Minimum Add to Make Parentheses Valid
+
+```python
+class Solution:
+    def minAddToMakeValid(self, S: str) -> int:
+        if not S:
+            return 0
+        
+        temp = []
+        for each in S:
+            if each == '(':
+                temp.append(each)
+            elif each == ')':
+                if temp and temp[-1] == '(':
+                    temp.pop()
+                else:
+                    temp.append(each)
+        return len(temp)
+```
+
+
+
+### 937. Reorder Data in Log Files
+
+```python
+class Solution:
+    def reorderLogFiles(self, logs: List[str]) -> List[str]:
+        def f(log):
+            id_, rest = log.split(" ", 1)
+            return (0, rest, id_) if rest[0].isalpha() else (10,)
+
+        return sorted(logs, key = f)
+```
+
+
+
+### [Amazon | OA 2019 | Favorite Genres](https://leetcode.com/discuss/interview-question/373006)
+
+```python
+def Favorite_Genres(userSongs, songGenres):
+  	ans = dict()
+  	if not songGenres:
+      	for each_user in userSongs.keys():
+          	ans[each_user] = []
+        return ans
+
+    re_songGenres = dict()
+    for k,v in songGenres.items():
+        for each in v:
+            re_songGenres[each] = k
+
+    for v in userSongs.values():
+        for i in range(len(v)):
+            v[i] = re_songGenres[v[i]]
+
+
+
+    for user,genres_list in userSongs.items():
+        temp_dict = dict()
+        for each in genres_list:
+            if each not in temp_dict.keys():
+                temp_dict[each] = 1
+            else:
+                temp_dict[each] += 1
+        max_num = max(temp_dict.values())
+        for genre,genre_num in temp_dict.items():
+            if genre_num == max_num:
+                if user not in ans.keys():
+                    ans[user] = [genre]
+                else:
+                    ans[user].append(genre)
+		return ans
+```
+
+
+
+### OA
+
+```python
+class Solution(object):
+    def generate_graph(self, sources, destinations, weights):
+        G = dict()
+        cost_dict = dict()
+        for i in range(len(sources)):
+            if sources[i] not in G:
+                G[sources[i]] = [destinations[i]]
+            else:
+                G[sources[i]].append(destinations[i])
+            cost_dict[(sources[i], destinations[i])] = weights[i]
+            if destinations[i] not in G:
+                G[destinations[i]] = [sources[i]]
+            else:
+                G[destinations[i]].append(sources[i])
+            cost_dict[(destinations[i], sources[i])] = weights[i]
+        return G, cost_dict
+
+    def find_min(self, dist_dict):
+        nodes = []
+        min_value = min(dist_dict.values())
+        for each in dist_dict:
+            if dist_dict[each] == min_value:
+                nodes.append(each)
+        return nodes
+
+    def get_route(self, prev, current_node, res):
+        if current_node == 1:
+            return
+        for each in prev.get(current_node):
+            res.append({current_node, each})
+            self.get_route(prev, each, res)
+
+    def shortest_path(self, G, cost_dict):
+        dist_dict = {i: 2 ** 32 - 1 for i in range(1, len(G) + 1)}
+        dist_dict[1] = 0
+        prev = {i: [] for i in range(1, len(G) + 1)}
+        S = set()
+
+        while len(S) != len(G):
+            start_nodes = self.find_min(dist_dict)
+            for start_node in start_nodes:
+                S.add(start_node)
+                link_node_list = G[start_node]
+                for each_link_node in link_node_list:
+                    if each_link_node not in S:
+                        if dist_dict[each_link_node] > dist_dict[start_node] + cost_dict[(start_node, each_link_node)]:
+                            dist_dict[each_link_node] = dist_dict[start_node] + cost_dict[(start_node, each_link_node)]
+                            prev[each_link_node] = [start_node]
+                        elif dist_dict[each_link_node] == dist_dict[start_node] + cost_dict[
+                            (start_node, each_link_node)]:
+                            prev[each_link_node].append(start_node)
+                dist_dict.pop(start_node)
+        return prev
+
+    def checkYourRoute(self, nodes, sources, destinations, weights, end):
+        G, cost_dict = self.generate_graph(sources, destinations, weights)
+        prev = self.shortest_path(G, cost_dict)
+        route_res = []
+        ans = []
+        self.get_route(prev, end, route_res)
+        for i in range(len(sources)):
+            if {sources[i], destinations[i]} in route_res:
+                ans.append('YES')
+            else:
+                ans.append('NO')
+        return ans
+
+
+solution = Solution()
+nodes = 4
+sources = [1, 1, 1, 2, 2]
+destinations = [2, 3, 4, 3, 4]
+weights = [1, 1, 1, 1, 1]
+end = 4
+print(solution.checkYourRoute(nodes, sources, destinations, weights, end))
+```
+
+
+
+### Naveego OA - [Look and say numbers](https://www.codewars.com/kata/53ea07c9247bc3fcaa00084d)
+
+```python
+def look_and_say(data='1', maxlen=5):
+    def helper(temp_str):
+        seen = temp_str[0]
+        count = 1
+        res = ''
+        for i in range(1, len(temp_str)):
+            if temp_str[i] == seen:
+                count += 1
+            else:
+                res += str(count) + seen
+                seen = temp_str[i]
+                count = 1
+        res += str(count) + seen
+        return res
+
+    ans = []
+    for i in range(maxlen):
+        data = helper(data)
+        ans.append(data)
+    return ans
+```
+
+
+
+### Naveego OA - [Directions Reduction](https://www.codewars.com/kata/550f22f4d758534c1100025a)
+
+```python
+def dirReduc(arr):
+    stack = []
+    
+    for each in arr:
+        if stack and ({stack[-1], each} == {'NORTH', 'SOUTH'} or {stack[-1], each} == {'EAST', 'WEST'}):
+            stack.pop()
+        else:
+            stack.append(each)
+    return stack
+```
+
+
+
+```python
+def ShortestPath(strArr):
+  import collections
+  # code goes here
+  def generate_graph(sou_des_list):
+    G = collections.defaultdict(list)
+    for each in sou_des_list:
+      source, destination = each.split("-")
+      G[source].append(destination)
+      G[destination].append(source)
+    return G
+  
+  def find_path(source, destination, f_node_dict):
+    res = destination
+    curr_node = destination
+    while curr_node != source:
+      curr_node = f_node_dict.get(curr_node)
+      res = curr_node + '-' + res
+    return res
+  
+  node_num = int(strArr[0])
+  source = strArr[1]
+  destination = strArr[node_num]
+  G = generate_graph(strArr[node_num+1:])
+  f_node_dict = {source:None}
+  Q = [source]
+  while Q:
+    node = Q.pop(0)
+    for each in G.get(node):
+      if each in f_node_dict:
+        continue
+      f_node_dict[each] = node
+      if each == destination:
+        return find_path(source, destination, f_node_dict)
+      Q.append(each)
+  return -1
+
+# keep this function call here 
+print(ShortestPath(input()))
+```
+
+
+
+### 斐波纳切
+
+```python
+def fac(num):
+    a = b = 1
+    for i in range(num):
+        c = a + b
+        if i == 0 or i == 1:
+            yield 1
+            continue
+        yield c
+        a, b = b, c
+```
+
