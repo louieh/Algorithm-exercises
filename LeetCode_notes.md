@@ -1635,6 +1635,25 @@ class Solution:
 
 
 
+### 243. Shortest Word Distance
+
+```python
+class Solution:
+    def shortestDistance(self, words: List[str], word1: str, word2: str) -> int:
+        index1 = index2 = -1
+        res = len(words)
+        for i in range(len(words)):
+            if words[i] == word1:
+                index1 = i
+            elif words[i] == word2:
+                index2 = i
+            if index1 != -1 and index2 != -1:
+                res = min(res, abs(index1-index2))
+        return res
+```
+
+
+
 ### 258. Add Digits
 
 ```c++
@@ -2637,6 +2656,35 @@ class Solution:
 
         return sorted(logs, key = f)
 ```
+
+
+
+### 1041. Robot Bounded In Circle
+
+```python
+# https://leetcode.com/problems/robot-bounded-in-circle/discuss/456726/Java-Solution-Easy-to-Understand-and-Efficient
+# 最后形成圈的条件有二：1. 完成一遍instructions后仍回到原点。2. 完成一遍后没有回到原点但是方向变了
+# index 代表方向，0: north, 1: west, 2: south, 3: east 相对应的移动方向为[[0, 1], [-1, 0], [0, -1], [1, 0]]
+# 向左转与上面list顺序相同所以+1
+# 向右转与上面list顺序相反所以+3
+class Solution:
+    def isRobotBounded(self, instructions: str) -> bool:
+        x = y = index = 0
+    
+        direction = [[0, 1], [-1, 0], [0, -1], [1, 0]]
+        
+        for each in instructions:
+            if each == 'L':
+                index = (index + 1) % 4
+            elif each == 'R':
+                index = (index + 3) % 4
+            else:
+                x += direction[index][0]
+                y += direction[index][1]
+        return (x == 0 and y == 0) or index != 0
+```
+
+
 
 
 
