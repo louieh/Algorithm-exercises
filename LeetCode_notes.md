@@ -1635,6 +1635,48 @@ class Solution:
 
 
 
+### 242. Valid Anagram
+
+```python
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        def to_dict(s):
+            s_dict = {}
+            for each in s:
+                if each not in s_dict:
+                    s_dict[each] = 1
+                else:
+                    s_dict[each] += 1
+            return s_dict
+
+        s_dict = to_dict(s)
+        t_dict = to_dict(t)
+        return s_dict == t_dict
+```
+
+```python
+# use one dict
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        s_dict = {}
+        for each in s:
+            if each not in s_dict:
+                s_dict[each] = 1
+            else:
+                s_dict[each] += 1
+        for each in t:
+            if each not in s_dict or s_dict[each] == 0:
+                return False
+            else:
+                s_dict[each] -= 1
+        for k, v in s_dict.items():
+            if v != 0:
+                return False
+        return True
+```
+
+
+
 ### 243. Shortest Word Distance
 
 ```python
