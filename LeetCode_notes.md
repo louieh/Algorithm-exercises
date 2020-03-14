@@ -644,6 +644,32 @@ class Solution:
 
 
 
+### 56. Merge Intervals
+
+```python
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        if not intervals:
+            return []
+        intervals.sort(key=lambda x: x[0])
+        res = []
+        cur_ele = intervals[0]
+        nxt_index = 1
+        while nxt_index <= len(intervals) - 1:
+            if cur_ele[1] < intervals[nxt_index][0]:
+                res.append(cur_ele)
+                cur_ele = intervals[nxt_index]
+            else:
+                cur_ele = [min(cur_ele[0], intervals[nxt_index][0]), max(cur_ele[1], intervals[nxt_index][1])]
+            nxt_index += 1
+        res.append(cur_ele)
+        return res
+```
+
+
+
+
+
 ### 61. Rotate List
 
 ```python
@@ -861,6 +887,171 @@ class Solution:
         
         return climbStairs_helper(0, n)
 ```
+
+
+
+### 73. Set Matrix Zeroes
+
+```python
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        def set_zero(row, col):
+            # row
+            for i in range(len(matrix[0])):
+                matrix[row][i] = 0
+            # col
+            for i in range(len(matrix)):
+                matrix[i][col] = 0
+                
+        zero_list = []
+        
+        for row in range(len(matrix)):
+            for col in range(len(matrix[0])):
+                if matrix[row][col] == 0:
+                    zero_list.append([row, col])
+        for each in zero_list:
+            set_zero(each[0], each[1])
+        return matrix
+```
+
+```python
+# Time Complexity: O(M×N) where M and N are the number of rows and columns respectively.
+# Space Complexity: O(M+N).
+class Solution(object):
+    def setZeroes(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: void Do not return anything, modify matrix in-place instead.
+        """
+        R = len(matrix)
+        C = len(matrix[0])
+        rows, cols = set(), set()
+
+        # Essentially, we mark the rows and columns that are to be made zero
+        for i in range(R):
+            for j in range(C):
+                if matrix[i][j] == 0:
+                    rows.add(i)
+                    cols.add(j)
+
+        # Iterate over the array once again and using the rows and cols sets, update the elements
+        for i in range(R):
+            for j in range(C):
+                if i in rows or j in cols:
+                    matrix[i][j] = 0
+```
+
+```python
+# Space Complexity : O(1)
+# Time Complexity : O((M×N)×(M+N))
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        def set_zero(row, col, val):
+            # row
+            for i in range(len(matrix[0])):
+                if matrix[row][i] != 0:
+                    matrix[row][i] = val
+            # col
+            for i in range(len(matrix)):
+                if matrix[i][col] != 0:
+                    matrix[i][col] = val
+        
+        for row in range(len(matrix)):
+            for col in range(len(matrix[0])):
+                if matrix[row][col] == 0:
+                    set_zero(row, col, '&')
+        for row in range(len(matrix)):
+            for col in range(len(matrix[0])):
+                if matrix[row][col] == '&':
+                    matrix[row][col] = 0
+        return matrix
+```
+
+```python
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        first_row = first_col = False
+        for row in range(len(matrix)):
+            for col in range(len(matrix[0])):
+                if matrix[row][col] == 0:
+                    matrix[row][0] = 0
+                    matrix[0][col] = 0
+                    if row == 0:
+                        first_row = True
+                    if col == 0:
+                        first_col = True
+        
+        for row in range(1, len(matrix)):
+            if matrix[row][0] == 0:
+                for i in range(1, len(matrix[0])):
+                    matrix[row][i] = 0
+        for col in range(1, len(matrix[0])):
+            if matrix[0][col] == 0:
+                for i in range(1, len(matrix)):
+                    matrix[i][col] = 0
+        if first_row:
+            for i in range(len(matrix[0])):
+                matrix[0][i] = 0
+        if first_col:
+            for i in range(len(matrix)):
+                matrix[i][0] = 0
+        return matrix
+```
+
+
+
+
+
+### 75. Sort Colors
+
+```python
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        cur_index = 0
+        for i in range(3):
+            for j in range(len(nums)):
+                if nums[j] == i:
+                    nums[cur_index], nums[j] = nums[j], nums[cur_index]
+                    cur_index += 1
+        return nums
+```
+
+```python
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        
+        p0 = i = 0
+        p2 = len(nums) - 1
+        
+        while i <= p2:
+            if nums[i] == 0:
+                nums[i], nums[p0] = nums[p0], nums[i]
+                p0 += 1
+                i += 1
+            elif nums[i] == 2:
+                nums[i], nums[p2] = nums[p2], nums[i]
+                p2 -= 1
+            else:
+                i += 1
+        return nums
+```
+
+
 
 
 
