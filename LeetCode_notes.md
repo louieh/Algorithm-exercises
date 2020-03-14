@@ -2770,6 +2770,69 @@ class Solution:
 
 
 
+### 912. Sort an Array
+
+```python
+# QuickSort
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        
+        
+        def sort_method(i, j):
+            oi = i
+            pivot = nums[i]
+            i += 1
+            while True:
+                while i < j and nums[i] < pivot:
+                    i += 1
+                while i <= j and nums[j] >= pivot:
+                    j -= 1
+                if i >= j: break
+                nums[i], nums[j] = nums[j], nums[i]
+            nums[oi], nums[j] = nums[j], nums[oi]
+            return j
+        
+        def quick_sort(i, j):
+            if i >= j: return
+            
+            k = random.randint(i, j)
+            nums[i], nums[k] = nums[k], nums[i]
+            mid = sort_method(i, j)
+            quick_sort(i, mid)
+            quick_sort(mid+1, j)
+        
+        quick_sort(0, len(nums)-1)
+        return nums
+```
+
+```python
+# QuickSort
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        
+        def sort(i, j):
+            pivot = nums[i]
+            slow = i
+            for fast in range(i+1, j+1):
+                if nums[fast] < pivot:
+                    slow += 1
+                    nums[slow], nums[fast] = nums[fast], nums[slow]
+            nums[i], nums[slow] = nums[slow], nums[i]
+            return slow
+        
+        def partition(i, j):
+            if i >= j: return
+            mid = sort(i, j)
+            partition(i, mid-1)
+            partition(mid+1, j)
+            
+        
+        partition(0, len(nums)-1)
+        return nums
+```
+
+
+
 ### 921. Minimum Add to Make Parentheses Valid
 
 ```python
