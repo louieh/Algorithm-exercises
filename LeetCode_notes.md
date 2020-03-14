@@ -92,8 +92,6 @@ class Solution:
 
 
 
-
-
 ### 7. Reverse Integer
 
 ```c++
@@ -439,8 +437,6 @@ class Solution:
 
 
 
-
-
 ### 26. Remove Duplicates from Sorted Array
 
 ```python
@@ -666,7 +662,7 @@ class Solution:
         return res
 ```
 
-
+try to use divide and conquer
 
 
 
@@ -1009,8 +1005,6 @@ class Solution:
 
 
 
-
-
 ### 75. Sort Colors
 
 ```python
@@ -1050,8 +1044,6 @@ class Solution:
                 i += 1
         return nums
 ```
-
-
 
 
 
@@ -1903,6 +1895,30 @@ int addDigits(int num) {
 
 
 
+### 263. Ugly Number
+
+浮点转int
+
+2.999 -> 2
+
+3.000 -> 3
+
+Int (f+0.000001)
+
+---
+
+(a-x)%base = (a+base-x)%base
+
+---
+
+base=9
+
+n%base=[0...8]
+
+(n-1)%base + 1 =[1...9]
+
+
+
 ### 283. Move Zeroes
 
 ```python
@@ -2015,32 +2031,6 @@ bool canWinNim(int n) {
 
 
 
-### 400.
-
-### 263. Ugly Number
-
-浮点转int
-
-2.999 -> 2
-
-3.000 -> 3
-
-Int (f+0.000001)
-
----
-
-(a-x)%base = (a+base-x)%base
-
----
-
-base=9
-
-n%base=[0...8]
-
-(n-1)%base + 1 =[1...9]
-
-
-
 ### 328. Odd Even Linked List
 
 ```python
@@ -2087,11 +2077,142 @@ class Solution:
 
 
 
+### 344. Reverse String
+
+```java
+class Solution {
+    public void reverseString(char[] s) {
+        if (s.length == 0) return;
+        int low = 0;
+        int high = s.length-1;
+        while (low < high){
+            char temp = s[low];
+            s[low] = s[high];
+            s[high] = temp;
+            low++;
+            high--;
+        }
+    }
+}
+```
+
+```python
+class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        def reverseString_helper(i1, i2):
+            if i1 < i2:
+                s[i1], s[i2] = s[i2], s[i1]
+                reverseString_helper(i1+1, i2-1)
+        
+        reverseString_helper(0, len(s)-1)
+```
+
+
+
  ### 387. First Unique Character in a String
 
 string.find()/string.rfind() (返回第一次/最后一次字母下标)
 
 string.count()
+
+
+
+### 394. Decode String
+
+```python
+class Solution:
+    def decodeString(self, s: str) -> str:
+        ans = ""
+        temp_ans = ""
+        temp_num = ""
+        stack = []
+        
+        import string
+        for i in range(len(s)-1, -1, -1):
+            if s[i] in string.digits:
+                temp_num = s[i] + temp_num
+            else:
+                if temp_ans and temp_num:
+                    temp = int(temp_num) * temp_ans
+                    if stack:
+                        stack[-1] = temp + stack[-1]
+                    else:
+                        ans = temp + ans
+                    temp_ans = ''
+                    temp_num = ''
+                if s[i] in string.ascii_letters:
+                    if not stack:
+                        ans = s[i] + ans
+                    else:
+                        stack[-1] = s[i] + stack[-1]
+                elif s[i] == ']':
+                    stack.append('')
+                elif s[i] == '[':
+                    temp_ans = stack.pop()
+        if temp_ans and temp_num:
+            ans = int(temp_num) * temp_ans + ans
+        
+        return ans
+```
+
+初始化一个空temp_ans用来存放临时ans，初始化一个空temp_num用来存放临时个数，初始化一个空stack
+
+从后向前遍历字符串，如果是数字则添加到temp_num中，不是数字的话先判断temp_num和temp_ans有没有东西，如果有的话相乘的结果添加到ans或stack[-1]中，这取决于stack是否为空，非空说明有嵌套。
+
+再判断如果是字母添加到ans或stack[-1]中，这取决于stack是否为空，
+
+如果是 ] 则添加一个空字符串到stack，
+
+如果是 [ 说明一个完整字符串遍历完整，stack.pop() 取出最后一个字符串放到 temp_ans中。
+
+最后循环完成后，再检查temp_ans中是否有东西需要加到ans
+
+
+
+### 410. Split Array Largest Sum
+
+```java
+public boolean guess(long mid, int[] nums, int m) {
+    long sum = 0;
+    long mm = 0;
+    for (int i=0;i<nums.length;++i) {
+        if (sum + nums[i] > mid) {
+            ++mm;
+            sum = nums[i];
+            if (nums[i] > mid) {
+                return false;
+            }
+        }
+            else {
+                sum += nums[i]
+            }
+    }
+    return mm < m;
+}
+
+public int splitArray(int[] nums, int m) {
+    long n = nums.length;
+    long R = 1; //m >= 1
+    for (int i=0;i<n;++1) {
+        R += nums[i];
+    }
+    long L = 0;
+    long ans = 0;
+    while (L < R) {
+        long mid = (L + R) / 2;
+        if (guess(mid, nums, m)) {
+            ans = mid;
+            R = mid;
+        } else {
+            L = mid + 1
+        }
+    }
+    return (int) ans;
+}
+```
 
 
 
@@ -2190,8 +2311,6 @@ class Solution(object):
 
 
 
-
-
 ### 476. Number Complement 
 
 ```python
@@ -2246,6 +2365,75 @@ class Solution:
 ```
 
 
+
+### 557. Reverse Words in a String III
+
+```python
+class Solution(object):
+    def reverseWords(self, s):
+        fArray = []
+        strArray = s.split(" ")
+        for eachstr in strArray:
+            a = list(eachstr)
+            a.reverse()
+            a = "".join(a)
+            fArray.append(a)
+        return " ".join(fArray)
+```
+
+```python
+# 10/12/2019
+# two pointers 
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        if not s:
+            return s
+        
+        s = list(s)
+        
+        def reverseOneWord(s, head, tail):
+            if not s:
+                return
+            
+            while head < tail:
+                temp = s[head]
+                s[head] = s[tail]
+                s[tail] = temp
+                head += 1
+                tail -= 1
+            
+        head = 0
+        for i in range(len(s)):
+            if s[i] == ' ':
+                reverseOneWord(s, head, i-1)
+                head = i+1
+        reverseOneWord(s, head, len(s)-1)
+        
+        return "".join(s)
+```
+
+```python
+# 10/12/2019
+# 反向遍历，直接添加
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        if not s:
+            return s
+        
+        ans = ""
+        temp = ""
+        
+        i = len(s)-1
+        while i >= 0:
+            if s[i] != " ":
+                temp += s[i]
+            else:
+                temp = " " + temp
+                ans = temp + ans
+                temp = ""
+            i -= 1
+        return temp + ans
+```
 
 
 
@@ -2405,6 +2593,31 @@ class MyLinkedList:
 
 
 
+### 739. Daily Temperatures
+
+```python
+class Solution:
+    def dailyTemperatures(self, T: List[int]) -> List[int]:
+        if not T:
+            return []
+        
+        ans = [0] * len(T)
+        stack = []
+        
+        for i in range(len(T)-1, -1, -1):
+            while stack and T[i] >= T[stack[-1]]:
+                stack.pop()
+            if stack:
+                ans[i] = stack[-1] - i
+            
+            stack.append(i)
+        return ans
+```
+
+向stack中添加数的时候保证升序，不是升序的话pop，是升序的话，升序距离就是当前元素stack[-1]-index
+
+
+
 ### 752. Open the Lock
 
 ```python
@@ -2455,31 +2668,6 @@ class Solution:
 ```
 
 列表的in操作比较耗时，可以remove该元素如果之后不再需要的话，remove后可以优化时间，但也比较有限。将 deadends 转为 set 后时间有明显缩短！因为 `Sets are significantly faster when it comes to determining if an object is present in the set (as in x in s)` set 操作是将列表转为字典，字典in操作平均为O(1)
-
-
-
-### 739. Daily Temperatures
-
-```python
-class Solution:
-    def dailyTemperatures(self, T: List[int]) -> List[int]:
-        if not T:
-            return []
-        
-        ans = [0] * len(T)
-        stack = []
-        
-        for i in range(len(T)-1, -1, -1):
-            while stack and T[i] >= T[stack[-1]]:
-                stack.pop()
-            if stack:
-                ans[i] = stack[-1] - i
-            
-            stack.append(i)
-        return ans
-```
-
-向stack中添加数的时候保证升序，不是升序的话pop，是升序的话，升序距离就是当前元素stack[-1]-index
 
 
 
@@ -2559,46 +2747,134 @@ return false;
 
 
 
-### 410. Split Array Largest Sum
+### 841. Keys and Rooms
 
-```java
-public boolean guess(long mid, int[] nums, int m) {
-    long sum = 0;
-    long mm = 0;
-    for (int i=0;i<nums.length;++i) {
-        if (sum + nums[i] > mid) {
-            ++mm;
-            sum = nums[i];
-            if (nums[i] > mid) {
-                return false;
-            }
-        }
-            else {
-                sum += nums[i]
-            }
-    }
-    return mm < m;
-}
+```python
+class Solution:
+    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+        Q = rooms[0]
+        room_num_set = set(rooms[0])
+        room_num_set.add(0)
+        while Q:
+            room_num = Q.pop(0)
+            for each in rooms[room_num]:
+                if each not in room_num_set:
+                    Q.append(each)
+                    room_num_set.add(each)
+            
+        if len(room_num_set) == len(rooms):
+            return True
+        else:
+            return False
+```
 
-public int splitArray(int[] nums, int m) {
-    long n = nums.length;
-    long R = 1; //m >= 1
-    for (int i=0;i<n;++1) {
-        R += nums[i];
-    }
-    long L = 0;
-    long ans = 0;
-    while (L < R) {
-        long mid = (L + R) / 2;
-        if (guess(mid, nums, m)) {
-            ans = mid;
-            R = mid;
-        } else {
-            L = mid + 1
-        }
-    }
-    return (int) ans;
-}
+
+
+### 921. Minimum Add to Make Parentheses Valid
+
+```python
+class Solution:
+    def minAddToMakeValid(self, S: str) -> int:
+        if not S:
+            return 0
+        
+        temp = []
+        for each in S:
+            if each == '(':
+                temp.append(each)
+            elif each == ')':
+                if temp and temp[-1] == '(':
+                    temp.pop()
+                else:
+                    temp.append(each)
+        return len(temp)
+```
+
+
+
+### 937. Reorder Data in Log Files
+
+```python
+class Solution:
+    def reorderLogFiles(self, logs: List[str]) -> List[str]:
+        def f(log):
+            id_, rest = log.split(" ", 1)
+            return (0, rest, id_) if rest[0].isalpha() else (10,)
+
+        return sorted(logs, key = f)
+```
+
+
+
+### 973. K Closest Points to Origin
+
+```python
+class Solution:
+    def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
+        dist = lambda i: points[i][0]**2 + points[i][1]**2
+
+        def sort(i, j, K):
+            # Partially sorts A[i:j+1] so the first K elements are
+            # the smallest K elements.
+            if i >= j: return
+
+            # Put random element as A[i] - this is the pivot
+            k = random.randint(i, j)
+            points[i], points[k] = points[k], points[i]
+
+            mid = partition(i, j)
+            if K < mid - i + 1:
+                sort(i, mid - 1, K)
+            elif K > mid - i + 1:
+                sort(mid + 1, j, K - (mid - i + 1))
+
+        def partition(i, j):
+            # Partition by pivot A[i], returning an index mid
+            # such that A[i] <= A[mid] <= A[j] for i < mid < j.
+            oi = i
+            pivot = dist(i)
+            i += 1
+
+            while True:
+                while i < j and dist(i) < pivot:
+                    i += 1
+                while i <= j and dist(j) >= pivot:
+                    j -= 1
+                if i >= j: break
+                points[i], points[j] = points[j], points[i]
+
+            points[oi], points[j] = points[j], points[oi]
+            return j
+
+        sort(0, len(points) - 1, K)
+        return points[:K]
+```
+
+
+
+### 1041. Robot Bounded In Circle
+
+```python
+# https://leetcode.com/problems/robot-bounded-in-circle/discuss/456726/Java-Solution-Easy-to-Understand-and-Efficient
+# 最后形成圈的条件有二：1. 完成一遍instructions后仍回到原点。2. 完成一遍后没有回到原点但是方向变了
+# index 代表方向，0: north, 1: west, 2: south, 3: east 相对应的移动方向为[[0, 1], [-1, 0], [0, -1], [1, 0]]
+# 向左转与上面list顺序相同所以+1
+# 向右转与上面list顺序相反所以+3
+class Solution:
+    def isRobotBounded(self, instructions: str) -> bool:
+        x = y = index = 0
+    
+        direction = [[0, 1], [-1, 0], [0, -1], [1, 0]]
+        
+        for each in instructions:
+            if each == 'L':
+                index = (index + 1) % 4
+            elif each == 'R':
+                index = (index + 3) % 4
+            else:
+                x += direction[index][0]
+                y += direction[index][1]
+        return (x == 0 and y == 0) or index != 0
 ```
 
 
@@ -2670,254 +2946,6 @@ void getTOPO() {
     }
 }
 ```
-
-
-
-### 344. Reverse String
-
-```java
-class Solution {
-    public void reverseString(char[] s) {
-        if (s.length == 0) return;
-        int low = 0;
-        int high = s.length-1;
-        while (low < high){
-            char temp = s[low];
-            s[low] = s[high];
-            s[high] = temp;
-            low++;
-            high--;
-        }
-    }
-}
-```
-
-```python
-class Solution:
-    def reverseString(self, s: List[str]) -> None:
-        """
-        Do not return anything, modify s in-place instead.
-        """
-        def reverseString_helper(i1, i2):
-            if i1 < i2:
-                s[i1], s[i2] = s[i2], s[i1]
-                reverseString_helper(i1+1, i2-1)
-        
-        reverseString_helper(0, len(s)-1)
-```
-
-
-
-
-
-### 394. Decode String
-
-```python
-class Solution:
-    def decodeString(self, s: str) -> str:
-        ans = ""
-        temp_ans = ""
-        temp_num = ""
-        stack = []
-        
-        import string
-        for i in range(len(s)-1, -1, -1):
-            if s[i] in string.digits:
-                temp_num = s[i] + temp_num
-            else:
-                if temp_ans and temp_num:
-                    temp = int(temp_num) * temp_ans
-                    if stack:
-                        stack[-1] = temp + stack[-1]
-                    else:
-                        ans = temp + ans
-                    temp_ans = ''
-                    temp_num = ''
-                if s[i] in string.ascii_letters:
-                    if not stack:
-                        ans = s[i] + ans
-                    else:
-                        stack[-1] = s[i] + stack[-1]
-                elif s[i] == ']':
-                    stack.append('')
-                elif s[i] == '[':
-                    temp_ans = stack.pop()
-        if temp_ans and temp_num:
-            ans = int(temp_num) * temp_ans + ans
-        
-        return ans
-```
-
-初始化一个空temp_ans用来存放临时ans，初始化一个空temp_num用来存放临时个数，初始化一个空stack
-
-从后向前遍历字符串，如果是数字则添加到temp_num中，不是数字的话先判断temp_num和temp_ans有没有东西，如果有的话相乘的结果添加到ans或stack[-1]中，这取决于stack是否为空，非空说明有嵌套。
-
-再判断如果是字母添加到ans或stack[-1]中，这取决于stack是否为空，
-
-如果是 ] 则添加一个空字符串到stack，
-
-如果是 [ 说明一个完整字符串遍历完整，stack.pop() 取出最后一个字符串放到 temp_ans中。
-
-最后循环完成后，再检查temp_ans中是否有东西需要加到ans
-
-
-
-### 557. Reverse Words in a String III
-
-```python
-class Solution(object):
-    def reverseWords(self, s):
-        fArray = []
-        strArray = s.split(" ")
-        for eachstr in strArray:
-            a = list(eachstr)
-            a.reverse()
-            a = "".join(a)
-            fArray.append(a)
-        return " ".join(fArray)
-```
-
-```python
-# 10/12/2019
-# two pointers 
-class Solution:
-    def reverseWords(self, s: str) -> str:
-        if not s:
-            return s
-        
-        s = list(s)
-        
-        def reverseOneWord(s, head, tail):
-            if not s:
-                return
-            
-            while head < tail:
-                temp = s[head]
-                s[head] = s[tail]
-                s[tail] = temp
-                head += 1
-                tail -= 1
-            
-        head = 0
-        for i in range(len(s)):
-            if s[i] == ' ':
-                reverseOneWord(s, head, i-1)
-                head = i+1
-        reverseOneWord(s, head, len(s)-1)
-        
-        return "".join(s)
-```
-
-```python
-# 10/12/2019
-# 反向遍历，直接添加
-class Solution:
-    def reverseWords(self, s: str) -> str:
-        if not s:
-            return s
-        
-        ans = ""
-        temp = ""
-        
-        i = len(s)-1
-        while i >= 0:
-            if s[i] != " ":
-                temp += s[i]
-            else:
-                temp = " " + temp
-                ans = temp + ans
-                temp = ""
-            i -= 1
-        return temp + ans
-```
-
-
-
-### 841. Keys and Rooms
-
-```python
-class Solution:
-    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
-        Q = rooms[0]
-        room_num_set = set(rooms[0])
-        room_num_set.add(0)
-        while Q:
-            room_num = Q.pop(0)
-            for each in rooms[room_num]:
-                if each not in room_num_set:
-                    Q.append(each)
-                    room_num_set.add(each)
-            
-        if len(room_num_set) == len(rooms):
-            return True
-        else:
-            return False
-```
-
-
-
-### 921. Minimum Add to Make Parentheses Valid
-
-```python
-class Solution:
-    def minAddToMakeValid(self, S: str) -> int:
-        if not S:
-            return 0
-        
-        temp = []
-        for each in S:
-            if each == '(':
-                temp.append(each)
-            elif each == ')':
-                if temp and temp[-1] == '(':
-                    temp.pop()
-                else:
-                    temp.append(each)
-        return len(temp)
-```
-
-
-
-### 937. Reorder Data in Log Files
-
-```python
-class Solution:
-    def reorderLogFiles(self, logs: List[str]) -> List[str]:
-        def f(log):
-            id_, rest = log.split(" ", 1)
-            return (0, rest, id_) if rest[0].isalpha() else (10,)
-
-        return sorted(logs, key = f)
-```
-
-
-
-### 1041. Robot Bounded In Circle
-
-```python
-# https://leetcode.com/problems/robot-bounded-in-circle/discuss/456726/Java-Solution-Easy-to-Understand-and-Efficient
-# 最后形成圈的条件有二：1. 完成一遍instructions后仍回到原点。2. 完成一遍后没有回到原点但是方向变了
-# index 代表方向，0: north, 1: west, 2: south, 3: east 相对应的移动方向为[[0, 1], [-1, 0], [0, -1], [1, 0]]
-# 向左转与上面list顺序相同所以+1
-# 向右转与上面list顺序相反所以+3
-class Solution:
-    def isRobotBounded(self, instructions: str) -> bool:
-        x = y = index = 0
-    
-        direction = [[0, 1], [-1, 0], [0, -1], [1, 0]]
-        
-        for each in instructions:
-            if each == 'L':
-                index = (index + 1) % 4
-            elif each == 'R':
-                index = (index + 3) % 4
-            else:
-                x += direction[index][0]
-                y += direction[index][1]
-        return (x == 0 and y == 0) or index != 0
-```
-
-
 
 
 
