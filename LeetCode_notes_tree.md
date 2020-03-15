@@ -1253,7 +1253,42 @@ class Solution:
         return root
 ```
 
-### 
+
+
+### 993. Cousins in Binary Tree
+
+```python
+class Solution:
+    def isCousins(self, root: TreeNode, x: int, y: int) -> bool:
+        if not root:
+            return False
+        
+        q = [root]
+        while q:
+            next_q = []
+            existx = False
+            existy = False
+            for node in q:
+                if node.val == x:
+                    existx = True
+                if node.val == y:
+                    existy = True
+                if node.left and node.right:
+                    if (node.left.val == x and node.right.val == y) or (node.left.val == y and node.right.val == x):
+                        return False
+                if node.left:
+                    next_q.append(node.left)
+                if node.right:
+                    next_q.append(node.right)
+            if existx and existy:
+                return True
+            elif existx or existy:
+                return False
+            q = next_q
+        return False
+```
+
+
 
 ### 998. Maximum Binary Tree II
 

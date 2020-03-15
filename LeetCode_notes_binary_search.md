@@ -134,8 +134,6 @@ class Solution:
 
 
 
-
-
 ### 34. Find First and Last Position of Element in Sorted Array
 
 ```python
@@ -241,6 +239,46 @@ class Solution:
                 low = mid
 
         return int(mid)
+```
+
+
+
+### 81. Search in Rotated Sorted Array II
+
+```python
+# 有问题， 有一个case过不去
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        if not nums:
+            return False
+        def peed_num(i, j):
+            low = i
+            high = j
+            while low < high:
+                mid = low + (high - low) // 2
+                if nums[mid] > nums[high]:
+                    if nums[mid] > nums[mid+1]:
+                        return mid
+                    low = mid + 1
+                else:
+                    high = mid
+            return low
+        
+        def binary_search(i, j):
+            low = i
+            high = j
+            while low <= high:
+                mid = low + (high - low) // 2
+                if nums[mid] == target:
+                    return True
+                elif nums[mid] > target:
+                    high = mid - 1
+                else:
+                    low  = mid + 1
+            return False
+        
+        peek = peed_num(0, len(nums)-1)
+        return binary_search(0, peek) or binary_search(peek+1, len(nums)-1)
 ```
 
 
