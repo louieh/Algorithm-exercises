@@ -239,6 +239,58 @@ class Solution:
 
 
 
+### 12. Integer to Roman
+
+```python
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        res = ''
+        
+        def helper(res, c4, c9, c5, c1, temp):
+            if temp == 5:
+                return res + c5
+            elif temp > 5:
+                if temp == 9:
+                    return res + c9
+                else:
+                    res += c5
+                    for i in range(temp-5):
+                        res += c1
+                    return res
+            else:
+                if temp == 4:
+                    return res + c4
+                else:
+                    for i in range(temp):
+                        res += c1
+                    return res
+        
+        if num >= 1000:
+            temp = num // 1000
+            num %= 1000
+            for i in range(temp):
+                res += 'M'
+                
+        if num >= 100:
+            temp = num // 100
+            num %= 100
+            res = helper(res, 'CD', 'CM', 'D', 'C', temp)
+            
+        if num >= 10:
+            temp = num // 10
+            num %= 10
+            res = helper(res, 'XL', 'XC', 'L', 'X', temp)
+
+        if num >= 1:
+            temp = num
+            res = helper(res, 'IV', 'IX', 'V', 'I', temp)
+
+        return res
+            
+```
+
+
+
 ### 20. Valid Parentheses
 
 ```python
@@ -2551,6 +2603,28 @@ class Solution:
                 temp = ""
             i -= 1
         return temp + ans
+```
+
+
+
+### 599. Minimum Index Sum of Two Lists
+
+```python
+class Solution:
+    def findRestaurant(self, list1: List[str], list2: List[str]) -> List[str]:
+        dict1 = {list1[i]:i for i in range(len(list1))}
+        dict2 = {list2[i]:i for i in range(len(list2))}
+        res = []
+        for each in dict1:
+            if each in dict2:
+                res.append((each, dict1[each]+dict2[each]))
+        
+        res.sort(key=lambda x:x[1])
+        
+        for i in range(1, len(res)):
+            if res[i][1] != res[0][1]:
+                return [each[0] for each in res[:i]]
+        return [each[0] for each in res]
 ```
 
 
