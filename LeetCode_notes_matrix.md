@@ -416,8 +416,6 @@ class Solution:
 
 ### 542. 01 Matrix
 
-###
-
 ```python
 class Solution:
     def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
@@ -476,6 +474,36 @@ class Solution:
 ```
 
 从每个0开始向四周做bfs，松弛操作，可松弛的加入队列。
+
+
+
+### 695. Max Area of Island
+
+```python
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        def bfs(i, j, direction):
+            nonlocal count
+            if grid[i][j] == 1:
+                count += 1 
+                grid[i][j] = 0
+            if direction != 'left' and j < len(grid[0])-1 and grid[i][j+1] != 0:
+                bfs(i, j+1, 'right')
+            if direction != 'right' and j > 0 and grid[i][j-1] != 0:
+                bfs(i, j-1, 'left')
+            if direction != 'up' and i < len(grid)-1 and grid[i+1][j] != 0:
+                bfs(i+1, j, 'down')
+            if direction != 'down' and i > 0 and grid[i-1][j] != 0:
+                bfs(i-1, j, 'up')
+        max_count = 0
+        for row in range(len(grid)):
+            for col in range(len(grid[0])):
+                count = 0
+                if grid[row][col] == 1:
+                    bfs(row, col, 'right')
+                    max_count = max(max_count, count)
+        return max_count
+```
 
 
 

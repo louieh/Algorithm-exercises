@@ -473,6 +473,32 @@ DFS 回溯，应熟练掌握此模式。
 
 
 
+### 250. Count Univalue Subtrees
+
+```python
+class Solution:
+    def countUnivalSubtrees(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+
+        def helper(root):
+            if not root:
+                return 0, None
+            l_score, l_value = helper(root.left)
+            r_score, r_value = helper(root.right)
+            if l_value is None and r_value is None:
+                return 1, root.val
+            elif (l_value == r_value and l_value == root.val) or (l_value is None and r_value == root.val) or (r_value is None and l_value == root.val):
+                return l_score+r_score+1, root.val
+            else:
+                return l_score+r_score, 'None'
+        
+        score, value = helper(root)
+        return score
+```
+
+
+
 ### 404. Sum of Left Leaves
 
 ```python
