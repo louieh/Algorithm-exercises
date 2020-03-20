@@ -1,3 +1,7 @@
+## LeetCode - Tree
+
+[toc]
+
 ### 98. Validate Binary Search Tree
 
 ```python
@@ -113,6 +117,32 @@ class Solution:
         self.isValidBST_tool(root, None, None)
         
         return self.ans
+```
+
+```python
+# 3/18/2020
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        
+        def helper(root, low, high):
+            if root.left:
+                if root.left.val < root.val and root.left.val > low:
+                    if not helper(root.left, low, root.val):
+                        return False
+                else:
+                    return False
+            
+            if root.right:
+                if root.right.val > root.val and root.right.val < high:
+                    if not helper(root.right, root.val, high):
+                        return False
+                else:
+                    return False
+            return True
+        import sys
+        return helper(root, -sys.maxsize, sys.maxsize)
 ```
 
 
@@ -736,6 +766,24 @@ def diameterOfBinaryTree(self, root: TreeNode) -> int:
 ```
 
 diameterOfBinaryTree_tool函数负责计算节点深度，tool函数负责相加每个节点左右子树深度和。
+
+```python
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        self.ans = 1
+        def helper(root):
+            if not root:
+                return 0
+            left = helper(root.left)
+            right = helper(root.right)
+            self.ans = max(self.ans, left+right+1)
+            return max(left, right) + 1
+        
+        helper(root)
+        return self.ans-1
+```
+
+
 
 
 
@@ -1400,19 +1448,13 @@ $2^{k-1}-1 \leq n \leq 2^k-1$ 则 k 为 $\left \lceil \ log_2n+1\right \rceil$ �
 
 
 
-
-
-
-
-## 树
-
-#### 二叉树
+**二叉树**
 
 第n层的节点个数最多为: 2^n-1^ 
 
 深度为n的二叉树最多节点个数：2^n^-1
 
-#### 满二叉树
+**满二叉树**
 
 节点个数：2^n^-1
 

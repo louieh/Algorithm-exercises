@@ -1,4 +1,6 @@
-## Binary Search
+## LeetCode - Binary Search
+
+[toc]
 
 Template I
 
@@ -385,6 +387,32 @@ class Solution:
             else:
                 low+=1
         return []
+```
+
+
+
+### 270. Closest Binary Search Tree Value
+
+```python
+class Solution:
+    def closestValue(self, root: TreeNode, target: float) -> int:
+        if not root:
+            return
+        import sys
+        self.res = [sys.maxsize, None]
+        def helper(root):
+            if not root:
+                return
+            diff = abs(root.val - target)
+            if diff < self.res[0]:
+                self.res[0] = diff
+                self.res[1] = root.val
+            if target > root.val:
+                return helper(root.right)
+            else:
+                return helper(root.left)
+        helper(root)
+        return self.res[1]
 ```
 
 

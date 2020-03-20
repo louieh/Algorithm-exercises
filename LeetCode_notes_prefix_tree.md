@@ -1,3 +1,7 @@
+## LeetCode - Prefix Tree
+
+[toc]
+
 ### 6301 sp10
 
 ```java
