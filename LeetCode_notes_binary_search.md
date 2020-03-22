@@ -308,6 +308,34 @@ class Solution:
 
 
 
+### 154. Find Minimum in Rotated Sorted Array II
+
+```python
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        if not nums:
+            return
+        
+        low = 0
+        high = len(nums) - 1
+        while low < high:
+            mid = low + (high - low) // 2
+            if nums[mid] == nums[high]:
+                high -= 1 	# 相等的时候high-=1
+            elif nums[mid] > nums[high]:
+                if nums[mid] > nums[mid+1]:
+                    return nums[mid+1]
+                else:
+                    low = mid + 1
+            else:
+                high = mid
+        return nums[low]
+```
+
+https://leetcode.com/articles/find-minimum-in-rotated-sorted-array-ii/
+
+
+
 ### 162. Find Peak Element
 
 ```python
@@ -513,6 +541,30 @@ class Solution:
 
 
 
+### 367. Valid Perfect Square
+
+```python
+class Solution:
+    def isPerfectSquare(self, num: int) -> bool:
+        if num < 2:
+            return True
+        
+        low = 2
+        high = num // 2
+        while low <= high:
+            mid = low + (high - low) // 2
+            mid2 = mid * mid
+            if mid2 == num:
+                return True
+            if mid2 > num:
+                high = mid - 1
+            else:
+                low = mid + 1
+        return False
+```
+
+
+
 ### 374. Guess Number Higher or Lower
 
 ```python
@@ -571,5 +623,78 @@ class Solution:
                 elif x - arr[low] > arr[high] - x:
                     low += 1
             return arr[low: high+1]
+```
+
+
+
+### 702. Search in a Sorted Array of Unknown Size
+
+```python
+class Solution:
+    def search(self, reader, target):
+        """
+        :type reader: ArrayReader
+        :type target: int
+        :rtype: int
+        """
+        if target < reader.get(0):
+            return -1
+        # get range first
+        low = 0
+        high = 1
+        while True:
+            if reader.get(high) >= target and reader.get(low) <= target:
+                break
+            else:
+                low = high
+                high *= 2
+        
+        while low <= high:
+            mid = low + (high - low) // 2
+            if target == reader.get(mid):
+                return mid
+            elif target > reader.get(mid):
+                low = mid + 1
+            else:
+                high = mid - 1
+        return -1
+```
+
+
+
+### 744. Find Smallest Letter Greater Than Target
+
+```python
+class Solution:
+    def nextGreatestLetter(self, letters: List[str], target: str) -> str:
+        for each in letters:
+            if each > target:
+                return each
+        return letters[0]
+```
+
+```python
+class Solution:
+    def nextGreatestLetter(self, letters: List[str], target: str) -> str:
+        low = 0
+        high = len(letters) - 1
+        while low < high:
+            mid = low + (high - low) // 2
+            if letters[mid] == target:
+                if letters[mid+1] > target:
+                    return letters[mid+1]
+                else:
+                    low = mid + 1
+            elif letters[mid] < target:
+                low = mid + 1
+            else:
+                if letters[mid-1] <= target:
+                    return letters[mid]
+                else:
+                    high = mid - 1
+        if letters[low] > target:
+            return letters[low]
+        else:
+            return letters[0]
 ```
 

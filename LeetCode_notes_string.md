@@ -2,16 +2,6 @@
 
 [toc]
 
-[14. Longest Common Prefix](#14. Longest Common Prefix)
-
-[53.Maximum Subarray](#53.Maximum Subarray)
-
-[209.Minimum Size Subarray Sum](#209.Minimum Size Subarray Sum)
-
-[238. Product of Array Except Self](#238. Product of Array Except Self)
-
-[763. Partition Labels](#763. Partition Labels)
-
 ### 14. Longest Common Prefix
 
 ```python

@@ -1197,52 +1197,44 @@ class MinStack:
 
 
 
-### 231. Power of Two
+### 167. Two Sum II - Input array is sorted
 
-```
-1 1
-2 10
-4 100
-8 1000
-```
-
-```c++
-bool isPowerOfTwo(int n){
-    if( n<=0 ) return false;
-    return ((n&(n-1))==0)
-}
-```
-
-### Power of Three
-
-```c++
-bool is PowerOfThree(int n){
-    //3 9 27 81
-    //big3 % n==0; big3 是大于n的3的幂，如果等式成立则n也是3的幂。则问题转化为求big3:int范围内最大的3的幂，此方法只对素数有用
-    //big3 = 3^k;
-    //k=log3(maxint);
-    const int maxint = 0x7fffffff;
-    int k = log(maxint)/log(3);
-    int big3 = pow(3,k);
-    return (big3 % n == 0);
-}
+```python
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        if not numbers:
+            return []
+        
+        start = 0
+        end = len(numbers) - 1
+        
+        while start < end:
+            temp = numbers[start] + numbers[end]
+            if temp == target:
+                return [start+1, end+1]
+            elif temp > target:
+                end -= 1
+            elif temp < target:
+                start += 1
+        return []
 ```
 
-
-
-### Power of Four
-
-```c++
-bool isPowerOfFour(int n){
-    //2 8 false 2 : 10 8 : 1000
-    //4 16 true
-    //5 101
-    //0101 & 8 1000 = 0000
-    //0101 & 4 0100 = 0100
-    if( n<=0 ) return false;
-    return ((n&(n-1))==0 && (n&0x55555555) );
-}
+```python
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        low = 0
+        high = len(numbers) - 1
+        while low < high:
+            temp = numbers[low] + numbers[high]
+            if temp == target:
+                return [low+1, high+1]
+            elif temp > target:
+                high -= 1
+            else:
+                low += 1
 ```
+
+总结 two sum 类题型
 
 
 
@@ -1408,6 +1400,24 @@ while n > 9:
         return True
     n = sum
 return False
+```
+
+
+
+### 231. Power of Two
+
+```
+1 1
+2 10
+4 100
+8 1000
+```
+
+```c++
+bool isPowerOfTwo(int n){
+    if( n<=0 ) return false;
+    return ((n&(n-1))==0)
+}
 ```
 
 
@@ -1690,10 +1700,6 @@ class PeekingIterator:
 
 
 
-
-
-### Missing Number
-
 ### 292. Nim Game
 
 ```c++
@@ -1743,6 +1749,39 @@ bool canWinNim(int n) {
 
 
 
+### 326. Power of Three
+
+```c++
+bool is PowerOfThree(int n){
+    //3 9 27 81
+    //big3 % n==0; big3 是大于n的3的幂，如果等式成立则n也是3的幂。则问题转化为求big3:int范围内最大的3的幂，此方法只对素数有用
+    //big3 = 3^k;
+    //k=log3(maxint);
+    const int maxint = 0x7fffffff;
+    int k = log(maxint)/log(3);
+    int big3 = pow(3,k);
+    return (big3 % n == 0);
+}
+```
+
+
+
+### 342. Power of Four
+
+```c++
+bool isPowerOfFour(int n){
+    //2 8 false 2 : 10 8 : 1000
+    //4 16 true
+    //5 101
+    //0101 & 8 1000 = 0000
+    //0101 & 4 0100 = 0100
+    if( n<=0 ) return false;
+    return ((n&(n-1))==0 && (n&0x55555555) );
+}
+```
+
+
+
 ### 344. Reverse String
 
 ```java
@@ -1774,6 +1813,87 @@ class Solution:
                 reverseString_helper(i1+1, i2-1)
         
         reverseString_helper(0, len(s)-1)
+```
+
+
+
+### 349. Intersection of Two Arrays
+
+```python
+class Solution:
+    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        nums1_set = set(nums1)
+        nums2_set = set(nums2)
+        res = []
+        for each in nums1_set:
+            if each in nums2_set:
+                res.append(each)
+        return res
+```
+
+```js
+This is a Facebook interview question.
+They ask for the intersection, which has a trivial solution using a hash or a set.
+
+Then they ask you to solve it under these constraints:
+O(n) time and O(1) space (the resulting array of intersections is not taken into consideration).
+You are told the lists are sorted.
+
+Cases to take into consideration include:
+duplicates, negative values, single value lists, 0's, and empty list arguments.
+Other considerations might include
+sparse arrays.
+
+function intersections(l1, l2) {
+    l1.sort((a, b) => a - b) // assume sorted
+    l2.sort((a, b) => a - b) // assume sorted
+    const intersections = []
+    let l = 0, r = 0;
+    while ((l2[l] && l1[r]) !== undefined) {
+       const left = l1[r], right = l2[l];
+        if (right === left) {
+            intersections.push(right)
+            while (left === l1[r]) r++;
+            while (right === l2[l]) l++;
+            continue;
+        }
+        if (right > left) while (left === l1[r]) r++;
+         else while (right === l2[l]) l++;
+        
+    }
+    return intersections;
+}
+```
+
+
+
+### 350. Intersection of Two Arrays II
+
+```python
+# 2 years ago since 3/22/2020
+class Solution(object):
+    def intersect(self, nums1, nums2):
+        finArray = []
+        for each in nums1:
+            if each in nums2:
+                finArray.append(each)
+                nums2.remove(each)
+        return finArray
+        
+```
+
+```python
+class Solution:
+    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        from collections import Counter
+        
+        nums1Dict = Counter(nums1)
+        res = []
+        for each in nums2:
+            if each in nums1Dict and nums1Dict[each] != 0:
+                res.append(each)
+                nums1Dict[each] -= 1
+        return res
 ```
 
 
