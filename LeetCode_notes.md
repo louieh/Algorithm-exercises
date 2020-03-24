@@ -7,20 +7,37 @@
 ```python
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        if not nums:
-            return []
-        
-        ans = []
         temp_dict = dict()
         
         for i in range(len(nums)):
             c = target - nums[i]
-            
-            if c in temp_dict.keys():
-                return[i, temp_dict[c]]
+            if c in temp_dict:
+                return [temp_dict[c], i]
             else:
                 temp_dict[nums[i]] = i
 ```
+
+
+
+### cs6301 final Question 7
+
+Given an array of integers, and x. Provide an algorithm to find how many pairs of elements of the array sum to x. For example, if A = {3, 3, 4, 5, 3, 5, 4} them `howMany(A, 8)` return 7. RT should be `O(nlogn)` or better.
+
+ ```python
+    def howMany(A, target):
+        temp_dict = dict()
+        ans = 0
+        # A = {3, 3, 4, 5, 3, 5, 4} target = 8
+        for i in range(len(A)):
+            c = target - A[i]
+            if c in temp_dict:
+                ans += temp_dict[c]
+            if A[i] in temp_dict:
+                temp_dict[A[i]] += 1
+            else:
+                temp_dict[A[i]] = 1
+        return ans
+ ```
 
 
 
@@ -92,6 +109,53 @@ class Solution:
         if plus:
             head.next = ListNode(plus)
         return res.next
+```
+
+
+
+### 4. Median of Two Sorted Arrays
+
+```python
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        res_index = (len(nums1) + len(nums2)) // 2
+        if not nums1 or not nums2:
+            new_nums = nums1 or nums2
+        else:
+            new_nums = []
+            if nums2[0] >= nums1[len(nums1)-1]:
+                new_nums = nums1 + nums2
+            elif nums1[0] >= nums2[len(nums2)-1]:
+                new_nums = nums2 + nums1
+        if new_nums:
+            if (len(nums1) + len(nums2)) % 2 == 0:
+                return (new_nums[res_index]+new_nums[res_index-1])/2
+            else:
+                return new_nums[res_index]
+
+        nums1_index = 0
+        nums2_index = 0
+        
+        for i in range(len(nums1)+len(nums2)):
+            if nums1_index <= len(nums1)-1 and nums2_index <= len(nums2)-1:
+                if nums1[nums1_index] <= nums2[nums2_index]:
+                    new_nums.append(nums1[nums1_index])
+                    nums1_index += 1
+                else:
+                    new_nums.append(nums2[nums2_index])
+                    nums2_index += 1
+            else:
+                if nums1_index <= len(nums1)-1:
+                    new_nums.append(nums1[nums1_index])
+                    nums1_index += 1
+                elif nums2_index <= len(nums2)-1:
+                    new_nums.append(nums2[nums2_index])
+                    nums2_index += 1
+            if i == res_index:
+                if (len(nums1) + len(nums2)) % 2 == 0:
+                    return (new_nums[res_index]+new_nums[res_index-1])/2
+                else:
+                    return new_nums[res_index]
 ```
 
 
@@ -1696,6 +1760,52 @@ class PeekingIterator:
         :rtype: bool
         """
         return self._next is not None
+```
+
+
+
+### 287. Find the Duplicate Number
+
+```python
+# 自认为很漂亮的方法，原理是因为有n+1个数且只有一个数字重复，并且每个数字的取值范围在[1, n], 所以只要把每个数字方法它该放的位置，也就是说把1放到0, 2放到1, 3放到2, 4放到3...最后一个数字便是重复的数字。当然在遍历过程中如果遇到在该位置上已经有了正确的数字直接返回该数字
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        if not nums:
+            return
+        i = 0
+        while i <= len(nums)-2:
+            if nums[i] == i+1:
+                i += 1
+                continue
+            if nums[nums[i]-1] == nums[i]:
+                return nums[i]
+            else:
+                nums[nums[i]-1], nums[i] = nums[i], nums[nums[i]-1]
+        return nums[len(nums)-1]
+```
+
+```python
+# Floyd's Tortoise and Hare (Cycle Detection)
+# same as Linked List Cycle II 
+class Solution:
+    def findDuplicate(self, nums):
+        # Find the intersection point of the two runners.
+        tortoise = nums[0]
+        hare = nums[0]
+        while True:
+            tortoise = nums[tortoise]
+            hare = nums[nums[hare]]
+            if tortoise == hare:
+                break
+        
+        # Find the "entrance" to the cycle.
+        ptr1 = nums[0]
+        ptr2 = tortoise
+        while ptr1 != ptr2:
+            ptr1 = nums[ptr1]
+            ptr2 = nums[ptr2]
+        
+        return ptr1
 ```
 
 
