@@ -1448,6 +1448,38 @@ $2^{k-1}-1 \leq n \leq 2^k-1$ 则 k 为 $\left \lceil \ log_2n+1\right \rceil$ �
 
 
 
+### 1110. Delete Nodes And Return Forest
+
+```python
+class Solution:
+    def delNodes(self, root: TreeNode, to_delete: List[int]) -> List[TreeNode]:
+        if not root:
+            return []
+        
+        res = []
+        
+        def helper(root, is_root):
+            if not root:
+                return False
+            
+            deleted = root.val in to_delete
+            if is_root and not deleted:
+                res.append(root)
+            
+            if helper(root.left, deleted):
+                root.left = None
+            if helper(root.right, deleted):
+                root.right = None
+            return deleted
+        
+        helper(root, True)
+        return res
+```
+
+
+
+
+
 **二叉树**
 
 第n层的节点个数最多为: 2^n-1^ 

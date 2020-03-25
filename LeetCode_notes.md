@@ -2566,6 +2566,51 @@ class Solution:
 
 
 
+### 939. Minimum Area Rectangle
+
+```python
+class Solution:
+    def minAreaRect(self, points: List[List[int]]) -> int:
+        if not points:
+            return
+        import sys
+        ans = sys.maxsize
+        S = set(map(tuple, points))
+        for i in range(len(points)):
+            for j in range(i):
+                p1 = points[i]
+                p2 = points[j]
+                if p1[0] != p2[0] and p1[1] != p2[1] and (p1[0], p2[1]) in S and (p2[0], p1[1]) in S:
+                    ans = min(ans, abs(p2[1]-p1[1]) * abs(p2[0] - p1[0]))
+        return ans if ans < sys.maxsize else 0
+```
+
+
+
+### 941. Valid Mountain Array
+
+```python
+class Solution:
+    def validMountainArray(self, A: List[int]) -> bool:
+        if len(A) < 3:
+            return False
+        if A[0] > A[1]:
+            return False
+        peak = None
+        for i in range(1, len(A)):
+            if peak is not None:
+                if A[i] >= A[i-1]:
+                    return False
+            else:
+                if A[i] == A[i-1]:
+                    return False
+                if A[i] < A[i-1]:
+                    peak = i-1
+        return True if peak is not None else False
+```
+
+
+
 ### 973. K Closest Points to Origin
 
 ```python
