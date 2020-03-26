@@ -2,6 +2,38 @@
 
 [toc]
 
+### 95. Unique Binary Search Trees II
+
+```python
+class Solution:
+    def generateTrees(self, n: int) -> List[TreeNode]:
+        if not n:
+            return []
+        
+        def helper(start, end):
+            if start > end:
+                return [None, ]
+            
+            res = []
+            for i in range(start, end+1):
+                left = helper(start, i-1)
+                right = helper(i+1, end)
+                
+                for j in left:
+                    for k in right:
+                        curr = TreeNode(i)
+                        curr.left = j
+                        curr.right = k
+                        res.append(curr)
+            return res
+        
+        return helper(1, n)
+```
+
+https://leetcode.com/articles/unique-binary-search-trees-ii/
+
+
+
 ### 98. Validate Binary Search Tree
 
 ```python
