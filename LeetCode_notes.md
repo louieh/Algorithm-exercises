@@ -1927,6 +1927,28 @@ class Solution:
 
 
 
+### 346. Moving Average from Data Stream
+
+```python
+class MovingAverage:
+
+    def __init__(self, size: int):
+        """
+        Initialize your data structure here.
+        """
+        self.size = size
+        self.q = []
+
+    def next(self, val: int) -> float:
+        self.q.append(val)
+        if len(self.q) <= self.size:
+            return sum(self.q) / len(self.q)
+        else:
+            return sum(self.q[-self.size:]) / self.size
+```
+
+
+
 ### 349. Intersection of Two Arrays
 
 ```python
