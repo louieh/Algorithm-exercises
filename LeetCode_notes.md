@@ -545,6 +545,34 @@ https://blog.csdn.net/zhoufen12345/article/details/53560099
 
 
 
+### 49. Group Anagrams
+
+```python
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        from collections import defaultdict
+        res = defaultdict(list)
+        
+        for each in strs:
+            res[tuple(sorted(each))].append(each)
+        return res.values()
+```
+
+```python
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        from collections import defaultdict
+        ans = defaultdict(list)
+        for each in strs:
+            count = [0] * 26
+            for c in each:
+                count[ord(c) - ord('a')] += 1
+            ans[tuple(count)].append(each)
+        return ans.values()
+```
+
+
+
 ### 50. Pow(x, n)
 
 ```python
@@ -1143,6 +1171,23 @@ class Solution:
 
 
 
+### 136. Single Number
+
+```python
+class Solution:
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        res = 0
+        for num in nums:
+            res ^= num
+        return res
+```
+
+
+
 ### 146. LRU Cache
 
 ```python
@@ -1452,18 +1497,87 @@ def leetcode202(n):  # Accept happy number
 ```
 
 ```python
-# 最快解
-if n == 1 or n == 7 or n == 1111111:
-    return True
-while n > 9:
-    sum = 0
-    while n:
-        sum += (n % 10)**2
-        n /= 10
-    if sum == 1:
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        temp = set()
+        
+        def get_next(num):
+            sum = 0
+            while num:
+                sum += (num % 10) ** 2
+                num //= 10
+            return sum
+        
+        slow = n
+        fast = get_next(n)
+        while fast != 1 and slow != fast:
+            slow = get_next(slow)
+            fast = get_next(get_next(fast))
+        return fast == 1
+```
+
+
+
+
+
+### 205. Isomorphic Strings
+
+```python
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        temp1 = dict()
+        temp2 = dict()
+        for i in range(len(s)):
+            if s[i] not in temp1:
+                temp1[s[i]] = t[i]
+            elif temp1[s[i]] != t[i]:
+                return False
+            if t[i] not in temp2:
+                temp2[t[i]] = s[i]
+            elif temp2[t[i]] != s[i]:
+                return False
         return True
-    n = sum
-return False
+```
+
+```java
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        int m1[256] = {0}, m2[256] = {0}, n = s.size();
+        for (int i = 0; i < n; ++i) {
+            if (m1[s[i]] != m2[t[i]]) return false;
+            m1[s[i]] = i + 1;
+            m2[t[i]] = i + 1;
+        }
+        return true;
+    }
+};
+```
+
+
+
+### 217. Contains Duplicate
+
+```python
+class Solution:
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        return len(nums) != len(set(nums))
+```
+
+
+
+### 219. Contains Duplicate II
+
+```python
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        temp = dict()
+        for i in range(len(nums)):
+            if nums[i] in temp:
+                if i - temp[nums[i]] <= k:
+                    return True
+            temp[nums[i]] = i
+        return False
 ```
 
 
@@ -2309,6 +2423,149 @@ class Solution:
 ```
 
 对数组进行排序非常耗时
+
+
+
+### 705. Design HashSet
+
+```python
+class MyHashSet:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.keyRange = 769
+        self.bucketArray = [Bucket() for i in range(self.keyRange)]
+        
+    def _hash(self, key):
+        return key % self.keyRange
+
+    def add(self, key: int) -> None:
+        index = self._hash(key)
+        self.bucketArray[index].insert(key)
+
+    def remove(self, key: int) -> None:
+        index = self._hash(key)
+        self.bucketArray[index].delete(key)
+        
+
+    def contains(self, key: int) -> bool:
+        """
+        Returns true if this set contains the specified element
+        """
+        index = self._hash(key)
+        return self.bucketArray[index].exist(key)
+
+class Node(object):
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+
+class Bucket(object):
+    def __init__(self):
+        self.head = Node(0)
+    
+    def insert(self, val):
+        if not self.exist(val):
+            temp = self.head.next
+            new_node = Node(val, temp)
+            self.head.next = new_node
+    
+    def exist(self, val):
+        cur = self.head.next
+        while cur:
+            if cur.val == val:
+                return True
+            cur = cur.next
+        return False
+    
+    def delete(self, val):
+        prev, curr = self.head, self.head.next
+        while curr:
+            if curr.val == val:
+                prev.next = curr.next
+                return
+            prev, curr = curr, curr.next
+
+# Your MyHashSet object will be instantiated and called as such:
+# obj = MyHashSet()
+# obj.add(key)
+# obj.remove(key)
+# param_3 = obj.contains(key)
+```
+
+
+
+### 706. Design HashMap
+
+```python
+class MyHashMap:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.size = 2069
+        self.hash_table = [Bucket() for i in range(self.size)]
+        
+    def _hash(self, key):
+        return key % self.size
+    
+        
+    def put(self, key: int, value: int) -> None:
+        """
+        value will always be non-negative.
+        """
+        index = self._hash(key)
+        self.hash_table[index].update(key, value)
+        
+
+    def get(self, key: int) -> int:
+        """
+        Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key
+        """
+        index = self._hash(key)
+        return self.hash_table[index].get(key)
+        
+
+    def remove(self, key: int) -> None:
+        """
+        Removes the mapping of the specified value key if this map contains a mapping for the key
+        """
+        index = self._hash(key)
+        self.hash_table[index].remove(key)
+        
+class Bucket(object):
+    def __init__(self):
+        self.bucketList = []
+    
+    def get(self, key):
+        for (k, v) in self.bucketList:
+            if k == key:
+                return v
+        return -1
+    
+    def update(self, key, value):
+        for i, kv in enumerate(self.bucketList):
+            if kv[0] == key:
+                self.bucketList[i] = (key, value)
+                return
+        self.bucketList.append((key, value))
+    
+    def remove(self, key):
+        for i, kv in enumerate(self.bucketList):
+            if kv[0] == key:
+                del self.bucketList[i]
+        
+
+
+# Your MyHashMap object will be instantiated and called as such:
+# obj = MyHashMap()
+# obj.put(key,value)
+# param_2 = obj.get(key)
+# obj.remove(key)
+```
 
 
 
