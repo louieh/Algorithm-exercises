@@ -17,6 +17,17 @@ class Solution:
                 temp_dict[nums[i]] = i
 ```
 
+```python
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        temp = dict()
+        for i, val in enumerate(nums):
+            c = target - val
+            if c in temp:
+                return [temp[c], i]
+            temp[val] = i
+```
+
 
 
 ### cs6301 final Question 7
@@ -1661,6 +1672,19 @@ class Solution:
 
 
 
+### 249. Group Shifted Strings
+
+```python
+class Solution:
+    def groupStrings(self, strings: List[str]) -> List[List[str]]:
+        groups = collections.defaultdict(list)
+        for s in strings:
+            groups[tuple((ord(c) - ord(s[0])) % 26 for c in s)] += s,
+        return groups.values()
+```
+
+
+
 ### 258. Add Digits
 
 ```c++
@@ -2144,11 +2168,74 @@ class Solution:
 
 
 
+### 359. Logger Rate Limiter
+
+```python
+class Logger:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.recorder = dict()
+        
+
+    def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
+        """
+        Returns true if the message should be printed in the given timestamp, otherwise returns false.
+        If this method returns false, the message will not be printed.
+        The timestamp is in seconds granularity.
+        """
+        if message not in self.recorder:
+            self.recorder[message] = timestamp
+            return True
+        else:
+            if timestamp - self.recorder[message] < 10:
+                return False
+            else:
+                self.recorder[message] = timestamp
+                return True
+```
+
+
+
  ### 387. First Unique Character in a String
 
-string.find()/string.rfind() (返回第一次/最后一次字母下标)
+```python
+# two years ago since 3/28/2020
+class Solution:
+    def firstUniqChar(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        is_have_repeat = False
+        for i in range(len(s)):
+            for j in range(len(s)):
+                if i == j:
+                    continue
+                if s[i] == s[j]:
+                    is_have_repeat = True
+                    break
+                else:
+                    is_have_repeat = False
+            if is_have_repeat == False:
+                return i
+        return -1
+```
 
-string.count()
+```python
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        from collections import defaultdict
+        temp = defaultdict(int)
+        for each in s:
+            temp[each] += 1
+        for i, val in enumerate(s):
+            if temp[val] == 1:
+                return i
+        return -1
+```
 
 
 
@@ -2392,6 +2479,25 @@ class Solution:
             if res[i][1] != res[0][1]:
                 return [each[0] for each in res[:i]]
         return [each[0] for each in res]
+```
+
+```python
+class Solution:
+    def findRestaurant(self, list1: List[str], list2: List[str]) -> List[str]:
+        temp = dict()
+        ans = []
+        import sys
+        min_index = sys.maxsize
+        for i, val in enumerate(list1):
+            temp[val] = i
+        for i, val in enumerate(list2):
+            if val in temp:
+                if i + temp[val] < min_index:
+                    ans = [val]
+                    min_index = i + temp[val]
+                elif i + temp[val] == min_index:
+                    ans.append(val)
+        return ans
 ```
 
 
