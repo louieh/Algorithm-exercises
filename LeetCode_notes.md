@@ -527,6 +527,31 @@ class Solution:
 
 
 
+### 36. Valid Sudoku
+
+```python
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        if not board:
+            return False
+        temp = set()
+        for row in range(len(board)):
+            for col in range(len(board[0])):
+                num = board[row][col]
+                if num != '.':
+                    if num+'row'+str(row) not in temp and num+'col'+str(col) not in temp and num+'box'+str(row//3)+str(col//3) not in temp:
+                        temp.add(num+'row'+str(row))
+                        temp.add(num+'col'+str(col))
+                        temp.add(num+'box'+str(row//3)+str(col//3))
+                    else:
+                        return False
+        return True
+```
+
+分别encode成`1row1 or 1col1 or 1box00`
+
+
+
 ### 46. Permutations
 
 ```python

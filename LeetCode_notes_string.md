@@ -2,6 +2,39 @@
 
 [toc]
 
+### 3. Longest Substring Without Repeating Characters
+
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        if not s:
+            return 0
+        if s == " ":
+            return 1
+        
+        if len(s) == 1:
+            return 1
+        
+        def helper(s, max_length):
+            i = 0
+            temp_list = []
+            while i <= len(s)-1:
+                if s[i] not in temp_list:
+                    temp_list.append(s[i])
+                    i += 1
+                    if len(temp_list) > max_length:
+                        max_length = len(temp_list)
+                else:
+                    if len(temp_list) > max_length:
+                        max_length = len(temp_list)
+                    return helper(s[s.index(s[i])+1:], max_length)
+            return max_length
+        
+        return helper(s, 0)
+```
+
+
+
 ### 14. Longest Common Prefix
 
 ```python

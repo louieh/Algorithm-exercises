@@ -1001,6 +1001,36 @@ class Solution:
 
 
 
+### 652. Find Duplicate Subtrees
+
+```python
+class Solution(object):
+    def findDuplicateSubtrees(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[TreeNode]
+        """
+        from collections import defaultdict
+        temp = defaultdict(int)
+        ans = []
+        def helper(root):
+            if not root:
+                return '#'
+            left = helper(root.left)
+            right = helper(root.right)
+            id_str = str(root.val) + left + right
+            temp[id_str] += 1
+            if temp[id_str] == 2:
+                ans.append(root)
+            return id_str
+        helper(root)
+        return ans
+```
+
+使用一个id去表示每个子树并存放在set中
+
+
+
 ### 654. Maximum Binary Tree
 
 ```python
@@ -1333,6 +1363,38 @@ class KthLargest(object):
         self.inorder(root.left)
         print("root.val: {0} root.count: {1}".format(root.val, root.count))
         self.inorder(root.right)
+```
+
+
+
+### 771. Jewels and Stones
+
+```python
+# one year ago since 3/29/2020
+class Solution:
+    def numJewelsInStones(self, J, S):
+        """
+        :type J: str
+        :type S: str
+        :rtype: int
+        """
+        sum = 0
+        for eachJ in J:
+            for eachS in S:
+                if eachJ == eachS:
+                    sum += 1
+        return sum
+```
+
+```python
+class Solution:
+    def numJewelsInStones(self, J: str, S: str) -> int:
+        from collections import Counter
+        S_c = Counter(S)
+        ans = 0
+        for l in J:
+            ans += S_c[l]
+        return ans
 ```
 
 
