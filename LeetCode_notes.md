@@ -1383,6 +1383,90 @@ class Solution:
 
 
 
+### 169. Majority Element
+
+```python
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        from collections import Counter
+        
+        c = Counter(nums)
+        for k,v in c.items():
+            if v > len(nums) // 2:
+                return k
+```
+
+```python
+class Solution:
+    def majorityElement(self, nums):
+        nums.sort()
+        return nums[len(nums)//2]
+```
+
+
+
+### 170. Two Sum III - Data structure design
+
+```python
+class TwoSum:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self._list = []
+
+    def add(self, number: int) -> None:
+        """
+        Add the number to an internal data structure..
+        """
+        self._list.append(number)
+
+    def find(self, value: int) -> bool:
+        """
+        Find if there exists any pair of numbers which sum is equal to the value.
+        """
+        self._set = set()
+        for num in self._list:
+            c = value - num
+            if c in self._set:
+                return True
+            self._set.add(num)
+        return False
+```
+
+```python
+class TwoSum:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self._dict = defaultdict(int)
+
+    def add(self, number: int) -> None:
+        """
+        Add the number to an internal data structure..
+        """
+        self._dict[number] += 1
+
+    def find(self, value: int) -> bool:
+        """
+        Find if there exists any pair of numbers which sum is equal to the value.
+        """
+        for num in self._dict:
+            c = value - num
+            if c in self._dict:
+                if c == num:
+                    if self._dict[c] > 1:
+                        return True
+                else:
+                    return True
+        return False
+```
+
+
+
 ### 172. Factorial Traniling Zeroes
 
 ```c++
@@ -1724,6 +1808,45 @@ int addDigits(int num) {
 }
 ```
 
+```python
+class Solution:
+    def addDigits(self, num: int) -> int:
+        while num > 9:
+            temp = 0
+            while num:
+                temp += num % 10
+                num //= 10
+            num = temp
+        return num
+```
+
+First you should understand:
+
+```
+10^k % 9 = 1
+a*10^k % 9 = a % 9 
+```
+
+Then let's use an example to help explain.
+
+Say a number x = 23456
+
+x = 2* 10000 + 3 * 1000 + 4 * 100 + 5 * 10 + 6
+
+2 * 10000 % 9 = 2 % 9
+
+3 * 1000 % 9 = 3 % 9
+
+4 * 100 % 9 = 4 % 9
+
+5 * 10 % 9 = 5 % 9
+
+Then x % 9 = ( 2+ 3 + 4 + 5 + 6) % 9, note that x = 2* 10000 + 3 * 1000 + 4 * 100 + 5 * 10 + 6
+
+So we have 23456 % 9 = (2 + 3 + 4 + 5 + 6) % 9
+
+因此，此处蕴含着递归，23456%9 = (2+3+4+5+6)%9 = 20%9 = (2+0)%9 = 2%9 = 2
+
 
 
 ### 263. Ugly Number
@@ -1973,6 +2096,29 @@ class Solution:
 
 
 
+### 288. Unique Word Abbreviation
+
+```python
+class ValidWordAbbr:
+    from collections import defaultdict
+    def __init__(self, dictionary: List[str]):
+        self._dict = defaultdict(set)
+        for each in dictionary:
+            self._dict[self.get_abbr(each)].add(each)
+        
+    def get_abbr(self, word: str) -> str:
+        if len(word) <= 2:
+            return word
+        return word[0] + str(len(word)-2) + word[-1]
+
+    def isUnique(self, word: str) -> bool:
+        addr = self.get_abbr(word)
+        words = self._dict.get(addr)
+        return words is None or len(words) == 1 and word in words
+```
+
+
+
 ### 292. Nim Game
 
 ```c++
@@ -2112,6 +2258,19 @@ class MovingAverage:
 
 
 
+### 347. Top K Frequent Elements
+
+```python
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        from collections import Counter
+        counter = Counter(nums)
+        counter = sorted([(key, value) for key, value in counter.items()], key=lambda t:t[1], reverse=True)
+        return [each[0] for each in counter[:k]]
+```
+
+
+
 ### 349. Intersection of Two Arrays
 
 ```python
@@ -2220,6 +2379,53 @@ class Logger:
             else:
                 self.recorder[message] = timestamp
                 return True
+```
+
+
+
+### 380. Insert Delete GetRandom O(1)
+
+```python
+class RandomizedSet:
+    import random
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self._list = []
+        self._dict = {}
+        
+
+    def insert(self, val: int) -> bool:
+        """
+        Inserts a value to the set. Returns true if the set did not already contain the specified element.
+        """
+        if val in self._dict:
+            return False
+        self._dict[val] = len(self._list)
+        self._list.append(val)
+        return True
+        
+
+    def remove(self, val: int) -> bool:
+        """
+        Removes a value from the set. Returns true if the set contained the specified element.
+        """
+        if val not in self._dict:
+            return False
+        index_delete, last_element = self._dict[val], self._list[-1]
+        self._list[index_delete], self._dict[last_element] = last_element, index_delete
+        self._list.pop()
+        del self._dict[val]
+        return True
+        
+        
+
+    def getRandom(self) -> int:
+        """
+        Get a random element from the set.
+        """
+        return random.choice(self._list)
 ```
 
 
@@ -2357,6 +2563,23 @@ public int splitArray(int[] nums, int m) {
     return (int) ans;
 }
 ```
+
+
+
+### 454. 4Sum II
+
+```python
+class Solution:
+    def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+        AB = collections.Counter(a+b for a in A for b in B)
+        return sum([AB[-(c+d)] for c in C for d in D])
+```
+
+We add up a and b and store the result-frequency pair into AB.
+E.g.
+AB[5] = 2 means a+b=5 appears 2 times in the a+b scenario.
+Then we are looking for how many times does c+d = -5 appear so that it could be paired with AB[5] and form a 0.
+That's why we then look for AB[-c-d] (or AB[-(c+d)] )
 
 
 
@@ -2795,6 +3018,24 @@ https://leetcode.com/problems/k-th-symbol-in-grammar/discuss/438528/Explanation-
 
 
 
+### 819. Most Common Word
+
+```python
+class Solution:
+    def mostCommonWord(self, paragraph: str, banned: List[str]) -> str:
+        ban = set(banned)
+        par_list = re.findall(r'\w+', paragraph.lower())
+        
+        from collections import Counter
+        par_dict = Counter(par_list)
+        par_order_list = sorted([(key, value) for key, value in par_dict.items()], key=lambda t:t[1], reverse=True)
+        for each in par_order_list:
+            if each[0] not in ban:
+                return each[0]
+```
+
+
+
 ### 836. Rectangle Overlap
 
 ```python
@@ -3067,6 +3308,43 @@ class Solution:
 
 
 
+### 994. Rotting Oranges
+
+```python
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        if not grid:
+            return 0
+        
+        from collections import deque
+        q = deque()
+        
+        for row in range(len(grid)):
+            for col in range(len(grid[0])):
+                if grid[row][col] == 2:
+                    q.append((row, col, 0))
+        
+        def get_n(row, col):
+            for row, col in [(row-1, col), (row+1, col), (row, col-1), (row, col+1)]:
+                if 0 <= row < len(grid) and 0 <= col < len(grid[0]):
+                    yield row, col
+        ans = 0
+        while q:
+            row, col, depth = q.popleft()
+            for r, c in get_n(row, col):
+                if grid[r][c] == 1:
+                    grid[r][c] = 2
+                    ans = depth+1
+                    q.append((r, c, depth+1))
+        for row in range(len(grid)):
+            for col in range(len(grid[0])):
+                if grid[row][col] == 1:
+                    return -1
+        return ans
+```
+
+
+
 ### 1041. Robot Bounded In Circle
 
 ```python
@@ -3090,6 +3368,25 @@ class Solution:
                 x += direction[index][0]
                 y += direction[index][1]
         return (x == 0 and y == 0) or index != 0
+```
+
+
+
+### 1099. Two Sum Less Than K
+
+```python
+class Solution:
+    def twoSumLessThanK(self, A: List[int], K: int) -> int:
+        sort_A = sorted(A)
+        i, j = 0, len(A) - 1
+        ans = -1
+        while i < j:
+            if sort_A[i] + sort_A[j] < K:
+                ans = max(ans, sort_A[i]+sort_A[j])
+                i += 1
+            else:
+                j -= 1
+        return ans
 ```
 
 

@@ -561,6 +561,83 @@ class Solution:
 
 
 
+### 285. Inorder Successor in BST
+
+```python
+class Solution:
+    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return
+        self.if_found = False
+        self.ans = None
+        def helper(root):
+            if root.left:
+                helper(root.left)
+            if self.ans is None:
+                if self.if_found:
+                    self.ans = root
+            if root.val == p.val:
+                self.if_found = True
+            if root.right:
+                helper(root.right)
+        
+        helper(root)
+        return self.ans
+```
+
+```python
+class Solution:
+    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return
+        
+        if p.right:
+            p = p.right
+            while p.left:
+                p = p.left
+            return p
+        
+        stack = []
+        temp = None
+        while stack or root:
+            while root:
+                stack.append(root)
+                root = root.left
+            
+            root = stack.pop()
+            if temp == p.val:
+                return root
+            temp = root.val
+            
+            root = root.right
+        return None
+```
+
+非递归inorder
+
+```python
+class Solution:
+    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
+        ans = None
+        
+        while root:
+            if p.val >= root.val:
+                root = root.right
+            else:
+                ans = root
+                root = root.left
+        return ans
+```
+
+Here is a much simpler solution to the problem. The idea is pretty straight forward.
+We start from the root, utilizing the property of BST:
+
+- If current node's value is less than or equal to p's value, we know our answer must be in the right subtree.
+- If current node's value is greater than p's value, current node is a candidate. Go to its left subtree to see if we can find a smaller one.
+- If we reach `null`, our search is over, just return the candidate.
+
+
+
 ### 404. Sum of Left Leaves
 
 ```python

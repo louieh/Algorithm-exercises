@@ -638,3 +638,58 @@ class MapSum:
 # param_2 = obj.sum(prefix)
 ```
 
+
+
+### 1268. Search Suggestions System
+
+```python
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        trie = dict()
+        ans = []
+        
+        def insert(word, trie):
+            temp_dict = trie
+            for c in word:
+                if c not in temp_dict:
+                    temp_dict.update({c:{}})
+                temp_dict = temp_dict.get(c)
+            temp_dict.update({'$': None})
+        
+        def get_word_list_by_prefix(trie, prefix):
+            word_list = []
+            def tool(temp_dict):
+                for each in prefix:
+                    if each in temp_dict:
+                        temp_dict = temp_dict.get(each)
+                    else:
+                        return None
+                return temp_dict
+                
+            def dfs(temp_dict, result):
+                for each in temp_dict:
+                    if each == "$":
+                        word_list.append(result)
+                    else:
+                        dfs(temp_dict[each], result+each)
+            temp_dict = tool(trie)
+            if temp_dict is None:
+                return []
+            else:
+                dfs(temp_dict, prefix)
+                return word_list
+        
+        for word in products:
+            insert(word, trie)
+        
+        cur_pre = ''
+        for i in range(len(searchWord)):
+            cur_pre += searchWord[i]
+            word_list = sorted(get_word_list_by_prefix(trie, cur_pre))
+            if len(word_list) <= 3:
+                ans.append(word_list)
+            else:
+                ans.append(word_list[:3])
+        return ans
+```
+

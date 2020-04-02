@@ -33,6 +33,37 @@ class Solution:
         return helper(s, 0)
 ```
 
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        ans = 0
+        temp = set()
+        ans = i = j = 0
+        
+        while i < len(s) and j < len(s):
+            if s[j] not in temp:
+                temp.add(s[j])
+                j += 1
+                ans = max(ans, j-i)
+            else:
+                temp.remove(s[i])
+                i += 1
+        return ans
+```
+
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        temp = []
+        ans = 0
+        for c in s:
+            if c in temp:
+                temp = temp[temp.index(c)+1:]
+            temp.append(c)
+            ans = max(ans, len(temp))
+        return ans
+```
+
 
 
 ### 14. Longest Common Prefix
