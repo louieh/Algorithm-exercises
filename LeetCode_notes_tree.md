@@ -432,6 +432,30 @@ class Solution:
 
 
 
+### 124. Binary Tree Maximum Path Sum
+
+```python
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        self.ans = -sys.maxsize
+        def helper(root):
+            if not root:
+                return 0
+            
+            left = max(helper(root.left), 0)
+            right = max(helper(root.right), 0)
+            
+            path_now = root.val + left + right
+            self.ans = max(self.ans, path_now)
+            
+            return root.val + max(left, right)
+        
+        helper(root)
+        return self.ans
+```
+
+
+
 ### 235. Lowest Common Ancestor of a Binary Search Tree
 
 ```python
