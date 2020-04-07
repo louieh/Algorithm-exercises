@@ -1380,6 +1380,23 @@ class Solution:
 
 
 
+### 152. Maximum Product Subarray
+
+```python
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        min_, max_, ans = nums[0], nums[0], nums[0]
+        for i in range(1, len(nums)):
+            max_temp = max(max(max_*nums[i], min_*nums[i]), nums[i])
+            min_temp = min(min(max_*nums[i], min_*nums[i]), nums[i])
+            ans = max(ans, max_temp)
+            max_ = max_temp
+            min_ = min_temp
+        return ans
+```
+
+
+
 ### 155. Min Stack
 
 ```python
@@ -1455,6 +1472,22 @@ class Solution:
 ```
 
 总结 two sum 类题型
+
+
+
+### 168. Excel Sheet Column Title
+
+```python
+class Solution:
+    def convertToTitle(self, n: int) -> str:
+        capitals = [chr(x) for x in range(ord('A'), ord('Z')+1)]
+        result = []
+        while n > 0:
+            result.append(capitals[(n-1)%26])
+            n = (n-1) // 26
+        result.reverse()
+        return ''.join(result)
+```
 
 
 
@@ -1538,6 +1571,24 @@ class TwoSum:
                 else:
                     return True
         return False
+```
+
+
+
+### 171. Excel Sheet Column Number
+
+```python
+class Solution:
+    def titleToNumber(self, s: str) -> int:
+        import string
+        temp_dict = {val:i+1 for i,val in enumerate(string.ascii_uppercase)}
+        print(temp_dict)
+        ans = 0
+        i = len(s) - 1
+        while i >= 0:
+            ans += temp_dict[s[i]] * 26**(len(s)-i-1)
+            i -= 1
+        return ans
 ```
 
 
@@ -2005,6 +2056,22 @@ void moveZeroes(vector<int>& nums) {
         }
     }
 }
+```
+
+```python
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        index = 0 
+        for i in range(len(nums)):
+            if nums[i] != 0:
+                nums[index] = nums[i]
+                index += 1
+        
+        for i in range(index, len(nums)):
+            nums[i] = 0
 ```
 
 
@@ -2855,6 +2922,58 @@ class Solution:
 
 
 
+### 697. Degree of an Array
+
+```python
+class Solution:
+    def findShortestSubArray(self, nums: List[int]) -> int:
+        count = collections.Counter(nums)
+        degrees = []
+        max_degree = max(count.values())
+        for key, val in count.items():
+            if val == max_degree:
+                degrees.append(key)
+        ans = sys.maxsize
+        start = end = None
+        for each in degrees:
+            i = 0
+            while True:
+                if nums[i] == each:
+                    start = i
+                    break
+                i += 1
+            i = len(nums)-1
+            while True:
+                if nums[i] == each:
+                    end = i
+                    break
+                i -= 1
+            ans = min(ans, end-start+1)
+        return ans
+```
+
+```python
+class Solution:
+    def findShortestSubArray(self, nums: List[int]) -> int:
+        left, right = {}, {}
+        from collections import defaultdict
+        count = defaultdict(int)
+        for i in range(len(nums)):
+            if nums[i] not in left:
+                left[nums[i]] = i
+            right[nums[i]] = i
+            count[nums[i]] += 1
+        
+        max_degree = max(count.values())
+        ans = sys.maxsize
+        for key, value in count.items():
+            if value == max_degree:
+                ans = min(ans, right[key]-left[key]+1)
+        return ans
+```
+
+
+
 ### 705. Design HashSet
 
 ```python
@@ -3462,6 +3581,21 @@ class Solution:
             else:
                 j -= 1
         return ans
+```
+
+
+
+### 1207. Unique Number of Occurrences
+
+```python
+class Solution:
+    def uniqueOccurrences(self, arr: List[int]) -> bool:
+        from collections import Counter
+        count = Counter(Counter(arr).values())
+        for each in count.values():
+            if each != 1:
+                return False
+        return True
 ```
 
 

@@ -432,6 +432,110 @@ class Solution:
 
 
 
+### 112. Path Sum
+
+```python
+class Solution:
+    def hasPathSum(self, root, sum):
+        """
+        :type root: TreeNode
+        :type sum: int
+        :rtype: bool
+        """
+        if not root:
+            return False
+        else:
+            return self.DFS(root, sum, 0)
+    
+    def DFS(self, root, sum, sum_now):
+        if not root:
+            return False
+        sum_now += root.val
+        if not root.left and not root.right:
+            if sum_now != sum:
+                return False
+            else:
+                return True
+        return self.DFS(root.left, sum, sum_now) or self.DFS(root.right, sum, sum_now)
+```
+
+```python
+class Solution:
+    def hasPathSum(self, root: TreeNode, sum: int) -> bool:
+        if not root:
+            return False
+        
+        def helper(root, res):
+            if not root.left and not root.right and res + root.val == sum:
+                return True
+            
+            if root.left:
+                if helper(root.left, res+root.val):
+                    return True
+            if root.right:
+                if helper(root.right, res+root.val):
+                    return True
+        ans = helper(root, 0)
+        return True if ans is True else False
+```
+
+
+
+### 113. Path Sum II
+
+```python
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
+        if not root:
+            return []
+        
+        ans = []
+        def helper(root, temp_sum, temp_str):
+            if not root:
+                return
+            
+            if not root.left and not root.right and temp_sum + root.val == sum:
+                temp_str += str(root.val)
+                ans.append(temp_str.split("*"))
+            helper(root.left, temp_sum+root.val, temp_str+str(root.val)+"*")
+            helper(root.right, temp_sum+root.val, temp_str+str(root.val)+"*")
+        helper(root, 0, "")
+        return ans
+```
+
+
+
+### 114. Flatten Binary Tree to Linked List
+
+```python
+class Solution:
+    def flatten(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        
+        if not root:
+            return 
+        def helper(root):
+            if not root.left and not root.right:
+                return
+            
+            if root.left:
+                helper(root.left)
+            if root.right:
+                helper(root.right)
+            temp = root.right
+            root.right = root.left
+            root.left = None
+            while root.right:
+                root = root.right
+            root.right = temp
+        helper(root)
+        return root
+```
+
+
+
 ### 124. Binary Tree Maximum Path Sum
 
 ```python
@@ -452,6 +556,103 @@ class Solution:
         
         helper(root)
         return self.ans
+```
+
+
+
+### 129. Sum Root to Leaf Numbers
+
+```python
+class Solution:
+    def sumNumbers(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        def helper(root, num_str):
+            nonlocal ans
+            if root:
+                if not root.left and not root.right:
+                    ans += int(num_str+str(root.val))
+                    return
+                helper(root.left, num_str+str(root.val))
+                helper(root.right, num_str+str(root.val))
+        ans = 0
+        helper(root, "")
+        return ans
+```
+
+```python
+class Solution:
+    def sumNumbers(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        stack = [(root, 0)]
+        ans = 0
+        while stack:
+            root, temp_sum = stack.pop()
+            temp_sum = temp_sum * 10 + root.val
+            if not root.left and not root.right:
+                ans += temp_sum
+            else:
+                if root.left:
+                    stack.append((root.left, temp_sum))
+                if root.right:
+                    stack.append((root.right, temp_sum))
+        return ans
+```
+
+
+
+### 222. Count Complete Tree Nodes
+
+```python
+class Solution:
+    def countNodes(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        return 1 + self.countNodes(root.left) + self.countNodes(root.right)
+```
+
+```python
+class Solution:
+    def countNodes(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        def get_depth(root):
+            if not root:
+                return 0
+            return 1 + get_depth(root.left)
+        
+        depth = get_depth(root) - 1
+        
+        if depth == 0:
+            return 1
+        
+        def exists(root, depth, index):
+            left = 0
+            right = 2**depth-1
+            for i in range(depth):
+                mid = left + (right - left) // 2
+                if index <= mid:
+                    root = root.left
+                    right = mid
+                else:
+                    root = root.right
+                    left = mid + 1
+            return root is not None
+        
+        left, right = 0, 2**depth-1
+        while left <= right:
+            mid = left + (right - left) // 2
+            if exists(root, depth, mid):
+                left = mid + 1
+            else:
+                right = mid - 1
+        
+        return 2**depth-1 + left
 ```
 
 
@@ -581,6 +782,53 @@ class Solution:
         
         score, value = helper(root)
         return score
+```
+
+
+
+### 257. Binary Tree Paths
+
+```python
+class Solution:
+    def __init__(self):
+        self.ans = []
+        
+    def binaryTreePaths_tool(self, root, temp):
+        if not root.left and not root.right:
+            self.ans.append(temp+str(root.val))
+        
+        if root.left:
+            self.binaryTreePaths_tool(root.left, temp+str(root.val)+"->")
+        
+        if root.right:
+            self.binaryTreePaths_tool(root.right, temp+str(root.val)+"->")
+        
+    def binaryTreePaths(self, root: TreeNode) -> List[str]:
+        if not root:
+            return []
+        
+        self.binaryTreePaths_tool(root, "")
+        
+        return self.ans
+```
+
+```python
+class Solution:
+    def binaryTreePaths(self, root: TreeNode) -> List[str]:
+        if not root:
+            return []
+        
+        ans = []
+        def helper(root, temp):
+            if not root.left and not root.right:
+                ans.append(temp + str(root.val))
+            
+            if root.left:
+                helper(root.left, temp+str(root.val)+"->")
+            if root.right:
+                helper(root.right, temp+str(root.val)+"->")
+        helper(root, "")
+        return ans
 ```
 
 
@@ -747,6 +995,32 @@ class Solution:
             temp = temp_node
         
         return ans
+```
+
+
+
+### 437. Path Sum III
+
+```python
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+        if not root:
+            return 0
+        
+        self.ans = 0
+        def helper(root, sum_list):
+            if not root:
+                return
+            sum_list.append(0)
+            temp = [each+root.val for each in sum_list]
+            for each in temp:
+                if each == sum:
+                    self.ans += 1
+            helper(root.left, temp.copy())
+            helper(root.right, temp.copy())
+        
+        helper(root, [])
+        return self.ans
 ```
 
 
@@ -1146,6 +1420,32 @@ class Solution:
 ```
 
 注意总结此类分别向左右子树赋值的题目。
+
+
+
+### 687. Longest Univalue Path
+
+```python
+    def longestUnivaluePath(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        self.ans = 0
+        def helper(root):
+            if not root:
+                return 0
+            left = helper(root.left)
+            right = helper(root.right)
+            left_temp = right_temp = 0
+            if root.left and root.left.val == root.val:
+                left_temp = left + 1
+            if root.right and root.right.val == root.val:
+                right_temp = right + 1
+            self.ans = max(self.ans, left_temp+right_temp)
+            return max(left_temp, right_temp)
+        helper(root)
+        return self.ans
+```
 
 
 
