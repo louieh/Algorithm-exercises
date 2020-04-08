@@ -1121,6 +1121,27 @@ class Solution:
 
 
 
+### 538. Convert BST to Greater Tree
+
+```python
+class Solution:
+    def __init__(self):
+        self.temp = 0
+        
+    def convertBST(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return
+        self.convertBST(root.right)
+        self.temp += root.val
+        root.val = self.temp
+        self.convertBST(root.left)
+        return root
+```
+
+is the same as 1038
+
+
+
 ### 543. Diameter of Binary Tree
 
 ```python
@@ -1403,6 +1424,55 @@ class Solution(object):
 ```
 
 使用一个id去表示每个子树并存放在set中
+
+
+
+### 653. Two Sum IV - Input is a BST
+
+```python
+class Solution:
+    def findTarget(self, root: TreeNode, k: int) -> bool:
+        if not root:
+            return False
+        
+        self._set = set()
+        def helper(root):
+            if not root:
+                return
+            c = k - root.val
+            if c in self._set:
+                return True
+            self._set.add(root.val)
+            return helper(root.left) or helper(root.right)
+        ans = helper(root)
+        return True if ans is True else False
+```
+
+```python
+class Solution:
+    def findTarget(self, root: TreeNode, k: int) -> bool:
+        if not root:
+            return False
+        
+        self._list = []
+        def get_inorder_list(root):
+            if not root:
+                return
+            get_inorder_list(root.left)
+            self._list.append(root.val)
+            get_inorder_list(root.right)
+        get_inorder_list(root)
+        start, end = 0, len(self._list) - 1
+        while start < end:
+            temp = self._list[start] + self._list[end]
+            if temp > k:
+                end -= 1
+            elif temp < k:
+                start += 1
+            else:
+                return True
+        return False
+```
 
 
 
@@ -1906,6 +1976,27 @@ class Solution:
 ```
 
 熟记：获取树每条路径。
+
+
+
+### 1038. Binary Search Tree to Greater Sum Tree
+
+```python
+class Solution:
+    def __init__(self):
+        self.temp = 0
+        
+    def bstToGst(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return
+        self.bstToGst(root.right)
+        self.temp += root.val
+        root.val = self.temp
+        self.bstToGst(root.left)
+        return root
+```
+
+is the same as 538
 
 
 
