@@ -3585,6 +3585,17 @@ class Solution:
 
 
 
+### 1119. Remove Vowels from a String
+
+```python
+class Solution:
+    def removeVowels(self, S: str) -> str:
+        vowels = {'a', 'e', 'i', 'o', 'u'}
+        return ("").join([each for each in S if each not in vowels])
+```
+
+
+
 ### 1207. Unique Number of Occurrences
 
 ```python

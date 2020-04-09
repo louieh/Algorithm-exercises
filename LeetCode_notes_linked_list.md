@@ -193,6 +193,33 @@ class Solution:
 
 
 
+### 92. Reverse Linked List II
+
+```python
+class Solution:
+    def reverseBetween(self, head: ListNode, m: int, n: int) -> ListNode:
+        if not head or m == n:
+            return head
+        
+        ans = head
+        for i in range(m-1):
+            final_temp_head = head
+            head = head.next
+        temp_head = head
+        for i in range(n-m):
+            temp_next = head.next
+            head.next = head.next.next
+            temp_next.next = temp_head
+            temp_head = temp_next
+        if m != 1:
+            final_temp_head.next = temp_head
+            return ans
+        else:
+            return temp_head
+```
+
+
+
 ### 141.Linked List Cycle
 
 ```python
@@ -627,6 +654,80 @@ class Solution(object):
 
 
 
+### 445. Add Two Numbers II
+
+```python
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        if not l1 or not l2:
+            return l1 or l2
+        
+        def com_length(l):
+            length = 0
+            while l:
+                length += 1
+                l = l.next
+            return length
+        
+        def add_length(l, num):
+            new_header = temp_header = ListNode(0)
+            for i in range(num-1):
+                temp_node = ListNode(0)
+                temp_header.next = temp_node
+                temp_header = temp_header.next
+            temp_header.next = l
+            return new_header
+        
+        def add(l1, l2):
+            if not l1 and not l2:
+                return 0
+            temp = add(l1.next, l2.next)
+            old_l1 = l1.val
+            l1.val = (l1.val + l2.val + temp) % 10
+            return (old_l1 + l2.val + temp) // 10
+        
+        l1_length = com_length(l1)
+        l2_length = com_length(l2)
+        
+        if l1_length > l2_length:
+            l2 = add_length(l2, l1_length-l2_length)
+        elif l1_length < l2_length:
+            l1 = add_length(l1, l2_length-l1_length)
+        res = add(l1, l2)
+        if res != 0:
+            ans = ListNode(res)
+            ans.next = l1
+            return ans
+        else:
+            return l1
+```
+
+```python
+# discuss 中的代码，what do you think now?
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+		# post-order generator
+        def it(node):
+            if node:
+                yield from it(node.next)
+                yield node.val
+        
+        ans = ListNode(None)
+        carry = 0
+        for v1, v2 in itertools.zip_longest(it(l1), it(l2), fillvalue=0):
+            v = v1 + v2 + carry
+            digit, carry = ListNode(v % 10), v // 10
+            digit.next, ans.next = ans.next, digit
+        
+        if carry > 0:
+            digit = ListNode(carry)
+            digit.next, ans.next = ans.next, digit
+        
+        return ans.next
+```
+
+
+
 ### 707. Design Linked List
 
 ```python
@@ -797,5 +898,51 @@ class Solution:
         # did not insert the node in the loop
         prev.next = Node(insertVal, curr)
         return head
+```
+
+
+
+### 876. Middle of the Linked List
+
+```python
+class Solution:
+    def middleNode(self, head: ListNode) -> ListNode:
+        if not head:
+            return None
+        
+        slow = fast = head
+        
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        return slow
+```
+
+
+
+### 1290. Convert Binary Number in a Linked List to Integer
+
+```python
+class Solution:
+    def getDecimalValue(self, head: ListNode) -> int:
+        if not head:
+            return 0
+        
+        index_list = []
+        index = 0
+        value = False
+        while head:
+            if head.val == 1:
+                value = True
+                index_list.append(index)
+            head = head.next
+            index += 1
+        if not value:
+            return 0
+
+        ans = 0
+        for each in index_list:
+            ans += 2 ** (index-1-each)
+        return ans
 ```
 
