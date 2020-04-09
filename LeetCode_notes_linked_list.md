@@ -902,6 +902,39 @@ class Solution:
 
 
 
+### 844. Backspace String Compare
+
+```python
+class Solution:
+    def backspaceCompare(self, S: str, T: str) -> bool:
+        def helper(string):
+            ans = []
+            for each in string:
+                if each != "#":
+                    ans.append(each)
+                elif ans:
+                    ans.pop()
+            return ans
+        return helper(S) == helper(T)
+```
+
+```python
+class Solution:
+    def backspaceCompare(self, S: str, T: str) -> bool:
+        def helper(string):
+            skip = 0
+            for each in reversed(string):
+                if each == "#":
+                    skip += 1
+                elif skip:
+                    skip -= 1
+                else:
+                    yield each
+        return all(x == y for x, y in itertools.zip_longest(helper(S), helper(T)))
+```
+
+
+
 ### 876. Middle of the Linked List
 
 ```python
