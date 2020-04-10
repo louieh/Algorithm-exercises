@@ -704,6 +704,27 @@ class Solution:
 ```
 非递归中序遍历
 
+```python
+# inorder
+stack = []
+while stack or root:
+    while root:
+        stack.append(root)
+        root = root.left
+    root = stack.pop()
+    print(root.val)
+    root = root.right
+# preorder
+stack = []
+while stack or root:
+    while root:
+      	print(root.val)
+        stack.append(root)
+        root = root.left
+    root = stack.pop()
+    root = root.right
+```
+
 
 
 ### 235. Lowest Common Ancestor of a Binary Search Tree
