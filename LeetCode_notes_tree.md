@@ -890,6 +890,23 @@ class Solution:
 ```
 Time Limit Exceeded
 
+```python
+class Solution:
+    def verifyPreorder(self, preorder: List[int]) -> bool:
+        if not preorder:
+            return True
+        
+        stack = []
+        low = -sys.maxsize
+        for each in preorder:
+            if each < low:
+                return False
+            while stack and each > stack[-1]:
+                low = stack.pop()
+            stack.append(each)
+        return True
+```
+
 
 
 ### 257. Binary Tree Paths
