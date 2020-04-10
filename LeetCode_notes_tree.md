@@ -657,6 +657,29 @@ class Solution:
 
 
 
+### 230. Kth Smallest Element in a BST
+
+```python
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        
+        self.index = 0
+        self.ans = None
+        
+        def helper(root):
+            if root.left:
+                helper(root.left)
+            self.index += 1
+            if self.index == k:
+                self.ans = root.val
+            if root.right:
+                helper(root.right)
+        helper(root)
+        return self.ans
+```
+
+
+
 ### 235. Lowest Common Ancestor of a Binary Search Tree
 
 ```python
