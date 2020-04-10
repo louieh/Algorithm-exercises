@@ -687,6 +687,23 @@ class Solution:
         return inorder(root)[k - 1]
 ```
 
+```python
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        stack = []
+        
+        while True:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            k -= 1
+            if k == 0:
+                return root.val
+            root = root.right
+```
+非递归中序遍历
+
 
 
 ### 235. Lowest Common Ancestor of a Binary Search Tree
