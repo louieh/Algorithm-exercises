@@ -2780,6 +2780,31 @@ class Solution:
 
 
 
+### 525. Contiguous Array
+
+```python
+class Solution:
+    def findMaxLength(self, nums: List[int]) -> int:
+        temp_dict = dict()
+        count = ans = 0
+        for i in range(len(nums)):
+            if nums[i] == 0:
+                count -= 1
+            else:
+                count += 1
+            if count == 0:
+                ans = max(ans, i+1)
+            if count not in temp_dict:
+                temp_dict[count] = i
+            else:
+                ans = max(ans, i - temp_dict[count])
+        return ans
+```
+遇0减一遇1加一，并将此数作为key，index作为值存入字典，如果遇到相同的数组说明有相等的0和1出现，用当前index值键字典中相同数字的index得到长度。
+如果遇到数字为0，说明从0到目前index为止的0和1数量相同
+
+
+
 ### 557. Reverse Words in a String III
 
 ```python
