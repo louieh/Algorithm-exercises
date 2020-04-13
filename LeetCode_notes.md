@@ -3566,6 +3566,22 @@ class Solution:
 
 
 
+### 1046. Last Stone Weight
+
+```python
+class Solution:
+    def lastStoneWeight(self, stones: List[int]) -> int:
+        h = [-each for each in stones]
+        heapq.heapify(h)
+        while len(h) > 1:
+            temp = heapq.heappop(h) - heapq.heappop(h)
+            if temp != 0:
+                heapq.heappush(h, temp)
+        return -h[0] if h else 0
+```
+
+
+
 ### 1099. Two Sum Less Than K
 
 ```python

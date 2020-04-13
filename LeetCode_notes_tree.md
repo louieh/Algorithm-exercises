@@ -980,6 +980,34 @@ We start from the root, utilizing the property of BST:
 
 
 
+### 298. Binary Tree Longest Consecutive Sequence
+
+```python
+class Solution:
+    def longestConsecutive(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        self.ans = 0
+        def helper(root, num):
+            self.ans = max(self.ans, num)
+            if root.left:
+                if root.left.val == root.val + 1:
+                    helper(root.left, num+1)
+                else:
+                    helper(root.left, 1)
+            if root.right:
+                if root.right.val == root.val + 1:
+                    helper(root.right, num+1)
+                else:
+                    helper(root.right, 1)
+        
+        helper(root, 1)
+        return self.ans
+```
+
+
+
 ### 404. Sum of Left Leaves
 
 ```python
@@ -1191,6 +1219,53 @@ class Solution:
 
 
 
+### 501. Find Mode in Binary Search Tree
+
+```python
+class Solution:
+    def findMode(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+        
+        from collections import Counter
+        self.temp_dict = Counter()
+        def helper(root):
+            if not root:
+                return
+            self.temp_dict[root.val] += 1
+            helper(root.left)
+            helper(root.right)
+        helper(root)
+        max_val = max([v for k,v in self.temp_dict.items()])
+        return [k for k,v in self.temp_dict.items() if v == max_val]
+```
+
+
+
+### 530. Minimum Absolute Difference in BST
+
+```python
+class Solution:
+    def getMinimumDifference(self, root: TreeNode) -> int:
+        
+        stack = []
+        
+        prev = None
+        ans = sys.maxsize
+        while stack or root:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            if prev is not None:
+                ans = min(ans, root.val - prev)
+            prev = root.val
+            root = root.right
+        return ans
+```
+
+
+
 ### 538. Convert BST to Greater Tree
 
 ```python
@@ -1282,6 +1357,37 @@ class Solution:
 ```
 
 
+
+### 549. Binary Tree Longest Consecutive Sequence II
+
+```python
+class Solution:
+    def longestConsecutive(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        self.ans = 0
+        def helper(root):
+            inc, dec = 1, 1
+            if root.left:
+                inc_temp, dec_temp = helper(root.left)
+                if root.val == root.left.val + 1:
+                    dec = dec_temp + 1
+                elif root.val == root.left.val - 1:
+                    inc = inc_temp + 1
+            if root.right:
+                inc_temp, dec_temp = helper(root.right)
+                if root.val == root.right.val + 1:
+                    dec = max(dec, dec_temp + 1)
+                elif root.val == root.right.val - 1:
+                    inc = max(inc, inc_temp + 1)
+            self.ans = max(self.ans, inc + dec - 1)
+            return inc, dec
+        helper(root)
+        return self.ans
+```
+
+No.687
 
 
 
@@ -1467,6 +1573,33 @@ class Solution:
 
 
 
+### 606. Construct String from Binary Tree
+
+```python
+class Solution:
+    def tree2str(self, t: TreeNode) -> str:
+        if not t:
+            return ""
+        self.ans = ""
+        
+        def helper(t):
+            self.ans += str(t.val)
+            if not t.left and not t.right:
+                return
+            self.ans += "("
+            if t.left:
+                helper(t.left)
+            self.ans += ")"
+            if t.right:
+                self.ans += "("
+                helper(t.right)
+                self.ans += ")"
+        helper(t)
+        return self.ans
+```
+
+
+
 ### 652. Find Duplicate Subtrees
 
 ```python
@@ -1586,6 +1719,8 @@ class Solution:
         helper(root)
         return self.ans
 ```
+
+No.549
 
 
 
