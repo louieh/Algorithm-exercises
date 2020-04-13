@@ -856,6 +856,59 @@ class Solution:
 
 
 
+### 255. Verify Preorder Sequence in Binary Search Tree
+
+```python
+class Solution:
+    def verifyPreorder(self, preorder: List[int]) -> bool:
+        if not preorder:
+            return True
+        
+        def helper(start, end):
+            if start == end:
+                return True
+            root = preorder[start]
+            index1 = index2 = None
+            for i in range(start+1, end+1):
+                if preorder[i] < root and index1 is None:
+                    index1 = i
+                elif preorder[i] > root and index2 is None:
+                    index2 = i
+                if index1 is not None and index2 is not None:
+                    break
+            if index1 is not None and index2 is not None:
+                if index1 > index2:
+                    return False
+                for i in range(index2, end+1):
+                    if preorder[i] < root:
+                        return False
+                return helper(index1, index2-1) and helper(index2, end)
+            else:
+                return helper((index1 or index2), end)
+        
+        return helper(0, len(preorder)-1)
+```
+Time Limit Exceeded
+
+```python
+class Solution:
+    def verifyPreorder(self, preorder: List[int]) -> bool:
+        if not preorder:
+            return True
+        
+        stack = []
+        low = -sys.maxsize
+        for each in preorder:
+            if each < low:
+                return False
+            while stack and each > stack[-1]:
+                low = stack.pop()
+            stack.append(each)
+        return True
+```
+
+
+
 ### 257. Binary Tree Paths
 
 ```python
