@@ -1846,6 +1846,31 @@ bool isPowerOfTwo(int n){
 
 
 
+### 238. Product of Array Except Self
+
+```python
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        if not nums:
+            return
+        
+        left_to_right, right_to_left, ans = [0]*len(nums), [0]*len(nums), [0]*len(nums)
+        
+        left_to_right[0] = 1
+        for i in range(1, len(nums)):
+            left_to_right[i] = left_to_right[i-1] * nums[i-1]
+            
+        right_to_left[-1] = 1
+        for i in range(len(nums)-2, -1, -1):
+            right_to_left[i] = right_to_left[i+1] * nums[i+1]
+        
+        for i in range(len(nums)):
+            ans[i] = left_to_right[i] * right_to_left[i]
+        return ans
+```
+
+
+
 ### 242. Valid Anagram
 
 ```python
