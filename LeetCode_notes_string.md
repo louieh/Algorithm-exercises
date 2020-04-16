@@ -323,6 +323,9 @@ class Solution:
             minc = max(minc, 0)
         return minc == 0
 ```
+记录待匹配的 ( 的数量
+minc 将 * 当做 ) 如果最后 minc > 0 说明把 * 当做 ) 的情况下仍有 ( 剩下
+maxc 将 * 当做 ( 如果 maxc < 0 说明把 * 当做 ( 的情况下仍有过多的 ) 出现
 
 
 
