@@ -1816,6 +1816,31 @@ bool isPowerOfTwo(int n){
 
 
 
+### 238. Product of Array Except Self
+
+```python
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        if not nums:
+            return
+        
+        left_to_right, right_to_left, ans = [0]*len(nums), [0]*len(nums), [0]*len(nums)
+        
+        left_to_right[0] = 1
+        for i in range(1, len(nums)):
+            left_to_right[i] = left_to_right[i-1] * nums[i-1]
+            
+        right_to_left[-1] = 1
+        for i in range(len(nums)-2, -1, -1):
+            right_to_left[i] = right_to_left[i+1] * nums[i+1]
+        
+        for i in range(len(nums)):
+            ans[i] = left_to_right[i] * right_to_left[i]
+        return ans
+```
+
+
+
 ### 242. Valid Anagram
 
 ```python
@@ -2747,6 +2772,31 @@ class Solution:
                 return temp
         return fib_helper(N)
 ```
+
+
+
+### 525. Contiguous Array
+
+```python
+class Solution:
+    def findMaxLength(self, nums: List[int]) -> int:
+        temp_dict = dict()
+        count = ans = 0
+        for i in range(len(nums)):
+            if nums[i] == 0:
+                count -= 1
+            else:
+                count += 1
+            if count == 0:
+                ans = max(ans, i+1)
+            if count not in temp_dict:
+                temp_dict[count] = i
+            else:
+                ans = max(ans, i - temp_dict[count])
+        return ans
+```
+遇0减一遇1加一，并将此数作为key，index作为值存入字典，如果遇到相同的数组说明有相等的0和1出现，用当前index值键字典中相同数字的index得到长度。
+如果遇到数字为0，说明从0到目前index为止的0和1数量相同
 
 
 
