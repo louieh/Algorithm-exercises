@@ -302,6 +302,30 @@ class Solution:
 
 
 
+### 678. Valid Parenthesis String
+
+```python
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        minc, maxc = 0, 0
+        for each in s:
+            if each == "(":
+                minc += 1
+                maxc += 1
+            if each == ")":
+                minc -= 1
+                maxc -= 1
+            if each == "*":
+                maxc += 1
+                minc -= 1
+            if maxc < 0:
+                return False
+            minc = max(minc, 0)
+        return minc == 0
+```
+
+
+
 ### 763. Partition Labels
 
 ```python
