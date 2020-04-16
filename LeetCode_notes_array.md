@@ -143,6 +143,28 @@ class Solution:
 
 
 
+### 1010. Pairs of Songs With Total Durations Divisible by 60
+
+```python
+class Solution:
+    def numPairsDivisibleBy60(self, time: List[int]) -> int:
+        if not time:
+            return 0
+        
+        from collections import Counter
+        temp_dict = Counter()
+        ans = 0
+        for each in time:
+            if each % 60 == 0 and 0 in temp_dict:
+                ans += temp_dict[0]
+            elif 60 - each % 60 in temp_dict:
+                ans += temp_dict[60 - each % 60]
+            temp_dict[each % 60] += 1
+        return ans
+```
+
+
+
 ### 1089. Duplicate Zeros
 
 ```python
