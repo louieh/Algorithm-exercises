@@ -183,3 +183,23 @@ class Solution:
         return len([each for each in nums if len(str(each)) % 2 == 0])
 ```
 
+
+
+### 1346. Check If N and Its Double Exist
+
+```python
+class Solution:
+    def checkIfExist(self, arr: List[int]) -> bool:
+        if not arr:
+            return False
+        
+        temp_set = set()
+        
+        for each in arr:
+            if each * 2 in temp_set:
+                return True
+            if each % 2 == 0 and each // 2 in temp_set:
+                return True
+            temp_set.add(each)
+        return False
+```
