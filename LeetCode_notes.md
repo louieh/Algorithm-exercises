@@ -1082,36 +1082,6 @@ class Solution:
 
 
 
-### 88. Merge Sorted Array
-
-```python
-class Solution:
-    def merge(self, nums1, m, nums2, n):
-        """
-        :type nums1: List[int]
-        :type m: int
-        :type nums2: List[int]
-        :type n: int
-        :rtype: void Do not return anything, modify nums1 in-place instead.
-        """
-        if n == 0:
-            #nums1[:] = nums1 + nums2
-            nums1 += nums2
-        else:
-            nums1[:] = nums1[:-n] + nums2
-        temp_num = 0
-        for i in range(len(nums1)):
-            for j in range(len(nums1)-i):
-                if j+1 == len(nums1):
-                    break
-                if nums1[j] > nums1[j+1]:
-                    temp_num = nums1[j]
-                    nums1[j] = nums1[j+1]
-                    nums1[j+1] = temp_num
-```
-
-
-
 ### 118. Pascal's Triangle
 
 ```python
@@ -3917,5 +3887,84 @@ def fac(num):
             continue
         yield c
         a, b = b, c
+```
+
+
+
+### Perform String Shifts
+
+You are given a string `s` containing lowercase English letters, and a matrix `shift`, where `shift[i] = [direction, amount]`:
+
+- `direction` can be `0` (for left shift) or `1` (for right shift). 
+- `amount` is the amount by which string `s` is to be shifted.
+- A left shift by 1 means remove the first character of `s` and append it to the end.
+- Similarly, a right shift by 1 means remove the last character of `s` and add it to the beginning.
+
+Return the final string after all operations.
+
+**Example 1:**
+
+```
+Input: s = "abc", shift = [[0,1],[1,2]]
+Output: "cab"
+Explanation: 
+[0,1] means shift to left by 1. "abc" -> "bca"
+[1,2] means shift to right by 2. "bca" -> "cab"
+```
+
+**Example 2:**
+
+```
+Input: s = "abcdefg", shift = [[1,1],[1,1],[0,2],[1,3]]
+Output: "efgabcd"
+Explanation:  
+[1,1] means shift to right by 1. "abcdefg" -> "gabcdef"
+[1,1] means shift to right by 1. "gabcdef" -> "fgabcde"
+[0,2] means shift to left by 2. "fgabcde" -> "abcdefg"
+[1,3] means shift to right by 3. "abcdefg" -> "efgabcd"
+```
+
+ 
+
+**Constraints:**
+
+- `1 <= s.length <= 100`
+- `s` only contains lower case English letters.
+- `1 <= shift.length <= 100`
+- `shift[i].length == 2`
+- `0 <= shift[i][0] <= 1`
+- `0 <= shift[i][1] <= 100`
+
+```python
+class Solution:
+    def stringShift(self, s: str, shift: List[List[int]]) -> str:
+        if not shift:
+            return s
+        
+        ans = s
+        
+        if len(shift) > 1:
+            for i in range(1, len(shift)):
+                if shift[0][0] == shift[i][0]:
+                    shift[0][1] += shift[i][1]
+                else:
+                    if shift[0][1] > shift[i][1]:
+                        shift[0][1] -= shift[i][1]
+                    elif shift[0][1] < shift[i][1]:
+                        temp = shift[i][1] - shift[0][1]
+                        shift[0] = [shift[i][0], temp]
+                    else:
+                        shift[0][1] = 0
+        
+        shift[0][1] %= len(s)
+        if shift[0][1] == 0:
+            return s
+            
+        if shift[0][0] == 0:
+            ans += ans[:shift[0][1]]
+            return ans[shift[0][1]:]
+        else:
+            ans = ans[-shift[0][1]:] + ans
+            return ans[:-shift[0][1]]
 ```
 
