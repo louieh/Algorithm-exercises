@@ -3382,30 +3382,6 @@ class Solution:
 
 
 
-### 941. Valid Mountain Array
-
-```python
-class Solution:
-    def validMountainArray(self, A: List[int]) -> bool:
-        if len(A) < 3:
-            return False
-        if A[0] > A[1]:
-            return False
-        peak = None
-        for i in range(1, len(A)):
-            if peak is not None:
-                if A[i] >= A[i-1]:
-                    return False
-            else:
-                if A[i] == A[i-1]:
-                    return False
-                if A[i] < A[i-1]:
-                    peak = i-1
-        return True if peak is not None else False
-```
-
-
-
 ### 973. K Closest Points to Origin
 
 ```python

@@ -21,6 +21,22 @@ class Solution:
         return slow+1
 ```
 
+```python
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        
+        slow, fast = 0, 1
+        temp = nums[0]
+        while fast < len(nums):
+            if nums[fast] != nums[slow]:
+                slow += 1
+                nums[slow] = nums[fast]
+            fast += 1
+        return slow + 1
+```
+
 
 
 ### 27. Remove Element
@@ -167,6 +183,53 @@ class Solution:
 
 
 
+### 941. Valid Mountain Array
+
+```python
+class Solution:
+    def validMountainArray(self, A: List[int]) -> bool:
+        if len(A) < 3:
+            return False
+        if A[0] > A[1]:
+            return False
+        peak = None
+        for i in range(1, len(A)):
+            if peak is not None:
+                if A[i] >= A[i-1]:
+                    return False
+            else:
+                if A[i] == A[i-1]:
+                    return False
+                if A[i] < A[i-1]:
+                    peak = i-1
+        return True if peak is not None else False
+```
+
+```python
+class Solution:
+    def validMountainArray(self, A: List[int]) -> bool:
+        if len(A) < 3:
+            return False
+        
+        if A[1] <= A[0]:
+            return False
+        if A[-1] >= A[-2]:
+            return False
+        
+        for i in range(1, len(A)):
+            if A[i] == A[i-1]:
+                return False
+            if A[i] < A[i-1]:
+                break
+        
+        for j in range(i, len(A)-1):
+            if A[j] <= A[j+1]:
+                return False
+        return True
+```
+
+
+
 ### 977. Squares of a Sorted Array
 
 ```python
@@ -273,6 +336,24 @@ class Solution:
 class Solution:
     def findNumbers(self, nums: List[int]) -> int:
         return len([each for each in nums if len(str(each)) % 2 == 0])
+```
+
+
+
+### 1299. Replace Elements with Greatest Element on Right Side
+
+```python
+class Solution:
+    def replaceElements(self, arr: List[int]) -> List[int]:
+        if not arr:
+            return
+        
+        ans = [-1]
+        temp_max = -sys.maxsize
+        for i in range(len(arr)-1, 0, -1):
+            temp_max = max(temp_max, arr[i])
+            ans.append(temp_max)
+        return list(reversed(ans))
 ```
 
 
