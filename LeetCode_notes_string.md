@@ -302,6 +302,33 @@ class Solution:
 
 
 
+### 678. Valid Parenthesis String
+
+```python
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        minc, maxc = 0, 0
+        for each in s:
+            if each == "(":
+                minc += 1
+                maxc += 1
+            if each == ")":
+                minc -= 1
+                maxc -= 1
+            if each == "*":
+                maxc += 1
+                minc -= 1
+            if maxc < 0:
+                return False
+            minc = max(minc, 0)
+        return minc == 0
+```
+记录待匹配的 ( 的数量
+minc 将 * 当做 ) 如果最后 minc > 0 说明把 * 当做 ) 的情况下仍有 ( 剩下
+maxc 将 * 当做 ( 如果 maxc < 0 说明把 * 当做 ( 的情况下仍有过多的 ) 出现
+
+
+
 ### 763. Partition Labels
 
 ```python

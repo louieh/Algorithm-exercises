@@ -213,6 +213,28 @@ class Solution:
 
 
 
+### 1010. Pairs of Songs With Total Durations Divisible by 60
+
+```python
+class Solution:
+    def numPairsDivisibleBy60(self, time: List[int]) -> int:
+        if not time:
+            return 0
+        
+        from collections import Counter
+        temp_dict = Counter()
+        ans = 0
+        for each in time:
+            if each % 60 == 0 and 0 in temp_dict:
+                ans += temp_dict[0]
+            elif 60 - each % 60 in temp_dict:
+                ans += temp_dict[60 - each % 60]
+            temp_dict[each % 60] += 1
+        return ans
+```
+
+
+
 ### 1089. Duplicate Zeros
 
 ```python
@@ -253,3 +275,23 @@ class Solution:
         return len([each for each in nums if len(str(each)) % 2 == 0])
 ```
 
+
+
+### 1346. Check If N and Its Double Exist
+
+```python
+class Solution:
+    def checkIfExist(self, arr: List[int]) -> bool:
+        if not arr:
+            return False
+        
+        temp_set = set()
+        
+        for each in arr:
+            if each * 2 in temp_set:
+                return True
+            if each % 2 == 0 and each // 2 in temp_set:
+                return True
+            temp_set.add(each)
+        return False
+```
