@@ -183,6 +183,39 @@ class Solution:
 
 
 
+### 905. Sort Array By Parity
+
+```python
+class Solution:
+    def sortArrayByParity(self, A: List[int]) -> List[int]:
+        odd_list = []
+        even_list = []
+        
+        for each in A:
+            if each % 2 == 0:
+                even_list.append(each)
+            else:
+                odd_list.append(each)
+        return even_list + odd_list
+```
+
+```python
+class Solution:
+    def sortArrayByParity(self, A: List[int]) -> List[int]:
+        i, j = 0, len(A)-1
+        
+        while i < j:
+            if A[i] % 2 > A[j] % 2:
+                A[i], A[j] = A[j], A[i]
+            if A[i] % 2 == 0:
+                i += 1
+            if A[j] % 2 != 0:
+                j -= 1
+        return A
+```
+
+
+
 ### 941. Valid Mountain Array
 
 ```python
