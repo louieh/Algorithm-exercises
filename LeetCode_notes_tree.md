@@ -1778,6 +1778,49 @@ class Solution:
 
 
 
+### 671. Second Minimum Node In a Binary Tree
+
+```python
+class Solution:
+    def findSecondMinimumValue(self, root: TreeNode) -> int:
+        if not root or not root.left:
+            return -1
+        mini = root.val
+        ans = sys.maxsize
+        def helper(root):
+            nonlocal ans
+            if not root:
+                return
+            if root.val > mini and root.val < ans:
+                ans = root.val
+            helper(root.left)
+            helper(root.right)
+        helper(root)
+        return ans if ans != sys.maxsize else -1
+```
+
+```python
+class Solution:
+    def findSecondMinimumValue(self, root: TreeNode) -> int:
+        if not root or not root.left:
+            return -1
+        mini = root.val
+        ans = sys.maxsize
+        def helper(root):
+            nonlocal ans
+            if not root:
+                return
+            if root.val > mini and root.val < ans:
+                ans = root.val
+            elif root.val == mini:
+                helper(root.left)
+                helper(root.right)
+        helper(root)
+        return ans if ans != sys.maxsize else -1
+```
+
+
+
 ### 687. Longest Univalue Path
 
 ```python

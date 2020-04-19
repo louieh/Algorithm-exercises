@@ -134,6 +134,39 @@ class Solution:
         return res
 ```
 
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        if not nums:
+            return -1
+        
+        def find_peak():
+            left, right = 0, len(nums)-1
+            while left < right:
+                mid = left + (right - left) // 2
+                if nums[mid] > nums[right]:
+                    if nums[mid] > nums[mid+1]:
+                        return mid
+                    else:
+                        left = mid + 1
+                else:
+                    right = mid
+            return left
+        def binary_search(left, right):
+            while left <= right:
+                mid = left + (right - left) // 2
+                if nums[mid] == target:
+                    return mid
+                if nums[mid] > target:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return -1
+        peak_index = find_peak()
+        res = binary_search(0, peak_index)
+        return res if res != -1 else binary_search(peak_index+1, len(nums)-1)
+```
+
 
 
 ### 34. Find First and Last Position of Element in Sorted Array
