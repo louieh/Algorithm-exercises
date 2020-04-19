@@ -1346,6 +1346,8 @@ class Solution:
         return ans
 ```
 
+the question is the same as 783
+
 
 
 ### 538. Convert BST to Greater Tree
@@ -2197,6 +2199,12 @@ class Solution:
             ans += S_c[l]
         return ans
 ```
+
+
+
+### 783. Minimum Distance Between BST Nodes
+
+the question is the same as 530
 
 
 
