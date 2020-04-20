@@ -2286,6 +2286,27 @@ class Solution:
 
 
 
+### Construct Binary Search Tree from Preorder Traversal
+
+```python
+class Solution:
+    def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
+        
+        self.index = 0
+        def helper(upper):
+            if self.index >= len(preorder) or preorder[self.index] > upper:
+                return None
+            root = TreeNode(preorder[self.index])
+            self.index += 1
+            root.left = helper(root.val)
+            root.right = helper(upper)
+            return root
+        return helper(sys.maxsize)
+```
+给定一个上限，判断下一个node是否小于当前上限，小于的话作为当前节点。
+
+
+
 ### 1022. Sum of Root To Leaf Binary Numbers
 
 ```python
