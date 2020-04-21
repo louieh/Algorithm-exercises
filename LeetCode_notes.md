@@ -3932,11 +3932,15 @@ class Solution:
     def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
         row_num, col_num = binaryMatrix.dimensions()
         def find_leftmost_1(row_index):
+            if binaryMatrix.get(row_index, col_num-1) == 0:
+                return col_num
             left = 0
             right = col_num-1
             while left < right:
                 mid = left + (right - left) // 2
                 if binaryMatrix.get(row_index, mid) == 1:
+                    if mid == 0:
+                        return mid
                     if binaryMatrix.get(row_index, mid-1) == 0:
                         return mid
                     else:
@@ -3952,5 +3956,8 @@ class Solution:
                 return col_num
         
         leftmost_1_list = [find_leftmost_1(i) for i in range(row_num)]
-        print(leftmost_1_list)
+        for each in leftmost_1_list:
+            if each != col_num:
+                return min(leftmost_1_list)
+        return -1
 ```
