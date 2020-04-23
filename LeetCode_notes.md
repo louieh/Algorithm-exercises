@@ -3924,3 +3924,40 @@ class Solution:
             return ans[:-shift[0][1]]
 ```
 
+
+### Leftmost Column with at Least a One
+
+```python
+class Solution:
+    def leftMostColumnWithOne(self, binaryMatrix: 'BinaryMatrix') -> int:
+        row_num, col_num = binaryMatrix.dimensions()
+        def find_leftmost_1(row_index):
+            if binaryMatrix.get(row_index, col_num-1) == 0:
+                return col_num
+            left = 0
+            right = col_num-1
+            while left < right:
+                mid = left + (right - left) // 2
+                if binaryMatrix.get(row_index, mid) == 1:
+                    if mid == 0:
+                        return mid
+                    if binaryMatrix.get(row_index, mid-1) == 0:
+                        return mid
+                    else:
+                        right = mid - 1
+                else:
+                    if binaryMatrix.get(row_index, mid+1) == 1:
+                        return mid+1
+                    else:
+                        left = mid + 1
+            if binaryMatrix.get(row_index, left) == 1:
+                return left
+            else:
+                return col_num
+        
+        leftmost_1_list = [find_leftmost_1(i) for i in range(row_num)]
+        for each in leftmost_1_list:
+            if each != col_num:
+                return min(leftmost_1_list)
+        return -1
+```
