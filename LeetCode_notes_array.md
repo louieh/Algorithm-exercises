@@ -183,6 +183,25 @@ class Solution:
 
 
 
+### 560. Subarray Sum Equals K
+
+```python
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        temp_dict = collections.Counter()
+        temp_dict[0] = 1
+        ans = 0
+        sum_ = 0
+        for num in nums:
+            sum_ += num
+            if sum_ - k in temp_dict:
+                ans += temp_dict[sum_-k]
+            temp_dict[sum_] += 1
+        return ans
+```
+
+
+
 ### 905. Sort Array By Parity
 
 ```python
