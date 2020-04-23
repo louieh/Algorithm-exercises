@@ -1617,6 +1617,22 @@ int bammingWeight(uint32_t n){
 
 
 
+### 201. Bitwise AND of Numbers Range
+
+```python
+class Solution:
+    def rangeBitwiseAnd(self, m: int, n: int) -> int:
+        count = 0
+        while m != n:
+            count += 1
+            m >>= 1
+            n >>= 1
+        return m << count
+```
+区间内所有数字的与，实则是寻找从左边起有多少位全部是1，所以将mn右移并计算此数，如果mn相等则右移次数为右边有多少位0，此时在m右边补相应位数的0并返回。
+
+
+
 ### 202. Happy Number
 
 ```python
