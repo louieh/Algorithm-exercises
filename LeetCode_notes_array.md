@@ -200,6 +200,19 @@ class Solution:
         return ans
 ```
 
+累加每个数字并将结果存到dict中，也就是说每加一个数字就记录到目前为止和的个数。每次判断sum-k是否在dict中，也就是说sum-k的结果我们已经在之前遇到过，那么说明存在子列和等于k
+
+例如：
+
+[ 3 2 7 1 6 ] k = 10
+from index 0 ... index 3 sum = 13
+map:
+3 : 1
+5: 1
+12: 1
+when it comes to 13 the code check if 13 -10 = 3 in the map (我们遇到过3也就是说将现在的和减3便得到k)
+well it is in the map then that means we found sub array that sums to 10 which from index 1 to index 3 ==> [ 2 7 1 ]
+
 
 
 ### 905. Sort Array By Parity
