@@ -2449,6 +2449,31 @@ class Solution:
 
 
 
+### 1315. Sum of Nodes with Even-Valued Grandparent
+
+```python
+class Solution:
+    def sumEvenGrandparent(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        self.ans = 0
+        
+        def helper(root):
+            if root.left:
+                if root.val % 2 == 0:
+                    self.ans += root.left.left.val if root.left.left else 0
+                    self.ans += root.left.right.val if root.left.right else 0
+                helper(root.left)
+            if root.right:
+                if root.val % 2 == 0:
+                    self.ans += root.right.left.val if root.right.left else 0
+                    self.ans += root.right.right.val if root.right.right else 0
+                helper(root.right)
+        helper(root)
+        return self.ans
+```
+
+
 **二叉树**
 
 第n层的节点个数最多为: 2^n-1^ 
