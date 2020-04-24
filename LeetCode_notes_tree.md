@@ -2423,6 +2423,30 @@ class Solution:
 
 
 
+### 1302. Deepest Leaves Sum
+
+```python
+class Solution:
+    def deepestLeavesSum(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        stack = [root]
+        ans = 0
+        while stack:
+            temp_list = []
+            temp_sum = 0
+            for each in stack:
+                temp_sum += each.val
+                if each.left:
+                    temp_list.append(each.left)
+                if each.right:
+                    temp_list.append(each.right)
+            stack = temp_list
+            ans = temp_sum
+        return ans
+```
+
 
 
 **二叉树**
