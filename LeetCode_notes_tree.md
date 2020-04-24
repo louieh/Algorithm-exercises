@@ -2473,6 +2473,21 @@ class Solution:
         return self.ans
 ```
 
+```python
+class Solution:
+    def sumEvenGrandparent(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        def helper(root, parent_val, gradparent_val):
+            if not root:
+                return 0 
+            temp = root.val if gradparent_val % 2 == 0 else 0
+            return temp + helper(root.left, root.val, parent_val) + helper(root.right, root.val, parent_val)
+        return helper(root, 1, 1)
+```
+记录每个节点的父节点和父节点的父节点
+
 
 **二叉树**
 
