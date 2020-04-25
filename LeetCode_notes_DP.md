@@ -2,6 +2,20 @@
 
 [toc]
 
+### 55. Jump Game
+
+```python
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        last_good_pos = len(nums) - 1
+        for i in range(len(nums)-1, -1, -1):
+            if i + nums[i] >= last_good_pos:
+                last_good_pos = i
+        return last_good_pos == 0
+```
+
+
+
 ### 64. Minimum Path Sum
 
 ```python
