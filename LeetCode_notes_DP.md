@@ -35,3 +35,60 @@ class Solution:
         return grid[-1][-1]
 ```
 
+
+
+### 1143. Longest Common Subsequence
+
+```python
+# longest common subsequence using recursion: LTE
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        
+        def helper(str1, str2, index1, index2):
+            if index1 < 0 or index2 < 0:
+                return 0
+            if str1[index1] == str2[index2]:
+                return 1 + helper(str1, str2, index1-1, index2-1)
+            else:
+                return max(helper(str1, str2, index1-1, index2), helper(str1, str2, index1, index2-1))
+        return helper(text1, text2, len(text1)-1, len(text2)-1)
+```
+
+```python
+# longest common subsequence recursion with memorization or top-down approach: Accept
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        
+        def helper(str1, str2, index1, index2, dp_dict):
+            if index1 < 0 or index2 < 0:
+                return 0
+            if (index1, index2) in dp_dict:
+                return dp_dict[(index1, index2)]
+            if str1[index1] == str2[index2]:
+                return 1 + helper(str1, str2, index1-1, index2-1, dp_dict)
+            else:
+                dp_dict[(index1, index2)] = max(helper(str1, str2, index1-1, index2, dp_dict), helper(str1, str2, index1, index2-1, dp_dict))
+                return dp_dict[(index1, index2)]
+        return helper(text1, text2, len(text1)-1, len(text2)-1, {})
+```
+
+```python
+# longest common Subsequence using bottom-up approach using the 2-D array
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        dp = []
+        for i in range(len(text1)+1):
+            dp.append([None] * (len(text2)+1))
+                      
+        for i in range(len(text1)+1):
+            for j in range(len(text2)+1):
+                if i == 0 or j == 0:
+                    dp[i][j] = 0
+                elif text1[i-1] == text2[j-1]:
+                    dp[i][j] = dp[i-1][j-1] + 1
+                else:
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+        return dp[len(text1)][len(text2)]
+```
+
+https://leetcode.com/problems/longest-common-subsequence/discuss/398711/ALL-4-ways-Recursion-greater-Top-down-greaterBottom-Up-greater-Efficient-Solution-O(N)-including-VIDEO-TUTORIAL
