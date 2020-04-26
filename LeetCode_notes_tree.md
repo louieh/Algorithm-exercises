@@ -2423,6 +2423,52 @@ class Solution:
 
 
 
+### 1261. Find Elements in a Contaminated Binary Tree
+
+```python
+class FindElements:
+
+    def __init__(self, root: TreeNode):
+        self.val = set()
+        self.recover(root)
+    
+    def recover(self, root: TreeNode):
+        if not root:
+            return
+        if root.left and root.right:
+            if root.left.val == -1 and root.right.val == -1:
+                if root.val == -1:
+                    root.val = 0
+                root.left.val = 2 * root.val + 1
+                root.right.val = 2 * root.val + 2
+                self.val.add(root.val)
+                self.val.add(root.left.val)
+                self.val.add(root.right.val)
+                self.recover(root.left)
+                self.recover(root.right)
+        elif root.left:
+            if root.left.val == -1:
+                if root.val == -1:
+                    root.val = 0
+                self.val.add(root.val)
+                root.left.val = 2 * root.val + 1
+                self.val.add(root.left.val)
+                self.recover(root.left)
+        elif root.right:
+            if root.right.val == -1:
+                if root.val == -1:
+                    root.val = 0
+                self.val.add(root.val)
+                root.right.val = 2 * root.val + 2
+                self.val.add(root.right.val)
+                self.recover(root.right)
+
+    def find(self, target: int) -> bool:
+        return target in self.val
+```
+
+
+
 ### 1302. Deepest Leaves Sum
 
 ```python
@@ -2444,6 +2490,36 @@ class Solution:
                     temp_list.append(each.right)
             stack = temp_list
             ans = temp_sum
+        return ans
+```
+
+
+
+### 1305. All Elements in Two Binary Search Trees
+
+```python
+class Solution:
+    def getAllElements(self, root1: TreeNode, root2: TreeNode) -> List[int]:
+        
+        stack1 = []
+        stack2 = []
+        ans = []
+        while stack1 or stack2 or root1 or root2:
+            while root1:
+                stack1.append(root1)
+                root1 = root1.left
+            while root2:
+                stack2.append(root2)
+                root2 = root2.left
+                
+            if not stack2 or (stack1 and stack1[-1].val <= stack2[-1].val):
+                ans.append(stack1[-1].val)
+                root1 = stack1.pop()
+                root1 = root1.right
+            else:
+                ans.append(stack2[-1].val)
+                root2 = stack2.pop()
+                root2 = root2.right
         return ans
 ```
 
