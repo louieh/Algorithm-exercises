@@ -2429,40 +2429,20 @@ class Solution:
 class FindElements:
 
     def __init__(self, root: TreeNode):
-        self.val = set()
+        self.val = {0}
+        root.val = 0
         self.recover(root)
     
     def recover(self, root: TreeNode):
         if not root:
             return
-        if root.left and root.right:
-            if root.left.val == -1 and root.right.val == -1:
-                if root.val == -1:
-                    root.val = 0
-                root.left.val = 2 * root.val + 1
-                root.right.val = 2 * root.val + 2
-                self.val.add(root.val)
-                self.val.add(root.left.val)
-                self.val.add(root.right.val)
-                self.recover(root.left)
-                self.recover(root.right)
-        elif root.left:
-            if root.left.val == -1:
-                if root.val == -1:
-                    root.val = 0
-                self.val.add(root.val)
-                root.left.val = 2 * root.val + 1
-                self.val.add(root.left.val)
-                self.recover(root.left)
-        elif root.right:
-            if root.right.val == -1:
-                if root.val == -1:
-                    root.val = 0
-                self.val.add(root.val)
-                root.right.val = 2 * root.val + 2
-                self.val.add(root.right.val)
-                self.recover(root.right)
-
+        self.val.add(root.val)
+        if root.left:
+            root.left.val = 2 * root.val + 1
+            self.recover(root.left)
+        if root.right:
+            root.right.val = 2 * root.val + 2
+            self.recover(root.right)
     def find(self, target: int) -> bool:
         return target in self.val
 ```
