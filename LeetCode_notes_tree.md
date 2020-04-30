@@ -2542,6 +2542,24 @@ class Solution:
             return temp + helper(root.left, root.val, parent_val) + helper(root.right, root.val, parent_val)
         return helper(root, 1, 1)
 ```
+
+
+### 1325. Delete Leaves With a Given Value
+
+```python
+class Solution:
+    def removeLeafNodes(self, root: TreeNode, target: int) -> TreeNode:
+        if root.left:
+            root.left = self.removeLeafNodes(root.left, target)
+        if root.right:
+            root.right = self.removeLeafNodes(root.right, target)
+        return None if not root.left and not root.right and root.val == target else root
+```
+
+熟记，回溯删除节点
+
+
+
 记录每个节点的父节点和父节点的父节点
 
 
