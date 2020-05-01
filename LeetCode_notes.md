@@ -3587,6 +3587,17 @@ class Solution:
         return ans
 ```
 
+```python
+class Solution:
+    def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
+        array = [0] * 102
+        for num in nums:
+            array[num+1] += 1
+        for i in range(1, len(array)):
+            array[i] += array[i-1]
+        return [array[each] for each in nums]
+```
+
 
 
 ### Topo sort 
