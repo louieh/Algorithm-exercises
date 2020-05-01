@@ -3569,6 +3569,26 @@ class Solution:
 
 
 
+### 1365. How Many Numbers Are Smaller Than the Current Number
+
+```python
+class Solution:
+    def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
+        from collections import Counter
+        
+        count = Counter(nums)
+        ans = []
+        for each in nums:
+            temp = 0
+            for _ in count:
+                if _ < each:
+                    temp += count[_]
+            ans.append(temp)
+        return ans
+```
+
+
+
 ### Topo sort 
 
 ```java
