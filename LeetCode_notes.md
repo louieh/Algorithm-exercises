@@ -3524,6 +3524,23 @@ class Solution:
 
 
 
+### 1047. Remove All Adjacent Duplicates In String
+
+```python
+class Solution:
+    def removeDuplicates(self, S: str) -> str:
+        stack = []
+        
+        for each in S:
+            if stack and stack[-1] == each:
+                stack.pop()
+            else:
+                stack.append(each)
+        return ("").join(stack)
+```
+
+
+
 ### 1099. Two Sum Less Than K
 
 ```python
@@ -3565,6 +3582,35 @@ class Solution:
             if each != 1:
                 return False
         return True
+```
+
+
+
+### 1381. Design a Stack With Increment Operation
+
+```python
+class CustomStack:
+
+    def __init__(self, maxSize: int):
+        self._stack = []
+        self.maxSize = maxSize
+        self.size_now = 0
+
+    def push(self, x: int) -> None:
+        if self.size_now < self.maxSize:
+            self._stack.append(x)
+            self.size_now += 1
+
+    def pop(self) -> int:
+        if self.size_now > 0:
+            res = self._stack.pop()
+            self.size_now -= 1
+            return res
+        return -1
+
+    def increment(self, k: int, val: int) -> None:
+        for i in range(min(k, self.size_now)):
+            self._stack[i] += val
 ```
 
 
