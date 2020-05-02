@@ -3601,13 +3601,33 @@ class Solution:
                     stack.pop()
                 else:
                     s_list[i] = None
-        if stack:
-            for each in stack:
-                s_list[each] = None
+        for each in stack:
+            s_list[each] = None
         return ("").join([s_list[i] for i in range(len(s)) if s_list[i] is not None])
 ```
 
 遍历字符串，遇到 `(` 则将index放入stack中，遇到 `)` 且 stack 不为空则pop，如果为空，说明这是多余的 `)` 则将该位置打标记用来最后删除。遍历完成后，如果stack不为空，则说明这是多余的 `(`. 返回最后的字符串时候不返回stack中的多余的 `(` 也不返回字符串中已经打标记的多余的 `)`
+
+```python
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        s_list = list(s)
+        stack = []
+        for i in range(len(s)):
+            if s[i] == '(':
+                stack.append(i+1)
+            elif s[i] == ')':
+                if stack and stack[-1] >= 0:
+                    stack.pop()
+                else:
+                    stack.append(-(i+1))
+        for each in stack:
+            if each >= 0:
+                s_list[each-1] = None
+            else:
+                s_list[-each-1] = None
+        return ("").join([s_list[i] for i in range(len(s)) if s_list[i] is not None])
+```
 
 
 
