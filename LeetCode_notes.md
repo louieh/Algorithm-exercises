@@ -3586,6 +3586,7 @@ class Solution:
 
 
 
+<<<<<<< HEAD
 ### 1381. Design a Stack With Increment Operation
 
 ```python
@@ -3611,6 +3612,35 @@ class CustomStack:
     def increment(self, k: int, val: int) -> None:
         for i in range(min(k, self.size_now)):
             self._stack[i] += val
+=======
+### 1365. How Many Numbers Are Smaller Than the Current Number
+
+```python
+class Solution:
+    def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
+        from collections import Counter
+        
+        count = Counter(nums)
+        ans = []
+        for each in nums:
+            temp = 0
+            for _ in count:
+                if _ < each:
+                    temp += count[_]
+            ans.append(temp)
+        return ans
+```
+
+```python
+class Solution:
+    def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
+        array = [0] * 102
+        for num in nums:
+            array[num+1] += 1
+        for i in range(1, len(array)):
+            array[i] += array[i-1]
+        return [array[each] for each in nums]
+>>>>>>> a5df148ef90789b575a92c2d4e2a07899e8521e3
 ```
 
 
