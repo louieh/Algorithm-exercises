@@ -3586,7 +3586,31 @@ class Solution:
 
 
 
-<<<<<<< HEAD
+### 1249. Minimum Remove to Make Valid Parentheses
+
+```python
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        s_list = list(s)
+        stack = []
+        for i in range(len(s)):
+            if s[i] == '(':
+                stack.append(i)
+            elif s[i] == ')':
+                if stack:
+                    stack.pop()
+                else:
+                    s_list[i] = None
+        if stack:
+            for each in stack:
+                s_list[each] = None
+        return ("").join([s_list[i] for i in range(len(s)) if s_list[i] is not None])
+```
+
+遍历字符串，遇到 `(` 则将index放入stack中，遇到 `)` 且 stack 不为空则pop，如果为空，说明这是多余的 `)` 则将该位置打标记用来最后删除。遍历完成后，如果stack不为空，则说明这是多余的 `(`. 返回最后的字符串时候不返回stack中的多余的 `(` 也不返回字符串中已经打标记的多余的 `)`
+
+
+
 ### 1381. Design a Stack With Increment Operation
 
 ```python
@@ -3615,7 +3639,7 @@ class CustomStack:
 =======
 ### 1365. How Many Numbers Are Smaller Than the Current Number
 
-```python
+​```python
 class Solution:
     def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
         from collections import Counter
