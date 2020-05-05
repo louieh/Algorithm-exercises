@@ -162,6 +162,19 @@ class Solution:
 
 
 
+### 448. Find All Numbers Disappeared in an Array
+
+```python
+class Solution:
+    def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
+        for i in range(len(nums)):
+            index = abs(nums[i]) - 1
+            nums[index] = -abs(nums[index])
+        return [i + 1 for i, val in enumerate(nums) if val > 0]
+```
+
+
+
 ### 485. Max Consecutive Ones
 
 ```python
