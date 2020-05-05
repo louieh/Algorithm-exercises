@@ -2551,6 +2551,19 @@ class Solution:
         return -1
 ```
 
+```python
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        dict_ = dict()
+        for i, val in enumerate(s):
+            if val not in dict_:
+                dict_[val] = [1, i]
+            else:
+                dict_[val][0] += 1
+        temp = [v[1] for k, v in dict_.items() if v[0] == 1]
+        return min(temp) if temp else -1
+```
+
 
 
 ### 394. Decode String
