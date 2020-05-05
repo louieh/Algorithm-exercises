@@ -386,6 +386,18 @@ class Solution:
 
 
 
+### 1051. Height Checker
+
+```python
+class Solution:
+    def heightChecker(self, heights: List[int]) -> int:
+        return sum(i != j for i, j in zip(heights, sorted(heights)))
+```
+
+此题有些问题，题目问最少交换多少次使得数组生序排列。例如：[1,1,4,2,1,3] 交换 4-1 和 4-3 两次便可以完成。但是答案为3次。
+
+
+
 ### 1089. Duplicate Zeros
 
 ```python
