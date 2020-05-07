@@ -3191,6 +3191,26 @@ https://leetcode.com/problems/k-th-symbol-in-grammar/discuss/438528/Explanation-
 
 
 
+### 811. Subdomain Visit Count
+
+```python
+class Solution:
+    def subdomainVisits(self, cpdomains: List[str]) -> List[str]:
+        from collections import Counter
+        count = Counter()
+        
+        for each in cpdomains:
+            num, domain = each.split(" ")
+            domain_list = domain.split(".")
+            for i in range(len(domain_list)-1, -1, -1):
+                count[domain_list[i]] += int(num)
+                if i > 0:
+                    domain_list[i-1] += "." + domain_list[i]
+        return ["{} {}".format(num, domain) for domain, num in count.items()]
+```
+
+
+
 ### 819. Most Common Word
 
 ```python

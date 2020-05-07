@@ -2232,6 +2232,28 @@ class Solution:
 
 
 
+### 889. Construct Binary Tree from Preorder and Postorder Traversal
+
+```python
+class Solution:
+    def constructFromPrePost(self, pre: List[int], post: List[int]) -> TreeNode:
+        if not pre:
+            return
+        
+        root = TreeNode(pre[0])
+        if len(pre) == 1:
+            return root
+        
+        num_left_branch = post.index(pre[1]) + 1
+        root.left = self.constructFromPrePost(pre[1:num_left_branch+1], post[:num_left_branch])
+        root.right = self.constructFromPrePost(pre[num_left_branch+1:], post[num_left_branch:-1])
+        return root
+```
+
+左子树的节点数是前序遍历的第二个点在后续遍历中的index+1，因为后续遍历是访问完左右子树再访问根节点。
+
+
+
 ### 951. Flip Equivalent Binary Trees
 
 ```python
