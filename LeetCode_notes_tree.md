@@ -1349,6 +1349,32 @@ class Solution:
 
 
 
+### 515. Find Largest Value in Each Tree Row
+
+```python
+class Solution:
+    def largestValues(self, root: TreeNode) -> List[int]:
+        if not root:
+            return
+        
+        list_ = [root]
+        ans = [root.val]
+        while list_:
+            temp_list = []
+            for node in list_:
+                if node.left:
+                    temp_list.append(node.left)
+                if node.right:
+                    temp_list.append(node.right)
+            if not temp_list:
+                break
+            ans.append(max([each.val for each in temp_list]))
+            list_ = temp_list
+        return ans
+```
+
+
+
 ### 530. Minimum Absolute Difference in BST
 
 ```python
