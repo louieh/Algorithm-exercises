@@ -1324,6 +1324,31 @@ class Solution:
 
 
 
+### 513. Find Bottom Left Tree Value
+
+```python
+class Solution:
+    def findBottomLeftValue(self, root: TreeNode) -> int:
+        if not root:
+            return
+        
+        stack = [root]
+        
+        while stack:
+            temp_stack = []
+            for node in stack:
+                if node.left:
+                    temp_stack.append(node.left)
+                if node.right:
+                    temp_stack.append(node.right)
+            if not temp_stack:
+                return stack[0].val
+            else:
+                stack = temp_stack
+```
+
+
+
 ### 530. Minimum Absolute Difference in BST
 
 ```python
