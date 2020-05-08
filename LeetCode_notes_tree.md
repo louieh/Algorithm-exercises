@@ -2442,6 +2442,25 @@ class Solution:
         return dfs(root, root.val, root.val)
 ```
 
+```python
+class Solution:
+    def maxAncestorDiff(self, root: TreeNode) -> int:
+        if not root:
+            return
+        self.ans = 0
+        def dfs(root, mx, mn):
+            mx = max(root.val, mx)
+            mn = min(root.val, mn)
+            if root.left:
+                dfs(root.left, mx, mn)
+            if root.right:
+                dfs(root.right, mx, mn)
+            if not root.left and not root.right:
+                self.ans = max(self.ans, mx-mn)
+        dfs(root, root.val, root.val)
+        return self.ans
+```
+
 
 
 ### 1038. Binary Search Tree to Greater Sum Tree
