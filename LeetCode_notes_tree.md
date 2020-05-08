@@ -2425,6 +2425,25 @@ class Solution:
 
 
 
+### 1026. Maximum Difference Between Node and Ancestor
+
+```python
+class Solution:
+    def maxAncestorDiff(self, root: TreeNode) -> int:
+        if not root:
+            return
+        
+        def dfs(root, mx, mn):
+            if not root:
+                return mx - mn
+            mx = max(root.val, mx)
+            mn = min(root.val, mn)
+            return max(dfs(root.left, mx, mn), dfs(root.right, mx, mn))
+        return dfs(root, root.val, root.val)
+```
+
+
+
 ### 1038. Binary Search Tree to Greater Sum Tree
 
 ```python
