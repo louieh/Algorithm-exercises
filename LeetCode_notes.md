@@ -3619,6 +3619,30 @@ class Solution:
 
 
 
+### 1232. Check If It Is a Straight Line
+
+```python
+class Solution:
+    def checkStraightLine(self, coordinates: List[List[int]]) -> bool:
+        if not coordinates:
+            return False
+        if len(coordinates) <= 2:
+            return True
+        
+        slope = None
+        for i in range(1, len(coordinates)):
+            point1 = coordinates[i-1]
+            point2 = coordinates[i]
+            new_slope = (point2[1]-point1[1])/(point2[0]-point1[0]) if point2[0] != point1[0] else sys.maxsize
+            if slope is None:
+                slope = new_slope
+            elif slope != new_slope:
+                return False
+        return True
+```
+
+
+
 ### 1249. Minimum Remove to Make Valid Parentheses
 
 ```python
