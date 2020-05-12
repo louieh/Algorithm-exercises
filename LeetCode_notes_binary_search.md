@@ -629,6 +629,34 @@ class Solution:
         return ans
 ```
 
+```python
+class Solution:
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        if len(nums) == 1:
+            return nums[0]
+        
+        left, right = 0, len(nums)-1
+        
+        while left <= right and left < len(nums) and right >= 0:
+            mid = left + (right - left) // 2
+            
+            if (mid-1 >= 0 and nums[mid-1] == nums[mid]) or (mid+1 < len(nums) and nums[mid+1] == nums[mid]):
+                currlen = right - left
+                if currlen // 2 % 2 == 0:
+                    if nums[mid-1] == nums[mid]:
+                        right = mid - 2
+                    else:
+                        left = mid + 2
+                else:
+                    if nums[mid-1] == nums[mid]:
+                        left = mid + 1
+                    else:
+                        right = mid - 1
+            else:
+                return nums[mid]
+        return nums[left]
+```
+
 
 
 ### 658. Find K Closest Elements
