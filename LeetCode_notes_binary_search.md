@@ -656,6 +656,7 @@ class Solution:
                 return nums[mid]
         return nums[left]
 ```
+https://leetcode.com/problems/single-element-in-a-sorted-array/discuss/100733/Java-Binary-Search-with-Detailed-Explanation
 
 
 
