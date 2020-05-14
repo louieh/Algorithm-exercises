@@ -2618,6 +2618,40 @@ class Solution:
 
 
 
+### 402. Remove K Digits
+
+```python
+class Solution:
+    def removeKdigits(self, num: str, k: int) -> str:
+        if k == len(num):
+            return "0"
+        
+        stack  = []
+        i = 0
+        while i < len(num):
+            # whenever meet a digit which is less than the previous digit, discard the previous one
+            while k > 0 and stack and num[i] < stack[-1]:
+                stack.pop()
+                k -= 1
+            stack.append(num[i])
+            i += 1
+        
+        while k > 0:
+            stack.pop()
+            k -= 1
+        
+        print(stack)
+        
+        for index, val in enumerate(stack):
+            if val != "0":
+                return ("").join(stack[index:])
+        return "0"
+```
+
+https://leetcode.com/problems/remove-k-digits/discuss/88708/Straightforward-Java-Solution-Using-Stack
+
+
+
 ### 410. Split Array Largest Sum
 
 ```java
