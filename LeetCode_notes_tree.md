@@ -2283,6 +2283,37 @@ class Solution:
 
 
 
+### 865. Smallest Subtree with all the Deepest Nodes
+
+```python
+class Solution:
+    def subtreeWithAllDeepest(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return
+        if not root.left and not root.right:
+            return root
+        dict_ = dict()
+        
+        def dfs(root, depth):
+            if not root:
+                return
+            dict_[root.val] = depth
+            dfs(root.left, depth+1)
+            dfs(root.right, depth+1)
+        dfs(root, 0)
+        max_depth = max(dict_.values())
+        def helper(root):
+            if not root or dict_.get(root.val) == max_depth:
+                return root
+            left, right = helper(root.left), helper(root.right)
+            return root if left and right else left or right
+        return helper(root)
+```
+
+两遍dfs，第一遍记录每个点的深度，第二遍返回答案。
+
+
+
 ### 889. Construct Binary Tree from Preorder and Postorder Traversal
 
 ```python
