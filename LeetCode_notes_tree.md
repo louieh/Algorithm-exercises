@@ -2716,6 +2716,27 @@ class Solution:
 
 
 
+### 1448. Count Good Nodes in Binary Tree
+
+```python
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        self.ans = 0
+        def helper(root, max_now):
+            if not root:
+                return 
+            if root.val >= max_now:
+                self.ans += 1
+            helper(root.left, max(max_now, root.val))
+            helper(root.right, max(max_now, root.val))
+        helper(root, -sys.maxsize)
+        return self.ans
+```
+
+
 记录每个节点的父节点和父节点的父节点
 
 
