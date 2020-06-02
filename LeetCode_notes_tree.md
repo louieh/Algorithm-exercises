@@ -2336,6 +2336,43 @@ class Solution:
 
 
 
+### 919. Complete Binary Tree Inserter
+
+```python
+class CBTInserter:
+
+    def __init__(self, root: TreeNode):
+        self.q = collections.deque()
+        self.root = root
+        temp_q = collections.deque([root])
+        while temp_q:
+            node = temp_q.popleft()
+            if not node.left or not node.right:
+                self.q.append(node)
+            if node.left:
+                temp_q.append(node.left)
+            if node.right:
+                temp_q.append(node.right)
+
+    def insert(self, v: int) -> int:
+        node = self.q[0]
+        self.q.append(TreeNode(v))
+        if not node.left:
+            node.left = self.q[-1]
+        else:
+            node.right = self.q[-1]
+            self.q.popleft()
+        return node.val
+        
+
+    def get_root(self) -> TreeNode:
+        return self.root
+```
+
+树的bfs
+
+
+
 ### 951. Flip Equivalent Binary Trees
 
 ```python
