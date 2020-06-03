@@ -3588,6 +3588,7 @@ class Solution:
             ans += costs[i][1]
         return ans
 ```
+https://leetcode.com/problems/two-city-scheduling/discuss/278716/C%2B%2B-O(n-log-n)-sort-by-savings
 
 
 
