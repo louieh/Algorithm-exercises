@@ -657,6 +657,22 @@ class Solution:
 
 
 
+### 226. Invert Binary Tree
+
+```python
+class Solution:
+    def invertTree(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return None
+        right = self.invertTree(root.right)
+        left = self.invertTree(root.left)
+        root.left = right
+        root.right = left
+        return root
+```
+
+
+
 ### 230. Kth Smallest Element in a BST
 
 ```python
