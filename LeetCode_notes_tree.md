@@ -2389,7 +2389,8 @@ class Solution:
 
 ### 958. Check Completeness of a Binary Tree
 
-```ppython
+```python
+# BFS
 class Solution:
     def isCompleteTree(self, root: TreeNode) -> bool:
         q = collections.deque([root])
@@ -2400,6 +2401,28 @@ class Solution:
         while q and q[0] is None:
             q.popleft()
         return len(q) == 0
+```
+
+```python
+# level
+class Solution:
+    def isCompleteTree(self, root: TreeNode) -> bool:
+        q = collections.deque([root])
+        
+        aboveNone = False
+        while q:
+            nowNone = False
+            for i in range(len(q)):
+                temp = q.popleft()
+                if temp:
+                    if nowNone or aboveNone:
+                        return False
+                    q.append(temp.left)
+                    q.append(temp.right)
+                else:
+                    nowNone = True
+            aboveNone = nowNone
+        return True
 ```
 
 
