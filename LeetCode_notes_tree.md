@@ -2387,6 +2387,23 @@ class Solution:
 
 
 
+### 958. Check Completeness of a Binary Tree
+
+```ppython
+class Solution:
+    def isCompleteTree(self, root: TreeNode) -> bool:
+        q = collections.deque([root])
+        while q[0]:
+            temp = q.popleft()
+            q.append(temp.left)
+            q.append(temp.right)
+        while q and q[0] is None:
+            q.popleft()
+        return len(q) == 0
+```
+
+
+
 ### 993. Cousins in Binary Tree
 
 ```python
