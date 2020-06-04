@@ -2828,9 +2828,33 @@ class Solution:
         helper(root, -sys.maxsize)
         return self.ans
 ```
-
-
 记录每个节点的父节点和父节点的父节点
+
+
+
+### 1457. Pseudo-Palindromic Paths in a Binary Tree
+
+```python
+class Solution:
+    def pseudoPalindromicPaths (self, root: TreeNode) -> int:
+        
+        self.ans = 0
+        def helper(root, node_set):
+            if not root:
+                return
+            if root.val in node_set:
+                node_set.remove(root.val)
+            else:
+                node_set.add(root.val)
+            if not root.left and not root.right:
+                if len(node_set) <= 1:
+                    self.ans += 1
+            helper(root.left, node_set.copy())
+            helper(root.right, node_set.copy())
+        helper(root, set())
+        return self.ans
+```
+
 
 
 **二叉树**
