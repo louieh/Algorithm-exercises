@@ -2857,6 +2857,37 @@ class Solution:
 
 
 
+### 1466. Reorder Routes to Make All Paths Lead to the City Zero
+
+```python
+class Solution:
+    def minReorder(self, n: int, connections: List[List[int]]) -> int:
+        g = collections.defaultdict(list)
+        g_r = collections.defaultdict(list)
+        
+        for a, b in connections:
+            g[a].append(b)
+            g_r[b].append(a)
+        
+        ans = 0
+        seen = {0}
+        q = collections.deque([0])
+        while q:
+            node = q.popleft()
+            for each in g[node]:
+                if each not in seen:
+                    seen.add(each)
+                    ans += 1
+                    q.append(each)
+            for each in g_r[node]:
+                if each not in seen:
+                    seen.add(each)
+                    q.append(each)
+        return ans
+```
+
+
+
 **二叉树**
 
 第n层的节点个数最多为: 2^n-1^ 
