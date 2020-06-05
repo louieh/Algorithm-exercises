@@ -3704,6 +3704,28 @@ class Solution:
 
 
 
+### 1160. Find Words That Can Be Formed by Characters
+
+```python
+class Solution:
+    def countCharacters(self, words: List[str], chars: str) -> int:
+        from collections import Counter
+        ans = 0
+        chars_counter = Counter(chars)
+        for word in words:
+            word_counter = Counter(word)
+            flag = True
+            for k, v in word_counter.items():
+                if k not in chars_counter or v > chars_counter[k]:
+                    flag = False
+                    break
+            if flag:
+                ans += len(word)
+        return ans
+```
+
+
+
 ### 1207. Unique Number of Occurrences
 
 ```python
