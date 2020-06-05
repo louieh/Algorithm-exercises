@@ -3574,6 +3574,28 @@ class Solution:
 
 
 
+### 1002. Find Common Characters
+
+```python
+class Solution:
+    def commonChars(self, A: List[str]) -> List[str]:
+        ans = []
+        temp = collections.defaultdict(dict)
+        for index, string in enumerate(A):
+            for c in string:
+                if index+1 not in temp[c]:
+                    temp[c].update({index+1: 1})
+                else:
+                    temp[c][index+1] += 1
+        for c, v_dict in temp.items():
+            if len(v_dict) == len(A):
+                for i in range(min(v_dict.values())):
+                    ans.append(c)
+        return ans
+```
+
+
+
 ### 1029. Two City Scheduling
 
 ```python
