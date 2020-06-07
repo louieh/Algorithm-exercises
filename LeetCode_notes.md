@@ -2652,6 +2652,20 @@ https://leetcode.com/problems/remove-k-digits/discuss/88708/Straightforward-Java
 
 
 
+###  406. Queue Reconstruction by Height
+
+```python
+class Solution:
+    def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
+        people_sort = sorted(people, key=lambda k: (-k[0], k[1]))
+        ans = []
+        for each in people_sort:
+            ans.insert(each[1], each)
+        return ans
+```
+
+
+
 ### 410. Split Array Largest Sum
 
 ```java
