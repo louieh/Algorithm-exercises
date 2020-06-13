@@ -2566,6 +2566,23 @@ class Solution:
 
 
 
+### 392. Is Subsequence
+
+```python
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        index_s = index_t = 0
+        while index_s < len(s) and index_t < len(t):
+            if t[index_t] == s[index_s]:
+                index_t += 1
+                index_s += 1
+            else:
+                index_t += 1
+        return index_s == len(s)
+```
+
+
+
 ### 394. Decode String
 
 ```python
@@ -2706,6 +2723,35 @@ public int splitArray(int[] nums, int m) {
     }
     return (int) ans;
 }
+```
+
+
+
+### 447. Number of Boomerangs
+
+```python
+class Solution:
+    def numberOfBoomerangs(self, points: List[List[int]]) -> int:
+        from collections import defaultdict
+        temp = defaultdict(int)
+        
+        def get_instance(x, y):
+            a = x[0] - y[0]
+            b = x[1] - y[1]
+            return a*a + b*b
+        
+        ans = 0
+        
+        for i in range(len(points)):
+            for j in range(len(points)):
+                if i == j:
+                    continue
+                d = get_instance(points[i], points[j])
+                temp[d] += 1
+            for val in temp.values():
+                ans += val*(val-1)
+            temp = defaultdict(int)
+        return ans
 ```
 
 
