@@ -3285,6 +3285,28 @@ https://leetcode.com/problems/k-th-symbol-in-grammar/discuss/438528/Explanation-
 
 
 
+### 787. Cheapest Flights Within K Stops
+
+```python
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
+        cost = [sys.maxsize for i in range(n)]
+        cost[src] = 0
+        for o in range(K+1):
+            temp = cost.copy()
+            for i, j, price in flights:
+                if temp[i] == sys.maxsize:
+                    continue
+                elif cost[i] + price < temp[j]:
+                    temp[j] = cost[i] + price
+            cost = temp
+        return cost[dst] if cost[dst] != sys.maxsize else -1
+```
+
+Bellman Ford算法，执行K轮，因为题目要求at most K stops 注意每轮当中要复制一遍数组，用原数组的开始点+price与现在数组中点进行比较。
+
+
+
 ### 811. Subdomain Visit Count
 
 ```python
