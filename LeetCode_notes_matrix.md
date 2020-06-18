@@ -313,6 +313,37 @@ class Solution:
 
 
 
+### 130. Surrounded Regions
+
+```python
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        q = []
+        
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if (i == 0 or j == 0 or i == len(board)-1 or j == len(board[0])-1) and board[i][j] == 'O':
+                    q.append((i, j))
+        
+        while q:
+            i, j = q.pop()
+            if 0 <= i and i < len(board) and 0 <= j and j <len(board[0]) and board[i][j] == 'O':
+                board[i][j] = 'S'
+                q.extend([(i-1, j), (i+1, j), (i, j-1), (i, j+1)])
+        
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == 'S':
+                    board[i][j] = 'O'
+                elif board[i][j] == 'O':
+                    board[i][j] = 'X'
+```
+
+
+
 ### 200. Number of Islands
 
 ```python
