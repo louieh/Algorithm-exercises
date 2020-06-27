@@ -115,6 +115,7 @@ bool isPowerOfTwo(int n){
 ### 338. Counting Bits
 
 ```python
+# O(n*sizeof(integer))
 class Solution:
     def countBits(self, num: int) -> List[int]:
         ans = []
@@ -134,6 +135,25 @@ class Solution:
                 ans.append(1)
                 continue
             ans.append(num_bit1(i))
+        return ans
+```
+
+```python
+# dp
+class Solution:
+    def countBits(self, num: int) -> List[int]:
+        if num == 0:
+            return [0]
+        if num == 1:
+            return [0, 1]
+        
+        ans = [0, 1]
+        
+        for i in range(2, num+1):
+            if i & 1:
+                ans.append(ans[i >> 1] + 1)
+            else:
+                ans.append(ans[i >> 1])
         return ans
 ```
 
