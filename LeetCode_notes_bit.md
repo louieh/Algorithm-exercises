@@ -1,4 +1,4 @@
-## Leetcode - Bit
+## Leetcode - Bits
 
 [toc]
 

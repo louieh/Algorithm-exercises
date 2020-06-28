@@ -1,4 +1,4 @@
-## LeetCode - Binary Search
+## LeetCode - Dynamic programming
 
 [toc]
 
