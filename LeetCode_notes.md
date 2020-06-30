@@ -2574,6 +2574,24 @@ class Solution:
 
 
 
+### 409. Longest Palindrome
+
+```python
+class Solution:
+    def longestPalindrome(self, s: str) -> int:
+        from collections import Counter
+        count = Counter(s)
+        if_odd = False
+        ans = 0
+        for v in count.values():
+            ans += (v // 2) * 2
+            if v % 2 != 0:
+                if_odd = True
+        return ans if not if_odd else ans+1
+```
+
+
+
 ### 410. Split Array Largest Sum
 
 ```java
