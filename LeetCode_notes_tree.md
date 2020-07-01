@@ -2672,6 +2672,36 @@ class Solution:
 
 
 
+### 1161. Maximum Level Sum of a Binary Tree
+
+```python
+class Solution:
+    def maxLevelSum(self, root: TreeNode) -> int:
+        sum_list = [root.val]
+        stack = [root]
+        
+        while stack:
+            temp_sum = 0
+            next_node_list = []
+            for node in stack:
+                if node.left:
+                    temp_sum += node.left.val
+                    next_node_list.append(node.left)
+                if node.right:
+                    temp_sum += node.right.val
+                    next_node_list.append(node.right)
+            if next_node_list:
+                stack = next_node_list
+                sum_list.append(temp_sum)
+            else:
+                break
+        for i in range(len(sum_list)):
+            if sum_list[i] == max(sum_list):
+                return i+1
+```
+
+
+
 ### 1261. Find Elements in a Contaminated Binary Tree
 
 ```python
