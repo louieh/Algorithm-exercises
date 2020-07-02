@@ -618,6 +618,39 @@ class Solution:
 
 
 
+### 441. Arranging Coins
+
+```python
+class Solution:
+    def arrangeCoins(self, n: int) -> int:
+        sum_, i = 0, 1
+        while True:
+            sum_ += i
+            if sum_ > n:
+                return i - 1
+            i += 1
+```
+
+```python
+# binary search
+class Solution:
+    def arrangeCoins(self, n: int) -> int:
+        left, right = 1, n
+        
+        while left <= right:
+            mid = left + (right - left) // 2
+            temp = (1+mid)*mid//2
+            if temp == n:
+                return mid
+            elif temp > n:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right
+```
+
+
+
 ### 540. Single Element in a Sorted Array
 
 ```python
