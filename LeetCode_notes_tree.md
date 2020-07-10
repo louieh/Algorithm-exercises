@@ -1847,6 +1847,39 @@ class Solution:
 
 
 
+### 662. Maximum Width of Binary Tree
+
+```python
+class Solution:
+    def widthOfBinaryTree(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        ans = 0
+        stack = [root]
+        while any(stack):
+            next_stack = []
+            most_left_index = sys.maxsize
+            most_right_index = -sys.maxsize
+            for i in range(len(stack)):
+                if stack[i] is not None:
+                    most_left_index = min(i, most_left_index)
+                    most_right_index = max(i, most_right_index)
+                    next_stack.append(stack[i].left)
+                    next_stack.append(stack[i].right)
+                else:
+                    next_stack.extend([None, None])
+            ans = max(ans, most_right_index-most_left_index+1)
+            left, right = sys.maxsize, -sys.maxsize
+            for i in range(len(next_stack)):
+                if next_stack[i] is not None:
+                    left = min(left, i)
+                    right = max(right, i)
+            stack = next_stack[left: right+1]
+        return ans
+```
+
+
+
 ### 671. Second Minimum Node In a Binary Tree
 
 ```python
