@@ -1878,6 +1878,26 @@ class Solution:
         return ans
 ```
 
+```python
+class Solution:
+    def widthOfBinaryTree(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        temp = dict()
+        
+        def dfs(node, node_id, level, mapping):
+            if not node:
+                return 0
+            if level not in mapping:
+                mapping[level] = node_id
+            current = node_id - mapping[level] + 1
+            left = dfs(node.left, node_id*2, level+1, mapping)
+            right = dfs(node.right, node_id*2+1, level+1, mapping)
+            return max(current, left, right)
+        
+        return dfs(root, 1, 0, temp)
+```
+
 
 
 ### 671. Second Minimum Node In a Binary Tree
@@ -2869,6 +2889,43 @@ class Solution:
 ```
 
 熟记，回溯删除节点
+
+
+
+### 1367. Linked List in Binary Tree
+
+```python
+class Solution:
+    def isSubPath(self, head: ListNode, root: TreeNode) -> bool:
+        if not head or not root:
+            return False
+        
+        def isSame(root, head):
+            if not root and head:
+                return False
+            if not head:
+                return True
+            if root.val != head.val:
+                return False
+            
+            left = isSame(root.left, head.next)
+            right = isSame(root.right, head.next)
+            return left or right
+        
+        def helper(root):
+            if not root:
+                return
+            if root.val == head.val:
+                if isSame(root, head):
+                    return True
+            return helper(root.left) or helper(root.right)
+        
+        return True if helper(root) else False
+```
+
+和 572 Subtree of Another Tree 类似
+
+https://leetcode.com/problems/linked-list-in-binary-tree/discuss/684678/Java-DFS
 
 
 
