@@ -3850,6 +3850,38 @@ class Solution:
 
 
 
+### 1512. Number of Good Pairs
+
+```python
+class Solution(object):
+    def numIdenticalPairs(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        from collections import defaultdict
+        ans = 0
+        temp = defaultdict(int)
+        for num in nums:
+            ans += temp.get(num, 0)
+            temp[num] += 1
+        return ans
+```
+
+```python
+class Solution(object):
+    def numIdenticalPairs(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        return sum([val * (val-1) // 2 for val in collections.Counter(nums).values()])
+```
+
+val * (val - 1) // 2 == A(n, 2) // 2
+
+
+
 ### [Amazon | OA 2019 | Favorite Genres](https://leetcode.com/discuss/interview-question/373006)
 
 ```python
