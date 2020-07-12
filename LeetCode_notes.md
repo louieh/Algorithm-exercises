@@ -2904,6 +2904,34 @@ class Solution:
 
 
 
+### 665. Non-decreasing Array
+
+```python
+class Solution:
+    def checkPossibility(self, nums: List[int]) -> bool:
+        temp = None
+        
+        for i in range(len(nums)-1):
+            if nums[i] > nums[i+1]:
+                if temp is not None:
+                    return False
+                temp = i
+        
+        if temp is None or temp == 0 or temp == len(nums) - 2:
+            return True
+        if nums[temp-1] <= nums[temp+1] or nums[temp] <= nums[temp+2]:
+            return True
+        return False
+```
+
+查找不符合降序排列的index，如果此index个数大于1直接返回false
+
+如果此index为None或0或为倒数第二个元素可直接返回true
+
+否则判断此index前后两个组合是否符合条件：比如[2,3,3,2,4]. 不符合的index==2. 那么判断其前后两个组合[3,3,2] 和 [3,2,4]其中一个可以即可，即nums[index-1] <= nums[index+1] or nums[index] <= nums[index+2]
+
+
+
 ### 697. Degree of an Array
 
 ```python
