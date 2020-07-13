@@ -2929,6 +2929,21 @@ https://leetcode.com/problems/linked-list-in-binary-tree/discuss/684678/Java-DFS
 
 
 
+### 1130. Minimum Cost Tree From Leaf Values
+
+```python
+class Solution:
+    def mctFromLeafValues(self, arr: List[int]) -> int:
+        ans = 0
+        while len(arr) > 1:
+            i = arr.index(min(arr))
+            ans += min(arr[i-1:i] + arr[i+1:i+2]) * arr.pop(i)
+        return ans
+```
+https://leetcode.com/problems/minimum-cost-tree-from-leaf-values/discuss/339959/One-Pass-O(N)-Time-and-Space
+
+
+
 ### 1448. Count Good Nodes in Binary Tree
 
 ```python
