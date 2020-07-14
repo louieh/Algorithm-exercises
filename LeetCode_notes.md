@@ -3807,6 +3807,20 @@ class Solution:
 
 
 
+### 1344. Angle Between Hands of a Clock
+
+```python
+class Solution:
+    def angleClock(self, hour: int, minutes: int) -> float:
+        hour %= 12
+        minutes_degree = minutes / 60 * 360
+        hour_degree = hour / 12 * 360 + 30 * minutes / 60
+        ans = abs(minutes_degree - hour_degree)
+        return ans if ans < 180 else 360 - ans
+```
+
+
+
 ### 1365. How Many Numbers Are Smaller Than the Current Number
 
 ```python
