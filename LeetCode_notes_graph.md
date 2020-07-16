@@ -60,6 +60,31 @@ Bellman Ford算法，执行K轮，因为题目要求at most K stops 注意每轮
 
 
 
+### 797. All Paths From Source to Target
+
+```python
+class Solution:
+    def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        graph_dict = {index:v for index, v in enumerate(graph)}
+        N = len(graph)
+        ans = []
+        
+        def helper(node, path):
+            for each in graph_dict[node]:
+                temp_path = path.copy()
+                temp_path.append(each)
+                if each == N-1:
+                    ans.append(temp_path)
+                    continue
+                helper(each, temp_path)
+        
+        helper(0, [0])
+        
+        return ans
+```
+
+
+
 ### Naveego OA - [Directions Reduction](https://www.codewars.com/kata/550f22f4d758534c1100025a)
 
 ```python
