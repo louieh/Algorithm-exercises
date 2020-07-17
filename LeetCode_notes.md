@@ -3846,6 +3846,19 @@ class Solution:
 
 
 
+### 1306. Jump Game III
+
+```python
+class Solution:
+    def canReach(self, arr: List[int], start: int) -> bool:
+        if start < len(arr) and start >= 0 and arr[start] >= 0:
+            arr[start] = -arr[start]
+            return arr[start] == 0 or self.canReach(arr, start + arr[start]) or self.canReach(arr, start - arr[start])
+        return False
+```
+
+
+
 ### 1344. Angle Between Hands of a Clock
 
 ```python
