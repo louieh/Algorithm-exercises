@@ -2,6 +2,41 @@
 
 [toc]
 
+### 210. Course Schedule II
+
+```python
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        from collections import defaultdict
+        graph = defaultdict(list)
+        for i, j in prerequisites:
+            graph[j].append(i)
+            
+        ans = []
+        ans_set = set()
+        seen = set()
+        self.possible = True
+        def dfs(node):
+            seen.add(node)
+            if graph.get(node):
+                for each in graph.get(node):
+                    if each in seen and each not in ans_set:
+                        self.possible = False
+                    if each not in seen:
+                        dfs(each)
+            ans.append(node)
+            ans_set.add(node)
+            
+        for i in range(numCourses):
+            if i not in seen:
+                dfs(i)
+        return ans[::-1] if self.possible else []
+```
+
+Topo order
+
+
+
 ### 332. Reconstruct Itinerary
 
 Eulerian Path and Eulerian Circuit 经历每条边一次，对应哈密尔顿问题
