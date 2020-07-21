@@ -37,6 +37,36 @@ Topo order
 
 
 
+### 310. Minimum Height Trees
+
+```python
+class Solution:
+    def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
+        if n == 1:
+            return [0]
+        from collections import defaultdict
+        graph = defaultdict(list)
+        for i, j in edges:
+            graph[i].append(j)
+            graph[j].append(i)
+        
+        leaves = [k for k,v in graph.items() if len(v) == 1]
+        while n > 2:
+            n -= len(leaves)
+            new_leaves = []
+            for leaf in leaves:
+                graph.get(graph.get(leaf)[0]).remove(leaf)
+                if len(graph.get(graph.get(leaf)[0])) == 1:
+                    new_leaves.append(graph.get(leaf)[0])
+                graph.get(leaf).pop()
+            leaves = new_leaves
+        return leaves
+```
+
+https://leetcode.com/problems/minimum-height-trees/discuss/76055/Share-some-thoughts
+
+
+
 ### 332. Reconstruct Itinerary
 
 Eulerian Path and Eulerian Circuit 经历每条边一次，对应哈密尔顿问题
