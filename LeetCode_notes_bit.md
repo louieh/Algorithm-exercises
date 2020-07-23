@@ -159,6 +159,43 @@ bool isPowerOfTwo(int n){
 
 
 
+### 260. Single Number III
+
+```python
+class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        temp = 0
+        for num in nums:
+            temp ^= num
+        
+        mask = temp & -temp
+        
+        ans1, ans2 = 0, 0
+        
+        for num in nums:
+            if num & mask == 0:
+                ans1 ^= num
+            else:
+                ans2 ^= num
+        return [ans1, ans2]
+```
+
+先对所有数字进行异或计算，由于有两个数的个数是1，其余都是2，那么结果便是这两个数异或。两个数异或的结果意味着这两个数的二进制表示中哪些位是不同的，我们取任意一个不同位，按此对原数组进行分组，之后分别对两组进行异或计算便得到结果。
+
+https://leetcode.com/problems/single-number-iii/discuss/68901/Sharing-explanation-of-the-solution
+
+其中取任意不同位 `mask = temp & -temp` 意思是求最右侧不同位是哪一位：
+
+```
+10: 0000 0000 0000 0000 0000 0000 0000 1010
+-10: 1111 1111 1111 1111 1111 1111 1111 0110
+10 & -10 = 10(2)
+```
+
+取负数方法：https://blog.csdn.net/u013790019/article/details/44627719
+
+
+
 ### 338. Counting Bits
 
 ```python
