@@ -125,7 +125,52 @@ https://leetcode.com/problems/remove-k-digits/discuss/88708/Straightforward-Java
 
 
 
-###  
+### 503. Next Greater Element II
+
+```python
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        ans_len = len(nums)
+        ans = [-1] * ans_len * 2
+        nums += nums
+        stack = []
+        for i in range(len(nums)):
+            while stack and nums[stack[-1]] < nums[i]:
+                ans[stack.pop()] = nums[i]
+            stack.append(i)
+        return ans[:ans_len]
+```
+
+借鉴https://leetcode.com/problems/sum-of-subarray-minimums/discuss/178876/stack-solution-with-very-detailed-explanation-step-by-step
+
+```python
+    def nextGreaterElements(self, A):
+        stack, res = [], [-1] * len(A)
+        for i in range(len(A)) * 2:
+            while stack and (A[stack[-1]] < A[i]):
+                res[stack.pop()] = A[i]
+            stack.append(i)
+        return res
+```
+
+```java
+public class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        int[] res = new int[nums.length];
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 2 * nums.length - 1; i >= 0; --i) {
+            while (!stack.empty() && nums[stack.peek()] <= nums[i % nums.length]) {
+                stack.pop();
+            }
+            res[i % nums.length] = stack.empty() ? -1 : nums[stack.peek()];
+            stack.push(i % nums.length);
+        }
+        return res;
+    }
+}
+```
+
+
 
 ### 739. Daily Temperatures
 
