@@ -125,6 +125,22 @@ https://leetcode.com/problems/remove-k-digits/discuss/88708/Straightforward-Java
 
 
 
+### 496. Next Greater Element I
+
+```python
+class Solution:
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        nums2_dict = {val: index for index, val in enumerate(nums2)}
+        ans, stack = [-1] * len(nums2), []
+        for i in range(len(nums2)):
+            while stack and nums2[stack[-1]] < nums2[i]:
+                ans[stack.pop()] = nums2[i]
+            stack.append(i)
+        return [ans[nums2_dict.get(num)] for num in nums1]
+```
+
+
+
 ### 503. Next Greater Element II
 
 ```python

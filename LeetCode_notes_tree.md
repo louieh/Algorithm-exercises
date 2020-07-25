@@ -2405,6 +2405,33 @@ class Solution:
 
 
 
+### 894. All Possible Full Binary Trees
+
+```python
+class Solution:
+    
+    memo = {0: [], 1: [TreeNode(0)]}
+    
+    def allPossibleFBT(self, N: int) -> List[TreeNode]:
+        if N in self.memo:
+            return self.memo[N]
+        ans = []
+        for x in range(N):
+            y = N - 1 - x
+            for left in self.allPossibleFBT(x):
+                for right in self.allPossibleFBT(y):
+                    temp = TreeNode(0)
+                    temp.left = left
+                    temp.right = right
+                    ans.append(temp)
+        self.memo[N] = ans
+        return ans
+```
+
+https://leetcode.com/articles/all-possible-full-binary-trees/
+
+
+
 ### 919. Complete Binary Tree Inserter
 
 ```python
