@@ -171,6 +171,37 @@ class Solution:
 
 
 
+### 684. Redundant Connection
+
+```python
+class Solution:
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        from collections import defaultdict
+        seen = set()
+        def dfs(source, target):
+            for each in graph[source]:
+                if each not in seen:
+                    if each == target:
+                        return True
+                    seen.add(each)
+                    if dfs(each, target):
+                        return True
+        
+        graph = defaultdict(list)
+        for u, v in edges:
+            seen = {u}
+            if u in graph and v in graph and dfs(u, v):
+                return [u, v]
+            graph[u].append(v)
+            graph[v].append(u)
+```
+
+It's basically doing Cycle **Prevention** and not Detection, which was the key piece I missed.
+
+You're building the graph one edge at a time. However, before adding an edge between **u** and **v**, you first check if there already is a path between them, avoiding a cycle.
+
+
+
 ### 787. Cheapest Flights Within K Stops
 
 ```python
