@@ -202,6 +202,43 @@ You're building the graph one edge at a time. However, before adding an edge bet
 
 
 
+### 721. Accounts Merge
+
+```python
+class Solution:
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+        from collections import defaultdict
+        graph = defaultdict(set)
+        email_to_name = dict()
+        for acc in accounts:
+            for email in acc[1:]:
+                graph[acc[1]].add(email)
+                graph[email].add(acc[1])
+                email_to_name[email] = acc[0]
+        
+        ans, seen = [], set()
+        for email in graph:
+            if email not in seen:
+                seen.add(email)
+                component = [email]
+                stack = [email]
+                while stack:
+                    temp = stack.pop()
+                    for each in graph[temp]:
+                        if each not in seen:
+                            seen.add(each)
+                            stack.append(each)
+                            component.append(each)
+                ans.append([email_to_name[email]] + sorted(component))
+        return ans
+```
+
+https://leetcode.com/articles/accounts-merge/
+
+把每个account的第一个邮件和剩下邮件相连，形成一个完全图，再从每个邮件开始dfs查找连通分量，每个连通分量即答案。
+
+
+
 ### 787. Cheapest Flights Within K Stops
 
 ```python
