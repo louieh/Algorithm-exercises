@@ -2751,6 +2751,33 @@ class Solution:
 
 
 
+### 621. Task Scheduler
+
+```python
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        from collections import Counter
+        counter = Counter(tasks)
+        maxCount = max(counter.values())
+        sumMaxCount = 0
+        for k, v in counter.items():
+            if v == maxCount:
+                sumMaxCount += 1
+        
+        parts = maxCount - 1
+        free_for_each_part = n - (sumMaxCount - 1)
+        all_free_part = parts * free_for_each_part
+        not_max_tasks = len(tasks) - maxCount * sumMaxCount
+        remain_free_part = all_free_part - not_max_tasks
+        free_part = max(0, remain_free_part)
+        
+        return len(tasks) + free_part
+```
+
+https://leetcode.com/problems/task-scheduler/discuss/104500/Java-O(n)-time-O(1)-space-1-pass-no-sorting-solution-with-detailed-explanation
+
+
+
 ### 628.Maximum Product of Three Numbers
 
 ```python
