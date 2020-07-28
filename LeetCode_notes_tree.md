@@ -2352,6 +2352,48 @@ class Solution:
 
 
 
+### 863. All Nodes Distance K in Binary Tree
+
+```python
+class Solution:
+    def distanceK(self, root: TreeNode, target: TreeNode, K: int) -> List[int]:
+        distance_dict = dict()
+        ans = []
+        def get_distance_dict(root):
+            if not root:
+                return -1
+            if root.val == target.val:
+                distance_dict[root] = 0
+                return 0
+            left = get_distance_dict(root.left)
+            if left >= 0:
+                distance_dict[root] = left + 1
+                return left + 1
+            right = get_distance_dict(root.right)
+            if right >= 0:
+                distance_dict[root] = right + 1
+                return right + 1
+            return -1
+        
+        def dfs(root, distance):
+            if not root:
+                return
+            if root in distance_dict:
+                distance = distance_dict.get(root)
+            if distance == K:
+                ans.append(root.val)
+            dfs(root.left, distance + 1)
+            dfs(root.right, distance + 1)
+        
+        get_distance_dict(root)
+        dfs(root, 0)
+        return ans
+```
+
+重点
+
+
+
 ### 865. Smallest Subtree with all the Deepest Nodes
 
 ```python
