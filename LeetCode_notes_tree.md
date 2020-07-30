@@ -3029,6 +3029,37 @@ https://leetcode.com/problems/linked-list-in-binary-tree/discuss/684678/Java-DFS
 
 
 
+### 1443. Minimum Time to Collect All Apples in a Tree
+
+```python
+class Solution:
+    def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
+        from collections import defaultdict
+        graph = defaultdict(list)
+        for i, j in edges:
+            graph[i].append(j)
+            graph[j].append(i)
+        
+        seen = set()
+        def dfs(node):
+            if node in seen:
+                return 0
+            
+            seen.add(node)
+            temp_ans = 0
+            for child in graph[node]:
+                temp_ans += dfs(child)
+            if temp_ans > 0:
+                return temp_ans + 2
+            return 2 if hasApple[node] else 0
+        
+        return max(dfs(0)-2, 0)
+```
+
+dfs回溯时计算
+
+
+
 ### 1448. Count Good Nodes in Binary Tree
 
 ```python
