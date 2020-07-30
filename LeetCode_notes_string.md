@@ -149,6 +149,51 @@ class Solution:
 
 
 
+### 139. Word Break
+
+```python
+# 超时
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        
+        self.ans = False
+        
+        def dfs(s):
+            if not s or self.ans:
+                return
+            for word in wordDict:
+                if self.ans:
+                    return
+                if not s.startswith(word):
+                    continue
+                if len(word) == len(s):
+                    self.ans = True
+                    return
+                else:
+                    dfs(s[len(word):])
+        dfs(s)
+        return self.ans
+```
+
+```python
+# DP
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        ans = [False] * (len(s) + 1)
+        ans[0] = True
+        
+        for i in range(1, len(s)+1):
+            for j in range(i):
+                if ans[j] and s[j:i] in wordDict:
+                    ans[i] = True
+                    break
+        return ans[len(s)]
+```
+
+https://leetcode.com/problems/word-break/discuss/43790/Java-implementation-using-DP-in-two-ways
+
+
+
 ### 140. Word Break II
 
 ```python
