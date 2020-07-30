@@ -149,6 +149,39 @@ class Solution:
 
 
 
+### 140. Word Break II
+
+```python
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        
+        def dfs(s, memo):
+            if s in memo:
+                return memo[s]
+            if not s:
+                return []
+            
+            res = []
+            for word in wordDict:
+                if not s.startswith(word):
+                    continue
+                if len(s) == len(word):
+                    res.append(word)
+                else:
+                    rest = dfs(s[len(word):], memo)
+                    for each in rest:
+                        item = word + " " + each
+                        res.append(item)
+            
+            memo[s] = res
+            return res
+        return dfs(s, {})
+```
+https://leetcode.com/problems/word-break-ii/discuss/44311/Python-easy-to-understand-solution
+还没完全懂
+
+
+
 ### 209. Minimum Size Subarray Sum
 
 ```python
