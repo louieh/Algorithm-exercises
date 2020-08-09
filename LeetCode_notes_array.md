@@ -162,6 +162,23 @@ class Solution:
 
 
 
+### 442. Find All Duplicates in an Array
+
+```python
+class Solution:
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        ans = []
+        
+        for each in nums:
+            if nums[abs(each)-1] < 0:
+                ans.append(abs(each))
+            else:
+                nums[abs(each)-1] *= -1
+        return ans
+```
+
+
+
 ### 448. Find All Numbers Disappeared in an Array
 
 ```python
