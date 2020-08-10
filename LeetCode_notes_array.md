@@ -267,6 +267,29 @@ well it is in the map then that means we found sub array that sums to 10 which f
 
 
 
+### 565. Array Nesting
+
+```python
+class Solution:
+    def arrayNesting(self, nums: List[int]) -> int:
+        seen = set()
+        res = 0
+        for i in range(len(nums)):
+            if nums[i] not in seen:
+                temp_res = 0
+                start = nums[i]
+                while True:
+                    start = nums[start]
+                    seen.add(start)
+                    temp_res += 1
+                    if start == nums[i]:
+                        break
+                res = max(res, temp_res)
+        return res
+```
+
+
+
 ### 905. Sort Array By Parity
 
 ```python
