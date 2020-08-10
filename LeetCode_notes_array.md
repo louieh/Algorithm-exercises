@@ -439,6 +439,40 @@ class Solution:
 
 
 
+### 986. Interval List Intersections
+
+```python
+class Solution:
+    def intervalIntersection(self, A: List[List[int]], B: List[List[int]]) -> List[List[int]]:
+        i = j = 0
+        ans = []
+        while i < len(A) and j < len(B):
+            if A[i][0] <= B[j][1] and A[i][0] >= B[j][0] or B[j][0] <= A[i][1] and B[j][0] >= A[i][0]:
+                ans.append([max(A[i][0], B[j][0]), min(A[i][1], B[j][1])])
+            if A[i][1] < B[j][1]:
+                i += 1
+            else:
+                j += 1
+        return ans
+```
+
+```python
+class Solution:
+    def intervalIntersection(self, A: List[List[int]], B: List[List[int]]) -> List[List[int]]:
+        i = j = 0
+        ans = []
+        while i < len(A) and j < len(B):
+            if A[i][0] <= B[j][1] and A[i][0] >= B[j][0] or B[j][0] <= A[i][1] and B[j][0] >= A[i][0]:
+                ans.append([max(A[i][0], B[j][0]), min(A[i][1], B[j][1])])
+            if A[i][1] < B[j][1]:
+                i += 1
+            else:
+                j += 1
+        return ans
+```
+
+
+
 ### 1010. Pairs of Songs With Total Durations Divisible by 60
 
 ```python
