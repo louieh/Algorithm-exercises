@@ -140,6 +140,56 @@ class Solution:
 
 
 
+### 274. H-Index
+
+```python
+class Solution:
+    def hIndex(self, citations: List[int]) -> int:
+        count = [0]*(len(citations)+1)
+        
+        for each in citations:
+            if each > len(citations):
+                count[-1] += 1
+            else:
+                count[each] += 1
+        
+        cite_count_now = len(citations)
+        total_paper_num = 0
+        while cite_count_now >= 0:
+            total_paper_num += count[cite_count_now]
+            if total_paper_num >= cite_count_now:
+                return cite_count_now
+            cite_count_now -= 1
+        return 0
+```
+
+```java
+public int hIndex(int[] citations) {
+    int len = citations.length;
+    int[] count = new int[len + 1];
+    
+    for (int c: citations)
+        if (c > len) 
+            count[len]++;
+        else 
+            count[c]++;
+    
+    
+    int total = 0;
+    for (int i = len; i >= 0; i--) {
+        total += count[i];
+        if (total >= i)
+            return i;
+    }
+    
+    return 0;
+}
+```
+
+先记录不同引用数paper的数量，大于数组长度的引用数记在最后，其余的记录在引用数为index，之后从最后一个位置开始遍历累加paper数，当paper数量大于等于当前引用数时返回当前引用数。
+
+
+
 ### 414. Third Maximum Number
 
 ```python
