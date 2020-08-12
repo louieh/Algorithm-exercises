@@ -286,6 +286,35 @@ class Solution:
 
 
 
+### 802. Find Eventual Safe States
+
+```python
+class Solution:
+    def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
+        G = {}
+        q = collections.deque()
+        ans = [False] * len(graph)
+        for i in range(len(graph)):
+            if not graph[i]:
+                q.append(i)
+            for j in graph[i]:
+                if j in G:
+                    G[j].add(i)
+                else:
+                    G[j] = {i}
+        while q:
+            node = q.popleft()
+            ans[node] = True
+            if node in G:
+                for i in G[node]:
+                    graph[i].remove(node)
+                    if not graph[i]:
+                        q.append(i)
+        return [index for index, val in enumerate(ans) if val]
+```
+
+
+
 ### Naveego OA - [Directions Reduction](https://www.codewars.com/kata/550f22f4d758534c1100025a)
 
 ```python
