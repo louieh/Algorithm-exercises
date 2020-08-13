@@ -115,6 +115,32 @@ https://leetcode.com/problems/combination-sum/discuss/16502/A-general-approach-t
 
 
 
+### 40. Combination Sum II
+
+```python
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        def backtrack(tempList, remain, start):
+            if remain < 0:
+                return
+            elif remain == 0:
+                ans.append(tempList)
+            else:
+                for i in range(start, len(candidates)):
+                    if i > start and candidates[i] == candidates[i-1]:
+                        continue
+                    tempList.append(candidates[i])
+                    backtrack(tempList.copy(), remain-candidates[i], i+1)
+                    tempList.pop()
+        
+        ans = []
+        candidates.sort()
+        backtrack([], target, 0)
+        return ans
+```
+
+
+
 ### 88. Merge Sorted Array
 
 ```python
