@@ -502,35 +502,6 @@ class Solution:
 
 
 
-### 46. Permutations
-
-```python
-class Solution:
-    def permute(self, nums: List[int]) -> List[List[int]]:
-        if not nums:
-            return []
-        
-        ans = []
-        
-        def permute_tool(nums, left, right):
-            if left == right:
-                ans.append(nums[::])
-            else:
-                for i in range(left, right+1):
-                    nums[i], nums[left] = nums[left], nums[i]
-                    permute_tool(nums, left+1, right)
-                    nums[i], nums[left] = nums[left], nums[i]
-        
-        permute_tool(nums, 0, len(nums)-1)
-        return ans
-```
-
-注意最后append的时候要重新复制一遍数组，改变数据地址。
-
-https://blog.csdn.net/zhoufen12345/article/details/53560099
-
-
-
 ### 49. Group Anagrams
 
 ```python
