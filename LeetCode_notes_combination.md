@@ -129,6 +129,46 @@ for i in range(2**n, 2**(n + 1)):
     bitmask = bin(i)[3:]
 ```
 
+```python
+# backtrack 模版
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        
+        ans = []
+        
+        def backtrack(tempList, start):
+            ans.append(tempList)
+            for i in range(start, len(nums)):
+                tempList.append(nums[i])
+                backtrack(tempList.copy(), i + 1)
+                tempList.pop()
+        
+        backtrack([], 0)
+        return ans
+```
+
+
+
+### 90. Subsets II
+
+```python
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        
+        ans = []
+        nums.sort()
+        def backtrack(tempList, start):
+            ans.append(tempList)
+            for i in range(start, len(nums)):
+                if i > start and nums[i] == nums[i-1]: continue
+                tempList.append(nums[i])
+                backtrack(tempList.copy(), i + 1)
+                tempList.pop()
+        
+        backtrack([], 0)
+        return ans
+```
+
 
 
 ### 1286. Iterator for Combination
