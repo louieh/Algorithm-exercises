@@ -3553,6 +3553,48 @@ class Solution:
 
 
 
+### 1103. Distribute Candies to People
+
+```python
+# not finished
+class Solution:
+    def distributeCandies(self, candies: int, num_people: int) -> List[int]:
+        temp = 0
+        for i in range(1, 10**9+1):
+            if temp + i > candies:
+                break
+            temp += i
+        count, remain = i-1, candies - temp
+        print(count)
+        print(remain)
+        rows = count // num_people
+        remain_rows = count % num_people
+        print(rows)
+        print(remain_rows)
+        ans = [0] * num_people
+        for i in range(num_people):
+            ans[i] = ((i+1) + (i+1)+(rows-1)*num_people) * rows // 2
+        print(ans)
+        for i in range(remain_rows):
+            ans[i] += (i+1)+(rows-1)*num_people + num_people
+        ans[remain_rows-1] += remain
+        return ans
+```
+
+```python
+class Solution:
+    def distributeCandies(self, candies: int, num_people: int) -> List[int]:
+        ans = [0] * num_people
+        given = 0
+        while candies > 0:
+            ans[given%num_people] += min(candies, given+1)
+            given += 1
+            candies -= given
+        return ans
+```
+
+
+
 ### 1119. Remove Vowels from a String
 
 ```python

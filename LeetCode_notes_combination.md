@@ -169,6 +169,8 @@ class Solution:
         return ans
 ```
 
+![Scannable文档创建于2020年8月17日 02_39_51](/Users/hanluyi/Downloads/other_Python_ex/leetcode/Scannable文档创建于2020年8月17日 02_39_51.png)
+
 
 
 ### 1286. Iterator for Combination
