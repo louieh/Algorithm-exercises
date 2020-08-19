@@ -3342,6 +3342,37 @@ class Solution:
 
 
 
+### 967. Numbers With Same Consecutive Differences
+
+```python
+class Solution:
+    def numsSameConsecDiff(self, N: int, K: int) -> List[int]:
+        if N == 1:
+            return [i for i in range(10)]
+        
+        ans = []
+        
+        def dfs(N, num):
+            if N == 0:
+                ans.append(num)
+                return
+            
+            last_digit = num % 10
+            last_digit_list = set([last_digit + K, last_digit - K])
+            for digit in last_digit_list:
+                if digit >= 0 and digit <= 9:
+                    new_num = num * 10 + digit
+                    dfs(N-1, new_num)
+        
+        for i in range(1, 10):
+            dfs(N-1, i)
+        return ans
+```
+
+https://leetcode.com/problems/numbers-with-same-consecutive-differences/solution/
+
+
+
 ### 973. K Closest Points to Origin
 
 ```python
