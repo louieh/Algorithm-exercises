@@ -82,6 +82,78 @@ class Solution:
 
 https://blog.csdn.net/zhoufen12345/article/details/53560099
 
+```python
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        
+        ans = []
+        
+        def backtrack(tempList):
+            if len(tempList) == len(nums):
+                ans.append(tempList)
+            else:
+                for num in nums:
+                    if num in tempList:
+                        continue
+                    tempList.append(num)
+                    backtrack(tempList.copy())
+                    tempList.pop()
+        
+        backtrack([])
+        return ans
+```
+
+
+
+### 47. Permutations II
+
+```python
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        
+        ans = []
+        nums.sort()
+        def backtrack(tempList, used):
+            print(tempList)
+            if len(tempList) == len(nums):
+                ans.append(tempList)
+            else:
+                for i, num in enumerate(nums):
+                    if used[i] or i > 0 and nums[i] == nums[i-1] and not used[i-1]: continue
+                    tempList.append(num)
+                    used[i] = True
+                    backtrack(tempList.copy(), used.copy())
+                    used[i] = False
+                    tempList.pop()
+        
+        backtrack([], [False]*len(nums))
+        return ans
+```
+
+
+
+### 77. Combinations
+
+```python
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        
+        ans = []
+        nums = [i for i in range(1, n+1)]
+        def backtrack(tempList, start):
+            if len(tempList) == k:
+                ans.append(tempList)
+            elif start == len(nums):
+                return
+            else:
+                for i in range(start, len(nums)):
+                    tempList.append(nums[i])
+                    backtrack(tempList.copy(), i+1)
+                    tempList.pop()
+        backtrack([], 0)
+        return ans
+```
+
 
 
 ### 78. Subsets
@@ -170,6 +242,38 @@ class Solution:
 ```
 
 ![Scannable文档创建于2020年8月17日 02_39_51](/Users/hanluyi/Downloads/other_Python_ex/leetcode/Scannable文档创建于2020年8月17日 02_39_51.png)
+
+
+
+### 131. Palindrome Partitioning
+
+```python
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        
+        ans = []
+        
+        def backtrack(tempList, start):
+            if start == len(s):
+                ans.append(tempList)
+            else:
+                for i in range(start, len(s)):
+                    if isPalindrome(start, i):
+                        tempList.append(s[start:i+1])
+                        backtrack(tempList.copy(), i+1)
+                        tempList.pop()
+        
+        def isPalindrome(left, right):
+            while left < right:
+                if s[left] != s[right]:
+                    return False
+                left += 1
+                right -= 1
+            return True
+        
+        backtrack([], 0)
+        return ans
+```
 
 
 
