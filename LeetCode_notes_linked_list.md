@@ -247,6 +247,45 @@ class Solution:
 
 
 
+### 138. Copy List with Random Pointer
+
+```python
+# 不太懂
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, next, random):
+        self.val = val
+        self.next = next
+        self.random = random
+"""
+class Solution:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        if not head:
+            return
+        
+        head_dict = dict()
+        
+        def copyRandomList_tool(head):
+            if not head:
+                return
+            
+            if head in head_dict.keys():
+                return head_dict[head]
+            
+            cp_head = Node(head.val, None, None)
+            head_dict[head] = cp_head
+            
+            cp_head.random = copyRandomList_tool(head.random)
+            cp_head.next = copyRandomList_tool(head.next)
+            
+            return cp_head
+            
+        return copyRandomList_tool(head)
+```
+
+
+
 ### 141.Linked List Cycle
 
 ```python
@@ -309,42 +348,45 @@ class Solution:
 
 
 
-### 138. Copy List with Random Pointer
+### 143. Reorder List
 
 ```python
-# 不太懂
-"""
-# Definition for a Node.
-class Node:
-    def __init__(self, val, next, random):
-        self.val = val
-        self.next = next
-        self.random = random
-"""
 class Solution:
-    def copyRandomList(self, head: 'Node') -> 'Node':
-        if not head:
+    def reorderList(self, head: ListNode) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        if not head or not head.next:
             return
         
-        head_dict = dict()
+        p1, p2 = head, head
         
-        def copyRandomList_tool(head):
-            if not head:
-                return
-            
-            if head in head_dict.keys():
-                return head_dict[head]
-            
-            cp_head = Node(head.val, None, None)
-            head_dict[head] = cp_head
-            
-            cp_head.random = copyRandomList_tool(head.random)
-            cp_head.next = copyRandomList_tool(head.next)
-            
-            return cp_head
-            
-        return copyRandomList_tool(head)
+        while p2.next and p2.next.next:
+            p1 = p1.next
+            p2 = p2.next.next
+        
+        preMiddle = p1
+        preCurrent = p1.next
+        temp_head = p1.next
+        while preCurrent.next:
+            temp_next = preCurrent.next
+            preCurrent.next = preCurrent.next.next
+            temp_next.next = temp_head
+            temp_head = temp_next
+        preMiddle.next = temp_head
+        
+        p1, p2 = head, preMiddle.next
+        while p1 != preMiddle:
+            preMiddle.next = p2.next
+            p2.next = p1.next
+            p1.next = p2
+            p1 = p2.next
+            p2 = preMiddle.next
 ```
+
+https://leetcode.com/problems/reorder-list/discuss/44992/Java-solution-with-3-steps
+
+![IMG_3359](/Users/hanluyi/Downloads/other_Python_ex/leetcode/IMG_3359.jpeg)
 
 
 
