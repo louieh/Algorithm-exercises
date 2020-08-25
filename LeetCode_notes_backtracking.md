@@ -1,6 +1,29 @@
-## Leetcode - Combination
+## Leetcode - backtracking
 
 [toc]
+
+### 22. Generate Parentheses
+
+```python
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        
+        ans = []
+        
+        def backtrack(tempString, op, cl):
+            if len(tempString) == n * 2:
+                ans.append(tempString)
+                return
+            if op < n:
+                backtrack(tempString+'(', op+1, cl)
+            if cl < op:
+                backtrack(tempString+')', op, cl+1)
+        
+        backtrack("", 0, 0)
+        return ans
+```
+
+
 
 ### 39. Combination Sum
 
