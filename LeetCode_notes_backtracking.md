@@ -300,6 +300,32 @@ class Solution:
 
 
 
+### 1079. Letter Tile Possibilities
+
+```python
+class Solution:
+    def numTilePossibilities(self, tiles: str) -> int:
+        if len(tiles) == 1:
+            return 1
+        
+        count = [0] * 26
+        for each in tiles:
+            count[ord(each)-65] += 1
+        
+        def backtrack(count):
+            ans = 0
+            for i in range(26):
+                if count[i] == 0: continue
+                ans += 1
+                count[i] -= 1
+                ans += backtrack(count)
+                count[i] += 1
+            return ans
+        return backtrack(count)
+```
+
+
+
 ### 1286. Iterator for Combination
 
 ```python
