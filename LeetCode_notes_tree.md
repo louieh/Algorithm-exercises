@@ -2565,6 +2565,35 @@ class Solution:
 
 
 
+### 988. Smallest String Starting From Leaf
+
+```python
+class Solution:
+    def smallestFromLeaf(self, root: TreeNode) -> str:
+        temp_dict = {i: chr(i+97) for i in range(26)}
+        if not root.left and not root.right:
+            return temp_dict[root.val]
+        
+        temp_dict = {i: chr(i+97) for i in range(26)}
+        
+        ans = []
+        
+        def dfs(root, cur):
+            if not root.left and not root.right:
+                ans.append(temp_dict[root.val]+cur)
+                return
+            if root.left:
+                dfs(root.left, temp_dict[root.val]+cur)
+            if root.right:
+                dfs(root.right, temp_dict[root.val]+cur)
+        
+        dfs(root, "")
+        ans.sort()
+        return ans[0]
+```
+
+
+
 ### 993. Cousins in Binary Tree
 
 ```python
