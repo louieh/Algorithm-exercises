@@ -618,6 +618,38 @@ class Solution:
 
 
 
+### 436. Find Right Interval
+
+```python
+class Solution:
+    def findRightInterval(self, intervals: List[List[int]]) -> List[int]:
+        if len(intervals) == 1:
+            return [-1]
+        ans = []
+        start_dict = {interval[0]: index for index, interval in enumerate(intervals)}
+        start_list = sorted([interval[0] for interval in intervals])
+        
+        def binary_search(num):
+            left, right = 0, len(start_list)-1
+            if num > start_list[right]:
+                return -1
+            if num < start_list[left]:
+                return 0
+            while left < right:
+                mid = left + (right - left) // 2
+                if start_list[mid] == num:
+                    return start_dict[start_list[mid]]
+                if num < start_list[mid]:
+                    right = mid
+                elif num > start_list[mid]:
+                    left = mid + 1
+            return start_dict[start_list[left]]
+        
+        return [binary_search(interval[1]) for interval in intervals]
+```
+
+
+
 ### 441. Arranging Coins
 
 ```python
