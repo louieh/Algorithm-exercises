@@ -463,6 +463,33 @@ class Solution:
 
 
 
+### 969. Pancake Sorting
+
+```python
+class Solution:
+    def pancakeSort(self, A: List[int]) -> List[int]:
+        ans = []
+        
+        for i in range(len(A), 1, -1):
+            # i:= len(A) -> 2
+            max_i = A.index(i)
+            ans.extend([max_i+1, i])
+            A = A[:max_i:-1] + A[:max_i]
+        return ans
+```
+
+大意思想：先找到最大值然后从0到最大值做反转使得最大值到第一个位置，再把整个数组反转使得最大值到最后一个位置，这样则放置好了最大值，继续操作A[:len(A)-1]
+
+代码大意：因为数组中数字是小于等于数组长度且不相同的，也就是全排列，所以for循环从len(A)开始到2截止。
+
+`A.index(i)` 找到最大值的index，`[max_i+1,i]` 两次翻转，`A[:max_i:-1]+A[:max_i]` 重新组合A，也就是最大值后面的翻转+最大值前面，正好排出了最大值。
+
+Python 切片：注意此处切片操作，[​a:/b:c]第三个数为step也就是步长，默认为1，也就是走一步取一个值。当步长大于零时，开始位置a需在结束位置b的左边，从左到右依步长取值，不包括结束位置。当步长小于零时，开始位置a需在结束位置b的右边，从右到左依步长取值，不包括结束位置。
+
+开始位置a和结束位置b可以省略，当步长为正时，如果省略开始位置a那么a默认为最左位置，当步长为负时，如果省略开始位置a那么a默认为最右位置。
+
+
+
 ### 977. Squares of a Sorted Array
 
 ```python
