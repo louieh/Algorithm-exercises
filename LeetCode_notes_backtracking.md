@@ -137,7 +137,6 @@ class Solution:
         ans = []
         nums.sort()
         def backtrack(tempList, used):
-            print(tempList)
             if len(tempList) == len(nums):
                 ans.append(tempList)
             else:
@@ -296,6 +295,48 @@ class Solution:
         
         backtrack([], 0)
         return ans
+```
+
+
+
+### 949. Largest Time for Given Digits
+
+```python
+class Solution:
+    def largestTimeFromDigits(self, A: List[int]) -> str:
+        ans = ""
+        self.hour_max, self.mini_max = -1, -1
+        
+        A.sort()
+        def backtrack(tempList, used):
+            if len(tempList) == len(A):
+                hour_temp = tempList[0]*10+tempList[1]
+                mini_temp = tempList[2]*10+tempList[3]
+                if hour_temp <= 23 and mini_temp <= 59:
+                    if hour_temp > self.hour_max:
+                        self.hour_max = hour_temp
+                        self.mini_max = mini_temp
+                    elif hour_temp == self.hour_max and mini_temp > self.mini_max:
+                        self.mini_max = mini_temp
+                
+            else:
+                for i, num in enumerate(A):
+                    if used[i] or i > 0 and A[i] == A[i-1] and not used[i-1]:
+                        continue
+                    used[i] = True
+                    tempList.append(num)
+                    backtrack(tempList.copy(), used.copy())
+                    used[i] = False
+                    tempList.pop()
+        backtrack([], [False]*len(A))
+        
+        if self.hour_max == -1 and self.mini_max == -1:
+            return ans
+        if len(str(self.hour_max)) == 1:
+            self.hour_max = "0" + str(self.hour_max)
+        if len(str(self.mini_max)) == 1:
+            self.mini_max = "0" + str(self.mini_max)
+        return str(self.hour_max) + ":" + str(self.mini_max)
 ```
 
 
