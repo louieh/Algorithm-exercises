@@ -2,6 +2,8 @@
 
 [toc]
 
+https://leetcode.com/discuss/general-discussion/786126/python-powerful-ultimate-binary-search-template-solved-many-problems
+
 Template I
 
 ```python
@@ -253,6 +255,28 @@ class Solution:
 
 
 
+### 35. Search Insert Position
+
+```python
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        left, right = 0, len(nums)
+        while left < right:
+            mid = left + (right - left) // 2
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] > target:
+                right = mid
+            else:
+                left = mid + 1
+
+        return left
+```
+
+notice that the input `target` might be larger than all elements in `nums` and therefore needs to placed at the end of the array. That's why we should initialize `right = len(nums)` instead of `right = len(nums) - 1`.
+
+
+
 ### 69. Sqrt(x)
 
 ```python
@@ -274,6 +298,23 @@ class Solution:
                 low = mid
 
         return int(mid)
+```
+
+```python
+class Solution:
+    def mySqrt(self, x: int) -> int:
+        left, right = 0, x+1
+        
+        while left < right:
+            mid = left + (right - left) // 2
+            mid_2 = mid * mid
+            if mid_2 == x:
+                return mid
+            elif mid_2 > x:
+                right = mid
+            else:
+                left = mid + 1
+        return left - 1
 ```
 
 
@@ -836,5 +877,34 @@ class Solution:
             return letters[low]
         else:
             return letters[0]
+```
+
+
+
+### 1011. Capacity To Ship Packages Within D Days
+
+```python
+class Solution:
+    def shipWithinDays(self, weights: List[int], D: int) -> int:
+        
+        def canShip(capacity):
+            days, total = 1, 0
+            for weight in weights:
+                total += weight
+                if total > capacity:
+                    days += 1
+                    total = weight
+                    if days > D:
+                        return False
+            return True
+        
+        left, right = max(weights), sum(weights)
+        while left < right:
+            mid = left + (right - left) // 2
+            if canShip(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
 ```
 
