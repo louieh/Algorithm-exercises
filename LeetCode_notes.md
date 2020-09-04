@@ -2530,6 +2530,16 @@ That's why we then look for AB[-c-d] (or AB[-(c+d)] )
 
 
 
+### 459. Repeated Substring Pattern
+
+```python
+class Solution:
+    def repeatedSubstringPattern(self, s: str) -> bool:
+        return s in (s + s)[1:-1]
+```
+
+
+
 ### 470. Implement Rand10() Using Rand7()
 
 ```python
