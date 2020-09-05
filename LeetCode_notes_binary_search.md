@@ -686,6 +686,8 @@ class Solution:
         return left
 ```
 
+similar to LC 1011 and LC 875
+
 
 
 ### 436. Find Right Interval
@@ -910,6 +912,28 @@ class Solution:
 
 
 
+### 875. Koko Eating Bananas
+
+```python
+class Solution:
+    def minEatingSpeed(self, piles: List[int], H: int) -> int:
+        def feasible(speed):
+            return sum(math.ceil(pile/speed) for pile in piles) <= H
+        
+        left, right = 1, max(piles)
+        while left < right:
+            mid = left + (right - left) // 2
+            if feasible(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+```
+
+similar to LC 1011 and LC 410
+
+
+
 ### 1011. Capacity To Ship Packages Within D Days
 
 ```python
@@ -937,3 +961,4 @@ class Solution:
         return left
 ```
 
+similar to LC 875 and LC 410
