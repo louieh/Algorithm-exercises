@@ -962,3 +962,37 @@ class Solution:
 ```
 
 similar to LC 875 and LC 410
+
+
+
+### 1482. Minimum Number of Days to Make m Bouquets
+
+```python
+class Solution:
+    def minDays(self, bloomDay: List[int], m: int, k: int) -> int:
+        if m * k > len(bloomDay):
+            return -1
+        
+        def feasible(days):
+            flowers_now = bouquets = 0
+            for each in bloomDay:
+                if each > days:
+                    flowers_now = 0
+                else:
+                    bouquets += (flowers_now+1) // k
+                    flowers_now = (flowers_now+1) % k
+            return bouquets >= m
+         # (flowers_now+1)//k 先把花数量增加一再除以k看目前可以组成几个花束
+         # flowers_now = (flowers_now+1)%k 更新花数量，现增加一再余k，因为组成花束后便不可用所以重新计算
+         # if each < days: flowers_now = 0 因为组成花束的花必须相邻所以如果遇到不相邻则将花数量重置为0
+        
+        left, right = 1, max(bloomDay)
+        while left < right:
+            mid = left + (right - left) // 2
+            if feasible(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+```
+
