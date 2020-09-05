@@ -659,6 +659,35 @@ class Solution:
 
 
 
+### 410. Split Array Largest Sum
+
+```python
+class Solution:
+    def splitArray(self, nums: List[int], m: int) -> int:
+        def feasible(mid):
+            total = 0
+            counter = 1
+            for num in nums:
+                total += num
+                if total > mid:
+                    total = num
+                    counter += 1
+                    if counter > m:
+                        return False
+            return True
+        
+        left, right = max(nums), sum(nums)
+        while left < right:
+            mid = left + (right - left) // 2
+            if feasible(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+```
+
+
+
 ### 436. Find Right Interval
 
 ```python
