@@ -839,6 +839,40 @@ class Solution:
 
 
 
+### 668. Kth Smallest Number in Multiplication Table
+
+```python
+class Solution:
+    def findKthNumber(self, m: int, n: int, k: int) -> int:
+        
+        def enough(num):
+            total = 0
+            for i in range(1, m+1):
+                count = min(num//i, n)
+                if count == 0:
+                    break
+                total += count
+            return total >= k
+        
+        left, right = 1, m*n
+        
+        while left < right:
+            mid = left + (right - left) // 2
+            if enough(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+```
+
+Enough function判断是否至少有k个数小于num，二分查找符合条件的最小的num即第k小
+
+enough函数中min(num//i, n)因为乘法表每行按比例递增，第一行是1的倍数，第二行是2的倍数，第三行是3的倍数...每一行中用num//这行的倍数等于此行中有多少个数是小于等于num的，例如num=7，在第三行中[3,6,9...] 7//3=2，原理是第三行第一个数表示1个三，第二个数2个三，第三个数3个三等，那么判断num中有几个三则等于有几个数是小于等于它的。
+
+count==0表示num比下面都小于是直接跳出。
+
+
+
 ### 702. Search in a Sorted Array of Unknown Size
 
 ```python
