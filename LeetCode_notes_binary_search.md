@@ -908,6 +908,34 @@ class Solution:
 
 
 
+### 719. Find K-th Smallest Pair Distance
+
+```python
+class Solution:
+    def smallestDistancePair(self, nums: List[int], k: int) -> int:
+        
+        def enough(distance):
+            count = slow = fast = 0
+            while slow < len(nums) or fast < len(nums):
+                while fast < len(nums) and nums[fast] - nums[slow] <= distance:
+                    fast += 1
+                count += fast - slow - 1
+                slow += 1
+            return count >= k
+        
+        nums.sort()
+        left, right = 0, nums[-1] - nums[0]
+        while left < right:
+            mid = left + (right - left) // 2
+            if enough(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+```
+
+
+
 ### 744. Find Smallest Letter Greater Than Target
 
 ```python
