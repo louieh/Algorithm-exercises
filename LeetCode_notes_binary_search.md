@@ -1027,6 +1027,32 @@ similar to LC 875 and LC 410
 
 
 
+### 1201. Ugly Number III
+
+```python
+class Solution:
+    def nthUglyNumber(self, n: int, a: int, b: int, c: int) -> int:
+        
+        def lcm(aa, bb):
+            return aa * bb // math.gcd(aa, bb)
+        
+        def enough(num):
+            return num//a + num//b + num//c - num//lcm(a, b) - num//lcm(a, c) - num//lcm(b, c) + num//lcm(a, lcm(b, c)) >= n
+        
+        left, right = 1, 10**10
+        while left < right:
+            mid = left + (right - left) // 2
+            if enough(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+```
+
+https://leetcode.com/problems/ugly-number-iii/discuss/387780/JavaC%2B%2B-Binary-Search-with-Venn-Diagram-Explain-Math-Formula
+
+
+
 ### 1482. Minimum Number of Days to Make m Bouquets
 
 ```python
