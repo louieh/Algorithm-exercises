@@ -1251,6 +1251,37 @@ class Solution:
 
 
 
+### 165. Compare Version Numbers
+
+```python
+class Solution:
+    def compareVersion(self, version1: str, version2: str) -> int:
+        v1_list = version1.split(".")
+        v2_list = version2.split(".")
+        
+        i = j = 0
+        while i < len(v1_list) and j < len(v2_list):
+            if int(v1_list[i]) > int(v2_list[j]):
+                return 1
+            elif int(v1_list[i]) < int(v2_list[j]):
+                return -1
+            i += 1
+            j += 1
+        
+        while i < len(v1_list):
+            if int(v1_list[i]) > 0:
+                return 1
+            i += 1
+        while j < len(v2_list):
+            if int(v2_list[j]) > 0:
+                return -1
+            j += 1
+        return 0
+```
+like merge two sorted array
+
+
+
 ### 167. Two Sum II - Input array is sorted
 
 ```python
