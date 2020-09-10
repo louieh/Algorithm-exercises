@@ -1053,6 +1053,30 @@ https://leetcode.com/problems/ugly-number-iii/discuss/387780/JavaC%2B%2B-Binary-
 
 
 
+### 1283. Find the Smallest Divisor Given a Threshold
+
+```python
+class Solution:
+    def smallestDivisor(self, nums: List[int], threshold: int) -> int:
+        
+        def reasible(mid):
+            ans = 0
+            for num in nums:
+                ans += math.ceil(num/mid)
+            return ans <= threshold
+        
+        left, right = 1, max(nums)
+        while left < right:
+            mid = left + (right - left) // 2
+            if reasible(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+```
+
+
+
 ### 1482. Minimum Number of Days to Make m Bouquets
 
 ```python
