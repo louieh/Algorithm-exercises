@@ -258,26 +258,6 @@ class Solution:
 
 
 
-### 11. Container With Most Water
-
-```python
-class Solution:
-    def maxArea(self, height: List[int]) -> int:
-        l = 0
-        r = len(height) - 1
-        ans = 0
-        
-        while l < r:
-            ans = max(ans, (r - l) * min(height[l], height[r]))
-            if height[l] > height[r]:
-                r -= 1
-            else:
-                l += 1
-        return ans
-```
-
-
-
 ### 8. String to Ineger (atoi)
 
 ```c++
@@ -369,6 +349,26 @@ class Solution:
 
 
 
+### 11. Container With Most Water
+
+```python
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        l = 0
+        r = len(height) - 1
+        ans = 0
+        
+        while l < r:
+            ans = max(ans, (r - l) * min(height[l], height[r]))
+            if height[l] > height[r]:
+                r -= 1
+            else:
+                l += 1
+        return ans
+```
+
+
+
 ### 12. Integer to Roman
 
 ```python
@@ -417,6 +417,34 @@ class Solution:
 
         return res
             
+```
+
+
+
+### 16. 3Sum Closest
+
+```python
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        diff = sys.maxsize
+        ans = None
+        for i in range(len(nums)):
+            left, right = i+1, len(nums)-1
+            while left < right:
+                sum = nums[i] + nums[left] + nums[right]
+                if abs(target - sum) < diff:
+                    diff = abs(target - sum)
+                    ans = sum
+                if sum < target:
+                    left += 1
+                elif sum > target:
+                    right -= 1
+                else:
+                    break
+            if diff == 0:
+                break
+        return ans
 ```
 
 
