@@ -171,6 +171,37 @@ class Solution:
 
 
 
+### 6. ZigZag Conversion
+
+```python
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        if numRows == 1:
+            return s
+        
+        ans = [[] for i in range(min(numRows, len(s)))]
+        
+        cur_row, down = 0, True
+        for c in s:
+            ans[cur_row].append(c)
+            if cur_row == len(ans) - 1 and down is True:
+                cur_row -= 1
+                down = False
+                continue
+            elif cur_row == 0 and down is False:
+                cur_row += 1
+                down = True
+                continue
+            if down:
+                cur_row += 1
+            else:
+                cur_row -= 1
+        
+        return "".join(["".join(row) for row in ans])
+```
+
+
+
 ### 7. Reverse Integer
 
 ```c++
