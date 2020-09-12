@@ -299,6 +299,30 @@ class Solution:
 
 
 
+### 216. Combination Sum III
+
+```python
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        nums = [i for i in range(1, 10)]
+        ans = []
+        def backtrack(tempList, remain, start):
+            if len(tempList) == k:
+                if remain == 0:
+                    ans.append(tempList)
+                return
+            else:
+                for i in range(start, len(nums)):
+                    tempList.append(nums[i])
+                    backtrack(tempList.copy(), remain-nums[i], i+1)
+                    tempList.pop()
+        
+        backtrack([], n, 0)
+        return ans
+```
+
+
+
 ### 949. Largest Time for Given Digits
 
 ```python
