@@ -421,6 +421,60 @@ class Solution:
 
 
 
+### 15. 3Sum
+
+```python
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        ans = []
+        
+        processed = []
+        
+        for i in range(len(nums)):
+            if nums[i] in processed:
+                continue
+            used = {}
+            for j in range(i+1, len(nums)):
+                target = -(nums[i]+nums[j])
+                if not target in used:
+                    if not nums[j] in used:
+                        used[nums[j]] = False
+                elif not used[target] and not nums[j] in processed and not target in processed:
+                    ans.append([nums[i], nums[j], target])
+                    used[target] = True
+            processed.append(nums[i])
+        return ans
+```
+
+```python
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        
+        nums.sort()
+        ans = []
+        for i in range(len(nums)):
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            left, right = i + 1, len(nums) - 1
+            while left < right:
+                sum = nums[i] + nums[left] + nums[right]
+                if sum > 0:
+                    right -= 1
+                elif sum < 0:
+                    left += 1
+                else:
+                    ans.append([nums[i], nums[left], nums[right]])
+                    while left < right and nums[left+1] == nums[left]:
+                        left += 1
+                    while left < right and nums[right-1] == nums[right]:
+                        right -= 1
+                    left += 1
+                    right -= 1
+        return ans
+```
+
+
+
 ### 16. 3Sum Closest
 
 ```python
@@ -445,6 +499,46 @@ class Solution:
             if diff == 0:
                 break
         return ans
+```
+
+
+
+### 18. 4Sum
+
+```python
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+
+        def twoSum(tempList, target):
+            ans = []
+            left, right = 0, len(tempList)-1
+            while left < right:
+                sum = tempList[left] + tempList[right]
+                if sum < target or (left > 0 and tempList[left] == tempList[left-1]):
+                    left += 1
+                elif sum > target or (right < len(tempList)-1 and tempList[right] == tempList[right+1]):
+                    right -= 1
+                else:
+                    ans.append([tempList[left], tempList[right]])
+                    left += 1
+                    right -= 1
+            return ans
+        
+        def kSum(tempList, target, k):
+            ans = []
+            if len(tempList) == 0 or tempList[0] * k > target or tempList[-1] * k < target:
+                return ans
+            if k == 2:
+                return twoSum(tempList, target)
+            for i in range(len(tempList)):
+                if i > 0 and tempList[i] == tempList[i-1]:
+                    continue
+                for each in kSum(tempList[i+1:], target-tempList[i], k-1):
+                    ans.append([tempList[i]] + each)
+            return ans
+        
+        nums.sort()
+        return kSum(nums, target, 4)
 ```
 
 
