@@ -37,6 +37,42 @@ class Solution:
 
 
 
+### 198. House Robber
+
+```python
+# TLE
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        
+        def rob_helper(i):
+            if i < 0:
+                return 0
+            return max(nums[i]+rob_helper(i-2), rob_helper(i-1))
+        
+        return rob_helper(len(nums)-1)
+```
+
+```python
+# with memo
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        
+        rem = dict()
+        
+        def rob_helper(i):
+            if i < 0:
+                return 0
+            if i in rem:
+                return rem[i]
+            rem_val = max(nums[i]+rob_helper(i-2), rob_helper(i-1))
+            rem[i] = rem_val
+            return rem_val
+        
+        return rob_helper(len(nums)-1)
+```
+
+
+
 ### 714. Best Time to Buy and Sell Stock with Transaction Fee
 
 ```python
