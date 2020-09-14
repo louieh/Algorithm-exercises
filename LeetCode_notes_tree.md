@@ -2823,6 +2823,26 @@ class Solution:
 
 
 
+### 1123. Lowest Common Ancestor of Deepest Leaves
+
+```python
+class Solution:
+    def lcaDeepestLeaves(self, root: TreeNode) -> TreeNode:
+        
+        def helper(root):
+            if not root:
+                return 0, None
+            l_height, l_lca = helper(root.left)
+            r_height, r_lca = helper(root.right)
+            if l_height > r_height: return l_height+1, l_lca
+            elif l_height < r_height: return r_height+1, r_lca
+            else:
+                return l_height+1, root
+        return helper(root)[1]
+```
+
+
+
 ### 1130. Minimum Cost Tree From Leaf Values
 
 ```python
