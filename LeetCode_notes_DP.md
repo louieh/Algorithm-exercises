@@ -71,6 +71,19 @@ class Solution:
         return rob_helper(len(nums)-1)
 ```
 
+```python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if not nums: return 0
+        memo = [None] * (len(nums)+1)
+        memo[0], memo[1] = 0, nums[0]
+        for i in range(1, len(nums)):
+            memo[i+1] = max(memo[i], memo[i-1]+nums[i])
+        return memo[-1]
+```
+
+https://leetcode.com/problems/house-robber/discuss/156523/From-good-to-great.-How-to-approach-most-of-DP-problems.
+
 
 
 ### 714. Best Time to Buy and Sell Stock with Transaction Fee
