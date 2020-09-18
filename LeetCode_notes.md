@@ -775,6 +775,43 @@ Similar to 56
 
 
 
+### 58. Length of Last Word
+
+```python
+# 05/02/2018 11:18
+class Solution:
+    def lengthOfLastWord(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if not s:
+            return 0
+        if s == " ":
+            return 0
+        else:
+            mark = False
+            s_list = s.split(" ")
+            for each in s_list[::-1]:
+                if each:
+                    return len(each)
+                    mark = True
+                    break
+            if mark != True:
+                return 0
+```
+
+```python
+# 9/15/2020
+class Solution:
+    def lengthOfLastWord(self, s: str) -> int:
+        if not s or s == "":
+            return 0
+        return len(s.strip().split(" ")[-1])
+```
+
+
+
 ### 61. Rotate List
 
 ```python
@@ -3755,6 +3792,41 @@ class Solution:
                     ans.append(c)
         return ans
 ```
+
+
+
+### 1004. Max Consecutive Ones III
+
+```python
+class Solution:
+    def longestOnes(self, A: List[int], K: int) -> int:
+        
+        zero_num = start = ans = 0
+        for i, val in enumerate(A):
+            if val == 0:
+                zero_num += 1
+            while zero_num > K:
+                if A[start] == 0:
+                    zero_num -= 1
+                start += 1
+            ans = max(ans, i-start+1)
+        return ans
+```
+
+```python
+    def longestOnes(self, A, K):
+        i = 0
+        for j in xrange(len(A)):
+            K -= 1 - A[j]
+            if K < 0:
+                K += 1 - A[i]
+                i += 1
+        return j - i + 1
+```
+
+还没有完全懂这个写法，目前理解是当 i到j 达到最大宽度后，当j继续向前移动时如果遇到超出0个数的A[j] 那么 i 也同时向前移动，也就是说保持这个宽度不变向前移动，最后得到的i，j并不是准确的位置但是i，j的宽度是最大的。
+
+https://leetcode.com/problems/max-consecutive-ones-iii/discuss/247564/JavaC%2B%2BPython-Sliding-Window
 
 
 
