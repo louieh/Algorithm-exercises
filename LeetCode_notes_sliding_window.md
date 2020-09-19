@@ -2,6 +2,146 @@
 
 [toc]
 
+### 209. Minimum Size Subarray Sum
+
+```python
+class Solution(object):
+    def minSubArrayLen(self, s, nums):
+        """
+        :type s: int
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return 0
+
+        for i in range(1, len(nums)+1): # 遍历长度 (1-6)
+            for j in range(len(nums)):  # 遍历起始点 (0-5)
+                if j + i - 1 >= len(nums):
+                    break
+                sum_temp = 0
+                for k in range(i): # 从 j 开始遍历 i 长度
+                    sum_temp += nums[k+j]
+                if sum_temp >= s:
+                    return i
+        return 0
+```
+
+$O(n^3)$ 超时。将数组中各个位的累积和存在另一个数组中，这样时间复杂度缩小到 $O(n^2)$
+
+```java
+class Solution {
+    public int minSubArrayLen(int s, int[] nums) {
+        if (nums.length == 0)
+            return 0;
+        
+        for(int i=0; i<nums.length; i++){
+            if (nums[i] >= s)
+                return 1;
+        }
+        
+        int[] dest = nums.clone();
+        
+        for(int i=2; i<=nums.length; i++){ // 遍历长度
+            for(int j=0; j<nums.length; j++){ // 遍历起始点
+                if(j+i-1 >= nums.length)
+                    break;
+                if (dest[j] + nums[j+i-1] >= s)
+                    return i;
+                else{
+                    dest[j] += nums[j+i-1];
+                }
+            }
+        }
+        return 0;
+    }
+}
+```
+
+Java $O(n^2)$ accepted
+
+```python
+class Solution:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        
+        for each in nums:
+            if each >= s:
+                return 1
+
+        nums_sum_temp = nums.copy()
+        
+        for i in range(2, len(nums)+1): # 遍历长度
+            for j in range(len(nums)):  # 遍历起始点
+                if j + i - 1 >= len(nums):
+                    break
+                if nums_sum_temp[j] + nums[j+i-1] >= s:
+                    return i
+                else:
+                    nums_sum_temp[j] += nums[j+i-1]
+        return 0
+```
+
+Python $O(n^2)$ 超时
+
+```python
+class Solution:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        sums = 0
+        left = 0
+        ans = len(nums) + 1
+        for i in range(len(nums)):
+            sums += nums[i]
+            while (sums >= s):
+                ans = min(ans, i + 1 - left)
+                sums -= nums[left]
+                left += 1
+        if ans < len(nums) + 1:
+            return ans
+        else:
+            return 0
+```
+
+$O(n)$ 先一直向前加，加到和>=s后再从左边开始向右减，然后再从刚刚加到的位置开始。
+
+
+
+### 1004. Max Consecutive Ones III
+
+```python
+class Solution:
+    def longestOnes(self, A: List[int], K: int) -> int:
+        
+        zero_num = start = ans = 0
+        for i, val in enumerate(A):
+            if val == 0:
+                zero_num += 1
+            while zero_num > K:
+                if A[start] == 0:
+                    zero_num -= 1
+                start += 1
+            ans = max(ans, i-start+1)
+        return ans
+```
+
+```python
+    def longestOnes(self, A, K):
+        i = 0
+        for j in xrange(len(A)):
+            K -= 1 - A[j]
+            if K < 0:
+                K += 1 - A[i]
+                i += 1
+        return j - i + 1
+```
+
+还没有完全懂这个写法，目前理解是当 i到j 达到最大宽度后，当j继续向前移动时如果遇到超出0个数的A[j] 那么 i 也同时向前移动，也就是说保持这个宽度不变向前移动，最后得到的i，j并不是准确的位置但是i，j的宽度是最大的。
+
+https://leetcode.com/problems/max-consecutive-ones-iii/discuss/247564/JavaC%2B%2BPython-Sliding-Window
+
+
+
 ### 1248. Count Number of Nice Subarrays
 
 ```python

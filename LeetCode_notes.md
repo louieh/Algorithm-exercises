@@ -3795,41 +3795,6 @@ class Solution:
 
 
 
-### 1004. Max Consecutive Ones III
-
-```python
-class Solution:
-    def longestOnes(self, A: List[int], K: int) -> int:
-        
-        zero_num = start = ans = 0
-        for i, val in enumerate(A):
-            if val == 0:
-                zero_num += 1
-            while zero_num > K:
-                if A[start] == 0:
-                    zero_num -= 1
-                start += 1
-            ans = max(ans, i-start+1)
-        return ans
-```
-
-```python
-    def longestOnes(self, A, K):
-        i = 0
-        for j in xrange(len(A)):
-            K -= 1 - A[j]
-            if K < 0:
-                K += 1 - A[i]
-                i += 1
-        return j - i + 1
-```
-
-还没有完全懂这个写法，目前理解是当 i到j 达到最大宽度后，当j继续向前移动时如果遇到超出0个数的A[j] 那么 i 也同时向前移动，也就是说保持这个宽度不变向前移动，最后得到的i，j并不是准确的位置但是i，j的宽度是最大的。
-
-https://leetcode.com/problems/max-consecutive-ones-iii/discuss/247564/JavaC%2B%2BPython-Sliding-Window
-
-
-
 ### 1029. Two City Scheduling
 
 ```python
