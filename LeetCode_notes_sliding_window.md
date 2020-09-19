@@ -107,6 +107,57 @@ $O(n)$ 先一直向前加，加到和>=s后再从左边开始向右减，然后�
 
 
 
+### 992. Subarrays with K Different Integers
+
+```python
+class Solution:
+    def subarraysWithKDistinct(self, A: List[int], K: int) -> int:
+        temp = dict()
+        count = res = start = 0
+        for i, val in enumerate(A):
+            if val not in temp:
+                temp[val] = 1
+                count = 0
+            else:
+                temp[val] += 1
+            while len(temp) == K:
+                temp[A[start]] -= 1
+                if temp[A[start]] == 0:
+                    temp.pop(A[start])
+                start += 1
+                count += 1
+            res += count
+        return res
+```
+
+Try to use the thought of 1248 but it not work, something wrong.
+
+```python
+class Solution:
+    def subarraysWithKDistinct(self, A: List[int], K: int) -> int:
+        
+        def atMost(K):
+            temp = dict()
+            res = start = 0
+            for i, val in enumerate(A):
+                if val not in temp:
+                    temp[val] = 1
+                    K -= 1
+                else:
+                    temp[val] += 1
+                while K < 0:
+                    temp[A[start]] -= 1
+                    if temp[A[start]] == 0:
+                        temp.pop(A[start])
+                        K += 1 
+                    start += 1
+                res += i - start + 1
+            return res
+        return atMost(K) - atMost(K-1)
+```
+
+
+
 ### 1004. Max Consecutive Ones III
 
 ```python
@@ -161,3 +212,21 @@ class Solution:
 ```
 
 窗口右边向右移动同时k减去遇到的奇数个数，当k==0时也就是窗口中有k个奇数时，左边开始向右移动，移动一个代表一个subarray，ans+1同时k加上遇到的奇数个数，当k!=0时停止增长ans，因为此时窗口中奇数个数小于k，窗口右边继续向右移动，重复上面步骤。
+
+```python
+class Solution:
+    def numberOfSubarrays(self, nums: List[int], k: int) -> int:
+        
+        def atMost(k):
+            ans = count = start = 0
+            for i, val in enumerate(nums):
+                if val & 1:
+                    k -= 1
+                while k < 0:
+                    k += nums[start] & 1
+                    start += 1
+                ans += i - start + 1
+            return ans
+        return atMost(k) - atMost(k-1)
+```
+
