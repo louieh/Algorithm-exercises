@@ -365,6 +365,50 @@ class Solution:
 
 
 
+### 980. Unique Paths III
+
+```python
+class Solution:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        
+        ans = remain = init_row = init_col = 0
+        
+        for row in range(len(grid)):
+            for col in range(len(grid[0])):
+                if grid[row][col] >= 0:
+                    remain += 1
+                if grid[row][col] == 1:
+                    init_row = row
+                    init_col = col
+        
+        
+        def backtrack(row, col, remain):
+            nonlocal ans
+            if grid[row][col] == 2 and remain == 1:
+                ans += 1
+                return
+            
+            ori = grid[row][col]
+            grid[row][col] = -2
+            remain -= 1
+            
+            for row_, col_ in [(0,1), (0,-1), (1,0), (-1,0)]:
+                next_row = row + row_
+                next_col = col + col_
+                if not (0 <= next_row <= len(grid)-1 and 0 <= next_col <= len(grid[0])-1) or grid[next_row][next_col] < 0:
+                    continue
+                backtrack(next_row, next_col, remain)
+            
+            grid[row][col] = ori
+        
+        backtrack(init_row, init_col, remain)
+        return ans
+```
+
+https://leetcode.com/problems/unique-paths-iii/solution/
+
+
+
 ### 1079. Letter Tile Possibilities
 
 ```python
