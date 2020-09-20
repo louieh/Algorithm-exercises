@@ -275,26 +275,6 @@ class Solution:
 
 
 
-### 424. Longest Repeating Character Replacement
-
-```python
-class Solution:
-    def characterReplacement(self, s: str, k: int) -> int:
-        start = maxSame = ans = 0
-        count = dict()
-        
-        for end in range(len(s)):
-            count[s[end]] = count.get(s[end], 0) + 1
-            maxSame = max(maxSame, count[s[end]])
-            if end - start + 1 - maxSame > k:
-                count[s[start]] -= 1
-                start += 1
-            ans = max(ans, end-start+1)
-        return ans
-```
-
-
-
 ### 678. Valid Parenthesis String
 
 ```python

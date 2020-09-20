@@ -107,6 +107,29 @@ $O(n)$ 先一直向前加，加到和>=s后再从左边开始向右减，然后�
 
 
 
+### 424. Longest Repeating Character Replacement
+
+```python
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        start = maxSame = ans = 0
+        count = dict()
+        
+        for end in range(len(s)):
+            count[s[end]] = count.get(s[end], 0) + 1
+            # maxSame = max(maxSame, count[s[end]]) 没太懂这个为什么work
+            maxSame = max(count.values()) # 感觉这个更 make sence 一点
+            if end - start + 1 - maxSame > k:
+                count[s[start]] -= 1
+                start += 1
+            ans = max(ans, end-start+1)
+        return ans
+```
+
+**`maxCount` may be invalid at some points, but this doesn't matter, because it was valid earlier in the string, and all that matters is finding the max window that occurred \*anywhere\* in the string**. Additionally, it will expand ***if and only if\*** enough repeating characters appear in the window to make it expand. So whenever it expands, it's a valid expansion.
+
+
+
 ### 992. Subarrays with K Different Integers
 
 ```python
