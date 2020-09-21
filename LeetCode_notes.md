@@ -3856,6 +3856,29 @@ class Solution:
 
 
 
+### 1094. Car Pooling
+
+ ```python
+class Solution:
+    def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
+        
+        temp = []
+        for p_num, start, end in trips:
+            temp += [[start, p_num], [end, -p_num]]
+        
+        count = 0
+        temp.sort()
+        
+        
+        for _, p_num in temp:
+            count += p_num
+            if count > capacity:
+                return False
+        return True
+ ```
+
+
+
 ### 1099. Two Sum Less Than K
 
 ```python
