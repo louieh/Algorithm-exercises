@@ -3598,6 +3598,30 @@ class Solution:
 
 
 
+### 933. Number of Recent Calls
+
+```python
+class RecentCounter:
+
+    def __init__(self):
+        self.count = 0
+        self._list = []
+
+    def ping(self, t: int) -> int:
+        self.count += 1
+        self._list.append(t)
+        if len(self._list) > 1 and t - self._list[0] > 3000:
+            for i, val in enumerate(self._list):
+                if t - val > 3000:
+                    self.count -= 1
+                else:
+                    self._list = self._list[i:]
+                    break
+        return self.count
+```
+
+
+
 ### 937. Reorder Data in Log Files
 
 ```python
