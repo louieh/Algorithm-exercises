@@ -88,6 +88,32 @@ class Solution:
 
 
 
+### 41. First Missing Positive
+
+```python
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        n = len(nums)
+        for i, val in enumerate(nums):
+            if val <= 0 or val > n:
+                nums[i] = n+1
+        for i, val in enumerate(nums):
+            index = abs(val)
+            if index > n:
+                continue
+            index -= 1
+            if nums[index] > 0:
+                nums[index] = -1 * nums[index]
+        for i, val in enumerate(nums):
+            if val > 0:
+                return i + 1
+        return n+1
+```
+
+https://leetcode.com/problems/first-missing-positive/discuss/17214/Java-simple-solution-with-documentation
+
+
+
 ### 88. Merge Sorted Array
 
 ```python
@@ -324,6 +350,26 @@ class Solution:
                 temp_max = 0
         ans = max(ans, temp_max)
         return ans
+```
+
+
+
+### 532. K-diff Pairs in an Array
+
+```python
+class Solution:
+    def findPairs(self, nums: List[int], k: int) -> int:
+        if k < 0:
+            return 0
+        res = 0
+        from collections import Counter
+        c = Counter(nums)
+        for key, v in c.items():
+            if k == 0 and v > 1:
+                res += 1
+            elif k != 0 and key+k in c:
+                res += 1
+        return res
 ```
 
 
