@@ -705,6 +705,31 @@ class Solution:
 
 
 
+### 1288. Remove Covered Intervals
+
+```python
+class Solution:
+    def removeCoveredIntervals(self, intervals: List[List[int]]) -> int:
+        if len(intervals) == 1:
+            return 1
+        intervals.sort()
+        
+        cur = intervals[0]
+        res = len(intervals)
+        for i in range(1, len(intervals)):
+            start, end = intervals[i]
+            if start == cur[0] and end >= cur[1]:
+                cur = intervals[i]
+                res -= 1
+            elif start > cur[0] and end <= cur[1]:
+                res -= 1
+            else:
+                cur = intervals[i]
+        return res
+```
+
+
+
 ### 1295. Find Numbers with Even Number of Digits
 
 ```python
