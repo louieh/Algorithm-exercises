@@ -107,6 +107,53 @@ $O(n)$ 先一直向前加，加到和>=s后再从左边开始向右减，然后�
 
 
 
+### 239. Sliding Window Maximum
+
+```python
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        if not nums:
+            return []
+        
+        max_num = max(nums[:k])
+        ans = [max_num]
+
+        delete_index = 0
+        for i in range(k, len(nums)):
+            if nums[delete_index] == max_num:
+                max_num = max(nums[delete_index+1:delete_index+1+k])
+                ans.append(max_num)
+                delete_index += 1
+                continue
+            delete_index += 1
+            if nums[i] > max_num:
+                max_num = nums[i]
+            ans.append(max_num)
+        return ans
+```
+
+```python
+# deque
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        from collections import deque
+        dq = deque()
+        res = []
+        
+        for i,val in enumerate(nums):
+            while dq and dq[0] < i - k + 1:
+                dq.popleft()
+            while dq and nums[dq[-1]] < val:
+                dq.pop()
+            dq.append(i)
+            if i >= k-1:
+                res.append(nums[dq[0]])
+        return res         
+        # 0, 1, 2, 3, 4, 5
+```
+
+
+
 ### 424. Longest Repeating Character Replacement
 
 ```python
