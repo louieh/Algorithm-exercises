@@ -124,53 +124,6 @@ class Solution:
 
 
 
-### 4. Median of Two Sorted Arrays
-
-```python
-class Solution:
-    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
-        res_index = (len(nums1) + len(nums2)) // 2
-        if not nums1 or not nums2:
-            new_nums = nums1 or nums2
-        else:
-            new_nums = []
-            if nums2[0] >= nums1[len(nums1)-1]:
-                new_nums = nums1 + nums2
-            elif nums1[0] >= nums2[len(nums2)-1]:
-                new_nums = nums2 + nums1
-        if new_nums:
-            if (len(nums1) + len(nums2)) % 2 == 0:
-                return (new_nums[res_index]+new_nums[res_index-1])/2
-            else:
-                return new_nums[res_index]
-
-        nums1_index = 0
-        nums2_index = 0
-        
-        for i in range(len(nums1)+len(nums2)):
-            if nums1_index <= len(nums1)-1 and nums2_index <= len(nums2)-1:
-                if nums1[nums1_index] <= nums2[nums2_index]:
-                    new_nums.append(nums1[nums1_index])
-                    nums1_index += 1
-                else:
-                    new_nums.append(nums2[nums2_index])
-                    nums2_index += 1
-            else:
-                if nums1_index <= len(nums1)-1:
-                    new_nums.append(nums1[nums1_index])
-                    nums1_index += 1
-                elif nums2_index <= len(nums2)-1:
-                    new_nums.append(nums2[nums2_index])
-                    nums2_index += 1
-            if i == res_index:
-                if (len(nums1) + len(nums2)) % 2 == 0:
-                    return (new_nums[res_index]+new_nums[res_index-1])/2
-                else:
-                    return new_nums[res_index]
-```
-
-
-
 ### 6. ZigZag Conversion
 
 ```python
@@ -726,52 +679,6 @@ class Solution:
         else:
             return 1/myPow_helper(x, -n)
 ```
-
-
-
-### 56. Merge Intervals
-
-```python
-class Solution:
-    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        if not intervals:
-            return []
-        intervals.sort(key=lambda x: x[0])
-        res = []
-        cur_ele = intervals[0]
-        nxt_index = 1
-        while nxt_index <= len(intervals) - 1:
-            if cur_ele[1] < intervals[nxt_index][0]:
-                res.append(cur_ele)
-                cur_ele = intervals[nxt_index]
-            else:
-                cur_ele = [min(cur_ele[0], intervals[nxt_index][0]), max(cur_ele[1], intervals[nxt_index][1])]
-            nxt_index += 1
-        res.append(cur_ele)
-        return res
-```
-
-try to use divide and conquer
-
-
-
-### 57. Insert Interval
-
-```python
-class Solution:
-    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-        ans = []
-        intervals.append(newInterval)
-        intervals = sorted(intervals, key=lambda k:k[0])
-        for i in range(len(intervals)):
-            if ans and ans[-1][1] >= intervals[i][0]:
-                ans[-1][1] = max(ans[-1][1], intervals[i][1])
-            else:
-                ans.append(intervals[i])
-        return ans
-```
-
-Similar to 56
 
 
 
@@ -1444,23 +1351,6 @@ class Solution:
 
 
 
-### 152. Maximum Product Subarray
-
-```python
-class Solution:
-    def maxProduct(self, nums: List[int]) -> int:
-        min_, max_, ans = nums[0], nums[0], nums[0]
-        for i in range(1, len(nums)):
-            max_temp = max(max(max_*nums[i], min_*nums[i]), nums[i])
-            min_temp = min(min(max_*nums[i], min_*nums[i]), nums[i])
-            ans = max(ans, max_temp)
-            max_ = max_temp
-            min_ = min_temp
-        return ans
-```
-
-
-
 ### 165. Compare Version Numbers
 
 ```python
@@ -1685,38 +1575,6 @@ int trailingZeroes(int n){
 
 
 
-### 189. Rotate Array
-
-```python
-class Solution:
-    def rotate(self, nums: List[int], k: int) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        if not nums:
-            return
-        k = k % len(nums);
-        count = 0
-        for i in range(len(nums)):
-            last_starter = i
-            index = i
-            temp1 = nums[index]
-            temp2 = None
-            while 1:
-                wait_index = (index + k) % len(nums)
-                temp2 = nums[wait_index]
-                nums[wait_index] = temp1
-                index = wait_index
-                temp1 = temp2
-                count += 1
-                if count == len(nums):
-                    return
-                if wait_index == last_starter:
-                    break
-```
-
-
-
 ### 202. Happy Number
 
 ```python
@@ -1761,8 +1619,6 @@ class Solution:
             fast = get_next(get_next(fast))
         return fast == 1
 ```
-
-
 
 
 
@@ -2419,87 +2275,6 @@ class Solution:
 
 
 
-### 349. Intersection of Two Arrays
-
-```python
-class Solution:
-    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        nums1_set = set(nums1)
-        nums2_set = set(nums2)
-        res = []
-        for each in nums1_set:
-            if each in nums2_set:
-                res.append(each)
-        return res
-```
-
-```js
-This is a Facebook interview question.
-They ask for the intersection, which has a trivial solution using a hash or a set.
-
-Then they ask you to solve it under these constraints:
-O(n) time and O(1) space (the resulting array of intersections is not taken into consideration).
-You are told the lists are sorted.
-
-Cases to take into consideration include:
-duplicates, negative values, single value lists, 0's, and empty list arguments.
-Other considerations might include
-sparse arrays.
-
-function intersections(l1, l2) {
-    l1.sort((a, b) => a - b) // assume sorted
-    l2.sort((a, b) => a - b) // assume sorted
-    const intersections = []
-    let l = 0, r = 0;
-    while ((l2[l] && l1[r]) !== undefined) {
-       const left = l1[r], right = l2[l];
-        if (right === left) {
-            intersections.push(right)
-            while (left === l1[r]) r++;
-            while (right === l2[l]) l++;
-            continue;
-        }
-        if (right > left) while (left === l1[r]) r++;
-         else while (right === l2[l]) l++;
-        
-    }
-    return intersections;
-}
-```
-
-
-
-### 350. Intersection of Two Arrays II
-
-```python
-# 2 years ago since 3/22/2020
-class Solution(object):
-    def intersect(self, nums1, nums2):
-        finArray = []
-        for each in nums1:
-            if each in nums2:
-                finArray.append(each)
-                nums2.remove(each)
-        return finArray
-        
-```
-
-```python
-class Solution:
-    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        from collections import Counter
-        
-        nums1Dict = Counter(nums1)
-        res = []
-        for each in nums2:
-            if each in nums1Dict and nums1Dict[each] != 0:
-                res.append(each)
-                nums1Dict[each] -= 1
-        return res
-```
-
-
-
 ### 359. Logger Rate Limiter
 
 ```python
@@ -2851,31 +2626,6 @@ class Solution:
 
 
 
-### 525. Contiguous Array
-
-```python
-class Solution:
-    def findMaxLength(self, nums: List[int]) -> int:
-        temp_dict = dict()
-        count = ans = 0
-        for i in range(len(nums)):
-            if nums[i] == 0:
-                count -= 1
-            else:
-                count += 1
-            if count == 0:
-                ans = max(ans, i+1)
-            if count not in temp_dict:
-                temp_dict[count] = i
-            else:
-                ans = max(ans, i - temp_dict[count])
-        return ans
-```
-遇0减一遇1加一，并将此数作为key，index作为值存入字典，如果遇到相同的数组说明有相等的0和1出现，用当前index值键字典中相同数字的index得到长度。
-如果遇到数字为0，说明从0到目前index为止的0和1数量相同
-
-
-
 ### 557. Reverse Words in a String III
 
 ```python
@@ -3070,58 +2820,6 @@ class Solution:
 如果此index为None或0或为倒数第二个元素可直接返回true
 
 否则判断此index前后两个组合是否符合条件：比如[2,3,3,2,4]. 不符合的index==2. 那么判断其前后两个组合[3,3,2] 和 [3,2,4]其中一个可以即可，即nums[index-1] <= nums[index+1] or nums[index] <= nums[index+2]
-
-
-
-### 697. Degree of an Array
-
-```python
-class Solution:
-    def findShortestSubArray(self, nums: List[int]) -> int:
-        count = collections.Counter(nums)
-        degrees = []
-        max_degree = max(count.values())
-        for key, val in count.items():
-            if val == max_degree:
-                degrees.append(key)
-        ans = sys.maxsize
-        start = end = None
-        for each in degrees:
-            i = 0
-            while True:
-                if nums[i] == each:
-                    start = i
-                    break
-                i += 1
-            i = len(nums)-1
-            while True:
-                if nums[i] == each:
-                    end = i
-                    break
-                i -= 1
-            ans = min(ans, end-start+1)
-        return ans
-```
-
-```python
-class Solution:
-    def findShortestSubArray(self, nums: List[int]) -> int:
-        left, right = {}, {}
-        from collections import defaultdict
-        count = defaultdict(int)
-        for i in range(len(nums)):
-            if nums[i] not in left:
-                left[nums[i]] = i
-            right[nums[i]] = i
-            count[nums[i]] += 1
-        
-        max_degree = max(count.values())
-        ans = sys.maxsize
-        for key, value in count.items():
-            if value == max_degree:
-                ans = min(ans, right[key]-left[key]+1)
-        return ans
-```
 
 
 
@@ -3376,65 +3074,6 @@ class Solution:
 
 
 
-### 836. Rectangle Overlap
-
-```python
-        r1x1,r1y1,r1x2,r1y2 = rec1
-        r2x1,r2y1,r2x2,r2y2 = rec2
-        
-        finx1 = max(r1x1,r2x1)
-        finy1 = max(r1y1,r2y1)
-        finx2 = min(r1x2,r2x2)
-        finy2 = min(r1y2,r2y2)
-        
-        if (finx2 > finx1) and (finy1 < finy2):
-            return True
-        else:
-            return False
-```
-
-求相交矩阵坐标，并判断该坐标是否可构成矩阵
-
-[假定矩形是用一对点表达的(minx, miny) (maxx, maxy)，那么两个矩形 rect1{(minx1, miny1)(maxx1, maxy1)} rect2{(minx2, miny2)(maxx2, maxy2)}  ](https://www.cnblogs.com/0001/archive/2010/05/04/1726905.html)
-
-相交的结果一定是个矩形，构成这个相交矩形rect{(minx, miny) (maxx, maxy)}的点对坐标是：  
-
-minx=max(minx1, minx2)  
-
-miny=max(miny1, miny2)  
-
-maxx=min(maxx1, maxx2)  
-
-maxy=min(maxy1, maxy2)  
-
-如果两个矩形不相交，那么计算得到的点对坐标必然满足：  
-
-（ minx > maxx ） 或者 （ miny > maxy ） 
-
- 判定是否相交，以及相交矩形是什么都可以用这个方法一体计算完成。
-
-从这个算法的结果上，我们还可以简单的生成出下面的两个内容：
-
-㈠ 相交矩形：  (minx, miny) (maxx, maxy)
-
-㈡ 面积： 面积的计算可以和判定一起进行
-        if ( minx>maxx ) return 0;
-        if ( miny>maxy ) return 0;
-        return (maxx-minx)*(maxy-miny)
-
-第二种方法
-
-两个矩形相交的条件:两个矩形的重心距离在X和Y轴上都小于两个矩形长或宽的一半之和.这样,分两次判断一下就行了.
-
-bool CrossLine(Rect r1,RECT r2)
-{
-if(abs((r1.x1+r1.x2)/2-(r2.x1+r2.x2)/2)<((r1.x2+r2.x2-r1.x1-r2.x1)/2) && abs((r1.y1+r1.y2)/2-(r2.y1+r2.y2)/2)<((r1.y2+r2.y2-r1.y1-r2.y1)/2))
-return true;
-return false;
-}
-
-
-
 ### 841. Keys and Rooms
 
 ```python
@@ -3454,69 +3093,6 @@ class Solution:
             return True
         else:
             return False
-```
-
-
-
-### 912. Sort an Array
-
-```python
-# QuickSort
-class Solution:
-    def sortArray(self, nums: List[int]) -> List[int]:
-        
-        
-        def sort_method(i, j):
-            oi = i
-            pivot = nums[i]
-            i += 1
-            while True:
-                while i < j and nums[i] < pivot:
-                    i += 1
-                while i <= j and nums[j] >= pivot:
-                    j -= 1
-                if i >= j: break
-                nums[i], nums[j] = nums[j], nums[i]
-            nums[oi], nums[j] = nums[j], nums[oi]
-            return j
-        
-        def quick_sort(i, j):
-            if i >= j: return
-            
-            k = random.randint(i, j)
-            nums[i], nums[k] = nums[k], nums[i]
-            mid = sort_method(i, j)
-            quick_sort(i, mid)
-            quick_sort(mid+1, j)
-        
-        quick_sort(0, len(nums)-1)
-        return nums
-```
-
-```python
-# QuickSort
-class Solution:
-    def sortArray(self, nums: List[int]) -> List[int]:
-        
-        def sort(i, j):
-            pivot = nums[i]
-            slow = i
-            for fast in range(i+1, j+1):
-                if nums[fast] < pivot:
-                    slow += 1
-                    nums[slow], nums[fast] = nums[fast], nums[slow]
-            nums[i], nums[slow] = nums[slow], nums[i]
-            return slow
-        
-        def partition(i, j):
-            if i >= j: return
-            mid = sort(i, j)
-            partition(i, mid-1)
-            partition(mid+1, j)
-            
-        
-        partition(0, len(nums)-1)
-        return nums
 ```
 
 
