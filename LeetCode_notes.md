@@ -2571,31 +2571,6 @@ class Solution:
 
 
 
-### 476. Number Complement 
-
-```python
-ans = ''
-for i in range(len(bin(num)) - 2):
-	if num & 1 == 1:
-		ans += '0'
-	else:
-		ans += '1'
-	num >>= 1
-return int(ans[::-1], 2)
-'''
-if num < 1:
-	return 1
-i = 1
-while i <= num:
-    i <<= 1
-return (i-1) ^ num
-'''
-```
-
-求二进制数每位取反，用相同位个1与原数进行异或运算：1111 ^ 1011 = 0100
-
-
-
 ### 509. Fibonacci Number
 
 ```python

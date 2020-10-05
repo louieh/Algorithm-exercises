@@ -194,3 +194,53 @@ class Solution:
         return ans
 ```
 
+
+
+### 476. Number Complement 
+
+```python
+ans = ''
+for i in range(len(bin(num)) - 2):
+	if num & 1 == 1:
+		ans += '0'
+	else:
+		ans += '1'
+	num >>= 1
+return int(ans[::-1], 2)
+'''
+if num < 1:
+	return 1
+i = 1
+while i <= num:
+    i <<= 1
+return (i-1) ^ num
+'''
+```
+
+same as 1009. 求二进制数每位取反，用相同位个1与原数进行异或运算：1111 ^ 1011 = 0100
+
+
+
+### 1009. Complement of Base 10 Integer
+
+```python
+class Solution:
+    def bitwiseComplement(self, N: int) -> int:
+
+        if N == 0: return 1
+        res = ''
+        while N > 0:
+            res = str(1-N&1) + res
+            N >>= 1
+        return int(res, 2)
+'''
+if num < 1:
+	return 1
+i = 1
+while i <= num:
+    i <<= 1
+return (i-1) ^ num
+'''
+```
+
+same as 476.
