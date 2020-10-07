@@ -719,43 +719,6 @@ class Solution:
 
 
 
-### 61. Rotate List
-
-```python
-class Solution:
-    def rotateRight(self, head: ListNode, k: int) -> ListNode:
-        if not head or k == 0:
-            return head
-        
-        temp_move = temp_l = head
-        
-        # get length of linked list
-        length = 0
-        while temp_l:
-            length += 1
-            temp_l = temp_l.next
-        
-        # 计算倒数第几个
-        num = k % length
-        if num == 0:
-            return head
-        
-        # 将指针挪到上面那个数的前一个, 并取出后面那个数作为新头且断开与后面那个数的链接
-        for i in range(length-num-1):
-            temp_move = temp_move.next
-        new_head = temp3 = temp_move.next
-        temp_move.next = None
-        
-        # 将结尾与原来的头链接
-        while temp3 and temp3.next:
-            temp3 = temp3.next
-        temp3.next = head
-        
-        return new_head
-```
-
-
-
 ### 66. Plus one
 
 ```python
