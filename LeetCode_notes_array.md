@@ -992,6 +992,24 @@ class Solution:
 
 
 
+### 950. Reveal Cards In Increasing Order
+
+```python
+class Solution:
+    def deckRevealedIncreasing(self, deck: List[int]) -> List[int]:
+        deck.sort()
+        index_q = collections.deque(range(len(deck)))
+        res = [None] * len(deck)
+        
+        for card in deck:
+            res[index_q.popleft()] = card
+            if index_q:
+                index_q.append(index_q.popleft())
+        return res
+```
+
+
+
 ### 969. Pancake Sorting
 
 ```python
