@@ -1221,6 +1221,66 @@ class Solution:
 
 
 
+### 449. Serialize and Deserialize BST
+
+```
+class Codec:
+
+    def serialize(self, root: TreeNode) -> str:
+        """Encodes a tree to a single string.
+        """
+        
+        if not root: return ""
+        import json
+        serialize_dict = dict()
+        temp = [root]
+        d = 0
+        while temp:
+            child_list = []
+            for node in temp:
+                child_val = [None, None]
+                if node.left:
+                    child_val[0] = node.left.val
+                    child_list.append(node.left)
+                if node.right:
+                    child_val[1] = node.right.val
+                    child_list.append(node.right)
+                serialize_dict["{},{}".format(node.val, d)] = child_val
+            temp = child_list
+            d += 1
+        return json.dumps(serialize_dict)
+        
+    def deserialize(self, data: str) -> TreeNode:
+        """Decodes your encoded data to tree.
+        """
+        if not data: return None
+        serialize_dict = json.loads(data)
+        root = None
+        for each in serialize_dict:
+            val, d = each.split(",")
+            if d == '0': 
+                root = TreeNode(int(val))
+                break
+        temp, d = [root], 0
+        while temp:
+            child_list = []
+            for node in temp:
+                left_val, right_val = serialize_dict.get("{},{}".format(node.val, d))
+                if left_val is not None:
+                    left_node = TreeNode(left_val)
+                    node.left = left_node
+                    child_list.append(left_node)
+                if right_val is not None:
+                    right_node = TreeNode(right_val)
+                    node.right = right_node
+                    child_list.append(right_node)
+            d += 1
+            temp = child_list
+        return root
+```
+
+
+
 ### 450. Delete Node in a BST
 
 ```python
