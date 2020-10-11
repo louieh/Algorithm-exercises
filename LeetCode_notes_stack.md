@@ -39,6 +39,32 @@ class MinStack:
 
 
 
+### 316. Remove Duplicate Letters
+
+```python
+class Solution:
+    def removeDuplicateLetters(self, s: str) -> str:
+        visited = [False] * 26
+        temp = [0] * 26
+        for c in s:
+            temp[ord(c)-ord('a')] += 1
+        stack = []
+        
+        for c in s:
+            index = ord(c) - ord('a')
+            temp[index] -= 1
+            if visited[index] is True: continue
+            while stack and c < stack[-1] and temp[ord(stack[-1])-ord('a')] != 0:
+                visited[ord(stack.pop())-ord('a')] = False
+            visited[ord(c)-ord('a')] = True
+            stack.append(c)
+        return "".join(stack)
+```
+
+same as 1081
+
+
+
 ### 394. Decode String
 
 ```python
@@ -284,6 +310,32 @@ class Solution:
                 stack.append(each)
         return ("").join(stack)
 ```
+
+
+
+### 1081. Smallest Subsequence of Distinct Characters
+
+```python
+class Solution:
+    def smallestSubsequence(self, s: str) -> str:
+        visited = [False] * 26
+        temp = [0] * 26
+        for c in s:
+            temp[ord(c)-ord('a')] += 1
+        stack = []
+        
+        for c in s:
+            index = ord(c) - ord('a')
+            temp[index] -= 1
+            if visited[index] is True: continue
+            while stack and c < stack[-1] and temp[ord(stack[-1])-ord('a')] != 0:
+                visited[ord(stack.pop())-ord('a')] = False
+            visited[ord(c)-ord('a')] = True
+            stack.append(c)
+        return "".join(stack)
+```
+
+same as 316
 
 
 
