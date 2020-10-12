@@ -390,3 +390,19 @@ class Solution:
         return ans
 ```
 
+
+
+### 859. Buddy Strings
+
+```python
+class Solution:
+    def buddyStrings(self, A: str, B: str) -> bool:
+        if len(A) != len(B) or A == "" or B == "": return False
+        if A == B: return len(A) > len(set(A))
+        
+        diff_index = [(a, b) for a, b in zip(A, B) if a != b]
+        if len(diff_index) == 2 and diff_index[0] != diff_index[1][::-1] or len(diff_index) > 2 or len(diff_index) == 1:
+            return False
+        return True
+```
+
