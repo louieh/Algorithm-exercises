@@ -390,6 +390,56 @@ https://leetcode.com/problems/reorder-list/discuss/44992/Java-solution-with-3-st
 
 
 
+### 148. Sort List
+
+ ```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def sortList(self, head: ListNode) -> ListNode:
+        def mergeSort(head):
+            if not head or not head.next: return head
+            mid = findMid(head)
+            left = mergeSort(head)
+            right = mergeSort(mid)
+            return merge(left, right)
+        
+        def findMid(head):
+            slow = fast = head
+            mid = None
+            while fast.next and fast.next.next:
+                slow = slow.next
+                fast = fast.next.next
+            mid = slow.next
+            slow.next = None
+            return mid
+        
+        def merge(l1, l2):
+            dummyhead = ListNode()
+            tail = dummyhead
+            while l1 and l2:
+                if l1.val <= l2.val:
+                    tail.next = l1
+                    l1 = l1.next
+                else:
+                    tail.next = l2
+                    l2 = l2.next
+                tail = tail.next
+            tail.next = l1 or l2
+            return dummyhead.next
+        
+        return mergeSort(head)
+ ```
+
+merge sort
+
+![mergeSort](/Users/hanluyi/Downloads/other_Python_ex/leetcode/mergeSort.png)
+
+
+
 ### 203. Remove Linked List Elements
 
 ```python
