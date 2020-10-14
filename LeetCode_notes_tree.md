@@ -1076,35 +1076,6 @@ class Solution:
 ```
 
 
-### 337. House Robber III
-
-```python
-class Solution:
-    def rob(self, root: TreeNode) -> int:
-        if not root:
-            return 0
-        
-        def helper(root, temp_dict):
-            if not root:
-                return 0
-            if root in temp_dict:
-                return temp_dict.get(root)
-            
-            val = 0
-            
-            if root.left:
-                val += helper(root.left.left, temp_dict) + helper(root.left.right, temp_dict)
-            if root.right:
-                val += helper(root.right.left, temp_dict) + helper(root.right.right, temp_dict)
-            
-            val = max(root.val + val, helper(root.left, temp_dict) + helper(root.right, temp_dict))
-            temp_dict[root] = val
-            return val
-        
-        return helper(root, {})
-```
-
-
 
 ### 404. Sum of Left Leaves
 

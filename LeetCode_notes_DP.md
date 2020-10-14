@@ -86,6 +86,53 @@ https://leetcode.com/problems/house-robber/discuss/156523/From-good-to-great.-Ho
 
 
 
+### 213. House Robber II
+
+```python
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        
+        def rob_helper(nums):
+            prev = curr = 0
+            for num in nums:
+                prev, curr = curr, max(curr, prev + num)
+            return curr
+        
+        return max(nums[0] + rob_helper(nums[2:-1]), rob_helper(nums[1:]))
+```
+
+
+
+### 337. House Robber III
+
+```python
+class Solution:
+    def rob(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        def helper(root, temp_dict):
+            if not root:
+                return 0
+            if root in temp_dict:
+                return temp_dict.get(root)
+            
+            val = 0
+            
+            if root.left:
+                val += helper(root.left.left, temp_dict) + helper(root.left.right, temp_dict)
+            if root.right:
+                val += helper(root.right.left, temp_dict) + helper(root.right.right, temp_dict)
+            
+            val = max(root.val + val, helper(root.left, temp_dict) + helper(root.right, temp_dict))
+            temp_dict[root] = val
+            return val
+        
+        return helper(root, {})
+```
+
+
+
 ### 714. Best Time to Buy and Sell Stock with Transaction Fee
 
 ```python
