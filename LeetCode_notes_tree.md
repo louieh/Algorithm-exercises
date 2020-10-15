@@ -318,6 +318,47 @@ class Solution:
 
 
 
+### 109. Convert Sorted List to Binary Search Tree
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    
+    def findMid(self, head):
+        slow = fast = head
+        mid_prev = None
+        while fast and fast.next:
+            mid_prev = slow
+            slow = slow.next
+            fast = fast.next.next
+        if mid_prev:
+            mid_prev.next = None
+        return slow
+    
+    def sortedListToBST(self, head: ListNode) -> TreeNode:
+    
+        if not head:
+            return
+        mid = self.findMid(head)
+        root = TreeNode(mid.val)
+        if mid == head: return root
+        root.left = self.sortedListToBST(head)
+        root.right = self.sortedListToBST(mid.next)
+        return root
+```
+
+
+
 ### 110. Balanced Binary Tree
 
 ```python
