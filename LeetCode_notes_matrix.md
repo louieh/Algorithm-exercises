@@ -608,3 +608,23 @@ class Solution:
 
 直接向上下左右四个方向遍历，遇到与oldColor不等就停止。
 
+
+
+### 861. Score After Flipping Matrix
+
+```python
+class Solution:
+    def matrixScore(self, A: List[List[int]]) -> int:
+        rows, cols = len(A), len(A[0])
+        res = (1 << cols - 1) * rows
+        for col in range(1, cols):
+            num_same_as_first = sum(A[row][col] == A[row][0] for row in range(rows))
+            res += max(num_same_as_first, rows-num_same_as_first) * (1 << cols - 1 - col)
+        return res
+```
+
+第4行：先默认将第一列置1，计算结果但不操作矩阵。
+
+第6行：之后从第二列开始遍历每一列，计算此列元素中该元素与所在行第一个数相同的个数，`max(num_same_as_first, rows-num_same_as_first)` 是该列可变1的最大个数。此处不用修改第一列就可以判断是因为计算的是和该元素所在行第一个数相同的个数，所以第一个数变为1后该元素也会变为1，会和第一个元素保持一致。
+
+第7行，之后便可以按照每列最多1的个数根据该列index计算累加结果。

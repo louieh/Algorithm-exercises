@@ -357,6 +357,8 @@ class Solution:
         return root
 ```
 
+https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/solution/
+
 
 
 ### 110. Balanced Binary Tree
