@@ -313,6 +313,58 @@ class Solution:
 
 
 
+### 74. Search a 2D Matrix
+
+```python
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        if len(matrix) == 0 or len(matrix[0]) == 0: return False
+        rows, cols = len(matrix), len(matrix[0])
+        if target < matrix[0][0] or target > matrix[rows-1][cols-1]: return False
+        
+        def index_to_matrix(mid):
+            if rows == 1: return 0, mid
+            if cols == 1: return mid, 0
+            if (mid + 1) % cols == 0:
+                return (mid + 1) // cols - 1, cols - 1
+            return (mid + 1) // cols, (mid + 1) % cols - 1
+        
+        left, right = 0, rows*cols-1
+        while left <= right:
+            mid = left + (right - left) // 2
+            row_i, col_i = index_to_matrix(mid)
+            num = matrix[row_i][col_i]
+            if num == target: return True
+            if target > num:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return False
+```
+
+```python
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        if len(matrix) == 0 or len(matrix[0]) == 0: return False
+        rows, cols = len(matrix), len(matrix[0])
+        if target < matrix[0][0] or target > matrix[rows-1][cols-1]: return False
+
+        left, right = 0, rows*cols-1
+        while left <= right:
+            mid = left + (right - left) // 2
+            num = matrix[mid//cols][mid%cols]
+            if num == target: return True
+            if target > num:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return False
+```
+
+二分，主要问题是将index转换为matrix坐标`matrix[mid/cols][mid%cols]`
+
+
+
 ### 130. Surrounded Regions
 
 ```python
