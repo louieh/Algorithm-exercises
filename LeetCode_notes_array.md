@@ -290,6 +290,23 @@ class Solution:
 
 
 
+### 187. Repeated DNA Sequences
+
+```python
+class Solution:
+    def findRepeatedDnaSequences(self, s: str) -> List[str]:
+        if len(s) < 10: return []
+        seen, repeat = set(), set()
+        for i in range(len(s)+1):
+            if s[i:i+10] not in seen:
+                seen.add(s[i:i+10])
+            else:
+                repeat.add(s[i:i+10])
+        return list(repeat)
+```
+
+
+
 ### 189. Rotate Array
 
 ```python
@@ -954,6 +971,28 @@ class Solution:
                 return ans
             
         return merge(A1, A2)
+```
+
+
+
+### 1007. Minimum Domino Rotations For Equal Row
+
+```python
+class Solution:
+    def minDominoRotations(self, A: List[int], B: List[int]) -> int:
+        countA = [0] * 7
+        countB = [0] * 7
+        same = [0] * 7
+        
+        for i in range(len(A)):
+            countA[A[i]] += 1
+            countB[B[i]] += 1
+            if A[i] == B[i]: same[A[i]] += 1
+        
+        for i in range(1, 7):
+            if countA[i] + countB[i] - same[i] == len(A):
+                return len(A) - max(countA[i], countB[i])
+        return -1
 ```
 
 
