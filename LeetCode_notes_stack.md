@@ -214,6 +214,29 @@ public class Solution {
 
 
 
+### 735. Asteroid Collision
+
+```python
+class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        
+        stack = []
+        
+        for each in asteroids:
+            while True:
+                if not stack or each * stack[-1] > 0 or (stack[-1] < 0 and each > 0):
+                    stack.append(each)
+                    break
+                else:
+                    if abs(each) == abs(stack[-1]) or abs(each) > abs(stack[-1]):
+                        temp = stack.pop()
+                        if abs(each) == abs(temp): break
+                    else: break
+        return stack
+```
+
+
+
 ### 739. Daily Temperatures
 
 ```python
