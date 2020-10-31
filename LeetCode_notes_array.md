@@ -666,6 +666,31 @@ class Solution:
 
 
 
+### 605. Can Place Flowers
+
+```python
+class Solution:
+    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
+        counter = collections.Counter(flowerbed)
+        if n > math.ceil(counter.get(0, 0) / 2): return False
+        if counter.get(1) == 0: return n == math.ceil(counter.get(0) / 2)
+        
+        i = res = 0
+        while i < len(flowerbed):
+            if flowerbed[i] == 0 and (i == len(flowerbed)-1 or flowerbed[i+1] == 0):
+                res += 1
+                i += 2
+                continue
+            if flowerbed[i] == 1:
+                i += 2
+                continue
+            i += 1
+            
+        return res >= n
+```
+
+
+
 ### 697. Degree of an Array
 
 ```python
