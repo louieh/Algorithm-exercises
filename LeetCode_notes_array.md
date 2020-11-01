@@ -522,6 +522,42 @@ class Solution:
 
 
 
+### 456. 132 Pattern
+
+```python
+class Solution:
+    def find132pattern(self, nums: List[int]) -> bool:
+        for i in range(len(nums)):
+            for j in range(i+1, len(nums)):
+                if nums[j] > nums[i]:
+                    for k in range(j+1, len(nums)):
+                        if nums[k] < nums[j] and nums[k] > nums[i]:
+                            return True
+        return False
+```
+
+```python
+class Solution:
+    def find132pattern(self, nums: List[int]) -> bool:
+        if len(nums) < 3: return False
+        stack = []
+        i = len(nums) - 1
+        s3 = -sys.maxsize
+        while i >= 0:
+            if nums[i] < s3: return True
+            while stack and nums[i] > stack[-1]:
+                s3 = stack.pop()
+            stack.append(nums[i])
+            i -= 1
+        return False
+```
+
+https://leetcode.com/problems/132-pattern/discuss/94071/Single-pass-C%2B%2B-O(n)-space-and-time-solution-(8-lines)-with-detailed-explanation.
+
+我们要找s1<s3<s2，从后向前遍历插入栈，如果遇到元素(s2)大于栈顶元素则pop出栈顶元素作为s3，此时s2的index是小于s3的但其值是大于s3的(s3<s2)，那么下面如果遇到有元素小于s3我们便找到了s1，满足条件s1<s3<s2
+
+
+
 ### 485. Max Consecutive Ones
 
 ```python
