@@ -390,6 +390,53 @@ https://leetcode.com/problems/reorder-list/discuss/44992/Java-solution-with-3-st
 
 
 
+### 147. Insertion Sort List
+
+```python
+class Solution:
+    def insertionSortList(self, head: ListNode) -> ListNode:
+        res = ListNode()
+        
+        while head:
+            prev_node = res
+            next_node = prev_node.next
+            while next_node:
+                if head.val < next_node.val:
+                    break
+                prev_node = prev_node.next
+                next_node = prev_node.next
+
+            new_head = head.next
+            prev_node.next = head
+            head.next = next_node
+
+            head = new_head
+        return res.next
+```
+
+```python
+class Solution:
+    def insertionSortList(self, head: ListNode) -> ListNode:
+        res = ListNode()
+        
+        while head:
+            res_cpy = res
+            while res_cpy.next:
+                if head.val < res_cpy.next.val:
+                    break
+                res_cpy = res_cpy.next
+
+            new_head = head.next
+            
+            head.next = res_cpy.next
+            res_cpy.next = head
+
+            head = new_head
+        return res.next
+```
+
+
+
 ### 148. Sort List
 
  ```python
