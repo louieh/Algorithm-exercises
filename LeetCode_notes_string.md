@@ -275,6 +275,28 @@ class Solution:
 
 
 
+### 434. Number of Segments in a String
+
+```python
+class Solution:
+    def countSegments(self, s: str) -> int:
+        if not s: return 0
+        res = 0
+        temp = False if s[0] == ' ' else True
+        for i in range(1, len(s)):
+            if s[i] == ' ' and temp is True:
+                res += 1
+                temp = False
+                continue
+            if s[i] != ' ' and temp is False:
+                temp = True
+        return res if temp is False else res + 1
+```
+
+Similar as 1446
+
+
+
 ### 678. Valid Parenthesis String
 
 ```python
@@ -406,3 +428,25 @@ class Solution:
         return True
 ```
 
+
+
+### 1446. Consecutive Characters
+
+```python
+class Solution:
+    def maxPower(self, s: str) -> int:
+        if len(s) == 1: return 1
+        cur_c = s[0]
+        cur_num = max_num = 1
+        for i in range(1, len(s)):
+            if s[i] == s[i-1]:
+                cur_num += 1
+                max_num = max(max_num, cur_num)
+            else:
+                cur_c = s[i]
+                cur_num = 1
+        
+        return max_num
+```
+
+Similar as 434
