@@ -430,6 +430,80 @@ class Solution:
 
 
 
+### 916. Word Subsets
+
+```python
+# TLE
+class Solution:
+    def wordSubsets(self, A: List[str], B: List[str]) -> List[str]:
+        from collections import Counter
+        B_counter_list = [Counter(each) for each in B]
+        res = []
+        for each in A:
+            counterA = Counter(each)
+            flag1 = True
+            for counterB in B_counter_list:
+                flag2 = True
+                for k, v in counterB.items():
+                    if k not in counterA or v > counterA.get(k):
+                        flag2 = False
+                        break
+                if flag2 is False:
+                    flag1 = False
+                    break
+            if flag1 is True:
+                res.append(each)
+        return res
+```
+
+```python
+class Solution:
+    def wordSubsets(self, A: List[str], B: List[str]) -> List[str]:
+        from collections import Counter
+        counterB = dict()
+        for each in B:
+            for k,v in Counter(each).items():
+                if k not in counterB:
+                    counterB[k] = v
+                else:
+                    counterB[k] = max(counterB[k], v)
+        res = []
+        for each in A:
+            counterA = Counter(each)
+            flag1 = True
+            for k, v in counterB.items():
+                if k not in counterA or v > counterA.get(k):
+                    flag1 = False
+                    break
+            if flag1 is True:
+                res.append(each)
+        return res
+```
+
+```python
+class Solution:
+    def wordSubsets(self, A: List[str], B: List[str]) -> List[str]:
+        
+        def counter(word):
+            temp = [0] * 26
+            for c in word:
+                temp[ord(c) - ord('a')] += 1
+            return temp
+        
+        counterB = [0] * 26
+        for word in B:
+            counterB = [max(each) for each in zip(counter(word), counterB)]
+        
+        res = []
+        
+        for each in A:
+            if all(a >= b for a, b in zip(counter(each), counterB)):
+                res.append(each)
+        return res
+```
+
+
+
 ### 1446. Consecutive Characters
 
 ```python
