@@ -1124,6 +1124,25 @@ class Solution:
 
 
 
+### 1217. Minimum Cost to Move Chips to The Same Position
+
+```python
+class Solution:
+    def minCostToMoveChips(self, position: List[int]) -> int:
+        odd = even = 0
+        for each in position:
+            if each % 2 == 0:
+                even += 1
+            else:
+                odd += 1
+        
+        return min(odd, even)
+```
+
+我们可以用0cost将偶数位硬币移动到0，用0cost将奇数位硬币移动到1，之后将0移动到1或将1移动到0，选择较少的即可。
+
+
+
 ### 1295. Find Numbers with Even Number of Digits
 
 ```python
