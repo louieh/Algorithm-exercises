@@ -3146,6 +3146,28 @@ class Solution:
 
 
 
+### 948. Bag of Tokens
+
+```python
+class Solution:
+    def bagOfTokensScore(self, tokens: List[int], P: int) -> int:
+        tokens.sort()
+        queue = collections.deque(tokens)
+        ans = cur = 0
+        while queue and (cur or P >= queue[0]):
+            while queue and P >= queue[0]:
+                P -= queue.popleft()
+                cur += 1
+            
+            ans = max(ans, cur)
+            if queue:
+                P += queue.pop()
+                cur -= 1
+        return ans
+```
+
+
+
 ### 967. Numbers With Same Consecutive Differences
 
 ```python
