@@ -680,3 +680,74 @@ class Solution:
 第6行：之后从第二列开始遍历每一列，计算此列元素中该元素与所在行第一个数相同的个数，`max(num_same_as_first, rows-num_same_as_first)` 是该列可变1的最大个数。此处不用修改第一列就可以判断是因为计算的是和该元素所在行第一个数相同的个数，所以第一个数变为1后该元素也会变为1，会和第一个元素保持一致。
 
 第7行，之后便可以按照每列最多1的个数根据该列index计算累加结果。
+
+
+
+### 1020. Number of Enclaves
+
+```python
+class Solution:
+    def numEnclaves(self, A: List[List[int]]) -> int:
+        
+        rows, cols = len(A), len(A[0])
+        
+        def fill(row, col):
+            if row < 0 or col < 0 or row >= rows or col >= cols or A[row][col] == 0:
+                return 0
+            A[row][col] = 0
+            return 1 + fill(row+1, col) + fill(row-1, col) + fill(row, col+1) + fill(row, col-1)
+        
+        for row in range(rows):
+            for col in range(cols):
+                if row == 0 or col == 0 or row == rows-1 or col == cols-1:
+                    fill(row, col)
+        
+        res = 0
+        
+        for row in range(rows):
+            for col in range(cols):
+                if A[row][col] == 1:
+                    res += fill(row, col)
+        
+        return res
+```
+
+Similar as 1254, 只是最后在填充的时候记录数量，注意fill函数递归记述方法。
+
+
+
+### 1254. Number of Closed Islands
+
+```python
+class Solution:
+    def closedIsland(self, grid: List[List[int]]) -> int:
+        
+        rows, cols = len(grid), len(grid[0])
+        
+        def fill(row, col):
+            if row < 0 or row >= rows or col < 0 or col >= cols or grid[row][col] == 1:
+                return
+            grid[row][col] = 1
+            fill(row+1, col)
+            fill(row-1, col)
+            fill(row, col-1)
+            fill(row, col+1)
+        
+        
+        for row in range(rows):
+            for col in range(cols):
+                if row == 0 or col == 0 or row == len(grid) - 1 or col == len (grid[0]) - 1:
+                    fill(row, col)
+        
+        res = 0
+        
+        for row in range(rows):
+            for col in range(cols):
+                if grid[row][col] == 0:
+                    res += 1
+                    fill(row, col)
+        
+        return res
+```
+
+先从四周的0开始填充1，遇到1停止。填充完之后会剩下中间的岛，再遍历一次，遇到岛(0)岛数量+1并将其填充。
