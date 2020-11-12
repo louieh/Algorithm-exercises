@@ -2635,6 +2635,39 @@ class Solution:
 
 
 
+### 593. Valid Square
+
+```python
+class Solution:
+    def validSquare(self, p1: List[int], p2: List[int], p3: List[int], p4: List[int]) -> bool:
+        
+        def distance(a, b):
+            return (a[0] - b[0])**2 + (a[1] - b[1])**2
+        
+        p1p2 = distance(p1, p2)
+        p1p3 = distance(p1, p3)
+        p1p4 = distance(p1, p4)
+        temp = set([p1p2, p1p3, p1p4])
+        
+        if len(temp) != 2:
+            return False
+        edge, diagonal = min(temp), max(temp)
+        if not edge or not diagonal: return False
+        
+        if p1p2 == diagonal:
+            if distance(p2, p3) != edge or distance(p2, p4) != edge or distance(p3, p4) != diagonal:
+                return False
+        elif p1p3 == diagonal:
+            if distance(p2, p3) != edge or distance(p3, p4) != edge or distance(p2, p4) != diagonal:
+                return False
+        elif p1p4 == diagonal:
+            if distance(p4, p3) != edge or distance(p2, p4) != edge or distance(p2, p3) != diagonal:
+                return False
+        return True
+```
+
+
+
 ### 599. Minimum Index Sum of Two Lists
 
 ```python
