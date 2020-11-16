@@ -315,6 +315,38 @@ class Solution:
 
 
 
+### 1557. Minimum Number of Vertices to Reach All Nodes
+
+```python
+class Solution:
+    def findSmallestSetOfVertices(self, n: int, edges: List[List[int]]) -> List[int]:
+        hasIndegree = set([b for a, b in edges])
+        res = set()
+        for a, b in edges:
+            if a not in hasIndegree:
+                res.add(a)
+        return list(res)
+        
+        def dfs(node):
+            seen = {node}
+            stack = [node]
+            while stack:
+                temp = stack[-1]
+                allAdjSeen = True
+                for each in graph[temp]:
+                    if each not in seen:
+                        seen.add(each)
+                        stack.append(each)
+                        addAdjSeen = False
+                        break
+                if addAdjSeen:
+                    stack.pop()
+```
+
+返回所有入度为0的点。dfs非递归算法。
+
+
+
 ### Naveego OA - [Directions Reduction](https://www.codewars.com/kata/550f22f4d758534c1100025a)
 
 ```python
