@@ -779,6 +779,31 @@ class Solution:
 
 
 
+### 845. Longest Mountain in Array
+
+```python
+class Solution:
+    def longestMountain(self, A: List[int]) -> int:
+        
+        res = cur = 0
+        
+        while cur < len(A):
+            temp = cur
+            if temp < len(A)-1 and A[temp] < A[temp+1]:
+                while temp < len(A)-1 and A[temp] < A[temp+1]:
+                    temp += 1
+                
+                while temp < len(A)-1 and A[temp] > A[temp+1]:
+                    temp += 1
+                    res = max(res, temp-cur+1)
+            cur = max(cur+1, temp)
+        return res
+```
+
+https://leetcode.com/problems/longest-mountain-in-array/solution/
+
+
+
 ### 905. Sort Array By Parity
 
 ```python
