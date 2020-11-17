@@ -470,6 +470,32 @@ class Solution:
 
 
 
+### 390. Elimination Game
+
+```java
+class Solution {
+    public int lastRemaining(int n) {
+        int head = 1;
+        int remain = n;
+        int step = 1;
+        boolean left = true;
+        while (remain > 1) {
+            if (left || remain % 2 != 0) {
+                head += step;
+            }
+            remain /= 2;
+            step *= 2;
+            left = !left;
+        }
+        return head;
+    }
+}
+```
+
+https://leetcode.com/problems/elimination-game/discuss/87119/JAVA%3A-Easiest-solution-O(logN)-with-explanation
+
+
+
 ### 414. Third Maximum Number
 
 ```python
