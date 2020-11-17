@@ -1214,3 +1214,37 @@ class Solution:
             temp_set.add(each)
         return False
 ```
+
+
+
+### 1456. Maximum Number of Vowels in a Substring of Given Length
+
+```python
+class Solution:
+    def maxVowels(self, s: str, k: int) -> int:
+        v = {'a', 'e', 'i', 'o', 'u'}
+        cur = len([i for i in range(k) if s[i] in v])
+        res, left, right = cur, 0,  k - 1
+        while right < len(s)-1:
+            right += 1
+            cur += s[right] in v
+            cur -= s[left] in v
+            left += 1
+            res = max(res, cur)
+        return res
+```
+
+```python
+    def maxVowels(self, s: str, k: int) -> int:
+        vowels = {'a', 'e', 'i', 'o', 'u'}
+        ans = cnt = 0
+        for i, c in enumerate(s):
+            if c in vowels:
+                cnt += 1
+            if i >= k and s[i - k] in vowels:
+                cnt -= 1
+            ans  = max(cnt, ans)
+        return ans  
+```
+
+two pointers
