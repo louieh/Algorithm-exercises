@@ -1143,6 +1143,28 @@ class Solution:
 
 
 
+### 1054. Distant Barcodes
+
+```python
+class Solution:
+    def rearrangeBarcodes(self, barcodes: List[int]) -> List[int]:
+        res = [None] * len(barcodes)
+        counter_temp = collections.Counter(barcodes)
+        counter = sorted(counter_temp.items(), key=lambda x:(x[1], x[0]), reverse=True)
+        index = 0
+        for barcode, count in counter:
+            for i in range(count):
+                res[index] = barcode
+                index += 2
+                if index >= len(barcodes):
+                    index = 1
+        return res
+```
+
+注意Python字典的排序，另外Counter对象有most_common()方法，返回tuple列表
+
+
+
 ### 1089. Duplicate Zeros
 
 ```python

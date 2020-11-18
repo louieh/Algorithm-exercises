@@ -26,6 +26,31 @@ class Solution:
 
 try to use divide and conquer
 
+```python
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        
+        def merge_fun(intervals, low, high):
+            mid = (low + high) // 2
+            if low < high:
+                merge_fun(intervals, low, mid)
+                merge_fun(intervals, mid+1, high)
+                merge_method(intervals, low, mid, high)
+        
+        
+        def merge_method(inter1, inter2):
+            temp1 = inter1[-1]
+            temp2 = inter2[0]
+            if temp1[1] < temp2[0]:
+                return inter1+inter2
+            elif temp1[1] >= temp2[0] and temp1[1] <= temp2[1]:
+                return inter1[:-1] + [min(temp1[0], temp2[0]), max(temp1[1], temp2[1])] + inter2[1:]
+            elif temp1[0] >= temp2[0] and temp1[1] <= temp2[1]:
+                return merge_method(inter1[:-1], inter2)
+```
+
+
+
 
 
 ### 57. Insert Interval

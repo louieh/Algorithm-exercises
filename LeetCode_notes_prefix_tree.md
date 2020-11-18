@@ -640,6 +640,47 @@ class MapSum:
 
 
 
+### 1032. Stream of Characters
+
+```python
+class StreamChecker:
+
+    def __init__(self, words: List[str]):
+        self.trie = self.initTrie(words)
+        self.letters = []
+    
+    def initTrie(self, words: List[str]):
+        res = dict()
+        for word in words:
+            temp = res
+            for i, c in enumerate(word[::-1]):
+                if c not in temp:
+                    temp[c] = {}
+                temp = temp[c]
+                if i == len(word)-1:
+                    temp.update({"#": "#"})
+        return res
+
+    def query(self, letter: str) -> bool:
+        self.letters.append(letter)
+        i = len(self.letters)-1
+        trie = self.trie
+        while i >= 0:
+            if self.letters[i] not in trie:
+                return False
+            trie = trie.get(self.letters[i])
+            if '#' in trie: return True
+            i -= 1
+        return '#' in trie
+
+
+# Your StreamChecker object will be instantiated and called as such:
+# obj = StreamChecker(words)
+# param_1 = obj.query(letter)
+```
+
+
+
 ### 1268. Search Suggestions System
 
 ```python
