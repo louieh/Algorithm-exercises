@@ -524,3 +524,28 @@ class Solution:
 ```
 
 Similar as 434
+
+
+
+### 1573. Number of Ways to Split a String
+
+```python
+class Solution:
+    def numWays(self, s: str) -> int:
+        counter = collections.Counter(s)
+        num1 = counter.get('1')
+        if num1 is None: return (len(s)-2) * (len(s)-1) // 2 % (10 ** 9 + 7)
+        if num1 % 3 != 0: return 0
+        
+        firstCut = secondCut = 0
+        num1Temp = 0
+        for each in s:
+            if each == '1':
+                num1Temp += 1
+            if num1Temp == num1 // 3:
+                firstCut += 1
+            if num1Temp == num1 // 3 * 2:
+                secondCut += 1
+        return firstCut * secondCut % (10 ** 9 + 7)
+```
+
