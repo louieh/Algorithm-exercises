@@ -830,6 +830,32 @@ https://leetcode.com/problems/longest-mountain-in-array/solution/
 
 
 
+### 846. Hand of Straights
+
+```python
+class Solution:
+    def isNStraightHand(self, hand: List[int], W: int) -> bool:
+        counter = collections.Counter(hand)
+        
+        def del_counter(num):
+            if counter[num] == 1:
+                counter.pop(num)
+                return
+            counter[num] -= 1
+        
+        while counter:
+            min_num = min(counter.keys())
+            del_counter(min_num)
+            for num in range(min_num+1, min_num+W):
+                if num not in counter: return False
+                del_counter(num)
+        return True
+```
+
+same as 1296
+
+
+
 ### 905. Sort Array By Parity
 
 ```python
@@ -1222,6 +1248,30 @@ class Solution:
 class Solution:
     def findNumbers(self, nums: List[int]) -> int:
         return len([each for each in nums if len(str(each)) % 2 == 0])
+```
+
+
+
+###  1296. Divide Array in Sets of K Consecutive Numbers
+
+```python
+class Solution:
+    def isPossibleDivide(self, nums: List[int], k: int) -> bool:
+        counter = collections.Counter(nums)
+        
+        def del_counter(num):
+            if counter[num] == 1:
+                counter.pop(num)
+                return
+            counter[num] -= 1
+        
+        while counter:
+            min_num = min(counter.keys())
+            del_counter(min_num)
+            for num in range(min_num+1, min_num+k):
+                if num not in counter: return False
+                del_counter(num)
+        return True
 ```
 
 
