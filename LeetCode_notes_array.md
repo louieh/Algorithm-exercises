@@ -1274,6 +1274,21 @@ class Solution:
         return True
 ```
 
+```python
+class Solution:
+    def isPossibleDivide(self, nums: List[int], k: int) -> bool:
+        counter = collections.Counter(nums)
+        
+        for num in sorted(counter):
+            if counter[num] > 0:
+                for i in range(k)[::-1]:
+                    counter[num+i] -= counter[num]
+                    if counter[num+i] < 0:
+                        return False
+                    
+        return True
+```
+
 
 
 ### 1299. Replace Elements with Greatest Element on Right Side
