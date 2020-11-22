@@ -751,3 +751,45 @@ class Solution:
 ```
 
 先从四周的0开始填充1，遇到1停止。填充完之后会剩下中间的岛，再遍历一次，遇到岛(0)岛数量+1并将其填充。
+
+
+
+### 1329. Sort the Matrix Diagonally
+
+```python
+class Solution:
+    def diagonalSort(self, mat: List[List[int]]) -> List[List[int]]:
+        rows, cols = len(mat), len(mat[0])
+        
+        for col in range(cols-1):
+            temp = []
+            row_, col_ = 0, col
+            while col_ < cols and row_ < rows:
+                temp.append(mat[row_][col_])
+                row_ += 1
+                col_ += 1
+            temp.sort(reverse=True)
+            row_, col_ = 0, col
+            while col_ < cols and row_ < rows:
+                mat[row_][col_] = temp.pop()
+                row_ += 1
+                col_ += 1
+        
+        
+        for row in range(1, rows-1):
+            temp = []
+            row_, col_ = row, 0
+            while row_ < rows and col_ < cols:
+                temp.append(mat[row_][col_])
+                row_ += 1
+                col_ += 1
+            temp.sort(reverse=True)
+            row_, col_ = row, 0
+            while row_ < rows and col_ < cols:
+                mat[row_][col_] = temp.pop()
+                row_ += 1
+                col_ += 1
+        
+        return mat
+```
+
