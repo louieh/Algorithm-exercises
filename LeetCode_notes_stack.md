@@ -39,6 +39,52 @@ class MinStack:
 
 
 
+### 227. Basic Calculator II
+
+```python
+class Solution:
+    def calculate(self, s: str) -> int:
+        stack, s_list = [], []
+        sy = {'+', '-', '*', '/'}
+        sy_first = {'*', '/'}
+        sy_second = {'+', '-'}
+        temp = ''
+        for i, val in enumerate(s):
+            if val == ' ': continue
+            if val not in sy:
+                temp += val
+            else:
+                s_list.append(int(temp))
+                temp = ''
+                s_list.append(val)
+        s_list.append(int(temp))
+        
+        i = 0
+        while i < len(s_list):
+            if s_list[i] not in sy:
+                stack.append(s_list[i])
+                i += 1
+            elif s_list[i] in sy_second:
+                stack.extend([s_list[i], s_list[i+1]])
+                i += 2
+            elif s_list[i] in sy_first:
+                a = stack.pop()
+                b = s_list[i+1]
+                temp = a * b if s_list[i] == '*' else a // b
+                stack.append(temp)
+                i += 2
+        stack = stack[::-1]
+        while len(stack) > 1:
+            a = stack.pop()
+            sy_temp = stack.pop()
+            b = stack.pop()
+            temp = a + b if sy_temp == '+' else a - b
+            stack.append(temp)
+        return int(stack[0])
+```
+
+
+
 ### 316. Remove Duplicate Letters
 
 ```python
