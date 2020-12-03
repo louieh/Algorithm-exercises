@@ -725,6 +725,54 @@ class Solution:
 
 
 
+### 382. Linked List Random Node
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+
+    /** @param head The linked list's head.
+        Note that the head is guaranteed to be not null, so it contains at least one node. */
+    int LinkLength;
+    HashMap<Integer, Integer> dict;
+    Random rand;
+    public Solution(ListNode head) {
+        int i = 0;
+        this.dict = new HashMap<>();
+        this.rand = new Random();
+        while (head != null) {
+            i += 1;
+            dict.put(i, head.val);
+            head = head.next;
+        }
+        this.LinkLength = i;
+    }
+    
+    /** Returns a random node's value. */
+    public int getRandom() {
+        int random = this.rand.nextInt(this.LinkLength) + 1;
+        return this.dict.get(random);
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(head);
+ * int param_1 = obj.getRandom();
+ */
+```
+
+
+
 ### 430. Flatten a Multilevel Doubly Linked List
 
 ```python
