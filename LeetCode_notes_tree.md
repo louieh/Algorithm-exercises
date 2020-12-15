@@ -3135,6 +3135,54 @@ class Solution:
 
 
 
+### 1361. Validate Binary Tree Nodes
+
+```py
+class Solution:
+    def validateBinaryTreeNodes(self, n: int, leftChild: List[int], rightChild: List[int]) -> bool:
+        '''
+        CHECK CONDITION 1 : There must be EXACTLY (n - 1) edges 
+        '''
+        # COUNT THE TOTAL EDGES - O(N)
+        leftEdges = len([l for l in leftChild if l != -1])
+        rightEdges = len([r for r in rightChild if r != -1])
+
+        # CHECK FOR VIOLATION OF CONDITION 1 - O(1)
+        if leftEdges + rightEdges != n - 1:
+            return False
+        
+        '''
+        CHECK CONDITION 2 : Each node, except the root, has EXACTLY 1 parent
+        '''
+        # GET THE PARENT OF EACH NODE - O(N)
+        parent = [[] for _ in range(n)]
+        
+        # FILL THE PARENT - O(N)
+        for i in range(n):
+            if leftChild[i] != -1: parent[leftChild[i]].append(i)                
+            if rightChild[i] != -1: parent[rightChild[i]].append(i)  
+        
+        # 4
+        # [1,0,3,-1]
+        # [-1,-1,-1,-1]
+        for i in range(n):
+            if parent[i] and parent[parent[i][0]]==[i]:
+                return False
+                
+        # FIND ALL ROOT NODES (IE. THOSE WITHOUT PARENT) - O(N)
+        roots = [i for i in range(len(parent)) if not parent[i]]
+
+        # CHECK IF THERE'S EXACTLY 1 ROOT NODE  - O(1)
+        if len(roots) != 1:
+            return False
+        
+        # ENSURE ROOT HAS > 1 CHILD, IF N > 1 - O(N)
+        root = roots[0]
+        return max(leftChild[root], rightChild[root]) != -1 or n == 1
+```
+
+
+
 ### 1367. Linked List in Binary Tree
 
 ```python
