@@ -365,6 +365,27 @@ class StockSpanner:
 
 
 
+### 946. Validate Stack Sequences
+
+```py
+class Solution:
+    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
+        stack = []
+        i = j = 0
+        while i < len(pushed) and j < len(popped):
+            if not stack or stack[-1] != popped[j]:
+                while i < len(pushed) and (not stack or stack[-1] != popped[j]):
+                    stack.append(pushed[i])
+                    i += 1
+            else:
+                while j < len(popped) and stack and stack[-1] == popped[j]:
+                    stack.pop()
+                    j += 1
+        return stack == popped[j:][::-1]
+```
+
+
+
 ### 1047. Remove All Adjacent Duplicates In String
 
 ```python
