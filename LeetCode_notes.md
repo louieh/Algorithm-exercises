@@ -2564,6 +2564,32 @@ class Solution:
 
 
 
+### 556. Next Greater Element III
+
+```python
+class Solution:
+    def nextGreaterElement(self, n: int) -> int:
+        if n <= 10: return -1
+        nList = [int(each) for each in list(str(n))]
+        i = len(nList) - 2
+        while i >= 0:
+            if nList[i] < nList[i+1]:
+                break
+            i -= 1
+        if i == -1: return -1
+        smallestIndex = i + 1
+        for j in range(i+2, len(nList)):
+            if nList[j] > nList[i] and nList[j] < nList[smallestIndex]:
+                smallestIndex = j
+        nList[i], nList[smallestIndex] = nList[smallestIndex], nList[i] 
+        res = int("".join([str(each) for each in nList[:i+1] + sorted(nList[i+1:])]))
+        return res if res <= 0x7fffffff else -1
+```
+
+https://leetcode.com/problems/next-greater-element-iii/discuss/101824/Simple-Java-solution-(4ms)-with-explanation.
+
+
+
 ### 557. Reverse Words in a String III
 
 ```python
