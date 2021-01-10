@@ -2588,6 +2588,10 @@ class Solution:
 
 https://leetcode.com/problems/next-greater-element-iii/discuss/101824/Simple-Java-solution-(4ms)-with-explanation.
 
+n1 = 0x80000000; *// 最大负数, -2147483648* 
+
+n2 = 0x7fffffff; *// 最大正数, 2147483647*
+
 
 
 ### 557. Reverse Words in a String III
@@ -2817,6 +2821,58 @@ class Solution:
 如果此index为None或0或为倒数第二个元素可直接返回true
 
 否则判断此index前后两个组合是否符合条件：比如[2,3,3,2,4]. 不符合的index==2. 那么判断其前后两个组合[3,3,2] 和 [3,2,4]其中一个可以即可，即nums[index-1] <= nums[index+1] or nums[index] <= nums[index+2]
+
+
+
+### 680. Valid Palindrome II
+
+```python
+# 07/14/2019
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        # eabbade
+        # edabbae
+
+        pos = 0
+        neg = 0
+
+        for i in range(len(s)):
+            if i > len(s)//2-1:
+                return True
+            if s[i+pos] != s[len(s)-1-i-neg]:
+                if pos+neg !=0:
+                    return False
+                if s[i+1] == s[len(s)-1-i]:
+                    if i+2 < len(s):
+                        if s[i+2] == s[len(s)-1-i-1]:
+                            pos = 1
+                    else:
+                        pos = 1
+                elif s[i] == s[len(s)-1-i-1] and s[i+1] == s[len(s)-1-i-2]:
+                    neg = 1
+                else:
+                    return False
+```
+
+```python
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        
+        def helper(left, right):
+            while left < right:
+                if s[left] != s[right]: return False
+                left += 1
+                right -= 1
+            return True
+        
+        left, right = 0, len(s) - 1
+        while left < right :
+            if s[left] != s[right]:
+                return helper(left+1, right) or helper(left, right-1)
+            left += 1
+            right -= 1
+        return True
+```
 
 
 
