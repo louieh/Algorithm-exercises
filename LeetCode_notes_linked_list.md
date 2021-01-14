@@ -193,6 +193,49 @@ class Solution:
 
 
 
+### 82. Remove Duplicates from Sorted List II
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        if not head: return
+        dummy = ListNode(0, head)
+        prev = dummy
+        while head:
+            if head.next and head.val == head.next.val:
+                while head.next and head.val == head.next.val:
+                    head = head.next
+                prev.next = head.next
+            else:
+                prev = prev.next
+            head = head.next
+        return dummy.next
+```
+
+
+
+### 83. Remove Duplicates from Sorted List
+
+```python
+class Solution:
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        if not head: return
+        temp = head
+        while temp.next:
+            if temp.val == temp.next.val:
+                temp.next = temp.next.next
+                continue
+            temp = temp.next
+        return head
+```
+
+
+
 ### 86. Partition List
 
 ```python
