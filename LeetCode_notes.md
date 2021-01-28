@@ -3793,6 +3793,25 @@ val * (val - 1) // 2 == A(n, 2) // 2
 
 
 
+### 1640. Check Array Formation Through Concatenation
+
+```python
+class Solution:
+    def canFormArray(self, arr: List[int], pieces: List[List[int]]) -> bool:
+        temp = {each[0]: each for each in pieces}
+        i = 0
+        while i < len(arr):
+            if arr[i] not in temp: return False
+            for each in temp[arr[i]]:
+                if arr[i] != each: return False
+                i += 1
+        return True
+```
+
+
+
+
+
 ### [Amazon | OA 2019 | Favorite Genres](https://leetcode.com/discuss/interview-question/373006)
 
 ```python
