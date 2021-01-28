@@ -3220,6 +3220,28 @@ https://leetcode.com/problems/linked-list-in-binary-tree/discuss/684678/Java-DFS
 
 
 
+### 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree
+
+```python
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        
+        self.res = None
+        
+        def helper(ori, clo):
+            if ori == target:
+                self.res = clo
+                return
+            if ori.left:
+                helper(ori.left, clo.left)
+            if ori.right:
+                helper(ori.right, clo.right)
+        helper(original, cloned)
+        return self.res
+```
+
+
+
 ### 1443. Minimum Time to Collect All Apples in a Tree
 
 ```python
