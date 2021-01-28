@@ -266,3 +266,40 @@ class Solution:
 
 从最后一个元素开始向前遍历到第二个元素。每个元素判断该元素加进位数carry的值，该值有三种可能（0，1，2）如果为0，直接除以2也就是右移一位，动作总数加一。如果为1需要进行两步操作：加一，除以二。之后把进位数设置为1。如果是2，说明此时元素为1且有1个进位，相加后为10，有一个进位且当前位置为0，所以除以二即可。最后遍历结束后剩下第一个元素1，如果此时有进位carry=1，那么1+1=10，需要再进行一次右移，如果此时carry=0，那么不需要再进行任何操作，所以最后直接返回res+carry即可。
 
+
+
+### 1680. Concatenation of Consecutive Binary Numbers
+
+```python
+# TLE
+class Solution:
+    def concatenatedBinary(self, n: int) -> int:
+        res = 0
+        i = n
+        temp = 0
+        while i > 0:
+            res += i<<temp
+            temp += len(bin(i))-2
+            i -= 1
+        return res % (10**9+7)
+```
+
+```python
+# TLE
+class Solution:
+    def concatenatedBinary(self, n: int) -> int:
+        res = 0
+        for i in range(1, n+1):
+            res = res * (1 << (len(bin(i)) - 2)) + i
+        return res % (10**9 + 7) # 此步骤需要在for中进行
+```
+
+```python
+class Solution:
+    def concatenatedBinary(self, n: int) -> int:
+        res = 0
+        for i in range(1, n+1):
+            res = (res * (1 << (len(bin(i)) - 2)) + i) % (10**9+7)
+        return res
+```
+
