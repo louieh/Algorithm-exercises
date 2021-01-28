@@ -878,30 +878,6 @@ class Solution:
 
 
 
-### 70. Climbing Stairs
-
-```python
-class Solution:
-    def climbStairs(self, n: int) -> int:
-        cache = dict()
-        
-        def climbStairs_helper(i, n):
-            if i in cache:
-                return cache[i]
-            
-            if i > n:
-                return 0
-            if i == n:
-                return 1
-            temp = climbStairs_helper(i+1, n) + climbStairs_helper(i+2, n)
-            cache[i] = temp
-            return temp
-        
-        return climbStairs_helper(0, n)
-```
-
-
-
 ### 73. Set Matrix Zeroes
 
 ```python

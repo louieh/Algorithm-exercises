@@ -983,6 +983,32 @@ class Solution:
         return ans.next
 ```
 
+```python
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        stack1, stack2 = [], []
+        
+        while l1:
+            stack1.append(l1.val)
+            l1 = l1.next
+        while l2:
+            stack2.append(l2.val)
+            l2 = l2.next
+        
+        head = ListNode(0)
+        tempSum = 0
+        while stack1 or stack2:
+            if stack1:
+                tempSum += stack1.pop()
+            if stack2:
+                tempSum += stack2.pop()
+            head.val = tempSum % 10
+            newHead = ListNode(tempSum // 10, head)
+            head = newHead
+            tempSum //= 10
+        return head if head.val != 0 else head.next
+```
+
 
 
 ### 707. Design Linked List
