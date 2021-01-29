@@ -232,3 +232,22 @@ class Solution:
 ```
 
 https://leetcode.com/problems/longest-common-subsequence/discuss/398711/ALL-4-ways-Recursion-greater-Top-down-greaterBottom-Up-greater-Efficient-Solution-O(N)-including-VIDEO-TUTORIAL
+
+
+
+### 1262. Greatest Sum Divisible by Three
+
+```python
+class Solution:
+    def maxSumDivThree(self, nums: List[int]) -> int:
+        dp = [0, 0, 0]
+        for num in nums:
+            dp_next = dp.copy()
+            for each in dp:
+                tempSum = each + num
+                index = tempSum % 3
+                dp_next[index] = max(tempSum, dp_next[index])
+            dp = dp_next
+        return dp[0]
+```
+
