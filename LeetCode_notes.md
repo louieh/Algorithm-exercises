@@ -4037,3 +4037,36 @@ except:
     pass
 ```
 
+
+
+### 华为机试HJ22 汽水瓶
+
+有这样一道智力题：“某商店规定：三个空汽水瓶可以换一瓶汽水。小张手上有十个空汽水瓶，她最多可以换多少瓶汽水喝？”答案是5瓶，方法如下：先用9个空瓶子换3瓶汽水，喝掉3瓶满的，喝完以后4个空瓶子，用3个再换一瓶，喝掉这瓶满的，这时候剩2个空瓶子。然后你让老板先借给你一瓶汽水，喝掉这瓶满的，喝完以后用3个空瓶子换一瓶满的还给老板。如果小张手上有n个空汽水瓶，最多可以换多少瓶汽水喝？
+
+```python
+def outerHelper(n):
+    res = 0
+    def innerHelper(n):
+        nonlocal res
+        if n <= 2:
+            if n == 2:
+                res += 1
+            return
+        drinks = n // 3
+        res += drinks
+        n = n - drinks * 3 + drinks
+        innerHelper(n)
+    innerHelper(n)
+    return res
+
+
+try:
+    while 1:
+        inputInt = int(input())
+        if inputInt == 0: continue
+        res = outerHelper(inputInt)
+        print(res)
+except:
+    pass
+```
+
