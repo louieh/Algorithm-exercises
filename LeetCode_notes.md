@@ -4009,3 +4009,31 @@ class Solution:
                 return min(leftmost_1_list)
         return -1
 ```
+
+
+
+### 华为机试HJ37 统计每个月兔子总数
+
+有一只兔子，从出生后第3个月起每个月都生一只兔子，小兔子长到第三个月后每个月又生一只兔子，假如兔子都不死，问每个月的兔子总数为多少？
+
+```python
+def helper(month):
+    res = 1
+    tempList = [1, 0, 0]
+    i = 1
+    while i < month:
+        tempList[2] += tempList[1]
+        res += tempList[2]
+        tempList[1] = tempList[0]
+        tempList[0] = tempList[2]
+        i += 1
+    return res
+
+try:
+    while 1:
+        month = int(input())
+        print(helper(month))
+except:
+    pass
+```
+
