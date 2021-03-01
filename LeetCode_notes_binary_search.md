@@ -357,6 +357,40 @@ class Solution:
         return binary_search(0, peek) or binary_search(peek+1, len(nums)-1)
 ```
 
+```python
+# 此方法同样适用于没有重复元素的情况，也就是81题
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        
+        left, right = 0, len(nums)-1
+        
+        while left <= right:
+            mid = left + (right - left) // 2
+            if nums[mid] == target:
+                return True
+            
+            # If we know for sure left side is sorted or right side is unsorted
+            elif nums[mid] > nums[left] or nums[mid] > nums[right]:
+                if nums[mid] > target and target >= nums[left]:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            
+            # If we know for sure right side is sorted or left side is unsorted
+            elif nums[mid] < nums[right] or nums[mid] < nums[left]:
+                if nums[mid] < target and target <= nums[right]:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            
+            else:
+            #If we get here, that means nums[start] == nums[mid] == nums[end], then shifting out
+            #any of the two sides won't change the result but can help remove duplicate from
+            #consideration, here we just use end-- but left++ works too
+                right -= 1
+        return False
+```
+
 
 
 ### 153. Find Minimum in Rotated Sorted Array
@@ -375,6 +409,19 @@ class Solution:
                 if nums[mid] > nums[mid+1]:
                     return nums[mid+1]
                 left = mid + 1 # 此处+1/+2均可以，+2有可能会直接到最小值，但这时候最小值就会变为第一个，同样可以到最后退出循环时被选中。此处加与不加均可以，可能时间会有所不同，根据不同取值。
+            else:
+                right = mid
+        return nums[left]
+```
+
+```python
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        left, right = 0, len(nums) - 1
+        while left < right:
+            mid = left + (right-left) // 2
+            if nums[mid] > nums[right]:
+                left = mid + 1
             else:
                 right = mid
         return nums[left]
