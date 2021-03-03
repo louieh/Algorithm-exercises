@@ -424,6 +424,32 @@ class Solution:
         return island
 ```
 
+```python
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        if not grid or not grid[0]: return 0
+        
+        rows, cols = len(grid), len(grid[0])
+        res = 0
+        def dfs(row, col):
+            grid[row][col] = "0"
+            if col > 0 and grid[row][col-1] == "1":
+                dfs(row, col-1)
+            if col < cols-1 and grid[row][col+1] == "1":
+                dfs(row, col+1)
+            if row > 0 and grid[row-1][col] == "1":
+                dfs(row-1, col)
+            if row < rows-1 and grid[row+1][col] == "1":
+                dfs(row+1, col)
+        
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == "1":
+                    dfs(i, j)
+                    res += 1
+        return res
+```
+
 
 
 ### 240. Search a 2D Matrix II
