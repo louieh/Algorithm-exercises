@@ -64,6 +64,20 @@ class Solution:
         return ans
 ```
 
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        start = res = 0
+        temp = dict()
+        for i, v in enumerate(s):
+            if v in temp and temp[v] >= start:
+                start = temp[v] + 1
+            else:
+                res = max(res, i-start+1)
+            temp[v] = i
+        return res
+```
+
 
 
 ### 14. Longest Common Prefix
