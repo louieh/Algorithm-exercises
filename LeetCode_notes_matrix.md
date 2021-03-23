@@ -365,6 +365,74 @@ class Solution:
 
 
 
+### 79. Word Search
+
+```python
+# TLE
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        if len(word) > len(board) * len(board[0]):
+            return False
+        
+        def dfs(row, col, index):
+            if index == len(word) - 1:
+                return True
+            temp = board[row][col]
+            board[row][col] = '#'
+            u, d, l, r = False, False, False, False
+            if col > 0 and board[row][col-1] == word[index+1]:
+                l = dfs(row, col-1, index+1)
+            if col < len(board[0])-1 and board[row][col+1] == word[index+1]:
+                r = dfs(row, col+1, index+1)
+            if row > 0 and board[row-1][col] == word[index+1]:
+                u = dfs(row-1, col, index+1)
+            if row < len(board)-1 and board[row+1][col] == word[index+1]:
+                d = dfs(row+1, col, index+1)
+            board[row][col] = temp
+            return u or d or l or r
+        
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == word[0]:
+                    if dfs(i, j, 0):
+                        return True
+        return False
+```
+
+```python
+# accept
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        if len(word) > len(board) * len(board[0]):
+            return False
+        
+        def dfs(row, col, index):
+            if row < 0 or row >= len(board) or col < 0 or col >= len(board[0]) or board[row][col] != word[index]:
+                return False
+            
+            if index == len(word) - 1:
+                return True
+            
+            temp = board[row][col]
+            board[row][col] = '#'
+            res = dfs(row, col-1, index+1) or dfs(row, col+1, index+1) or dfs(row-1, col, index+1) or dfs(row+1, col, index+1)
+            board[row][col] = temp
+            return res
+        
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == word[0]:
+                    if dfs(i, j, 0):
+                        return True
+        return False
+```
+
+if 语句太耗时了？？？
+
+https://leetcode.com/problems/word-search/discuss/27660/Python-dfs-solution-with-comments.
+
+
+
 ### 130. Surrounded Regions
 
 ```python
