@@ -337,6 +337,28 @@ class Solution:
                     break
 ```
 
+```python
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        k %= len(nums)
+        if k == 0: return nums
+        
+        start = count = 0
+        while count < len(nums):
+            cur_index, prev_num = start, nums[start]
+            while 1:
+                next_index = (cur_index + k) % len(nums)
+                nums[next_index], prev_num = prev_num, nums[next_index]
+                cur_index = next_index
+                count += 1
+                if cur_index == start: break
+            start += 1
+        return nums
+```
+
 
 
 ### 274. H-Index
