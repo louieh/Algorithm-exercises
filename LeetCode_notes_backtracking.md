@@ -165,8 +165,6 @@ class Solution:
         def backtrack(tempList, start):
             if len(tempList) == k:
                 ans.append(tempList)
-            elif start == len(nums):
-                return
             else:
                 for i in range(start, len(nums)):
                     tempList.append(nums[i])
