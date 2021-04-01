@@ -80,6 +80,33 @@ class Solution:
 
 
 
+### 5. Longest Palindromic Substring
+
+```python
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        if len(s) < 2: return s
+        maxLength = 0
+        res = None
+        def isPalindrome(left, right):
+            nonlocal res
+            nonlocal maxLength
+            while left >= 0 and right < len(s) and s[left] == s[right]:
+                left -= 1
+                right += 1
+            if right-left+1 > maxLength:
+                maxLength = right - left + 1
+                res = s[left+1:right]
+        
+        for i in range(len(s)):
+            isPalindrome(i, i)
+            isPalindrome(i, i+1)
+        
+        return res
+```
+
+
+
 ### 14. Longest Common Prefix
 
 ```python
