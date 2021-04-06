@@ -290,6 +290,70 @@ class Solution:
 
 
 
+### 169. Majority Element
+
+```python
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        from collections import Counter
+        
+        c = Counter(nums)
+        for k,v in c.items():
+            if v > len(nums) // 2:
+                return k
+```
+
+```python
+class Solution:
+    def majorityElement(self, nums):
+        nums.sort()
+        return nums[len(nums)//2]
+```
+
+```python
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        
+        def partition(left, right):
+            small = left - 1
+            for i in range(left, right):
+                if nums[i] < nums[right]:
+                    small += 1
+                    if small != i:
+                        nums[small], nums[i] = nums[i], nums[small]
+            small += 1
+            nums[small], nums[right] = nums[right], nums[small]
+            return small
+        
+        left, right = 0, len(nums)-1
+        mid = left + (right - left) // 2
+        index = partition(left, right)
+        while mid != index:
+            if index > mid:
+                right = index - 1
+                index = partition(left, right)
+            else:
+                left = index + 1
+                index = partition(left, right)
+        return nums[mid]
+```
+
+```python
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        can, count = 0, 0
+        for num in nums:
+            if count == 0:
+                can, count = num, 1
+            elif can == num:
+                count += 1
+            else:
+                count -= 1
+        return can
+```
+
+
+
 ### 187. Repeated DNA Sequences
 
 ```python
@@ -357,6 +421,101 @@ class Solution:
                 if cur_index == start: break
             start += 1
         return nums
+```
+
+
+
+### 215. Kth Largest Element in an Array
+
+```python
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        if not nums:
+            return
+        
+        def swap(a, b, nums=nums):
+            if a == b:
+                return
+            temp = nums[a]
+            nums[a] = nums[b]
+            nums[b] = temp
+        
+        def findKthLargest_tool(nums, left, right, k):
+            if left > right:
+                return -1
+            
+            import random
+            pivot = int((right - left + 1) * random.random()) + left
+            swap(pivot, right)
+            c = left
+            for i in range(left, right):
+                if nums[i] >= nums[right]:
+                    swap(i, c)
+                    c += 1
+            swap(c, right)
+            
+            if c == k-1:
+                return nums[c]
+            elif c > k-1:
+                return findKthLargest_tool(nums, left, c-1, k)
+            return findKthLargest_tool(nums, c+1, right, k)
+        
+        return findKthLargest_tool(nums, 0, len(nums)-1, k)
+```
+
+```python
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        def partition(left, right):
+            large = left - 1
+            for i in range(left, right):
+                if nums[i] > nums[right]:
+                    large += 1
+                    if large != i:
+                        nums[large], nums[i] = nums[i], nums[large]
+            large += 1
+            nums[large], nums[right] = nums[right], nums[large]
+            return large
+        
+        left, right = 0, len(nums) - 1
+        index = partition(left, right)
+        while index != k - 1:
+            if index > k - 1:
+                right = index - 1
+            else:
+                left = index + 1
+            index = partition(left, right)
+        return nums[index]
+```
+
+
+
+### 229. Majority Element II
+
+```python
+class Solution:
+    def majorityElement(self, nums: List[int]) -> List[int]:
+        return [each for each, val in collections.Counter(nums).items() if val > len(nums)//3]
+```
+
+```python
+class Solution:
+    def majorityElement(self, nums: List[int]) -> List[int]:
+        can1, count1 = 0, 0
+        can2, count2 = 1, 0
+        for num in nums:
+            if can1 == num:
+                count1 += 1
+            elif can2 == num:
+                count2 += 1
+            elif count1 == 0:
+                can1, count1 = num, 1
+            elif count2 == 0:
+                can2, count2 = num, 1
+            else:
+                count1 -= 1
+                count2 -= 1
+        return [each for each in (can1, can2) if nums.count(each) > len(nums) // 3]
 ```
 
 

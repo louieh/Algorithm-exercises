@@ -475,6 +475,58 @@ class Solution:
 
 
 
+### 111. Minimum Depth of Binary Tree
+
+```python
+class Solution(object):
+    def __init__(self):
+        self.stack_list = []
+        self.depth = 1
+        
+    def minDepth(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if not root:
+            return 0
+        else:
+            self.stack_list.append([root])
+        
+        while len(self.stack_list):
+            temp_list = []
+            temp_node = self.stack_list.pop()
+            for each_node in temp_node:
+                if not each_node.left and not each_node.right:
+                    return self.depth
+                if each_node.left:
+                    temp_list.append(each_node.left)
+                if each_node.right:
+                    temp_list.append(each_node.right)
+            self.stack_list.append(temp_list)
+            self.depth += 1
+```
+
+```python
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        if not root: return 0
+        res = sys.maxsize
+        def helper(root, temp):
+            nonlocal res
+            if not root.left and not root.right:
+                res = min(res, temp)
+                return
+            if root.left:
+                helper(root.left, temp+1)
+            if root.right:
+                helper(root.right, temp+1)
+        helper(root, 1)
+        return res
+```
+
+
+
 ### 112. Path Sum
 
 ```python

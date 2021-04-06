@@ -209,6 +209,20 @@ class Solution:
             return ans
 ```
 
+```python
+class Solution:
+    def reverse(self, x: int) -> int:
+        symbol = 1
+        if x < 0:
+            symbol = -1
+            x = -x
+        res = 0
+        while x:
+            res = res * 10 + x % 10
+            x //= 10
+        return 0 if res > pow(2, 31) else symbol * res
+```
+
 
 
 ### 8. String to Ineger (atoi)
@@ -1374,28 +1388,6 @@ class Solution:
             n = (n-1) // 26
         result.reverse()
         return ''.join(result)
-```
-
-
-
-### 169. Majority Element
-
-```python
-class Solution:
-    def majorityElement(self, nums: List[int]) -> int:
-        from collections import Counter
-        
-        c = Counter(nums)
-        for k,v in c.items():
-            if v > len(nums) // 2:
-                return k
-```
-
-```python
-class Solution:
-    def majorityElement(self, nums):
-        nums.sort()
-        return nums[len(nums)//2]
 ```
 
 
