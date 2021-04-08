@@ -252,6 +252,33 @@ class Solution:
 
 https://leetcode.com/problems/longest-common-subsequence/discuss/398711/ALL-4-ways-Recursion-greater-Top-down-greaterBottom-Up-greater-Efficient-Solution-O(N)-including-VIDEO-TUTORIAL
 
+```python
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        memo = [[0] * len(text2) for _ in range(len(text1))]
+        temp = False
+        for i in range(len(text2)):
+            if temp:
+                memo[0][i] = 1
+            elif text1[0] == text2[i]:
+                temp = True
+                memo[0][i] = 1
+        temp = False
+        for i in range(len(text1)):
+            if temp:
+                memo[i][0] = 1
+            elif text1[i] == text2[0]:
+                temp = True
+                memo[i][0] = 1
+        for i in range(1, len(text1)):
+            for j in range(1, len(text2)):
+                if text1[i] == text2[j]:
+                    memo[i][j] = memo[i-1][j-1] + 1
+                else:
+                    memo[i][j] = max(memo[i][j-1], memo[i-1][j])
+        return memo[len(text1)-1][len(text2)-1]
+```
+
 
 
 ### 1262. Greatest Sum Divisible by Three
