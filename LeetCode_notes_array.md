@@ -1292,6 +1292,38 @@ class Solution:
         return merge(A1, A2)
 ```
 
+```python
+class Solution:
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        if nums[0] >= 0 or nums[-1] <= 0:
+            res = [x**2 for x in nums]
+            if nums[-1] <= 0:
+                return res[::-1]
+            return res
+        
+        left = right = 0
+        for i, num in enumerate(nums):
+            if num >= 0:
+                left = i - 1
+                right = i
+                break
+        res = []
+        while left >= 0 and right < len(nums):
+            if -nums[left] <= nums[right]:
+                res.append(nums[left])
+                left -= 1
+            else:
+                res.append(nums[right])
+                right += 1
+        while left >= 0:
+            res.append(nums[left])
+            left -= 1
+        while right < len(nums):
+            res.append(nums[right])
+            right += 1
+        return [x**2 for x in res]
+```
+
 
 
 ### 1007. Minimum Domino Rotations For Equal Row
