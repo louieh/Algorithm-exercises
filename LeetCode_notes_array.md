@@ -423,6 +423,19 @@ class Solution:
         return nums
 ```
 
+```python
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        k %= len(nums)
+        if k == 0: return
+        nums1 = nums[-k:] + nums[:len(nums)-k]
+        for i in range(len(nums)):
+            nums[i] = nums1[i]
+```
+
 
 
 ### 215. Kth Largest Element in an Array
