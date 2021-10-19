@@ -1825,6 +1825,17 @@ void moveZeroes(vector<int>& nums) {
         }
     }
 }
+
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        lastZeroIndex = 0
+        for index, num in enumerate(nums):
+            if num != 0:
+                nums[lastZeroIndex], nums[index] = nums[index], nums[lastZeroIndex]
+                lastZeroIndex += 1
 ```
 
 ```python
@@ -1841,6 +1852,21 @@ class Solution:
         
         for i in range(index, len(nums)):
             nums[i] = 0
+```
+
+```python
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        right_place = 0
+        for index, num in enumerate(nums):
+            if num != 0:
+                nums[right_place] = num
+                if right_place != index:
+                    nums[index] = 0
+                right_place += 1
 ```
 
 
