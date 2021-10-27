@@ -2,6 +2,26 @@
 
 [toc]
 
+### 19. Remove Nth Node From End of List
+
+```python
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        slow = fast = head
+        for i in range(n):
+            fast = fast.next
+        if not fast: return head.next # 删除第一个点
+        while fast.next:
+            fast = fast.next
+            slow = slow.next
+        slow.next = slow.next.next
+        return head
+```
+
+设置两个点，第一个点先向前走n步，此时两个点步数间隔n，之后两个点同时先前走
+
+
+
 ### 21. Merge Two Sorted Lists
 
 ```python
