@@ -78,6 +78,24 @@ class Solution:
         return res
 ```
 
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        if not s: return 0
+        left = 0
+        temp = {}
+        res = 0
+        for right, val in enumerate(s):
+            if val in temp:
+                left_old = left
+                left = temp[val] + 1
+                for i in range(left_old, left):
+                    temp.pop(s[i])
+            temp[val] = right
+            res = max(res, right-left+1)
+        return res
+```
+
 
 
 ### 5. Longest Palindromic Substring
