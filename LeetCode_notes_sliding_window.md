@@ -177,6 +177,206 @@ class Solution:
 
 
 
+### 438. Find All Anagrams in a String
+
+```python
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        from collections import defaultdict
+        
+        res = []
+        
+        if len(p) > len(s):
+            return res
+        
+        def to_dict(s: str):
+            res = defaultdict(int)
+            for each in s:
+                res[each] += 1
+            return res
+        
+        if len(p) == len(s):
+            return [0] if to_dict(p) == to_dict(s) else res
+        
+        left, right = 0, len(p)-1
+        p_dict = to_dict(p)
+        s_dict = defaultdict(int)
+        
+        while right < len(s)-1:
+            if not s_dict:
+                s_dict = to_dict(s[left:right+1])
+            else:
+                s_dict[s[left]] -= 1
+                if s_dict[s[left]] == 0:
+                    s_dict.pop(s[left])
+                left += 1
+                right += 1
+                s_dict[s[right]] += 1
+            if s_dict == p_dict:
+                res.append(left)
+        return res
+```
+
+same as question 567
+
+
+
+### 567. Permutation in String
+
+```python
+# TLE
+# 直接算s1的所有全排列然后依次去查是否在s2中，超时
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        permutation = []
+        s1_list = list(s1)
+        s1_list.sort()
+        
+        def backtrack(tempList, used):
+            if len(tempList) == len(s1):
+                permutation.append("".join(tempList))
+            else:
+                for i, num in enumerate(s1_list):
+                    if used[i] or i > 0 and s1_list[i] == s1_list[i-1] and not used[i-1]:
+                        continue
+                    used[i] = True
+                    tempList.append(num)
+                    backtrack(tempList.copy(), used.copy())
+                    tempList.pop()
+                    used[i] = False
+        backtrack([], [False]*len(s1))
+        
+        for each in permutation:
+            if each in s2:
+                return True
+        return False
+```
+
+```java
+// TLE
+// 排序
+// The idea behind this approach is that one string will be a permutation of another string only if both of them contain the same characters the same number of times. One string xx is a permutation of other string yy only if sorted(x)=sorted(y)sorted(x)=sorted(y).
+
+public class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        s1 = sort(s1);
+        for (int i = 0; i <= s2.length() - s1.length(); i++) {
+            if (s1.equals(sort(s2.substring(i, i + s1.length()))))
+                return true;
+        }
+        return false;
+    }
+    
+    public String sort(String s) {
+        char[] t = s.toCharArray();
+        Arrays.sort(t);
+        return new String(t);
+    }
+}
+```
+
+```java
+// TLE
+// hashmap
+// 基本思想就是设置一个与s1一样长的窗口在s2上滑动，同时比较s1的字典和s2的字典是否一致
+public class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length())
+            return false;
+        HashMap < Character, Integer > s1map = new HashMap<> ();
+        
+        for (int i = 0; i < s1.length(); i++)
+            s1map.put(s1.charAt(i), s1map.getOrDefault(s1.charAt(i), 0) + 1);
+        
+        for (int i = 0; i <= s2.length() - s1.length(); i++) {
+            HashMap <Character, Integer> s2map = new HashMap<> ();
+            for (int j = 0; j < s1.length(); j++) {
+                s2map.put(s2.charAt(i + j), s2map.getOrDefault(s2.charAt(i + j), 0) + 1);
+            }
+            if (matches(s1map, s2map))
+                return true;
+        }
+        return false;
+    }
+    
+    public boolean matches(HashMap <Character, Integer> s1map, HashMap <Character, Integer> s2map) {
+        for (char key: s1map.keySet()) {
+            if (s1map.get(key) - s2map.getOrDefault(key, -1) != 0)
+                return false;
+        }
+        return true;
+    }
+```
+
+```python
+# 还是上面的hashmap方法Python通过
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        
+        if len(s1) > len(s2):
+            return False
+        
+        from collections import defaultdict
+        
+        def to_dict(s: str):
+            res = defaultdict(int)
+            for each in s:
+                res[each] += 1
+            return res
+        
+        s1_dict = to_dict(s1)
+        left, right = 0, len(s1)
+        while right <= len(s2):
+            s2_dict = to_dict(s2[left:right])
+            if s2_dict == s1_dict:
+                return True
+            left += 1
+            right += 1
+        return False
+```
+
+```python
+# 还是上面的hashmap方法，每次移动s2窗口的时候不重新构造字典，而是只对左右两端字母进行更新
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        
+        if len(s1) > len(s2):
+            return False
+        
+        from collections import defaultdict
+        
+        def to_dict(s: str):
+            res = defaultdict(int)
+            for each in s:
+                res[each] += 1
+            return res
+        
+        if len(s1) == len(s2):
+            return to_dict(s1) == to_dict(s2)
+        
+        s1_dict = to_dict(s1)
+        s2_dict = defaultdict(int)
+        
+        left, right = 0, len(s1)-1
+        while right < len(s2)-1:
+            if not s2_dict:
+                s2_dict = to_dict(s2[left:right+1])
+            else:
+                s2_dict[s2[left]] -= 1
+                if s2_dict[s2[left]] == 0:
+                    s2_dict.pop(s2[left])
+                left += 1
+                right += 1
+                s2_dict[s2[right]] += 1
+            if s2_dict == s1_dict:
+                return True
+        return False
+```
+
+same as question 438
+
+
+
 ### 992. Subarrays with K Different Integers
 
 ```python
