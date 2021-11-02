@@ -433,6 +433,41 @@ class Solution:
 
 
 
+### 1219. Path with Maximum Gold
+
+```python
+class Solution:
+    def getMaximumGold(self, grid: List[List[int]]) -> int:
+        
+        
+        self.res = self.cur = 0
+        
+        def dfs(row, col):
+            ori = grid[row][col]
+            self.cur += grid[row][col]
+            grid[row][col] = -1
+            
+            for _row, _col in [(0,1), (0,-1), (1,0), (-1,0)]:
+                next_row = row + _row
+                next_col = col + _col
+                if not (0 <= next_row <= len(grid)-1 and 0 <= next_col <= len(grid[0])-1) or grid[next_row][next_col] == -1 or grid[next_row][next_col] == 0:
+                    continue
+                dfs(next_row, next_col)
+            self.res = max(self.res, self.cur)
+            self.cur -= ori
+            grid[row][col] = ori
+        
+        for row in range(len(grid)):
+            for col in range(len(grid[0])):
+                if grid[row][col] > 0:
+                    dfs(row, col)
+                    self.cur = 0
+        
+        return self.res
+```
+
+
+
 ### 1286. Iterator for Combination
 
 ```python
