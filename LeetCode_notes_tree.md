@@ -697,6 +697,27 @@ class Solution:
         return ans
 ```
 
+```python
+class Solution:
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        if not root: return 0
+        
+        self.res = 0
+        
+        def helper(root, cur):
+            if not root:
+                return
+            cur = cur * 10 + root.val
+            if root.left:
+                helper(root.left, cur)
+            if root.right:
+                helper(root.right, cur)
+            if not root.left and not root.right:
+                self.res += cur
+        helper(root, 0)
+        return self.res
+```
+
 
 
 ### 222. Count Complete Tree Nodes
