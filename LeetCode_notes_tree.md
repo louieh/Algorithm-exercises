@@ -1214,6 +1214,24 @@ def sumOfLeftLeaves(self, root: TreeNode) -> int:
     return self.ans
 ```
 
+```python
+class Solution:
+    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+        if not root: return 0
+        
+        self.res = 0
+        
+        def helper(root):
+            if not root: return
+            if root.left and not root.left.left and not root.left.right:
+                self.res += root.left.val
+            helper(root.left)
+            helper(root.right)
+        
+        helper(root)
+        return self.res
+```
+
 
 
 ### 429. N-ary Tree Level Order Traversal
