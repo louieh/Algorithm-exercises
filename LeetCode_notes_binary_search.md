@@ -849,6 +849,19 @@ class Solution:
         return right
 ```
 
+```python
+class Solution:
+    def arrangeCoins(self, n: int) -> int:
+        remain = n
+        i = 1
+        
+        while remain >= i:
+            remain -= i
+            i += 1
+        
+        return i - 1
+```
+
 
 
 ### 540. Single Element in a Sorted Array
