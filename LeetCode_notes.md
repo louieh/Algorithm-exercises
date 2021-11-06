@@ -3846,6 +3846,30 @@ class Solution:
 
 
 
+### 1828. Queries on Number of Points Inside a Circle
+
+```python
+class Solution:
+    def countPoints(self, points: List[List[int]], queries: List[List[int]]) -> List[int]:
+        
+        import math
+        
+        res = [0] * len(queries)
+        
+        def distance(x1, y1, x2, y2):
+            return math.sqrt((y2-y1)**2 + (x2-x1)**2)
+        
+        for x, y in points:
+            for i, query in enumerate(queries):
+                a, b, r = query
+                if distance(a, b, x, y) <= r:
+                    res[i] += 1
+        
+        return res
+```
+
+
+
 
 
 ### [Amazon | OA 2019 | Favorite Genres](https://leetcode.com/discuss/interview-question/373006)
