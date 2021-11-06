@@ -1587,3 +1587,29 @@ class Solution:
 ```
 
 two pointers
+
+
+
+### 1769. Minimum Number of Operations to Move All Balls to Each Box
+
+```python
+class Solution:
+    def minOperations(self, boxes: str) -> List[int]:
+        tempSet = set()
+        res = []
+        
+        for i, box in enumerate(boxes):
+            if box == '1':
+                tempSet.add(i)
+        
+        for i, box in enumerate(boxes):
+            tempSum = 0
+            for each1 in tempSet:
+                if each1 == i: continue
+                tempSum += abs(each1 - i)
+            res.append(tempSum)
+        
+        return res
+```
+
+先把所有1的index存起来，之后遍历每个box，同时便利1的index，计算移动到这个box所需的步骤

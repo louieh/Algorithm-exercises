@@ -3846,6 +3846,17 @@ class Solution:
 
 
 
+### 1689. Partitioning Into Minimum Number Of Deci-Binary Numbers
+
+```python
+class Solution:
+    def minPartitions(self, n: str) -> int:
+        res = [int(each) for each in n]
+        return max(res)
+```
+
+
+
 ### 1828. Queries on Number of Points Inside a Circle
 
 ```python
