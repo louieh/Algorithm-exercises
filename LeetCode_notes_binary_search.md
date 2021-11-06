@@ -862,6 +862,32 @@ class Solution:
         return i - 1
 ```
 
+```python
+class Solution:
+    def arrangeCoins(self, n: int) -> int:
+        
+        left, right = 0, n
+        while left <= right:
+            mid = left + (right - left) // 2
+            cur = (1 + mid) * mid / 2
+            if cur == n:
+                return mid
+            if cur > n:
+                right = mid - 1
+            else:
+                left = mid + 1
+        
+        return right
+```
+
+The reason we have to return `right` in the binary search approach in case `curr == n` never happens:
+
+In the last iteration of the loop, `left == right == k`. `curr` calculated with this `k` will just barely overshoot or undershoot `n`.
+If `k` is too small, `left` will be incremented, but with the new value of `left`, `curr` will overshoot `n`, so we want `left - 1` which is `right` since that's the max integer that would cause `curr` to undershoot `n`.
+If `k` is too big, then `right` will be decremented, so `right` will now be the max integer that satisfies the inequality.
+
+最后返回right的原因是，当循环进行到最后的时候left==right，mid也等于left和right，如果计算结果比n小，那么left会加一，这样最后计算结果会大于n，那我们想要的是最后left-1也就是right，如果计算结果比n大，那么正好我们需要mid-1也就是right，所以最后返回right
+
 
 
 ### 540. Single Element in a Sorted Array
