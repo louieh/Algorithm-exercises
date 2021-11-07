@@ -533,6 +533,73 @@ class Solution:
 
 
 
+### 238. Product of Array Except Self
+
+```python
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        if not nums:
+            return []
+        
+        left_accu = [1]
+        right_accu = [1]
+        
+        for i in range(len(nums)-1):
+            left_accu.append(nums[i] * left_accu[i])
+        i = len(nums)-1
+        while i > 0:
+            right_accu.insert(0, nums[i] * right_accu[0])
+            i -= 1
+        
+        ans = []
+        for i in range(len(nums)):
+            ans.append(left_accu[i] * right_accu[i])
+        
+        return ans
+```
+
+```python
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        if not nums:
+            return []
+        
+        left_accu = [1]
+        
+        for i in range(len(nums)-1):
+            left_accu.append(left_accu[i] * nums[i])
+        
+        ans = [1] * len(nums)
+        temp = 1
+        for i in range(len(nums)-1, -1, -1):
+            ans[i] = temp * left_accu[i]
+            temp *= nums[i]
+        return ans
+```
+
+合并后两个for循环。
+
+```python
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        leftRes = rightRes = 1
+        res = [1] * len(nums)
+        
+        for i in range(1, len(nums)):
+            leftRes *= nums[i-1]
+            res[i] = leftRes
+        
+        for i in range(len(nums)-2, -1, -1):
+            rightRes *= nums[i+1]
+            res[i] *= rightRes
+        
+        return res
+```
+
+same as question 1769
+
+
+
 ### 274. H-Index
 
 ```python
@@ -1644,3 +1711,5 @@ For each index, the cost to move all boxes to it is sum of the cost `leftCost` t
 
 - `leftCost` for all indexes can be calculted using a single pass from left to right.
 - `rightCost` for all indexes can be calculted using a single pass from right to left.
+
+same as question 238

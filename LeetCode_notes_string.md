@@ -286,54 +286,6 @@ https://leetcode.com/problems/word-break-ii/discuss/44311/Python-easy-to-underst
 
 
 
-### 238. Product of Array Except Self
-
-```python
-class Solution:
-    def productExceptSelf(self, nums: List[int]) -> List[int]:
-        if not nums:
-            return []
-        
-        left_accu = [1]
-        right_accu = [1]
-        
-        for i in range(len(nums)-1):
-            left_accu.append(nums[i] * left_accu[i])
-        i = len(nums)-1
-        while i > 0:
-            right_accu.insert(0, nums[i] * right_accu[0])
-            i -= 1
-        
-        ans = []
-        for i in range(len(nums)):
-            ans.append(left_accu[i] * right_accu[i])
-        
-        return ans
-```
-
-```python
-class Solution:
-    def productExceptSelf(self, nums: List[int]) -> List[int]:
-        if not nums:
-            return []
-        
-        left_accu = [1]
-        
-        for i in range(len(nums)-1):
-            left_accu.append(left_accu[i] * nums[i])
-        
-        ans = [1] * len(nums)
-        temp = 1
-        for i in range(len(nums)-1, -1, -1):
-            ans[i] = temp * left_accu[i]
-            temp *= nums[i]
-        return ans
-```
-
-合并后两个for循环。
-
-
-
 ### 434. Number of Segments in a String
 
 ```python
