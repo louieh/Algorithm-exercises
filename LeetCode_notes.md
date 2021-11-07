@@ -334,6 +334,8 @@ class Solution:
         return ans
 ```
 
+https://leetcode.com/problems/container-with-most-water/discuss/6099/Yet-another-way-to-see-what-happens-in-the-O(n)-algorithm
+
 
 
 ### 12. Integer to Roman
@@ -619,6 +621,18 @@ class Solution:
 ```
 
 分别encode成`1row1 or 1col1 or 1box00`
+
+
+
+### 43. Multiply Strings
+
+```python
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        return str(int(num1)*int(num2))
+```
+
+不喜欢这个题，没做
 
 
 

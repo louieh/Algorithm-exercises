@@ -161,6 +161,57 @@ https://leetcode.com/problems/first-missing-positive/discuss/17214/Java-simple-s
 
 
 
+### 42. Trapping Rain Water
+
+```python
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        res = 0
+        if not height: return res
+        
+        left_max = [0] * len(height)
+        left_max[0] = height[0]
+        for i in range(1, len(height)):
+            left_max[i] = max(height[i], left_max[i-1])
+        
+        right_max = [0] * len(height)
+        right_max[-1] = height[-1]
+        for i in range(len(height)-2, -1, -1):
+            right_max[i] = max(height[i], right_max[i+1])
+        
+        
+        for i in range(1, len(height)-1):
+            res += (min(left_max[i], right_max[i]) - height[i])
+        
+        return res
+```
+
+**Intuition**
+
+In brute force, we iterate over the left and right parts again and again just to find the highest bar size upto that index. But, this could be stored. Voila, dynamic programming.
+
+The concept is illustrated as shown:
+
+![Screen Shot 2021-10-24 at 23.50.14](https://leetcode.com/problems/trapping-rain-water/Figures/42/trapping_rain_water.png)
+
+
+
+**Algorithm**
+
+- Find maximum height of bar from the left end upto an index i in the array left_max.
+
+- Find maximum height of bar from the right end upto an index i in the array right_max.
+
+- Iterate over the height
+
+  array and update ans:
+
+  - Add min(left_max[*i*],right_max[*i*])−height[*i*] to ans
+
+similar question 238，1769
+
+
+
 ### 61. Rotate List
 
 ```python
@@ -596,7 +647,7 @@ class Solution:
         return res
 ```
 
-same as question 1769
+same as question 1769, similar question 42
 
 
 
@@ -1712,4 +1763,4 @@ For each index, the cost to move all boxes to it is sum of the cost `leftCost` t
 - `leftCost` for all indexes can be calculted using a single pass from left to right.
 - `rightCost` for all indexes can be calculted using a single pass from right to left.
 
-same as question 238
+same as question 238，similar question 42
