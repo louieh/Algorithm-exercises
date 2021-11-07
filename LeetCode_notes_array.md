@@ -1613,3 +1613,34 @@ class Solution:
 ```
 
 先把所有1的index存起来，之后遍历每个box，同时便利1的index，计算移动到这个box所需的步骤
+
+```python
+class Solution:
+    def minOperations(self, boxes: str) -> List[int]:
+        
+        res = [0] * len(boxes)
+        
+        leftCount = leftCost = rightCount = rightCost = 0
+        
+        # left:
+        for i in range(1, len(boxes)):
+            if boxes[i-1] == '1':
+                leftCount += 1
+            leftCost += leftCount # each step move to right, the cost increases by # of 1s on the left
+            res[i] = leftCost
+        # right
+        for i in range(len(boxes)-2, -1, -1):
+            if boxes[i+1] == '1':
+                rightCount += 1
+            rightCost += rightCount
+            res[i] += rightCost
+        return res
+```
+
+https://leetcode.com/problems/minimum-number-of-operations-to-move-all-balls-to-each-box/discuss/1075895/Easy-Python-beats-100-time-and-space
+
+Similar to **238. Product of Array Except Self** and **42. Trapping Rain Water**.
+For each index, the cost to move all boxes to it is sum of the cost `leftCost` to move all left boxes to it, and the cost `rightCost` to move all right boxes to it.
+
+- `leftCost` for all indexes can be calculted using a single pass from left to right.
+- `rightCost` for all indexes can be calculted using a single pass from right to left.
