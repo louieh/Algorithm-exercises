@@ -80,6 +80,27 @@ class Solution:
 
 
 
+### 96. Unique Binary Search Trees
+
+```python
+class Solution:
+    def numTrees(self, n: int) -> int:
+        from collections import defaultdict
+        mem = defaultdict(int)
+        def helper(n):
+            if n <= 1: return 1
+            if n in mem:
+                return mem[n]
+            for i in range(1, n+1):
+                mem[n] += helper(i-1) * helper(n-i)
+            return mem[n]
+        return helper(n)
+```
+
+https://leetcode.com/problems/unique-binary-search-trees/discuss/1565543/C%2B%2BPython-5-Easy-Solutions-w-Explanation-or-Optimization-from-Brute-Force-to-DP-to-Catalan-O(N)
+
+
+
 ### 198. House Robber
 
 ```python
