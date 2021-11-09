@@ -249,6 +249,56 @@ same as 476.
 
 
 
+### 1178. Number of Valid Words for Each Puzzle
+
+```python
+# TLE
+class Solution:
+    def findNumOfValidWords(self, words: List[str], puzzles: List[str]) -> List[int]:
+        res = []
+        word_set_list = [set(word) for word in words]
+        for puzzle in puzzles:
+            puzzle_set = set(puzzle)
+            temp = 0
+            for word_set in word_set_list:
+                if puzzle[0] in word_set and word_set.issubset(puzzle_set):
+                    temp += 1
+            res.append(temp)
+        
+        return res
+```
+
+```python
+class Solution:
+    def findNumOfValidWords(self, words: List[str], puzzles: List[str]) -> List[int]:
+        def bitmask(word: str) -> int: # 注意此处将字符串转成bitmask的方法
+            mask = 0
+            for letter in word:
+                mask |= 1 << (ord(letter) - ord('a'))
+            return mask
+
+        word_count = Counter(bitmask(word) for word in words)
+
+        result = []
+        for puzzle in puzzles:
+            mask = bitmask(puzzle)
+            first = 1 << (ord(puzzle[0]) - ord('a'))
+            count = 0
+            submask = mask
+            while submask:
+                if submask & first: # 包含第一个字母的子集
+                    count += word_count[submask]
+                submask = (submask - 1) & mask # 注意此处使用bit求所有subset的方法
+            result.append(count)
+        return result
+```
+
+https://leetcode.com/problems/number-of-valid-words-for-each-puzzle/solution/
+
+https://leetcode.com/problems/number-of-valid-words-for-each-puzzle/discuss/1567324/C%2B%2BPython-Clean-Solutions-w-Detailed-Explanation-or-Bit-masking-and-Trie-Approaches
+
+
+
 ### 1404. Number of Steps to Reduce a Number in Binary Representation to One
 
 ```python
