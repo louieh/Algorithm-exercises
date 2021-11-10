@@ -1586,6 +1586,29 @@ class Solution:
 
 
 
+### 1282. Group the People Given the Group Size They Belong To
+
+```python
+class Solution:
+    def groupThePeople(self, groupSizes: List[int]) -> List[List[int]]:
+        res = []
+        from collections import defaultdict
+        temp = defaultdict(list)
+        
+        for i, n in enumerate(groupSizes):
+            temp[n].append(i)
+        
+        for groupSize, nemberList in temp.items():
+            if groupSize == len(nemberList):
+                res.append(nemberList)
+            else:
+                for i in range(0, len(nemberList), groupSize):
+                    res.append(nemberList[i:i+groupSize])
+        return res
+```
+
+
+
 ### 1295. Find Numbers with Even Number of Digits
 
 ```python
