@@ -1697,6 +1697,20 @@ class Solution:
 
 
 
+### 1413. Minimum Value to Get Positive Step by Step Sum
+
+```python
+class Solution:
+    def minStartValue(self, nums: List[int]) -> int:
+        accum = [nums[0]]
+        for i in range(1, len(nums)):
+            accum.append(accum[-1]+nums[i])
+        _min = min(accum)
+        return 1-_min if _min < 0 else 1
+```
+
+
+
 ### 1456. Maximum Number of Vowels in a Substring of Given Length
 
 ```python
