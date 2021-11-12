@@ -212,6 +212,26 @@ similar question 238，1769
 
 
 
+### 45. Jump Game II
+
+```python
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        jumps = 0
+        curFarest = 0
+        curPos = 0
+        for i in range(len(nums)-1):
+            curFarest = max(curFarest, i+nums[i])
+            if i == curPos:
+                jumps += 1
+                curPos = curFarest
+        return jumps
+```
+
+https://leetcode.com/problems/jump-game-ii/discuss/18014/Concise-O(n)-one-loop-JAVA-solution-based-on-Greedy
+
+
+
 ### 61. Rotate List
 
 ```python
