@@ -306,6 +306,8 @@ class Solution:
 
 向stack中添加数的时候保证升序，不是升序的话pop，是升序的话，升序距离就是当前元素stack[-1]-index
 
+similar as linked list 1019. Next Greater Node In Linked List
+
 
 
 ### 856. Score of Parentheses

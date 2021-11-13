@@ -1256,6 +1256,29 @@ class Solution:
 
 
 
+### 1019. Next Greater Node In Linked List
+
+```python
+class Solution:
+    def nextLargerNodes(self, head: Optional[ListNode]) -> List[int]:
+        stack = []
+        res = []
+        def helper(head):
+            if head.next:
+                helper(head.next)
+            while stack and head.val >= stack[-1]:
+                stack.pop()
+            temp = stack[-1] if stack else 0
+            res.insert(0, temp)
+            stack.append(head.val)
+        helper(head)
+        return res
+```
+
+Similar as stack 739. Daily Temperatures
+
+
+
 ### 1290. Convert Binary Number in a Linked List to Integer
 
 ```python
