@@ -232,16 +232,28 @@ class Solution:
 借鉴https://leetcode.com/problems/sum-of-subarray-minimums/discuss/178876/stack-solution-with-very-detailed-explanation-step-by-step
 
 ```python
-    def nextGreaterElements(self, A):
-        stack, res = [], [-1] * len(A)
-        for i in range(len(A)) * 2:
-            while stack and (A[stack[-1]] < A[i]):
-                res[stack.pop()] = A[i]
-            stack.append(i)
+#def nextGreaterElements(self, A):
+#    stack, res = [], [-1] * len(A)
+#    for i in range(len(A)) * 2:
+#      while stack and (A[stack[-1]] < A[i]):
+#        res[stack.pop()] = A[i]
+#        stack.append(i)
+#        return res
+# 正序
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        res = [-1] * len(nums)
+        stack = []
+        for i in range(len(nums)*2):
+            index = i % len(nums)
+            while stack and nums[index] > nums[stack[-1]]:
+                res[stack.pop()] = nums[index]
+            stack.append(index)
         return res
 ```
 
 ```java
+// 倒序
 public class Solution {
     public int[] nextGreaterElements(int[] nums) {
         int[] res = new int[nums.length];
@@ -256,6 +268,40 @@ public class Solution {
         return res;
     }
 }
+```
+
+```python
+# 所以求previous的时候我们可以使用正序遍历，求next的时候我们可以使用倒序遍历，但是无论怎样遍历何种问题都会有方法解决
+stack = []
+nums = [4,6,9,2,1]
+res = [0] * len(nums)
+# previous less
+for i in range(len(nums)):
+	  while stack and nums[stack[-1]] > nums[i]:
+        stack.pop()
+    if stack:
+  			res[i] = nums[stack[-1]]
+    stack.append(i)
+
+# next less
+for i in range(len(nums)):
+  	while stack and nums[i] < nums[stack[-1]]:
+      	res[stack.pop()] = nums[i]
+    stack.append(i)
+
+# previous greater
+for i in range(len(nums)):
+  	while stack and nums[stack[-1]] < nums[i]:
+      	stack.pop()
+    if stack:
+      	res[i] = nums[stack[-1]]
+    stack.append(i)
+
+# next greater
+for i in range(len(nums)):
+  	while stack and nums[i] > nums[stack[-1]]:
+      	res[stack.pop()] = nums[i]
+    stack.append(i)
 ```
 
 
@@ -307,6 +353,22 @@ class Solution:
 向stack中添加数的时候保证升序，不是升序的话pop，是升序的话，升序距离就是当前元素stack[-1]-index
 
 similar as linked list 1019. Next Greater Node In Linked List
+
+```python
+# 正序遍历
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        res = [0] * len(temperatures)
+        stack = []
+        for i in range(len(temperatures)):
+            while stack and temperatures[i] > temperatures[stack[-1]]:
+                stack_last = stack.pop()
+                res[stack_last] = i - stack_last
+            stack.append(i)
+        return res
+```
+
+
 
 
 
