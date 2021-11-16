@@ -197,6 +197,40 @@ class Solution:
 
 
 
+### 368. Largest Divisible Subset
+
+```python
+class Solution:
+    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+        temp = [None] * len(nums)
+        prev = [None] * len(nums)
+        
+        nums.sort()
+        _max = 0
+        index = -1
+        for i in range(len(nums)):
+            temp[i] = 1
+            prev[i] = -1
+            for j in range(i-1, -1, -1):
+                if nums[i] % nums[j] == 0 and temp[j] + 1 > temp[i]:
+                    temp[i] = temp[j] + 1
+                    prev[i] = j
+            if temp[i] > _max:
+                _max = temp[i]
+                index = i
+        res = []
+        while index != -1:
+            res.append(nums[index])
+            index = prev[index]
+        return res
+```
+
+https://leetcode.com/problems/largest-divisible-subset/discuss/684677/3-STEPS-c%2B%2B-or-python-or-java-dp-PEN-PAPER-DIAGRAM
+
+不太明白
+
+
+
 ### 714. Best Time to Buy and Sell Stock with Transaction Fee
 
 ```python

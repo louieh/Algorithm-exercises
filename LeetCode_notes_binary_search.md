@@ -755,6 +755,35 @@ class Solution:
 
 
 
+### 378. Kth Smallest Element in a Sorted Matrix
+
+```python
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        
+        def enough(x):
+            res = 0
+            j = len(matrix[0]) - 1
+            for i in range(len(matrix)):
+                while j >= 0 and matrix[i][j] > x:
+                    j -= 1
+                res += j+1
+            return res >= k
+        
+        left, right = matrix[0][0], matrix[len(matrix)-1][len(matrix[0])-1]
+        while left < right:
+            mid = left + (right - left) // 2
+            if enough(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+```
+
+https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/85173/Share-my-thoughts-and-Clean-Java-Code
+
+
+
 ### 410. Split Array Largest Sum
 
 ```python
@@ -1005,6 +1034,26 @@ Enough function判断是否至少有k个数小于num，二分查找符合条件�
 enough函数中min(num//i, n)因为乘法表每行按比例递增，第一行是1的倍数，第二行是2的倍数，第三行是3的倍数...每一行中用num//这行的倍数等于此行中有多少个数是小于等于num的，例如num=7，在第三行中[3,6,9...] 7//3=2，原理是第三行第一个数表示1个三，第二个数2个三，第三个数3个三等，那么判断num中有几个三则等于有几个数是小于等于它的。
 
 count==0表示num比下面都小于是直接跳出。
+
+```python
+class Solution:
+    def findKthNumber(self, m: int, n: int, k: int) -> int:
+        
+        def count(x): # 是否至少有k个元素小于等于x
+            res = 0
+            for i in range(1, m+1):
+                res += min(x//i, n)
+            return res >= k
+        
+        left, right = 1, m*n
+        while left < right:
+            mid = left + (right - left) // 2
+            if count(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+```
 
 
 
