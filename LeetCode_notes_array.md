@@ -1137,6 +1137,24 @@ class Solution:
 
 
 
+### 769. Max Chunks To Make Sorted
+
+```python
+class Solution:
+    def maxChunksToSorted(self, arr: List[int]) -> int:
+        res = 0
+        cur_max = 0
+        for i, num in enumerate(arr):
+            cur_max = max(cur_max, num)
+            if cur_max == i:
+                res += 1
+        return res
+```
+
+因为数组元素是0-n-1的排列，所以如果某一个位置的index等于到该位置为止的最大值，则说明该位置之前是可以通过排序还原成原顺序的。
+
+
+
 ### 845. Longest Mountain in Array
 
 ```python
