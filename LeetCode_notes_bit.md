@@ -198,6 +198,31 @@ class Solution:
 
 
 
+### 461. Hamming Distance
+
+```python
+class Solution:
+    def hammingDistance(self, x: int, y: int) -> int:
+        res = 0
+        while x and y:
+            if x & 1 != y & 1:
+                res += 1
+            x >>= 1
+            y >>= 1
+        while x:
+            if x & 1:
+                res += 1
+            x >>= 1
+        while y:
+            if y & 1:
+                res += 1
+            y >>= 1
+        
+        return res
+```
+
+
+
 ### 476. Number Complement 
 
 ```python
