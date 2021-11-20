@@ -959,6 +959,24 @@ class Solution:
 ```
 https://leetcode.com/problems/single-element-in-a-sorted-array/discuss/100733/Java-Binary-Search-with-Detailed-Explanation
 
+```python
+class Solution:
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        if len(nums) == 1:
+            return nums[0]
+        
+        left, right = 0, len(nums) - 1
+        while left < right:
+            mid  = left + (right - left) // 2
+            if mid % 2 == 0 and nums[mid] == nums[mid+1] or mid % 2 == 1 and nums[mid] == nums[mid-1]:
+                left = mid + 1
+            else:
+                right = mid
+        return nums[left]
+```
+
+https://leetcode.com/problems/single-element-in-a-sorted-array/discuss/627921/Java-or-C%2B%2B-or-Python3-or-Easy-explanation-or-O(logn)-or-O(1)
+
 
 
 ### 658. Find K Closest Elements
