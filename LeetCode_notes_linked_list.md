@@ -213,6 +213,39 @@ class Solution:
 
 
 
+### 25. Reverse Nodes in k-Group
+
+```python
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        
+        def reverse_helper(head):
+            count = k - 1
+            tempHead = head
+            while count > 0:
+                nextHead = head.next
+                head.next = head.next.next
+                nextHead.next = tempHead
+                tempHead = nextHead
+                count -= 1
+            return tempHead, head, head.next
+        
+        def helper(head):
+            count = 0
+            dmy = head
+            while dmy and count != k:
+                dmy = dmy.next
+                count += 1
+            if count != k: return head
+            tempHead, prev, curHead = reverse_helper(head)
+            prev.next = helper(curHead)
+            return tempHead
+        
+        return helper(head)
+```
+
+
+
 ### 82. Remove Duplicates from Sorted List II
 
 ```python
