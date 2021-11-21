@@ -264,6 +264,45 @@ class Solution:
 
 
 
+### 106. Construct Binary Tree from Inorder and Postorder Traversal
+
+```python
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        if not postorder or not inorder: return
+        root = TreeNode(postorder.pop())
+        inorder_root_index = inorder.index(root.val)
+        root.right = self.buildTree(inorder[inorder_root_index+1:], postorder)
+        root.left = self.buildTree(inorder[:inorder_root_index], postorder)
+        return root
+```
+
+the time complexity of line 5 is O(N). We can improve it to O(1) by making a dict a advance.
+
+and line 6 and line 7 also need to take O(K). 
+
+```python
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        inorder_dict = {}
+        for i, v in enumerate(inorder):
+            inorder_dict[v] = i
+        
+        def helper(low, high):
+            if low > high: return 
+            root = TreeNode(postorder.pop())
+            inorder_root_index = inorder_dict[root.val]
+            root.right = helper(inorder_root_index+1, high)
+            root.left = helper(low, inorder_root_index-1)
+            return root
+        
+        return helper(0, len(inorder)-1)
+```
+
+ 先构造inorder字典，之后递归的时候不做切片操作，而是在helper函数中给定inorder列表范围
+
+
+
 ### 108. Convert Sorted Array to Binary Search Tree
 
 ```python

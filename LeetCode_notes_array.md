@@ -1852,3 +1852,21 @@ For each index, the cost to move all boxes to it is sum of the cost `leftCost` t
 - `rightCost` for all indexes can be calculted using a single pass from right to left.
 
 same as question 238，similar question 42
+
+
+
+### 1877. Minimize Maximum Pair Sum in Array
+
+```python
+class Solution:
+    def minPairSum(self, nums: List[int]) -> int:
+        nums.sort()
+        left, right = 0, len(nums)-1
+        res = 0
+        while left < right:
+            res = max(res, nums[left]+nums[right])
+            left += 1
+            right -= 1
+        return res
+```
+
