@@ -174,40 +174,6 @@ class Solution:
 
 
 
-### 53. Maximum Subarray
-
-```python
-class Solution:
-    def maxSubArray(self, nums: List[int]) -> int:
-        if not nums:
-            return 0
-        
-        local_min = -2147483648
-        global_min = -2147483648
-        
-        for each in nums:
-            local_min = max(each, each+local_min)
-            global_min = max(local_min, global_min)
-        
-        return global_min
-```
-
-```python
-class Solution:
-    def maxSubArray(self, nums: List[int]) -> int:
-        if not nums:
-            return 0
-        
-        global_min = nums[0]
-        
-        for i in range(1, len(nums)):
-            nums[i] = max(nums[i], nums[i]+nums[i-1])
-            global_min = max(nums[i], global_min)
-        return global_min
-```
-
-
-
 ### 139. Word Break
 
 ```python
