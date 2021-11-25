@@ -1713,6 +1713,23 @@ class Solution:
 
 
 
+### 1239. Maximum Length of a Concatenated String with Unique Characters
+
+```python
+class Solution:
+    def maxLength(self, arr: List[str]) -> int:
+        temp = [set()]
+        for each in arr:
+            each_set = set(each)
+            if len(each_set) != len(each): continue
+            for each1 in temp[:]:
+                if each_set & each1: continue
+                temp.append(each_set | each1)
+        return max([len(each) for each in temp])
+```
+
+
+
 ### 1282. Group the People Given the Group Size They Belong To
 
 ```python
