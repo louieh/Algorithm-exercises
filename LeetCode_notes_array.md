@@ -867,6 +867,61 @@ class Solution:
 
 
 
+### 443. String Compression
+
+```python
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        cur, count = 0, 1
+        cur_char = chars[0]
+        for i in range(1, len(chars)):
+            if chars[i] == chars[i-1]:
+                count += 1
+            elif count == 1:
+                chars[cur] = cur_char
+                cur += 1
+                cur_char = chars[i]
+            else:
+                count_str = str(count)
+                chars[cur] = cur_char
+                for each in count_str:
+                    cur += 1
+                    chars[cur] = each
+                cur += 1
+                cur_char = chars[i]
+                count = 1
+        chars[cur] = cur_char
+        if count != 1:
+            count_str = str(count)
+            for each in count_str:
+                cur += 1
+                chars[cur] = each
+        return cur + 1
+```
+
+```python
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        # chars = ["a","a","a","b","b","a","a"]
+        cur = 0
+        i = 0
+        while i < len(chars):
+            count = 0
+            curChar = chars[i]
+            while i < len(chars) and chars[i] == curChar:
+                i += 1
+                count += 1
+            chars[cur] = curChar
+            cur += 1
+            if count != 1:
+                for each in str(count):
+                    chars[cur] = each
+                    cur += 1
+        return cur
+```
+
+
+
 ### 448. Find All Numbers Disappeared in an Array
 
 ```python

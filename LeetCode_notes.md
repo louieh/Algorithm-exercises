@@ -2884,6 +2884,53 @@ class Solution:
 
 
 
+### 692. Top K Frequent Words
+
+```python
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        from collections import defaultdict
+        temp = defaultdict(int)
+        for word in words:
+            temp[word] += 1
+        temp_tuple = [(k, v) for k,v in temp.items()]
+        temp_tuple_sorted = sorted(sorted(temp_tuple, key=lambda x: x[0]), key=lambda x: x[1], reverse=True)
+        return [temp_tuple_sorted[i][0] for i in range(k)]
+```
+
+```python
+class Word(object):
+    def __init__(self, word, value):
+        self.word = word
+        self.value = value
+    
+    def __lt__(self, other):
+        if self.value == other.value:
+            return self.word > other.word
+        return self.value < other.value
+    
+    def __eq__(self, other):
+        return self.word == other.word and self.value == other.value
+
+import heapq
+from collections import Counter
+    
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        count = Counter(words)
+        heap = []
+        for kk, v in count.items():
+            heapq.heappush(heap, Word(kk,v))
+            if len(heap) > k:
+                heapq.heappop(heap)
+        res = []
+        for _ in range(k):
+            res.append(heapq.heappop(heap).word)
+        return res[::-1]
+```
+
+
+
 ### 705. Design HashSet
 
 ```python
