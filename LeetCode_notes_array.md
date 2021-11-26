@@ -1005,6 +1005,101 @@ https://leetcode.com/problems/132-pattern/discuss/94071/Single-pass-C%2B%2B-O(n)
 
 
 
+### 472. Concatenated Words
+
+```python
+# TLE
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        words_set = set(words)
+        
+        def dfs(word):
+            for i in range(1, len(word)):
+                prefix = word[:i]
+                postfix = word[i:]
+                if prefix in words_set and postfix in words_set:
+                    return True
+                if prefix in words_set and dfs(postfix):
+                    return True
+                if postfix in words_set and dfs(prefix):
+                    return True
+            return False
+        
+        res = []
+        
+        for word in words:
+            if dfs(word):
+                res.append(word)
+        return res
+```
+
+```python
+# TLE
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        words_set = set(words)
+        dp = {}
+        def dfs(word):
+            if word in dp:
+                return dp[word]
+            dp[word] = False
+            for i in range(1, len(word)):
+                prefix = word[:i]
+                postfix = word[i:]
+                if prefix in words_set and postfix in words_set:
+                    dp[word] = True
+                if prefix in words_set and dfs(postfix):
+                    dp[word] = True
+                if postfix in words_set and dfs(prefix):
+                    dp[word] = True
+            return dp[word]
+        
+        return [word for word in words if dfs(word)]
+```
+
+```python
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        trie = {}
+        for word in words:
+            root = trie
+            for c in word:
+                if c not in root:
+                    root[c] = {}
+                root = root[c]
+            root["$"] = True
+
+        @lru_cache(None)
+        def find(word):
+            if not word: return True
+            root = trie
+            res = False
+            for i, c in enumerate(word):
+                if c not in root:
+                    break
+                root = root[c]
+                if "$" in root:
+                    res |= find(word[i+1:])
+                    if res:
+                        break
+            return res
+        
+        res = []
+        for word in words:
+            root = trie
+            for i, c in enumerate(word):
+                root = root[c]
+                if "$" in root:
+                    if i != len(word) - 1 and find(word[i+1:]):
+                        res.append(word)
+                        break
+        return res
+```
+
+加lru_cache装饰器过了
+
+
+
 ### 485. Max Consecutive Ones
 
 ```python
