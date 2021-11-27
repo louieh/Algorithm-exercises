@@ -135,6 +135,46 @@ class Solution:
 
 
 
+### 31. Next Permutation
+
+```python
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        k = None
+        l = None
+        for i in range(len(nums)-2, -1, -1):
+            if nums[i] < nums[i+1]:
+                k = i
+                break
+        if k is None:
+            left, right = 0, len(nums)-1
+            while left < right:
+                nums[left], nums[right] = nums[right], nums[left]
+                left += 1
+                right -= 1
+        else:
+            for i in range(len(nums)-1, -1, -1):
+                if nums[i] > nums[k]:
+                    l = i
+                    break
+            nums[k], nums[l] = nums[l], nums[k]
+            nums[k+1:] = nums[k+1:][::-1]
+```
+
+According to [Wikipedia](https://en.wikipedia.org/wiki/Permutation#Generation_in_lexicographic_order), a man named Narayana Pandita presented the following simple algorithm to solve this problem in the 14th century.
+
+1. Find the largest index `k` such that `nums[k] < nums[k + 1]`. If no such index exists, just reverse `nums` and done.
+2. Find the largest index `l > k` such that `nums[k] < nums[l]`.
+3. Swap `nums[k]` and `nums[l]`.
+4. Reverse the sub-array `nums[k + 1:]`.
+
+![next-permutation-algorithm](https://www.nayuki.io/res/next-lexicographical-permutation-algorithm/next-permutation-algorithm.svg)
+
+
+
 ### 41. First Missing Positive
 
 ```python
