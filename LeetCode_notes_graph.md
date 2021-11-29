@@ -103,6 +103,38 @@ class Solution:
 
 
 
+### 547. Number of Provinces
+
+```python
+class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        from collections import defaultdict
+        graph = defaultdict(set)
+        seen = set()
+        res = 0
+        rows = len(isConnected)
+        cols = len(isConnected[0])
+        for row in range(rows):
+            for col in range(cols):
+                if isConnected[row][col] == 1:
+                    graph[row].add(col)
+                    graph[col].add(row)
+        
+        for each in graph:
+            if each in seen: continue
+            stack = [each]
+            while stack:
+                node = stack.pop()
+                if node not in seen:
+                    seen.add(node)
+                    for each_node in graph[node]:
+                        stack.append(each_node)
+            res += 1
+        return res
+```
+
+
+
 ### 684. Redundant Connection
 
 ```python
