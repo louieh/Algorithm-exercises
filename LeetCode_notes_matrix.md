@@ -433,6 +433,44 @@ https://leetcode.com/problems/word-search/discuss/27660/Python-dfs-solution-with
 
 
 
+### 85. Maximal Rectangle
+
+```python
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        rows = len(matrix)
+        if not rows: return 0
+        cols = len(matrix[0])
+        if not cols: return 0
+        
+        height = [0] * (cols+1)
+        res = 0
+        for i in range(rows):
+            stack = []
+            for j in range(cols+1):
+                if j < cols:
+                    if matrix[i][j] == '1':
+                        height[j] += 1
+                    else:
+                        height[j] = 0
+                
+                while stack and height[stack[-1]] >= height[j]:
+                    h = height[stack.pop()]
+                    if stack:
+                        w = j - stack[-1] - 1
+                    else:
+                        w = j
+                    res = max(res, h * w)
+                
+                stack.append(j)
+        
+        return res
+```
+
+没懂
+
+
+
 ### 130. Surrounded Regions
 
 ```python
