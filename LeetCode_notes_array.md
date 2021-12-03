@@ -2037,6 +2037,25 @@ two pointers
 
 
 
+### 1710. Maximum Units on a Truck
+
+```python
+class Solution:
+    def maximumUnits(self, boxTypes: List[List[int]], truckSize: int) -> int:
+        boxTypes.sort(key=lambda x: x[1], reverse=True)
+        res = 0
+        for num, units in boxTypes:
+            if truckSize < num:
+                res += units * truckSize
+                break
+            else:
+                res += num * units
+                truckSize -= num
+        return res
+```
+
+
+
 ### 1769. Minimum Number of Operations to Move All Balls to Each Box
 
 ```python
