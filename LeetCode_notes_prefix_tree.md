@@ -679,6 +679,38 @@ class StreamChecker:
 # param_1 = obj.query(letter)
 ```
 
+```python
+class StreamChecker:
+
+    def __init__(self, words: List[str]):
+        self.trie = self._get_trie(words)
+        self.letters = []
+    
+    def _get_trie(self, words):
+        res = {}
+        for word in words:
+            trie = res
+            for c in word[::-1]:
+                if c not in trie:
+                    trie[c] = {}
+                trie = trie[c]
+            trie['#'] = None
+        return res
+
+    def query(self, letter: str) -> bool:
+        trie = self.trie
+        self.letters.append(letter)
+        i = len(self.letters) - 1
+        while i >= 0:
+            if self.letters[i] not in trie:
+                return False
+            trie = trie[self.letters[i]]
+            if '#' in trie:
+                return True
+            i -= 1
+        return '#' in trie
+```
+
 
 
 ### 1268. Search Suggestions System
