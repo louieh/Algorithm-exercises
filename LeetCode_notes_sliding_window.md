@@ -377,6 +377,25 @@ same as question 438
 
 
 
+### 713. Subarray Product Less Than K
+
+```python
+class Solution:
+    def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
+        if k <= 1: return 0
+        left = res = 0
+        prod = 1
+        for right, val in enumerate(nums):
+            prod *= val
+            while prod >= k:
+                prod //= nums[left]
+                left += 1
+            res += right - left + 1
+        return res
+```
+
+
+
 ### 992. Subarrays with K Different Integers
 
 ```python
