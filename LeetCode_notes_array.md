@@ -395,6 +395,86 @@ class Solution:
 
 
 
+### 126. Word Ladder II
+
+```python
+class Solution:
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        word_set = set(wordList)
+        word_set.add(beginWord)
+        distance = {beginWord: 0}
+        node_neighbor = collections.defaultdict(list)
+        solution = []
+        res = []
+        
+        def bfs():
+            q = collections.deque()
+            q.append(beginWord)
+            while q:
+                count = len(q)
+                cur = q.popleft()
+                cur_distance = distance.get(cur)
+                neighbors = get_neighbors(cur)
+                for neighbor in neighbors:
+                    node_neighbor[cur].append(neighbor)
+                    if neighbor not in distance:
+                        distance[neighbor] = cur_distance + 1
+                        q.append(neighbor)
+        
+        # def bfs():
+        #     q = collections.deque()
+        #     q.append(beginWord)
+        #     while q:
+        #         count = len(q)
+        #         found_end = False
+        #         for i in range(count):
+        #             cur = q.popleft()
+        #             cur_distance = distance.get(cur)
+        #             neighbors = get_neighbors(cur)
+        #             for neighbor in neighbors:
+        #                 node_neighbor[cur].append(neighbor)
+        #                 if neighbor not in distance:
+        #                     distance[neighbor] = cur_distance + 1
+        #                     if neighbor == endWord:
+        #                         found_end = True
+        #                     else:
+        #                         q.append(neighbor)
+        #             if found_end:
+        #                 break
+        
+        def get_neighbors(node):
+            res = []
+            node_list = list(node)
+            for c in string.ascii_lowercase:
+                for i in range(len(node)):
+                    if node[i] == c: continue
+                    old_c = node[i]
+                    node_list[i] = c
+                    if "".join(node_list) in word_set:
+                        res.append("".join(node_list))
+                    node_list[i] = old_c
+            return res
+        
+        def dfs(cur):
+            solution.append(cur)
+            if cur == endWord:
+                res.append(solution.copy())
+            else:
+                if node_neighbor.get(cur):
+                    for neighbor in node_neighbor.get(cur):
+                        if distance[neighbor] == distance[cur] + 1:
+                            dfs(neighbor)
+            solution.pop()
+        
+        bfs()
+        dfs(beginWord)
+        return res
+```
+
+https://leetcode.com/problems/word-ladder-ii/discuss/40475/My-concise-JAVA-solution-based-on-BFS-and-DFS
+
+
+
 ### 134. Gas Station
 
 ```python
