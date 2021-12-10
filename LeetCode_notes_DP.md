@@ -251,6 +251,47 @@ https://leetcode.com/problems/largest-divisible-subset/discuss/684677/3-STEPS-c%
 
 
 
+### 790. Domino and Tromino Tiling
+
+```python
+class Solution:
+    def numTilings(self, n: int) -> int:
+        @cache
+        def helper(i, previous_gap):
+            if i > n: return 0
+            if i == n: return not previous_gap
+            if previous_gap:
+                return helper(i+1, False) + helper(i+1, True)
+            return helper(i+1, False) + helper(i+2, False) + 2*helper(i+2, True)
+        return helper(0, False) % 1_000_000_007
+```
+
+https://leetcode.com/problems/domino-and-tromino-tiling/discuss/1620975/C%2B%2BPython-Simple-Solution-w-Images-and-Explanation-or-Optimization-from-Brute-Force-to-DP
+
+![9f0fa40d-874c-45dd-88fb-a6d964026e69_1639105504.9259145](https://assets.leetcode.com/users/images/9f0fa40d-874c-45dd-88fb-a6d964026e69_1639105504.9259145.png)
+
+![9a096afe-85f9-4358-a179-5563f960fc37_1639115832.0220907](https://assets.leetcode.com/users/images/9a096afe-85f9-4358-a179-5563f960fc37_1639115832.0220907.png)
+
+题目大意为现在有两种类型的图形，想拼成2*n的矩形，也就是两行n列，求有多少种拼法。
+
+对于这两种图形，答案中给出了6种情况，下面分别分析了每种情况的拼法。
+
+对于前面没有空隙的时候：
+
+放置第一种，不会产生空隙，向前走一列，所以solve(i+1, previous_gap=False)
+
+放置第二种，不会产生空隙，向前走两列，solve(i+2, previous_gap=False)
+
+放置第三种或第四种，会产生空隙，向前走两步，solve(i+2, previous_gap=True)
+
+对于前面有空隙的情况，也就是之前放置了第三种或第四种：
+
+放置第五种或第六种，正好填补好空隙所以不再有空隙，向前走一步，solve(i+1, previous_gap=False)
+
+放置第二种，虽然填补了之前的空隙但是有产生了新的空隙，向前走一步，solve(i+1, previous_gap=True)
+
+
+
 ### 714. Best Time to Buy and Sell Stock with Transaction Fee
 
 ```python
