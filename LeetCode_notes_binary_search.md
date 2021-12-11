@@ -1245,6 +1245,60 @@ similar to LC 1011 and LC 410
 
 
 
+### 878. Nth Magical Number
+
+```python
+class Solution:
+    def nthMagicalNumber(self, n: int, a: int, b: int) -> int:
+        
+        def lcm(aa, bb):
+            return aa * bb // math.gcd(aa, bb)
+        
+        def enough(mid):
+            return mid // a + mid // b - mid // lcm(a, b) >= n
+        
+        # left, right = min(a, b), 10**10
+        left, right = min(a,b), n*min(a,b)
+        while left < right:
+            mid = left + (right - left) // 2
+            if enough(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left % (10**9+7)
+```
+
+similar to LC 1201
+
+f(x) = mid // a + mid // b - mid // lcm(a, b) 至于为什么下面有证明
+
+两个数字的最大公约数等于两数乘积除以他们的最小公倍数也就是lcm(a,b) = a*b//gcd(a,b)
+
+**Intuition**
+
+The number of magical numbers less than or equal to x*x* is a monotone increasing function in x*x*, so we can binary search for the answer.
+
+**Algorithm**
+
+Say L = \text{lcm}(A, B)*L*=lcm(*A*,*B*), the *least common multiple* of A*A* and B*B*; and let f(x)*f*(*x*) be the number of magical numbers less than or equal to x*x*. A well known result says that L = \frac{A * B}{\text{gcd}(A, B)}*L*=gcd(*A*,*B*)*A*∗*B*, and that we can calculate the function \gcdgcd. For more information on least common multiples and greatest common divisors, please visit [Wikipedia - Lowest Common Multiple](https://en.wikipedia.org/wiki/Least_common_multiple).
+
+Then f(x) = \lfloor \frac{x}{A} \rfloor + \lfloor \frac{x}{B} \rfloor - \lfloor \frac{x}{L} \rfloor*f*(*x*)=⌊*A**x*⌋+⌊*B**x*⌋−⌊*L**x*⌋. Why? There are \lfloor \frac{x}{A} \rfloor⌊*A**x*⌋ numbers A, 2A, 3A, \cdots*A*,2*A*,3*A*,⋯ that are divisible by A*A*, there are \lfloor \frac{x}{B} \rfloor⌊*B**x*⌋ numbers divisible by B*B*, and we need to subtract the \lfloor \frac{x}{L} \rfloor⌊*L**x*⌋ numbers divisible by A*A* and B*B* that we double counted.
+
+Finally, the answer must be between 00 and N * \min(A, B)*N*∗min(*A*,*B*).
+Without loss of generality, suppose A \geq B*A*≥*B*, so that it remains to show
+
+\lfloor \frac{N * \min(A, B)}{A} \rfloor + \lfloor \frac{N * \min(A, B)}{B} \rfloor - \lfloor \frac{N * \min(A, B)}{\text{lcm}(A, B)} \rfloor \geq N⌊*A**N*∗min(*A*,*B*)⌋+⌊*B**N*∗min(*A*,*B*)⌋−⌊lcm(*A*,*B*)*N*∗min(*A*,*B*)⌋≥*N*
+
+\Leftrightarrow \lfloor \frac{N*A}{A} \rfloor + \lfloor \frac{N*A}{B} \rfloor - \lfloor \frac{N*A*\gcd(A, B)}{A*B} \rfloor \geq N⇔⌊*A**N*∗*A*⌋+⌊*B**N*∗*A*⌋−⌊*A*∗*B**N*∗*A*∗gcd(*A*,*B*)⌋≥*N*
+
+\Leftrightarrow \lfloor \frac{N*A}{B} \rfloor \geq \lfloor \frac{N*\gcd(A, B)}{B} \rfloor⇔⌊*B**N*∗*A*⌋≥⌊*B**N*∗gcd(*A*,*B*)⌋
+
+\Leftrightarrow A \geq \gcd(A, B)⇔*A*≥gcd(*A*,*B*)
+
+as desired.
+
+
+
 ### 1011. Capacity To Ship Packages Within D Days
 
 ```python
