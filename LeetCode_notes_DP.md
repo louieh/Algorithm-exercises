@@ -187,6 +187,31 @@ class Solution:
 
 
 
+### 322. Coin Change
+
+```python
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [-1] * (amount + 1)
+        dp[0] = 0
+        
+        for i in range(1, amount+1):
+            min_coin = 2**31 - 1
+            for coin in coins:
+                if coin <= i and dp[i-coin] < min_coin:
+                    min_coin = dp[i-coin] + 1
+            dp[i] = min_coin
+        return dp[amount] if dp[amount] != 2**31 - 1 else -1
+```
+
+https://mp.weixin.qq.com/s/thn3WGARmfiVc3G70PlTdQ
+
+我们定义一个长度为amount+1的一维数组，dp[i]为amount为i时的最优解，dp[0] = 0
+
+对于每个amount，遍历coints，对于小于amount的硬币，我们可求当前硬币对于当前amount的解为dp[i-coin]+1，最优解为所有小于amount的硬币的解的最小值，dp最后便为最后的解。
+
+
+
 ### 337. House Robber III
 
 ```python
