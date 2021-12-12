@@ -251,6 +251,103 @@ https://leetcode.com/problems/largest-divisible-subset/discuss/684677/3-STEPS-c%
 
 
 
+### 416. Partition Equal Subset Sum
+
+```python
+# TLE
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        
+        all_sum = sum(nums)
+        temp_mask = 1 << len(nums)
+
+        for i in range(2**len(nums)):
+            mask = bin(i|temp_mask)[3:]
+            temp_sum = 0
+            for j, val in enumerate(mask):
+                if val == '1':
+                    temp_sum += nums[j]
+            if temp_sum == all_sum - temp_sum:
+                return True
+        return False
+```
+
+```python
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        all_sum = sum(nums)
+        if all_sum % 2 == 1: return False
+        all_sum //= 2
+        
+        dp = []
+        for i in range(len(nums)+1):
+            dp.append([False] * (all_sum + 1))
+        
+        for i in range(len(nums)+1):
+            dp[i][0] = True
+        
+        for i in range(1, len(nums)+1):
+            for j in range(1, (all_sum+1)):
+                if nums[i-1] > j:
+                    dp[i][j] = dp[i-1][j]
+                else:
+                    dp[i][j] = dp[i-1][j] or dp[i-1][j-nums[i-1]]
+        
+        return dp[len(nums)][all_sum]
+```
+
+https://leetcode.com/problems/partition-equal-subset-sum/discuss/90592/01-knapsack-detailed-explanation
+
+https://leetcode-cn.com/problems/partition-equal-subset-sum/solution/fen-ge-deng-he-zi-ji-by-leetcode-solution/
+
+例：[1, 5, 11, 5]
+
+| -    | 0    | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   | 11   |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| 0    | o    | x    | x    | x    | x    | x    | x    | x    | x    | x    | x    | x    |
+| 1    | o    | o    | x    | x    | x    | x    | x    | x    | x    | x    | x    | x    |
+| 5    | o    | o    | x    | x    | x    | o    | o    | x    | x    | x    | x    | x    |
+| 11   | o    | o    | x    | x    | x    | o    | o    | x    | x    | x    | x    | o    |
+| 5    | o    | o    | x    | x    | x    | o    | o    | x    | x    | x    | o    | o    |
+
+此题为0/1背包问题变形，每个数字有两个选择，要么选要么不选，最后求和为数组和的一半。定义dp[i] [j] 为截止到地 i 个元素是否有和为 j 的组合。
+
+我们定义数组的时候多加一行一列，第一行全部为 False 除了00，第一列全部为 True
+
+状态转移方程：当当前数字大于 j 的时候也就是 nums[i-1] > j: 不能选当前数字，那么当前状态便由之前的状态决定也就是 dp[i-1] [j]
+
+否则 dp[i] [j] = dp[i-1] [j] || dp[i-1] [j-nums[i]]
+
+
+
+对于典型的0/1背包问题：
+
+例：背包容量10
+
+物品：
+
+|        | a    | b    | c    | d    | e    |
+| ------ | ---- | ---- | ---- | ---- | ---- |
+| value  | 6    | 3    | 5    | 4    | 6    |
+| weight | 2    | 2    | 6    | 5    | 4    |
+
+定义dp[i] [j]为截止到 i 物品，背包容量为 j 的最大价值，我们多加一行一列
+
+| v    | w    | 0    | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    |
+| 6    | 2    | 0    | 0    | 6    | 6    | 6    | 6    | 6    | 6    | 6    | 6    | 6    |
+| 3    | 2    | 0    | 0    | 6    | 6    | 9    | 9    | 9    | 9    | 9    | 9    | 9    |
+| 5    | 6    | 0    | 0    | 6    | 6    | 9    | 9    | 9    | 9    | 11   | 11   | 11   |
+| 4    | 5    | 0    | 0    | 6    | 6    | 9    | 9    | 9    | 10   | 11   | 13   | 13   |
+| 6    | 4    | 0    | 0    | 6    | 6    | 9    | 9    | 12   | 12   | 15   | 15   | 15   |
+
+状态转移方程：如果该物品大小大于当前背包容量，则不能选，则当前状态取决于前面的状态也就是dp[i-1] [j]
+
+否则当前状态为不选和选之中的最大值，选的话价值为前面一个价值加当前物品价值，也就是dp[i-1] [j-nums[i-1]]
+
+
+
 ### 790. Domino and Tromino Tiling
 
 ```python
