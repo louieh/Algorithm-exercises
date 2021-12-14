@@ -2715,6 +2715,27 @@ class CBTInserter:
 
 
 
+### 938. Range Sum of BST
+
+```python
+class Solution:
+    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+        res = 0
+        
+        def helper(root):
+            nonlocal res
+            if not root: return
+            if low <= root.val <= high:
+                res += root.val
+            helper(root.left)
+            helper(root.right)
+        
+        helper(root)
+        return res
+```
+
+
+
 ### 951. Flip Equivalent Binary Trees
 
 ```python
