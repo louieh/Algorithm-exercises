@@ -500,6 +500,25 @@ class Solution:
         return max_num
 ```
 
+```python
+class Solution:
+    def maxPower(self, s: str) -> int:
+        res = 1
+        if len(s) == 1: return res
+        
+        cur_c = s[0]
+        cur_num = 1
+        for c in s[1:]:
+            if c == cur_c:
+                cur_num += 1
+            else:
+                res = max(res, cur_num)
+                cur_c = c
+                cur_num = 1
+                
+        return max(res, cur_num)
+```
+
 Similar as 434
 
 
