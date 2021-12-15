@@ -1493,6 +1493,44 @@ class Solution:
 
 
 
+### 645. Set Mismatch
+
+```python
+class Solution:
+    def findErrorNums(self, nums: List[int]) -> List[int]:
+        res = []
+        temp = [None]*len(nums)
+        
+        for num in nums:
+            if temp[num-1] is not None:
+                res.append(num)
+            temp[num-1] = num
+        for i, v in enumerate(temp):
+            if v is None:
+                res.append(i+1)
+        return res
+```
+
+```python
+class Solution:
+    def findErrorNums(self, nums: List[int]) -> List[int]:
+        dup = miss = -1
+        
+        for i, v in enumerate(nums):
+            if nums[abs(v)-1] < 0:
+                dup = abs(v)
+            else:
+                nums[abs(v)-1] *= -1
+
+        for i in range(len(nums)):
+            if nums[i] > 0:
+                miss = i + 1
+                break
+        return [dup, miss]
+```
+
+
+
 ### 697. Degree of an Array
 
 ```python
