@@ -161,6 +161,39 @@ class Solution:
 
 最后循环完成后，再检查temp_ans中是否有东西需要加到ans
 
+```python
+class Solution:
+    def decodeString(self, s: str) -> str:
+        
+        def helper(ss):
+            res = ""
+            i = 0
+            while i < len(ss):
+                if ss[i] in string.ascii_lowercase:
+                    res += ss[i]
+                    i += 1
+                    continue
+                if ss[i] in string.digits:
+                    num = 0
+                    while ss[i] != "[":
+                        num = num * 10 + int(ss[i])
+                        i += 1
+                    i += 1
+                    temp = ""
+                    num_of_left = 0
+                    while ss[i] != "]" or num_of_left != 0:
+                        if ss[i] == "[":
+                            num_of_left += 1
+                        if ss[i] == "]":
+                            num_of_left -= 1
+                        temp += ss[i]
+                        i += 1
+                    res += helper(temp) * num
+                    i += 1
+            return res
+        return helper(s)
+```
+
 
 
 ### 402. Remove K Digits
