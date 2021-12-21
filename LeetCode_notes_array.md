@@ -2051,6 +2051,26 @@ class Solution:
 
 
 
+### 1200. Minimum Absolute Difference
+
+```python
+class Solution:
+    def minimumAbsDifference(self, arr: List[int]) -> List[List[int]]:
+        arr.sort()
+        min_abs = 10**6
+        for i in range(len(arr)-1):
+            temp_abs = abs(arr[i] - arr[i+1])
+            min_abs = min(min_abs, temp_abs)
+        res = []
+        for i in range(len(arr)-1):
+            temp_abs = abs(arr[i] - arr[i+1])
+            if temp_abs == min_abs:
+                res.append([arr[i], arr[i+1]])
+        return res
+```
+
+
+
 ### 1217. Minimum Cost to Move Chips to The Same Position
 
 ```python
