@@ -49,7 +49,24 @@ class Solution:
                 return merge_method(inter1[:-1], inter2)
 ```
 
-
+```python
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        res = []
+        intervals.sort(key=lambda x: x[0])
+        
+        prev = intervals[0]
+        
+        for i in range(1, len(intervals)):
+            cur = intervals[i]
+            if prev[1] < cur[0]:
+                res.append(prev)
+                prev = cur
+            else:
+                prev = [prev[0], max(prev[1], cur[1])]
+        res.append(prev)
+        return res
+```
 
 
 
