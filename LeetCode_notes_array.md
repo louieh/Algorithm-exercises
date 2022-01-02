@@ -1983,6 +1983,20 @@ class Solution:
         return ans
 ```
 
+```python
+class Solution:
+    def numPairsDivisibleBy60(self, time: List[int]) -> int:
+        temp_dict = defaultdict(int)
+        ans = 0
+        for each in time:
+            if each % 60 == 0:
+                ans += temp_dict[0]
+            else:
+                ans += temp_dict[60 - each % 60]
+            temp_dict[each % 60] += 1
+        return ans
+```
+
 
 
 ### 1051. Height Checker
