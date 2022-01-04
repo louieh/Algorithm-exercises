@@ -272,6 +272,18 @@ return (i-1) ^ num
 
 same as 476.
 
+```python
+class Solution:
+    def bitwiseComplement(self, n: int) -> int:
+        if n == 0: return 1
+        temp1 = n
+        temp2 = 1
+        while temp1:
+            temp2 <<= 1
+            temp1 >>= 1
+        return temp2-1 ^ n
+```
+
 
 
 ### 1178. Number of Valid Words for Each Puzzle
