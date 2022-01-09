@@ -39,6 +39,47 @@ class MinStack:
 
 
 
+### 224. Basic Calculator
+
+```python
+class Solution:
+    def calculate(self, s: str) -> int:
+        stack = []
+        number = 0
+        result = 0
+        sign = 1
+        # number, +, -, (, )
+        for c in s:
+            if c.isdigit():
+                number = number * 10 + int(c)
+            elif c == "+":
+                result += sign * number
+                number = 0
+                sign = 1
+            elif c == "-":
+                result += sign * number
+                number = 0
+                sign = -1
+            elif c == "(":
+                stack.append(result)
+                stack.append(sign)
+                result = 0
+                sign = 1
+            elif c == ")":
+                result += sign * number
+                number = 0
+                # sign = 1
+                result *= stack.pop()
+                result += stack.pop()
+        if number != 0:
+            result += sign * number
+        return result
+```
+
+https://leetcode.com/problems/basic-calculator/discuss/62361/Iterative-Java-solution-with-stack
+
+
+
 ### 227. Basic Calculator II
 
 ```python
