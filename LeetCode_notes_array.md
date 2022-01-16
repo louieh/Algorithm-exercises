@@ -1652,6 +1652,27 @@ same as 1296
 
 
 
+### 849. Maximize Distance to Closest Person
+
+```python
+class Solution:
+    def maxDistToClosest(self, seats: List[int]) -> int:
+        left_index = res = 0
+        for right_index, seat in enumerate(seats):
+            if seat == 1:
+                if left_index == 0 and seats[0] == 0:
+                    distance = right_index
+                else:
+                    distance = (right_index - left_index) // 2
+                res = max(res, distance)
+                left_index = right_index
+        if seats[-1] == 0:
+            res = max(res, len(seats) - 1 - left_index)
+        return res
+```
+
+
+
 ### 905. Sort Array By Parity
 
 ```python
