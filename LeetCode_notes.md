@@ -2092,6 +2092,24 @@ class Solution:
         return True
 ```
 
+```python
+class Solution:
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        a2b = {}
+        b2a = {}
+        s_list = s.split(" ")
+        if len(pattern) != len(s_list):
+            return False
+        for i, a in enumerate(pattern):
+            b = s_list[i]
+            if a not in a2b and b not in b2a:
+                a2b[a] = b
+                b2a[b] = a
+            elif a2b.get(a) != b or b2a.get(b) != a:
+                return False
+        return True
+```
+
 
 
 ### 292. Nim Game
