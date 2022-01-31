@@ -343,6 +343,67 @@ class Solution:
 
 
 
+### 84. Largest Rectangle in Histogram
+
+```python
+# TLE
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        left_less_list = [0] * len(heights)
+        right_less_list = [0] * len(heights)
+        left_less_list[0] = -1
+        right_less_list[-1] = len(heights)
+        
+        for i in range(1, len(heights)):
+            p = i - 1
+            while p >= 0 and heights[p] >= heights[i]:
+                p -= 1 # 可优化 p = left_less_list[p]
+            left_less_list[i] = p
+        
+        for i in range(len(heights)-2, -1, -1):
+            p = i + 1
+            while p <= len(heights) - 1 and heights[p] >= heights[i]:
+                p += 1 # 可优化 p = right_less_list[p]
+            right_less_list[i] = p
+        
+        res = 0
+        
+        for i in range(len(heights)):
+            res = max(res, heights[i] * (right_less_list[i] - left_less_list[i] - 1))
+        
+        return res
+```
+
+```python
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        left_less_list = [0] * len(heights)
+        right_less_list = [0] * len(heights)
+        left_less_list[0] = -1
+        right_less_list[-1] = len(heights)
+        
+        for i in range(1, len(heights)):
+            p = i - 1
+            while p >= 0 and heights[p] >= heights[i]:
+                p = left_less_list[p]
+            left_less_list[i] = p
+        
+        for i in range(len(heights)-2, -1, -1):
+            p = i + 1
+            while p <= len(heights) - 1 and heights[p] >= heights[i]:
+                p = right_less_list[p]
+            right_less_list[i] = p
+        
+        res = 0
+        
+        for i in range(len(heights)):
+            res = max(res, heights[i] * (right_less_list[i] - left_less_list[i] - 1))
+        
+        return res
+```
+
+
+
 ### 88. Merge Sorted Array
 
 ```python
