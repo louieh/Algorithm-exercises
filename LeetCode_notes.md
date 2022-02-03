@@ -2532,6 +2532,22 @@ AB[5] = 2 means a+b=5 appears 2 times in the a+b scenario.
 Then we are looking for how many times does c+d = -5 appear so that it could be paired with AB[5] and form a 0.
 That's why we then look for AB[-c-d] (or AB[-(c+d)] )
 
+```python
+class Solution:
+    def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+
+        res = 0
+        ab_dict = defaultdict(int)
+        for a in A:
+            for b in B:
+                ab_dict[a+b] += 1
+        
+        for c in C:
+            for d in D:
+                res += ab_dict[-(c+d)]
+        return res
+```
+
 
 
 ### 459. Repeated Substring Pattern
