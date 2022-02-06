@@ -343,6 +343,23 @@ class Solution:
 
 
 
+### 80. Remove Duplicates from Sorted Array II
+
+```python
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        counter = collections.Counter()
+        res = 0
+        for i, num in enumerate(nums):
+            if counter[num] < 2:
+                nums[res] = num
+                res += 1
+                counter[num] += 1
+        return res
+```
+
+
+
 ### 84. Largest Rectangle in Histogram
 
 ```python
