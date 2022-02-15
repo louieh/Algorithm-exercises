@@ -343,6 +343,84 @@ class Solution:
 
 
 
+### 80. Remove Duplicates from Sorted Array II
+
+```python
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        counter = collections.Counter()
+        res = 0
+        for i, num in enumerate(nums):
+            if counter[num] < 2:
+                nums[res] = num
+                res += 1
+                counter[num] += 1
+        return res
+```
+
+
+
+### 84. Largest Rectangle in Histogram
+
+```python
+# TLE
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        left_less_list = [0] * len(heights)
+        right_less_list = [0] * len(heights)
+        left_less_list[0] = -1
+        right_less_list[-1] = len(heights)
+        
+        for i in range(1, len(heights)):
+            p = i - 1
+            while p >= 0 and heights[p] >= heights[i]:
+                p -= 1 # 可优化 p = left_less_list[p]
+            left_less_list[i] = p
+        
+        for i in range(len(heights)-2, -1, -1):
+            p = i + 1
+            while p <= len(heights) - 1 and heights[p] >= heights[i]:
+                p += 1 # 可优化 p = right_less_list[p]
+            right_less_list[i] = p
+        
+        res = 0
+        
+        for i in range(len(heights)):
+            res = max(res, heights[i] * (right_less_list[i] - left_less_list[i] - 1))
+        
+        return res
+```
+
+```python
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        left_less_list = [0] * len(heights)
+        right_less_list = [0] * len(heights)
+        left_less_list[0] = -1
+        right_less_list[-1] = len(heights)
+        
+        for i in range(1, len(heights)):
+            p = i - 1
+            while p >= 0 and heights[p] >= heights[i]:
+                p = left_less_list[p]
+            left_less_list[i] = p
+        
+        for i in range(len(heights)-2, -1, -1):
+            p = i + 1
+            while p <= len(heights) - 1 and heights[p] >= heights[i]:
+                p = right_less_list[p]
+            right_less_list[i] = p
+        
+        res = 0
+        
+        for i in range(len(heights)):
+            res = max(res, heights[i] * (right_less_list[i] - left_less_list[i] - 1))
+        
+        return res
+```
+
+
+
 ### 88. Merge Sorted Array
 
 ```python
@@ -1368,7 +1446,7 @@ class Solution:
         return ans
 ```
 
-遇0减一遇1加一，并将此数作为key，index作为值存入字典，如果遇到相同的数组说明有相等的0和1出现，用当前index值键字典中相同数字的index得到长度。
+遇0减一遇1加一，并将此数作为key，index作为值存入字典，如果遇到相同的数组说明有相等的0和1出现（因为从上一个点到当前点的count没有变说明这段距离中的0和1的数量一致），用当前index值键字典中相同数字的index得到长度。
 如果遇到数字为0，说明从0到目前index为止的0和1数量相同
 
 
@@ -1647,6 +1725,27 @@ class Solution:
 ```
 
 same as 1296
+
+
+
+### 849. Maximize Distance to Closest Person
+
+```python
+class Solution:
+    def maxDistToClosest(self, seats: List[int]) -> int:
+        left_index = res = 0
+        for right_index, seat in enumerate(seats):
+            if seat == 1:
+                if left_index == 0 and seats[0] == 0:
+                    distance = right_index
+                else:
+                    distance = (right_index - left_index) // 2
+                res = max(res, distance)
+                left_index = right_index
+        if seats[-1] == 0:
+            res = max(res, len(seats) - 1 - left_index)
+        return res
+```
 
 
 
@@ -1976,6 +2075,20 @@ class Solution:
             if each % 60 == 0 and 0 in temp_dict:
                 ans += temp_dict[0]
             elif 60 - each % 60 in temp_dict:
+                ans += temp_dict[60 - each % 60]
+            temp_dict[each % 60] += 1
+        return ans
+```
+
+```python
+class Solution:
+    def numPairsDivisibleBy60(self, time: List[int]) -> int:
+        temp_dict = defaultdict(int)
+        ans = 0
+        for each in time:
+            if each % 60 == 0:
+                ans += temp_dict[0]
+            else:
                 ans += temp_dict[60 - each % 60]
             temp_dict[each % 60] += 1
         return ans

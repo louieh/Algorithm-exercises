@@ -252,6 +252,36 @@ https://leetcode.com/problems/word-break-ii/discuss/44311/Python-easy-to-underst
 
 
 
+### 389. Find the Difference
+
+```python
+class Solution:
+    def findTheDifference(self, s, t):
+        nums = list(s + t)
+        nums.sort()
+        for i in range(len(nums)):
+            if i % 2 == 0:  # even
+                if i + 1 == len(nums):
+                    return nums[i]
+                if nums[i] != nums[i + 1]:
+                    return nums[i]
+            else:
+                if nums[i] != nums[i - 1]:
+                    return nums[i]
+```
+
+```python
+class Solution:
+    def findTheDifference(self, s: str, t: str) -> str:
+        s_counter = Counter(s)
+        t_counter = Counter(t)
+        for c, num in t_counter.items():
+            if c not in s_counter or num != s_counter[c]:
+                return c
+```
+
+
+
 ### 434. Number of Segments in a String
 
 ```python

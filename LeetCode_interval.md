@@ -129,6 +129,23 @@ class Solution:
         return arrows
 ```
 
+```python
+class Solution:
+    def findMinArrowShots(self, points: List[List[int]]) -> int:
+        points.sort()
+        res = 0
+        cur = points[0]
+        
+        for left, right in points[1:]:
+            cur_left, cur_right = cur[0], cur[1]
+            if cur_right < left:
+                res += 1
+                cur = [left, right]
+            else:
+                cur = [max(cur_left,left), min(cur_right, right)]
+        return res + 1
+```
+
 
 
 ### 836. Rectangle Overlap

@@ -2092,6 +2092,24 @@ class Solution:
         return True
 ```
 
+```python
+class Solution:
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        a2b = {}
+        b2a = {}
+        s_list = s.split(" ")
+        if len(pattern) != len(s_list):
+            return False
+        for i, a in enumerate(pattern):
+            b = s_list[i]
+            if a not in a2b and b not in b2a:
+                a2b[a] = b
+                b2a[b] = a
+            elif a2b.get(a) != b or b2a.get(b) != a:
+                return False
+        return True
+```
+
 
 
 ### 292. Nim Game
@@ -2513,6 +2531,22 @@ E.g.
 AB[5] = 2 means a+b=5 appears 2 times in the a+b scenario.
 Then we are looking for how many times does c+d = -5 appear so that it could be paired with AB[5] and form a 0.
 That's why we then look for AB[-c-d] (or AB[-(c+d)] )
+
+```python
+class Solution:
+    def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+
+        res = 0
+        ab_dict = defaultdict(int)
+        for a in A:
+            for b in B:
+                ab_dict[a+b] += 1
+        
+        for c in C:
+            for d in D:
+                res += ab_dict[-(c+d)]
+        return res
+```
 
 
 
@@ -3518,6 +3552,23 @@ class Solution:
                     return -1
             return judge_
         return -1
+```
+
+```python
+class Solution:
+    def findJudge(self, n: int, trust: List[List[int]]) -> int:
+        all_people = {i + 1 for i in range(n)}
+        temp_dict = defaultdict(set)
+        for a, b in trust:
+            temp_dict[a].add(b)
+        
+        diff = all_people - set(temp_dict.keys())
+        if diff != 1: return -1
+        judge = list(diff)[0]
+        for each in temp_dict.values():
+            if judge not in each:
+                return -1
+        return judge
 ```
 
 

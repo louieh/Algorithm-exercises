@@ -262,6 +262,14 @@ class Solution:
         return maxDepth_helper(root, 1)
 ```
 
+```python
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1
+```
+
 
 
 ### 106. Construct Binary Tree from Inorder and Postorder Traversal
@@ -665,6 +673,63 @@ class Solution:
                 root = root.right
             root.right = temp
         helper(root)
+        return root
+```
+
+
+
+### 116. Populating Next Right Pointers in Each Node
+
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, left, right, next):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return
+        
+        Q = [root]
+        
+        while Q:
+            temp = []
+            for i in range(len(Q)):
+                if Q[i].left:
+                    temp.append(Q[i].left)
+                if Q[i].right:
+                    temp.append(Q[i].right)
+                if i == len(Q)-1:
+                    Q[i].next = None
+                    break
+                Q[i].next = Q[i+1]
+            Q = temp
+        return root
+```
+
+```python
+class Solution:
+    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        if not root: return
+        
+        q  = [root]
+        while q:
+            next_q = []
+            for i in range(len(q)):
+                if i == len(q) - 1:
+                    q[i].next = None
+                else:
+                    q[i].next = q[i+1]
+                if q[i].left:
+                    next_q.append(q[i].left)
+                if q[i].right:
+                    next_q.append(q[i].right)
+            q = next_q
         return root
 ```
 

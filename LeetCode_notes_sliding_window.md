@@ -219,6 +219,35 @@ class Solution:
 
 same as question 567
 
+```python
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        res = []
+        
+        if len(p) > len(s):
+            return res
+        from collections import Counter
+        if len(p) == len(s):
+            return [0] if Counter(s) == Counter(p) else res
+        p_dict = Counter(p)
+        s_dict = None
+        left, right = 0, len(p) - 1
+        while right < len(s) - 1:
+            if s_dict is None:
+                s_dict = Counter(s[left: right+1])
+            else:
+                s_dict[s[left]] -= 1
+                if s_dict[s[left]] == 0:
+                    s_dict.pop(s[left])
+                left += 1
+                right += 1
+                s_dict[s[right]] += 1
+            if s_dict == p_dict:
+                res.append(left)
+        
+        return res
+```
+
 
 
 ### 567. Permutation in String

@@ -2,6 +2,27 @@
 
 [toc]
 
+### 1015. Smallest Integer Divisible by K
+
+```python
+class Solution:
+    def smallestRepunitDivByK(self, k: int) -> int:
+        rem = 1
+        length = 1
+        for i in range(k):
+            if rem % k != 0:
+                N = rem * 10 + 1
+                rem = N % k
+                length += 1
+            else:
+                return length
+        return -1
+```
+
+https://leetcode.com/problems/smallest-integer-divisible-by-k/solution/
+
+
+
 ### 1291. Sequential Digits
 
 ```python

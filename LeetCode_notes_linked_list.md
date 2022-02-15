@@ -124,6 +124,25 @@ class Solution:
         return res.next
 ```
 
+```python
+# 02/05/2022
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        res = ListNode()
+        header = res
+        
+        while list1 and list2:
+            if list1.val < list2.val:
+                header.next = list1
+                list1 = list1.next
+            else:
+                header.next = list2
+                list2 = list2.next
+            header = header.next
+        header.next = list1 or list2
+        return res.next
+```
+
 
 
 ### 23. Merge k Sorted Lists
@@ -162,6 +181,73 @@ class Solution:
             lists[min_index] = lists[min_index].next
             
         return ans.next
+```
+
+```python
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        if not lists:
+            return None
+        def merge2List2(list1, list2):
+            res = ListNode()
+            header = res
+            while list1 and list2:
+                if list1.val < list2.val:
+                    header.next = list1
+                    list1 = list1.next
+                else:
+                    header.next = list2
+                    list2 = list2.next
+                header = header.next
+            header.next = list1 or list2
+            return res.next
+        res = []
+        for each in lists:
+            res = merge2List2(res, each)
+        return res
+```
+
+```python
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        amount = len(lists)
+        interval = 1
+        while interval < amount:
+            for i in range(0, amount - interval, interval * 2):
+                lists[i] = self.merge2Lists(lists[i], lists[i + interval])
+            interval *= 2
+        return lists[0] if amount > 0 else None
+
+    def merge2Lists(self, l1, l2):
+        head = point = ListNode(0)
+        while l1 and l2:
+            if l1.val <= l2.val:
+                point.next = l1
+                l1 = l1.next
+            else:
+                point.next = l2
+                l2 = l1
+                l1 = point.next.next
+            point = point.next
+        if not l1:
+            point.next=l2
+        else:
+            point.next=l1
+        return head.next
+```
+
+```python
+        # 此处的merge要熟记
+        amount = len(lists)
+        interval = 1
+        while interval < amount:
+            for i in range(0, amount - interval, interval * 2):
+                lists[i] = self.merge2Lists(lists[i], lists[i + interval])
+            interval *= 2
 ```
 
 
