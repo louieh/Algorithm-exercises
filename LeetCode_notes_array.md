@@ -1378,8 +1378,6 @@ class Solution:
 ```python
 class Solution:
     def findPairs(self, nums: List[int], k: int) -> int:
-        if k < 0:
-            return 0
         res = 0
         from collections import Counter
         c = Counter(nums)
