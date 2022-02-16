@@ -297,6 +297,32 @@ class Solution:
         return res.next
 ```
 
+```python
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+        
+        dummy = ListNode()
+        dummy.next = head
+        res = dummy
+        
+        while dummy.next and dummy.next.next:
+            next_head = dummy.next.next
+            dummy.next.next = next_head.next
+            next_head.next = dummy.next
+            dummy.next = next_head
+            dummy = dummy.next.next
+        return res.next
+```
+
+dummy-->1-->2-->3-->4 交换1和2步骤：
+
+1. next_head = 2-->3-->4 把2拿出来作为之后的头节点
+2. Dummy-->1-->3-->4 把1和3连上
+3. 2.next = 1-->3-->4 把2和1连上，此时dummy和2的下一个节点都是1
+4. dummy-->2-->1-->3-->4 把dummy.next改成2
+
 
 
 ### 25. Reverse Nodes in k-Group
