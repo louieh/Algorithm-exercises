@@ -2410,6 +2410,21 @@ class Solution:
         return index_s == len(s)
 ```
 
+```python
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        if not s: return True
+        if len(s) > len(t): return False
+        
+        left = right = 0
+        
+        for i, c in enumerate(t):
+            if c == s[left]:
+                left += 1
+                if left == len(s): return True
+        return False
+```
+
 
 
 ###  406. Queue Reconstruction by Height
