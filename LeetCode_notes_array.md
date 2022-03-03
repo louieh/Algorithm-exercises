@@ -1144,6 +1144,37 @@ https://leetcode.com/problems/elimination-game/discuss/87119/JAVA%3A-Easiest-sol
 
 
 
+### 413. Arithmetic Slices
+
+```python
+class Solution:
+    def numberOfArithmeticSlices(self, nums: List[int]) -> int:
+        @cache
+        def count(n):
+            if n < 3: return 0
+            return n - 2 + count(n - 1)
+        
+        prev = None
+        res = 0
+        cur = 2
+        
+        for i in range(1, len(nums)):
+            diff = nums[i] - nums[i-1]
+            if diff == prev:
+                cur += 1
+            else:
+                res += count(cur)
+                cur = 2
+            prev = diff
+        return res + count(cur)
+```
+
+给定数组长度计算子数组个数：count_of_subarrays = 1 + (len - 3) + count_of_subarrays(len-1)
+
+https://leetcode.com/problems/arithmetic-slices/discuss/1814595/Python3-CACHE-()-Explained
+
+
+
 ### 414. Third Maximum Number
 
 ```python
