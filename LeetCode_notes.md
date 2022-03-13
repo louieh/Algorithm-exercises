@@ -512,35 +512,6 @@ class Solution:
 
 
 
-### 20. Valid Parentheses
-
-```python
-class Solution:
-    def isValid(self, s):
-        """
-        :type s: str
-        :rtype: bool
-        """
-        temp = [];
-        for each in s:
-            if each in ['(','[','{']:
-                temp.append(each)
-            elif each in [')',']','}']:
-                if not temp:
-                    return False
-                poptemp = temp.pop()
-                if poptemp == '(' and each != ')' or poptemp == '[' and each != ']' or poptemp == '{' and each != '}':
-                    return False
-        if not temp:
-            return True
-        else:
-             return False
-```
-
-20 和 921 两道关于合法括号的题目，原理相似，921 难度为中等反而更简单些。
-
-
-
 ### 28. Implement strStr()
 
 ```python
@@ -3250,28 +3221,6 @@ class Solution:
             return True
         else:
             return False
-```
-
-
-
-### 921. Minimum Add to Make Parentheses Valid
-
-```python
-class Solution:
-    def minAddToMakeValid(self, S: str) -> int:
-        if not S:
-            return 0
-        
-        temp = []
-        for each in S:
-            if each == '(':
-                temp.append(each)
-            elif each == ')':
-                if temp and temp[-1] == '(':
-                    temp.pop()
-                else:
-                    temp.append(each)
-        return len(temp)
 ```
 
 
