@@ -46,6 +46,26 @@ class Solution:
 
 
 
+### 71. Simplify Path
+
+```python
+class Solution:
+    def simplifyPath(self, path: str) -> str:
+        path_list = path.split('/')
+        
+        stack = []
+        
+        for each in path_list:
+            if not each or each == '.': continue
+            if each == '..':
+                if stack: stack.pop()
+                continue
+            stack.append(each)
+        return '/' + '/'.join(stack)
+```
+
+
+
 ### 155. Min Stack
 
 ```python
