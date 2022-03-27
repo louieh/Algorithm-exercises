@@ -982,6 +982,71 @@ class Solution:
 
 
 
+### 1337. The K Weakest Rows in a Matrix
+
+```python
+class Solution:
+    def kWeakestRows(self, mat: List[List[int]], k: int) -> List[int]:
+        temp = []
+        for index, row in enumerate(mat):
+            num_of_1 = 0
+            for each in row:
+                if each == 0:
+                    break
+                num_of_1 += 1
+            temp.append((num_of_1, index))
+        temp.sort()
+        return [each[1] for each in temp[:k]]
+```
+
+```python
+# 二分找1的个数
+class Solution:
+    def kWeakestRows(self, mat: List[List[int]], k: int) -> List[int]:
+        
+        def numOfOne(row):
+            left, right = 0, len(row) - 1
+            while left < right:
+                mid = left + (right - left) // 2
+                if row[mid] == 1:
+                    if mid != len(row)-1 and row[mid+1] == 1:
+                        left = mid + 1
+                    else:
+                        return mid + 1
+                else:
+                    right = mid - 1
+            return left + 1 if row[left] == 1 else 0
+        
+        temp = []
+        for index, row in enumerate(mat):
+            temp.append((numOfOne(row), index))
+        temp.sort()
+        return [each[1] for each in temp[:k]]
+```
+
+```python
+class Solution:
+    def kWeakestRows(self, mat: List[List[int]], k: int) -> List[int]:
+        
+        def numOfOne(row):
+            left, right = 0, len(row)
+            while left < right:
+                mid = left + (right - left) // 2
+                if row[mid] == 1:
+                    left = mid + 1
+                else:
+                    right = mid
+            return left
+        
+        temp = []
+        for index, row in enumerate(mat):
+            temp.append((numOfOne(row), index))
+        temp.sort()
+        return [each[1] for each in temp[:k]]
+```
+
+
+
 ### 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
 
 ```python
