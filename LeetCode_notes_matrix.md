@@ -1027,7 +1027,10 @@ class Solution:
 ```python
 class Solution:
     def kWeakestRows(self, mat: List[List[int]], k: int) -> List[int]:
-        
+        # [0,0,0,0]
+        # [1,1,1,1]
+        # [1,1,0,0]
+        # 注意这个二分法，虽然 right = mid，但是right也在变动，不会产生死循环
         def numOfOne(row):
             left, right = 0, len(row)
             while left < right:

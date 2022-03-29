@@ -1972,52 +1972,6 @@ class PeekingIterator:
 
 
 
-### 287. Find the Duplicate Number
-
-```python
-# 自认为很漂亮的方法，原理是因为有n+1个数且只有一个数字重复，并且每个数字的取值范围在[1, n], 所以只要把每个数字方法它该放的位置，也就是说把1放到0, 2放到1, 3放到2, 4放到3...最后一个数字便是重复的数字。当然在遍历过程中如果遇到在该位置上已经有了正确的数字直接返回该数字
-class Solution:
-    def findDuplicate(self, nums: List[int]) -> int:
-        if not nums:
-            return
-        i = 0
-        while i <= len(nums)-2:
-            if nums[i] == i+1:
-                i += 1
-                continue
-            if nums[nums[i]-1] == nums[i]:
-                return nums[i]
-            else:
-                nums[nums[i]-1], nums[i] = nums[i], nums[nums[i]-1]
-        return nums[len(nums)-1]
-```
-
-```python
-# Floyd's Tortoise and Hare (Cycle Detection)
-# same as Linked List Cycle II 
-class Solution:
-    def findDuplicate(self, nums):
-        # Find the intersection point of the two runners.
-        tortoise = nums[0]
-        hare = nums[0]
-        while True:
-            tortoise = nums[tortoise]
-            hare = nums[nums[hare]]
-            if tortoise == hare:
-                break
-        
-        # Find the "entrance" to the cycle.
-        ptr1 = nums[0]
-        ptr2 = tortoise
-        while ptr1 != ptr2:
-            ptr1 = nums[ptr1]
-            ptr2 = nums[ptr2]
-        
-        return ptr1
-```
-
-
-
 ### 288. Unique Word Abbreviation
 
 ```python
