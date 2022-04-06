@@ -412,6 +412,7 @@ class Solution:
             if nums[mid] == target:
                 return True
             
+            # [4,5,6,6,7,0,1,2,4,4]
             # If we know for sure left side is sorted or right side is unsorted
             elif nums[mid] > nums[left] or nums[mid] > nums[right]:
                 if nums[mid] > target and target >= nums[left]:

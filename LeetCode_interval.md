@@ -262,3 +262,24 @@ class Solution:
         return res
 ```
 
+```python
+class Solution:
+    def removeCoveredIntervals(self, intervals: List[List[int]]) -> int:
+        intervals.sort()
+        res = 0
+        cur = intervals[0]
+        for interval in intervals[1:]:
+            cur_left, cur_right = cur
+            nex_left, nex_right = interval
+            if nex_left > cur_right:
+                cur = interval
+            elif nex_left >= cur_left and nex_right <= cur_right:
+                res += 1
+            elif nex_left <= cur_left and nex_right >= cur_right:
+                cur = interval
+                res += 1
+            else:
+                cur = interval
+        return len(intervals) - res
+```
+
