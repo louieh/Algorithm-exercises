@@ -2557,6 +2557,28 @@ class KthLargest(object):
         self.inorder(root.right)
 ```
 
+```python
+class KthLargest:
+
+    def __init__(self, k: int, nums: List[int]):
+        self.k = k
+        self.pool = heapq.nlargest(k, nums)
+        heapq.heapify(self.pool)
+
+    def add(self, val: int) -> int:
+        if len(self.pool) < self.k:
+            heapq.heappush(self.pool, val)
+        else:
+            heapq.heappushpop(self.pool, val)
+        return self.pool[0]
+        
+
+
+# Your KthLargest object will be instantiated and called as such:
+# obj = KthLargest(k, nums)
+# param_1 = obj.add(val)
+```
+
 
 
 ### 771. Jewels and Stones
