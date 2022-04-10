@@ -2858,6 +2858,27 @@ class Solution:
 
 
 
+### 682. Baseball Game
+
+```python
+class Solution:
+    def calPoints(self, ops: List[str]) -> int:
+        operations = {"+", "D", "C"}
+        res = []
+        for each in ops:
+            if each not in operations:
+                res.append(int(each))
+            elif each == "+":
+                res.append(res[-1] + res[-2])
+            elif each == "D":
+                res.append(res[-1] * 2)
+            elif each == "C":
+                res.pop()
+        return sum(res)
+```
+
+
+
 ### 692. Top K Frequent Words
 
 ```python
