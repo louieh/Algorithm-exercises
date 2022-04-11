@@ -941,6 +941,30 @@ class Solution:
 
 
 
+### 1260. Shift 2D Grid
+
+```python
+class Solution:
+    def shiftGrid(self, grid: List[List[int]], k: int) -> List[List[int]]:
+        rows, cols = len(grid), len(grid[0])
+        k %= rows * cols
+        
+        def move_one_step(grid):
+            last_one = grid[-1][-1]
+            for row in range(rows):
+                this_one = grid[row][-1]
+                for col in range(cols-2, -1, -1):
+                    grid[row][col+1] = grid[row][col]
+                grid[row][0] = last_one
+                last_one = this_one
+        for _ in range(k):
+            move_one_step(grid)
+        
+        return grid
+```
+
+
+
 ### 1329. Sort the Matrix Diagonally
 
 ```python
