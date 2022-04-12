@@ -648,6 +648,46 @@ class Solution:
 
 
 
+### 289. Game of Life
+
+```python
+class Solution:
+    def gameOfLife(self, board: List[List[int]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        change_list = []
+        
+        def test_change(i, j):
+            upper_left = board[i-1][j-1] if i > 0 and j > 0 else 0
+            upper = board[i-1][j] if i > 0 else 0
+            upper_right = board[i-1][j+1] if i > 0 and j < len(board[0]) - 1 else 0
+            right = board[i][j+1] if j < len(board[0]) - 1 else 0
+            lower_right = board[i+1][j+1] if i < len(board) - 1 and j < len(board[0]) - 1 else 0
+            lower = board[i+1][j] if i < len(board) - 1 else 0
+            lower_left = board[i+1][j-1] if i < len(board) - 1 and j > 0 else 0
+            left = board[i][j-1] if j > 0 else 0
+            live_neighbors = upper_left + upper + upper_right + right + lower_right + lower + lower_left + left
+            if board[i][j] == 1:
+                if live_neighbors < 2 or live_neighbors > 3:
+                    return 0
+            else:
+                if live_neighbors == 3:
+                    return 1
+            return None
+        
+        for row in range(len(board)):
+            for col in range(len(board[0])):
+                res = test_change(row, col)
+                if res is not None:
+                    change_list.append((row, col, res))
+        
+        for row, col, res in change_list:
+            board[row][col] = res
+```
+
+
+
 ### 419.Battleships in a Board
 
 ```python
