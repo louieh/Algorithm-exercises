@@ -311,6 +311,52 @@ class Solution:
         return ans
 ```
 
+```py
+class Solution:
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        grid = []
+        row = [None] * n
+        for _ in range(n):
+            grid.append(row.copy())
+        
+        i, row, col = 0, 0, 0 
+        while i < n * n:
+            
+            # left -> right
+            while col <= n - 1 and grid[row][col] is None:
+                i += 1
+                grid[row][col] = i
+                col += 1
+            col -= 1
+            row += 1
+            
+            # up -> down
+            while row <= n - 1 and grid[row][col] is None:
+                i += 1
+                grid[row][col] = i
+                row += 1
+            row -= 1
+            col -= 1
+            
+            # left <- right
+            while col >= 0 and grid[row][col] is None:
+                i += 1
+                grid[row][col] = i
+                col -= 1
+            col += 1
+            row -= 1
+            
+            # up <- down
+            while row >= 0 and grid[row][col] is None:
+                i += 1
+                grid[row][col] = i
+                row -= 1
+            row += 1
+            col += 1
+            
+        return grid
+```
+
 
 
 ### 74. Search a 2D Matrix
