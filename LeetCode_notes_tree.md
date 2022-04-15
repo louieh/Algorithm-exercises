@@ -2169,6 +2169,42 @@ class Solution:
 
 
 
+### 669. Trim a Binary Search Tree
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def trimBST_tool(self, root, L, R):
+        if not root:
+            return None
+        
+        if root.val < L:
+            return self.trimBST_tool(root.right, L, R)
+        
+        elif root.val > R:
+            return self.trimBST_tool(root.left, L, R)
+        
+        else:
+            root.left = self.trimBST_tool(root.left, L, R)
+            root.right = self.trimBST_tool(root.right, L, R)
+            return root
+    
+    def trimBST(self, root: TreeNode, L: int, R: int) -> TreeNode:
+        if not root:
+            return
+
+        ans = self.trimBST_tool(root, L, R)
+        return ans
+```
+
+
+
 ### 671. Second Minimum Node In a Binary Tree
 
 ```python
