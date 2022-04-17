@@ -2846,6 +2846,58 @@ https://leetcode.com/articles/all-possible-full-binary-trees/
 
 
 
+### 897. Increasing Order Search Tree
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def __init__(self):
+        self.ans = TreeNode(0)
+        self.ans_ = self.ans
+        
+    def temp(self, root):
+        if root.left:
+            self.temp(root.left)
+        self.ans_.right = TreeNode(root.val)
+        self.ans_ = self.ans_.right
+        if root.right:
+            self.temp(root.right)
+    
+    def increasingBST(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return
+        self.temp(root)
+        
+        return self.ans.right
+```
+
+```python
+class Solution:
+    def increasingBST(self, root: TreeNode) -> TreeNode:
+        if not root: return
+        
+        self.dummy = self.res = TreeNode()
+        
+        def helper(root):
+            if not root: return
+            helper(root.left)
+            self.dummy.right = TreeNode(root.val)
+            self.dummy = self.dummy.right
+            helper(root.right)
+        
+        helper(root)
+        
+        return self.res.right
+```
+
+
+
 ### 919. Complete Binary Tree Inserter
 
 ```python
