@@ -2477,6 +2477,50 @@ class Solution:
 
 
 
+### 1385. Find the Distance Value Between Two Arrays
+
+```python
+class Solution:
+    def findTheDistanceValue(self, arr1: List[int], arr2: List[int], d: int) -> int:
+        i = j = 0
+        arr1.sort()
+        arr2.sort()
+        res = 0
+        
+        while i < len(arr1) and j < len(arr2):
+            if arr1[i] > arr2[j]:
+                if arr1[i] - arr2[j] > d:
+                    j += 1
+                else:
+                    i += 1
+            else:
+                if arr2[j] - arr1[i] > d:
+                    res += 1
+                    i += 1
+                else:
+                    i += 1
+        return res + (len(arr1) - i)
+```
+
+```
+# Some remarks on how to interpret this algorithm.
+#
+# Each branch of the nested if-else statement will lead you to a single conclusion about your
+# current configuration of pointers regarding two questions:
+# 1. does the i-th element of arr1 sastisfies distance condition or not -- if not we drop i-th
+# element, i.e. ignore augmenting distance counter and advance the pointer
+# 2. is the j-th element of arr2 neccessary for comparisons with current or next elements of
+# arr1 -- if not we advance the j pointer
+#
+# The concluding correction accounts for the tail of arr1 in the case when its values are greater
+# than all of the arr2. I need it because my algorithm for the sake of simplicity and its
+# correctness assumes that there will be always a concluding element of arr2 that is greater
+# that any elmeent of arr1. You can see on the test sets it is not always the case, therefore is
+# the correction.
+```
+
+
+
 ### 1413. Minimum Value to Get Positive Step by Step Sum
 
 ```python
