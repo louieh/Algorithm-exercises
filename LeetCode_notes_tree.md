@@ -179,6 +179,35 @@ class Solution:
 
 
 
+### 99. Recover Binary Search Tree
+
+```python
+class Solution:
+    def recoverTree(self, root: Optional[TreeNode]) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        nums = []
+        
+        def helper1(root):
+            if not root: return
+            helper1(root.left)
+            nums.append(root.val)
+            helper1(root.right)
+        
+        def helper2(root):
+            if not root: return
+            helper2(root.left)
+            root.val = nums.pop()
+            helper2(root.right)
+        
+        helper1(root)
+        nums.sort(reverse=True)
+        helper2(root)
+```
+
+
+
 ### 104. Maximum Depth of Binary Tree
 
 ```python
