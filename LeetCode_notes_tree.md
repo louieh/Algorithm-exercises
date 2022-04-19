@@ -206,6 +206,30 @@ class Solution:
         helper2(root)
 ```
 
+```python
+class Solution:
+    def recoverTree(self, root: Optional[TreeNode]) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        self.fir = self.sec = None
+        self.prev = TreeNode(-2147483649)
+        
+        def helper(root):
+            if not root: return
+            helper(root.left)
+            if self.fir is None and self.prev.val > root.val:
+                self.fir = self.prev
+            if self.fir is not None and self.prev.val > root.val:
+                self.sec = root
+            self.prev = root
+            helper(root.right)
+        
+        helper(root)
+        
+        self.fir.val, self.sec.val = self.sec.val, self.fir.val
+```
+
 
 
 ### 104. Maximum Depth of Binary Tree
