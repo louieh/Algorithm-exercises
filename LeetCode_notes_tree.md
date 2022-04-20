@@ -2,6 +2,39 @@
 
 [toc]
 
+### 94. Binary Tree Inorder Traversal
+
+```python
+class Solution:
+    def __init__(self):
+        self.ans=[]
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root:
+            return
+
+        self.inorderTraversal(root.left)
+        self.ans.append(root.val)
+        self.inorderTraversal(root.right)
+        return self.ans
+```
+
+```python
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        stack = []
+        res = []
+        while root or stack:
+            while root:
+                stack.append(root)
+                root = root.left
+            node = stack.pop()
+            res.append(node.val)
+            root = node.right
+        return res
+```
+
+
+
 ### 95. Unique Binary Search Trees II
 
 ```python
