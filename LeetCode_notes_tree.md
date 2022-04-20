@@ -877,6 +877,45 @@ class Solution:
 
 
 
+### 173. Binary Search Tree Iterator
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class BSTIterator:
+
+    def __init__(self, root: Optional[TreeNode]):
+        self.temp = []
+        self.helper(root)
+        self.index = 0
+        
+    def helper(self, root):
+        if not root: return
+        self.helper(root.left)
+        self.temp.append(root.val)
+        self.helper(root.right)
+
+    def next(self) -> int:
+        res = self.temp[self.index]
+        self.index += 1
+        return res
+
+    def hasNext(self) -> bool:
+        return self.index <= len(self.temp) - 1
+
+
+# Your BSTIterator object will be instantiated and called as such:
+# obj = BSTIterator(root)
+# param_1 = obj.next()
+# param_2 = obj.hasNext()
+```
+
+
+
 ### 222. Count Complete Tree Nodes
 
 ```python
