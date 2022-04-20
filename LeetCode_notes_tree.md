@@ -914,6 +914,28 @@ class BSTIterator:
 # param_2 = obj.hasNext()
 ```
 
+```python
+# 非递归
+class BSTIterator:
+
+    def __init__(self, root: Optional[TreeNode]):
+        self.stack = []
+        self.helper(root)
+    
+    def helper(self, root):
+        while root:
+            self.stack.append(root)
+            root = root.left
+
+    def next(self) -> int:
+        res = self.stack.pop()
+        self.helper(res.right)
+        return res.val
+
+    def hasNext(self) -> bool:
+        return bool(self.stack)
+```
+
 
 
 ### 222. Count Complete Tree Nodes
