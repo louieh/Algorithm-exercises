@@ -3067,6 +3067,73 @@ class Bucket(object):
 # obj.remove(key)
 ```
 
+```python
+class MyHashMap:
+
+    def __init__(self):
+        self.length = 769
+        self.hashmap = [Bucket() for _ in range(self.length)]
+    
+    def _hash(self, key):
+        return key % self.length
+
+    def put(self, key: int, value: int) -> None:
+        index = self._hash(key)
+        self.hashmap[index].insert(key, value)
+
+    def get(self, key: int) -> int:
+        index = self._hash(key)
+        return self.hashmap[index].get(key)
+        
+    def remove(self, key: int) -> None:
+        index = self._hash(key)
+        return self.hashmap[index].remove(key)
+
+class Node(object):
+    def __init__(self, key, val, next=None):
+        self.key = key
+        self.val = val
+        self.next = next
+
+class Bucket(object):
+    def __init__(self):
+        self.head = Node(-1, -1)
+    
+    def get(self, key):
+        head = self.head
+        while head:
+            if head.key == key:
+                return head.val
+            head = head.next
+        return -1
+    
+    def insert(self, key, val):
+        head = self.head
+        while head:
+            if head.key == key:
+                head.val = val
+                return
+            head = head.next
+        node = Node(key, val)
+        node.next = self.head.next
+        self.head.next = node
+    
+    def remove(self, key):
+        head = self.head
+        while head.next:
+            if head.next.key == key:
+                head.next = head.next.next
+                return
+            head = head.next
+
+
+# Your MyHashMap object will be instantiated and called as such:
+# obj = MyHashMap()
+# obj.put(key,value)
+# param_2 = obj.get(key)
+# obj.remove(key)
+```
+
 
 
 ### 752. Open the Lock
