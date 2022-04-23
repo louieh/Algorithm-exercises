@@ -52,6 +52,80 @@ Given an array of integers, and x. Provide an algorithm to find how many pairs o
 
 
 
+### 535. Encode and Decode TinyURL
+
+```python
+class Codec:
+    def __init__(self):
+        import string
+        import random
+        self.str_list = list(string.ascii_letters + string.digits)
+        self.l = 6
+        self.ans_dict = dict()
+    
+    def get_random_str(self, l):
+        temp = ''
+        for i in range(l):
+            temp += random.choice(self.str_list)
+        return temp
+
+    def encode(self, longUrl):
+        """Encodes a URL to a shortened URL.
+        
+        :type longUrl: str
+        :rtype: str
+        """
+        while 1:
+            temp = self.get_random_str(self.l)
+            if temp not in self.ans_dict.keys():
+                self.ans_dict[temp] = longUrl
+                return temp
+        
+
+    def decode(self, shortUrl):
+        """Decodes a shortened URL to its original URL.
+        
+        :type shortUrl: str
+        :rtype: str
+        """
+        return self.ans_dict[shortUrl]
+        
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.decode(codec.encode(url))
+```
+
+```python
+class Codec:
+    def __init__(self):
+        import hashlib
+        self._m = hashlib.md5()
+        self._dict1 = {}
+        self._dict2 = {}
+
+    def encode(self, longUrl: str) -> str:
+        """Encodes a URL to a shortened URL.
+        """
+        self._m.update(longUrl.encode("utf8"))
+        md5 = self._m.hexdigest()
+        self._dict1[longUrl] = md5
+        self._dict2[md5] = longUrl
+        return md5
+
+    def decode(self, shortUrl: str) -> str:
+        """Decodes a shortened URL to its original URL.
+        """
+        return self._dict2.get(shortUrl)
+        
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.decode(codec.encode(url))
+```
+
+
+
 ### 705. Design HashSet
 
 ```python
