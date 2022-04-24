@@ -1092,6 +1092,54 @@ class Solution:
 
 
 
+### 344. Reverse String
+
+```java
+class Solution {
+    public void reverseString(char[] s) {
+        if (s.length == 0) return;
+        int low = 0;
+        int high = s.length-1;
+        while (low < high){
+            char temp = s[low];
+            s[low] = s[high];
+            s[high] = temp;
+            low++;
+            high--;
+        }
+    }
+}
+```
+
+```python
+class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        def reverseString_helper(i1, i2):
+            if i1 < i2:
+                s[i1], s[i2] = s[i2], s[i1]
+                reverseString_helper(i1+1, i2-1)
+        
+        reverseString_helper(0, len(s)-1)
+```
+
+```python
+class Solution:
+    def reverseString(self, s: List[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        left, right = 0, len(s) - 1
+        while left < right:
+            s[left], s[right] = s[right], s[left]
+            left += 1
+            right -= 1
+```
+
+
+
 ### 349. Intersection of Two Arrays
 
 ```python

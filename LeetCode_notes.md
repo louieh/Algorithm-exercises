@@ -1158,60 +1158,6 @@ class Solution:
 
 
 
-### 146. LRU Cache
-
-```python
-from collections import OrderedDict
-class LRUCache:
-
-    def __init__(self, capacity: int):
-        self.capacity = capacity
-        self.LRU = OrderedDict()
-        
-    def get(self, key: int) -> int:
-        if key not in self.LRU:
-            return -1
-        self.LRU.move_to_end(key,last = True)
-        return self.LRU[key]
-            
-    def put(self, key: int, value: int) -> None:
-        if key in self.LRU:
-            self.LRU.move_to_end(key,last = True)
-        self.LRU[key] = value
-        if len(self.LRU) > self.capacity:
-            self.LRU.popitem(last = False)  #Pop first item
-```
-
-```python
-class LRUCache:
-
-    def __init__(self, capacity: int):
-        self.capacity = capacity
-        self.temp_list = []
-        self.temp_dict = {}
-
-    def get(self, key: int) -> int:
-        if key not in self.temp_dict:
-            return -1
-        self.temp_list.remove(key)
-        self.temp_list.append(key)
-        return self.temp_dict[key]
-
-    def put(self, key: int, value: int) -> None:
-        if key in self.temp_dict:
-            self.temp_dict[key] = value
-            self.temp_list.remove(key)
-            self.temp_list.append(key)
-        else:
-            self.temp_list.append(key)
-            self.temp_dict[key] = value
-            if len(self.temp_list) > self.capacity:
-                old_key = self.temp_list.pop(0)
-                self.temp_dict.pop(old_key)
-```
-
-
-
 ### 151. Reverse Words in a String
 
 ```python
@@ -2065,41 +2011,6 @@ bool isPowerOfFour(int n){
     if( n<=0 ) return false;
     return ((n&(n-1))==0 && (n&0x55555555) );
 }
-```
-
-
-
-### 344. Reverse String
-
-```java
-class Solution {
-    public void reverseString(char[] s) {
-        if (s.length == 0) return;
-        int low = 0;
-        int high = s.length-1;
-        while (low < high){
-            char temp = s[low];
-            s[low] = s[high];
-            s[high] = temp;
-            low++;
-            high--;
-        }
-    }
-}
-```
-
-```python
-class Solution:
-    def reverseString(self, s: List[str]) -> None:
-        """
-        Do not return anything, modify s in-place instead.
-        """
-        def reverseString_helper(i1, i2):
-            if i1 < i2:
-                s[i1], s[i2] = s[i2], s[i1]
-                reverseString_helper(i1+1, i2-1)
-        
-        reverseString_helper(0, len(s)-1)
 ```
 
 

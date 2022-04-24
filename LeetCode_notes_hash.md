@@ -52,6 +52,60 @@ Given an array of integers, and x. Provide an algorithm to find how many pairs o
 
 
 
+### 146. LRU Cache
+
+```python
+from collections import OrderedDict
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.LRU = OrderedDict()
+        
+    def get(self, key: int) -> int:
+        if key not in self.LRU:
+            return -1
+        self.LRU.move_to_end(key,last = True)
+        return self.LRU[key]
+            
+    def put(self, key: int, value: int) -> None:
+        if key in self.LRU:
+            self.LRU.move_to_end(key,last = True)
+        self.LRU[key] = value
+        if len(self.LRU) > self.capacity:
+            self.LRU.popitem(last = False)  #Pop first item
+```
+
+```python
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.temp_list = []
+        self.temp_dict = {}
+
+    def get(self, key: int) -> int:
+        if key not in self.temp_dict:
+            return -1
+        self.temp_list.remove(key)
+        self.temp_list.append(key)
+        return self.temp_dict[key]
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.temp_dict:
+            self.temp_dict[key] = value
+            self.temp_list.remove(key)
+            self.temp_list.append(key)
+        else:
+            self.temp_list.append(key)
+            self.temp_dict[key] = value
+            if len(self.temp_list) > self.capacity:
+                old_key = self.temp_list.pop(0)
+                self.temp_dict.pop(old_key)
+```
+
+
+
 ### 535. Encode and Decode TinyURL
 
 ```python
@@ -332,5 +386,36 @@ class Bucket(object):
 # obj.put(key,value)
 # param_2 = obj.get(key)
 # obj.remove(key)
+```
+
+
+
+### 1396. Design Underground System
+
+```python
+class UndergroundSystem:
+
+    def __init__(self):
+        self.checkin_dict = dict()
+        self.alltravel_dict = defaultdict(lambda: defaultdict(int))
+
+    def checkIn(self, id: int, stationName: str, t: int) -> None:
+        self.checkin_dict[id] = (stationName, t)
+
+    def checkOut(self, id: int, stationName: str, t: int) -> None:
+        start_station, checkin_time = self.checkin_dict.pop(id)
+        self.alltravel_dict[(start_station, stationName)]["times"] += 1
+        self.alltravel_dict[(start_station, stationName)]["summation"] += (t - checkin_time)
+
+    def getAverageTime(self, startStation: str, endStation: str) -> float:
+        _dict = self.alltravel_dict[(startStation, endStation)]
+        return _dict["summation"] / _dict["times"]
+
+
+# Your UndergroundSystem object will be instantiated and called as such:
+# obj = UndergroundSystem()
+# obj.checkIn(id,stationName,t)
+# obj.checkOut(id,stationName,t)
+# param_3 = obj.getAverageTime(startStation,endStation)
 ```
 
