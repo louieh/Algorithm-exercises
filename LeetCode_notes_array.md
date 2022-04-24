@@ -1741,6 +1741,77 @@ class Solution:
 
 
 
+### 680. Valid Palindrome II
+
+```python
+# 07/14/2019
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        # eabbade
+        # edabbae
+
+        pos = 0
+        neg = 0
+
+        for i in range(len(s)):
+            if i > len(s)//2-1:
+                return True
+            if s[i+pos] != s[len(s)-1-i-neg]:
+                if pos+neg !=0:
+                    return False
+                if s[i+1] == s[len(s)-1-i]:
+                    if i+2 < len(s):
+                        if s[i+2] == s[len(s)-1-i-1]:
+                            pos = 1
+                    else:
+                        pos = 1
+                elif s[i] == s[len(s)-1-i-1] and s[i+1] == s[len(s)-1-i-2]:
+                    neg = 1
+                else:
+                    return False
+```
+
+```python
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        
+        def helper(left, right):
+            while left < right:
+                if s[left] != s[right]: return False
+                left += 1
+                right -= 1
+            return True
+        
+        left, right = 0, len(s) - 1
+        while left < right :
+            if s[left] != s[right]:
+                return helper(left+1, right) or helper(left, right-1)
+            left += 1
+            right -= 1
+        return True
+```
+
+>[GeneBelcher](https://leetcode.com/GeneBelcher) Here is the solution I gave on my Meta phone screen and passed. Follow up question was asked to explain how I will extend this to work for n changes. My answer was to have a sub-function that compares left and right and calls recursively with a counter.
+>
+>```python
+>class Solution(object):
+>    def validPalindrome(self, s):
+>        left = 0
+>        right = len(s) - 1
+>        
+>        while left < right:
+>            if s[left] != s[right]:
+>                one = s[left:right]
+>                two = s[left+1:right+1]
+>                return one == one[::-1] or two == two[::-1]
+>            left += 1
+>            right -= 1
+>            
+>        return True
+>```
+
+
+
 ### 697. Degree of an Array
 
 ```python
