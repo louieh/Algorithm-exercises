@@ -281,6 +281,74 @@ class Solution:
 
 
 
+### 1202. Smallest String With Swaps
+
+```python
+class Solution:
+    def smallestStringWithSwaps(self, s: str, pairs: List[List[int]]) -> str:
+        graph = defaultdict(list)
+        for a, d in pairs:
+            graph[a].append(d)
+            graph[d].append(a)
+        s = list(s)
+        visited = [False for _ in range(len(s))]
+        
+        def dfs(s, i, chars, index):
+            if visited[i]:
+                return
+            chars.append(s[i])
+            index.append(i)
+            visited[i] = True
+            for each in graph[i]:
+                dfs(s, each, chars, index)
+        
+        for i in range(len(s)):
+            if not visited[i]:
+                chars = []
+                index = []
+                dfs(s, i, chars, index)
+                chars.sort()
+                index.sort()
+                for c, i in zip(chars, index):
+                    s[i] = c
+        
+        return "".join(s)
+```
+
+```python
+class Solution:
+    def smallestStringWithSwaps(self, s: str, pairs: List[List[int]]) -> str:
+        graph = defaultdict(list)
+        for a, d in pairs:
+            graph[a].append(d)
+            graph[d].append(a)
+        s = list(s)
+        visited = [False for _ in range(len(s))]
+        
+        def dfs(s, i, chars, index):
+            if visited[i]:
+                return
+            chars.append(s[i])
+            index.append(i)
+            visited[i] = True
+            for each in graph[i]:
+                dfs(s, each, chars, index)
+        res = []
+        for i in range(len(s)):
+            if not visited[i]:
+                chars = []
+                index = []
+                dfs(s, i, chars, index)
+                chars.sort()
+                index.sort()
+                res.extend(list(zip(chars, index)))
+        for c, i in res:
+            s[i] = c
+        return "".join(s)
+```
+
+
+
 ### 1557. Minimum Number of Vertices to Reach All Nodes
 
 ```python
