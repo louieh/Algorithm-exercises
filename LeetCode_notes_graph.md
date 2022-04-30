@@ -105,6 +105,66 @@ class Solution:
 
 
 
+### 399. Evaluate Division
+
+```python
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+#         a / b = x
+#         b / c = y
+#         c / d = z
+        
+#         a   b   a
+#         - * - = - = x * y 
+#         b   c   c
+        
+#         a   b   c   a
+#         - * - * - = - = x * y * z
+#         b   c   d   d
+        graph = defaultdict(dict)
+        res = []
+        nodes = set()
+        for i, equa in enumerate(equations):
+            a, b = equa
+            nodes.add(a)
+            nodes.add(b)
+            graph[a].update({b: values[i]})
+            graph[b].update({a: 1/values[i]})
+        
+        def dfs(node, dest, visited, res):
+            if node not in visited:
+                visited.add(node)
+                for nei, val in graph[node].items():
+                    if nei not in visited:
+                        if nei == dest:
+                            return res * val
+                        else:
+                            temp = dfs(nei, dest, visited, res*val)
+                            if temp:
+                                return temp
+
+        for a, b in queries:
+            if a not in nodes or b not in nodes:
+                res.append(-1)
+                continue
+            if a == b:
+                res.append(1)
+                continue
+            val = graph[a].get(b)
+            if val is not None:
+                res.append(val)
+                continue
+            visited = set()
+            print("a: ", a)
+            print("b: ", b)
+            temp = dfs(a, b, visited, 1)
+            if temp is None: temp = -1
+            res.append(temp)
+        return res
+```
+
+
+
 ### 547. Number of Provinces
 
 ```python
@@ -202,6 +262,50 @@ class Solution:
 https://leetcode.com/articles/accounts-merge/
 
 把每个account的第一个邮件和剩下邮件相连，形成一个完全图，再从每个邮件开始dfs查找连通分量，每个连通分量即答案。
+
+
+
+### 785. Is Graph Bipartite?
+
+```python
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        colored = {}
+        
+        def dfs(node):
+            for each in graph[node]:
+                if each not in colored:
+                    colored[each] = -colored[node]
+                    if not dfs(each):
+                        return False
+                else:
+                    if colored[each] == colored[node]:
+                        return False
+            return True
+        
+        for i in range(len(graph)):
+            if i not in colored:
+                colored[i] = 1
+                if not dfs(i):
+                    return False
+        return True
+```
+
+To be able to split the node set `{0, 1, 2, ..., (n-1)}` into sets A and B, we will try to color nodes in set A with color A (i.e., value 1) and nodes in set B with color B (i.e., value -1), respectively.
+
+If so, ***the graph is bipartite if and only if the two ends of each edge must have opposite colors***. Therefore, we could just start with standard BFS to traverse the entire graph and
+
+- color neighbors with opposite color if not colored, yet;
+- ignore neighbors already colored with oppsite color;
+- annouce the graph can't be bipartite if any neighbor is already colored with the same color.
+
+**NOTE:** The given graph might not be connected, so we will need to loop over all nodes before BFS.
+
+题目要求图中点是否可分为两组，使得每条边连接的两个点分在不同组。
+
+算法：我们对点进行着色，所以只需要判断所有边的两个点是否可以为不同颜色
+
+对未着色的点上色为1，dfs或bfs遍历相邻节点，未着色的话上相反颜色，已经有颜色的话判断颜色是否一致，一致则return False，不一致跳过。
 
 
 
