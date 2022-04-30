@@ -485,6 +485,35 @@ class Solution:
 
 
 
+### 1631. Path With Minimum Effort
+
+```python
+class Solution:
+    def minimumEffortPath(self, heights: List[List[int]]) -> int:
+        rows, cols = len(heights), len(heights[0])
+        dist = [[math.inf] * cols for i in range(rows)]
+        dist[0][0] = 0
+        minHeap = [(0, 0, 0)]
+        
+        while minHeap:
+            history_dist, row, col = heappop(minHeap)
+            if history_dist > dist[row][col]: continue
+            if row == rows - 1 and col == cols - 1:
+                return history_dist
+            for a, b in [[row+1, col], [row, col+1], [row-1, col], [row, col-1]]:
+                if 0 <= a < rows and 0 <= b < cols:
+                    newDist = max(history_dist, abs(heights[a][b] - heights[row][col]))
+                    if dist[a][b] > newDist:
+                        dist[a][b] = newDist
+                        heappush(minHeap, (dist[a][b], a, b))
+```
+
+##### Dijikstra 算法
+
+https://leetcode.com/problems/path-with-minimum-effort/discuss/909017/JavaPython-Dijikstra-Binary-search-Clean-and-Concise
+
+
+
 ### Naveego OA - [Directions Reduction](https://www.codewars.com/kata/550f22f4d758534c1100025a)
 
 ```python
