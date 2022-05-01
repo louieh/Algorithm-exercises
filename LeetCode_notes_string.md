@@ -421,6 +421,28 @@ class Solution:
 
 
 
+### 844. Backspace String Compare
+
+```python
+class Solution:
+    def backspaceCompare(self, s: str, t: str) -> bool:
+        
+        def helper(text):
+            res = []
+            for c in text:
+                if c != "#":
+                    res.append(c)
+                elif res:
+                    res.pop()
+            return "".join(res)
+        
+        return helper(s) == helper(t)
+```
+
+可以使用two pointer从末尾遍历两个字符串，遇到`#`则向前移动两格。
+
+
+
 ### 859. Buddy Strings
 
 ```python
