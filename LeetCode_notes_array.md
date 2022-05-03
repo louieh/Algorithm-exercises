@@ -1658,6 +1658,64 @@ class Solution:
 
 
 
+### 581. Shortest Unsorted Continuous Subarray
+
+```python
+# TLE
+class Solution:
+    def findUnsortedSubarray(self, nums: List[int]) -> int:
+        left, right = len(nums) - 1, 0
+        
+        for i in range(len(nums)):
+            for j in range(i+1, len(nums)):
+                if nums[i] > nums[j]:
+                    left = min(left, i)
+                    right = max(right, j)
+        return 0 if left >= right else right - left + 1
+```
+
+```python
+class Solution:
+    def findUnsortedSubarray(self, nums: List[int]) -> int:
+        
+        nums_sorted = sorted(nums)
+        left = right = 0
+        for i in range(len(nums)):
+            if nums[i] != nums_sorted[i]:
+                left = i
+                break
+        for i in range(len(nums)-1, -1, -1):
+            if nums[i] != nums_sorted[i]:
+                right = i
+                break
+        return right - left + 1 if right > left else 0
+```
+
+```python
+class Solution:
+    def findUnsortedSubarray(self, nums: List[int]) -> int:
+        stack = []
+        left, right = len(nums) - 1, 0
+        
+        for i in range(len(nums)):
+            while stack and nums[stack[-1]] > nums[i]:
+                left = min(left, stack.pop())
+            stack.append(i)
+        
+        stack = []
+        
+        for i in range(len(nums)-1, -1, -1):
+            while stack and nums[stack[-1]] < nums[i]:
+                right = max(right, stack.pop())
+            stack.append(i)
+        
+        return right - left + 1 if right > left else 0
+```
+
+https://leetcode.com/problems/shortest-unsorted-continuous-subarray/solution/
+
+
+
 ### 605. Can Place Flowers
 
 ```python
