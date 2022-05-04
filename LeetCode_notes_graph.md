@@ -485,6 +485,42 @@ class Solution:
 
 
 
+### 1584. Min Cost to Connect All Points
+
+```python
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        heap = [(0, 0)]
+        used = [False] * len(points)
+        cost = 0
+        edges_used = 0
+        
+        while edges_used < len(points):
+            weight, curr_node = heapq.heappop(heap)
+            
+            if used[curr_node]: continue
+            
+            used[curr_node] = True
+            
+            cost += weight
+            edges_used += 1
+            
+            for nxt_node in range(len(points)):
+                if used[nxt_node] is True: continue
+                nxt_weight = abs(points[curr_node][0] - points[nxt_node][0]) + abs(points[curr_node][1] - points[nxt_node][1])
+                
+                heapq.heappush(heap, (nxt_weight, nxt_node))
+        return cost
+```
+
+Prim 算法，找最小生成树
+
+https://zhuanlan.zhihu.com/p/136387766
+
+https://leetcode.com/problems/min-cost-to-connect-all-points/solution/
+
+
+
 ### 1631. Path With Minimum Effort
 
 ```python
