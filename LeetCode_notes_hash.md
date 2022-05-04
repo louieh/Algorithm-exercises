@@ -30,6 +30,26 @@ class Solution:
 
 
 
+### 1679. Max Number of K-Sum Pairs
+
+```python
+class Solution:
+    def maxOperations(self, nums: List[int], k: int) -> int:
+        record = defaultdict(int)
+        res = 0
+        for num in nums:
+            if record[k-num] > 0:
+                res += 1
+                record[k-num] -= 1
+            else:
+                record[num] += 1
+        return res
+```
+
+和 two sum 一样？？？
+
+
+
 ### cs6301 final Question 7
 
 Given an array of integers, and x. Provide an algorithm to find how many pairs of elements of the array sum to x. For example, if A = {3, 3, 4, 5, 3, 5, 4} them `howMany(A, 8)` return 7. RT should be `O(nlogn)` or better.

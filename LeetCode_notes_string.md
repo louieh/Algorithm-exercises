@@ -2,6 +2,8 @@
 
 [toc]
 
+https://leetcode.com/discuss/interview-question/2001789/collections-of-important-string-questions-pattern
+
 ### 3. Longest Substring Without Repeating Characters
 
 ```python
