@@ -728,6 +728,45 @@ same as 316
 
 
 
+### 1209. Remove All Adjacent Duplicates in String II
+
+```python
+class Solution:
+    def removeDuplicates(self, s: str, k: int) -> str:
+        
+        temp = []
+        cur_c = s[0]
+        cur_count = 1
+        for c in s[1:]:
+            if c != cur_c:
+                temp.append((cur_c, cur_count))
+                cur_c = c
+                cur_count = 1
+            else:
+                cur_count += 1
+        temp.append((cur_c, cur_count))
+        
+        stack = []
+        for cur_c, cur_count in temp:
+            cur_count %= k
+            if not cur_count: continue
+            if not stack or stack[-1][0] != cur_c:
+                stack.append((cur_c, cur_count))
+            else:
+                _, prev_count = stack.pop()
+                cur_count = (cur_count + prev_count) % k
+                if not cur_count: continue
+                else:
+                    stack.append((cur_c, cur_count))
+                
+        res = ""
+        for cur_c, cur_count in stack:
+            res += cur_c * cur_count
+        return res
+```
+
+
+
 ### 1249. Minimum Remove to Make Valid Parentheses
 
 ```python
