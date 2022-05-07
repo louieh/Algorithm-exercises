@@ -1417,7 +1417,7 @@ class Solution:
 
 https://leetcode.com/problems/132-pattern/discuss/94071/Single-pass-C%2B%2B-O(n)-space-and-time-solution-(8-lines)-with-detailed-explanation.
 
-我们要找s1<s3<s2，从后向前遍历插入栈，如果遇到元素(s2)大于栈顶元素则pop出栈顶元素作为s3，此时s2的index是小于s3的但其值是大于s3的(s3<s2)，那么下面如果遇到有元素小于s3我们便找到了s1，满足条件s1<s3<s2
+我们要找s1<s3<s2，从后向前遍历插入栈，如果遇到元素(s2)大于栈顶元素则pop出栈顶元素作为s3，此时s2的index是小于s3的但其值是大于s3的(s3<s2)，那么下面如果遇到有元素小于s3我们便找到了s1，满足条件s1<s3<s2. 持续向前遍历会保证s3是最大的
 
 
 
