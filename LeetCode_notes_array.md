@@ -1092,6 +1092,60 @@ class Solution:
 
 
 
+### 341. Flatten Nested List Iterator
+
+```python
+# """
+# This is the interface that allows for creating nested lists.
+# You should not implement it, or speculate about its implementation
+# """
+#class NestedInteger:
+#    def isInteger(self) -> bool:
+#        """
+#        @return True if this NestedInteger holds a single integer, rather than a nested list.
+#        """
+#
+#    def getInteger(self) -> int:
+#        """
+#        @return the single integer that this NestedInteger holds, if it holds a single integer
+#        Return None if this NestedInteger holds a nested list
+#        """
+#
+#    def getList(self) -> [NestedInteger]:
+#        """
+#        @return the nested list that this NestedInteger holds, if it holds a nested list
+#        Return None if this NestedInteger holds a single integer
+#        """
+
+class NestedIterator:
+    def __init__(self, nestedList: [NestedInteger]):
+        self._list = []
+        self.flatten(nestedList)
+        self._index = 0
+    
+    def flatten(self, nestedList):
+        for each in nestedList:
+            if each.isInteger():
+                self._list.append(each.getInteger())
+            else:
+                self.flatten(each.getList())
+    
+    def next(self) -> int:
+        res = self._list[self._index]
+        self._index += 1
+        return res
+    
+    def hasNext(self) -> bool:
+        return self._index <= len(self._list) - 1
+         
+
+# Your NestedIterator object will be instantiated and called as such:
+# i, v = NestedIterator(nestedList), []
+# while i.hasNext(): v.append(i.next())
+```
+
+
+
 ### 344. Reverse String
 
 ```java
