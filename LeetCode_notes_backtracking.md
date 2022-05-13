@@ -183,6 +183,28 @@ class Solution:
         return ans
 ```
 
+```python
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        
+        res = []
+        
+        def backtrack(tempList, counter):
+            if len(tempList) == len(nums):
+                res.append(tempList)
+                return
+            
+            for num in counter:
+                if counter[num] > 0:
+                    counter[num] -= 1
+                    tempList.append(num)
+                    backtrack(tempList.copy(), counter)
+                    tempList.pop()
+                    counter[num] += 1
+        backtrack([], Counter(nums))
+        return res
+```
+
 
 
 ### 77. Combinations
@@ -530,5 +552,37 @@ class CombinationIterator:
     
     def hasNext(self) -> bool:
         return self.index + 1 < len(self.bitmask)
+```
+
+
+
+### 1641. Count Sorted Vowel Strings
+
+```python
+# TLE
+class Solution:
+    def countVowelStrings(self, n: int) -> int:
+        
+        nums = ['a', 'e', 'i', 'o', 'u']
+        nums_dict = {
+            'a': 0,
+            "e": 1,
+            "i": 2,
+            "o": 3,
+            "u": 4
+        }
+        res = []
+        
+        def backtrack(tempList, start):
+            if len(tempList) == n:
+                res.append(tempList)
+                return
+            for i in range(start, len(nums)):
+                tempList.append(nums[i])
+                backtrack(tempList.copy(), nums_dict[nums[i]])
+                tempList.pop()
+        
+        backtrack([], 0)
+        return len(res)
 ```
 
