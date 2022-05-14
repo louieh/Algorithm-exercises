@@ -265,6 +265,74 @@ https://leetcode.com/articles/accounts-merge/
 
 
 
+### 743. Network Delay Time
+
+```python
+# DFS
+# TLE
+class Solution:
+    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+        
+        graph = defaultdict(list)
+        for source, target, time in times:
+            graph[source].append((target, time))
+        
+        for each in graph:
+            graph[each].sort()
+        
+        recev_time = [sys.maxsize] * (n + 1)
+        
+        def dfs(node, curr_time):
+            nonlocal recev_time
+            if curr_time >= recev_time[node]: return
+            recev_time[node] = curr_time
+            for nei in graph[node]:
+                target, time = nei
+                dfs(target, curr_time + time)
+        
+        dfs(k, 0)
+        max_time = max(recev_time[1:])
+        return max_time if max_time < sys.maxsize else -1
+```
+
+```python
+# BFS
+# Accept
+class Solution:
+    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+        
+        import queue
+        
+        graph = defaultdict(list)
+        for source, target, time in times:
+            graph[source].append((target, time))
+        
+        for each in graph:
+            graph[each].sort()
+        
+        recev_time = [sys.maxsize] * (n + 1)
+        
+        def bfs(node):
+            q = queue.Queue()
+            q.put(node)
+            recev_time[node] = 0
+            
+            while not q.empty():
+                node = q.get()
+                for nei in graph[node]:
+                    target, time = nei
+                    new_recev_time = recev_time[node] + time
+                    if new_recev_time < recev_time[target]:
+                        recev_time[target] = new_recev_time
+                        q.put(target)
+        
+        bfs(k)
+        max_time = max(recev_time[1:])
+        return max_time if max_time < sys.maxsize else -1
+```
+
+
+
 ### 785. Is Graph Bipartite?
 
 ```python

@@ -821,6 +821,42 @@ class Solution:
 
 
 
+### 117. Populating Next Right Pointers in Each Node II
+
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, left, right, next):
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = next
+"""
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return 
+        
+        Q = [root]
+        
+        while Q:
+            temp = []
+            for i in range(len(Q)): 
+                if Q[i].left:
+                    temp.append(Q[i].left)
+                if Q[i].right:
+                    temp.append(Q[i].right)
+                if i == len(Q)-1:
+                    break
+                Q[i].next = Q[i+1]
+                
+            Q = temp
+        return root
+```
+
+
+
 ### 124. Binary Tree Maximum Path Sum
 
 ```python
