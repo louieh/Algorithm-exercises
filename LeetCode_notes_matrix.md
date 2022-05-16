@@ -989,6 +989,65 @@ Similar as 1254, 只是最后在填充的时候记录数量，注意fill函数�
 
 
 
+### 1091. Shortest Path in Binary Matrix
+
+```python
+# TLE
+# dfs
+class Solution:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        res = sys.maxsize
+        rows, cols = len(grid), len(grid[0])
+        
+        def dfs(row, col, path_l):
+            if row < 0 or row >= rows or col < 0 or col >= cols or grid[row][col] in [1, -1]:
+                return
+            nonlocal res
+            if row == rows - 1 and col == cols - 1:
+                res = min(res, path_l)
+                return
+
+            prev_v = grid[row][col]
+            grid[row][col] = -1
+            dfs(row-1, col-1, path_l+1)
+            dfs(row-1, col, path_l+1)
+            dfs(row-1, col+1, path_l+1)
+            dfs(row, col+1, path_l+1)
+            dfs(row+1, col+1, path_l+1)
+            dfs(row+1, col, path_l+1)
+            dfs(row+1, col-1, path_l+1)
+            dfs(row, col-1, path_l+1)
+            grid[row][col] = prev_v
+        
+        dfs(0, 0, 1)
+        
+        return res if res != sys.maxsize else -1
+```
+
+```python
+# Accept
+# bfs
+class Solution:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
+        
+        q = [(0, 0, 1)]
+        
+        for row, col, d in q:
+            if row < 0 or row >= rows or col < 0 or col >= cols or grid[row][col]:
+                continue
+            if row == rows - 1 and col == cols - 1:
+                return d
+            grid[row][col] = 1
+            for row_offset, col_offset in [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]:
+                new_row, new_col = row + row_offset, col + col_offset
+                q.append([new_row, new_col, d+1])
+        
+        return -1
+```
+
+
+
 ### 1254. Number of Closed Islands
 
 ```python
