@@ -3805,6 +3805,21 @@ class Solution:
         return self.res
 ```
 
+```python
+class Solution:
+    def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
+        
+        def pre_order(o, c):
+            if not o: return
+            if o is target:
+                self.ans = c
+            pre_order(o.left, c.left)
+            pre_order(o.right, c.right)
+        
+        pre_order(original, cloned)
+        return self.ans
+```
+
 
 
 ### 1443. Minimum Time to Collect All Apples in a Tree
