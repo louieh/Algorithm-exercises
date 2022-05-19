@@ -212,6 +212,38 @@ https://mp.weixin.qq.com/s/thn3WGARmfiVc3G70PlTdQ
 
 
 
+### 329. Longest Increasing Path in a Matrix
+
+```python
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        rows, cols = len(matrix), len(matrix[0])
+        dp = []
+        for _ in range(rows):
+            dp.append(([0] * cols).copy())
+        
+        def dfs(row, col):
+            if not dp[row][col]:
+                val = matrix[row][col]
+                dp_val = 1 + max(
+                    dfs(row-1, col) if row >= 1 and val > matrix[row-1][col] else 0,
+                    dfs(row+1, col) if row < rows - 1 and val > matrix[row+1][col] else 0,
+                    dfs(row, col-1) if col >= 1 and val > matrix[row][col-1] else 0,
+                    dfs(row, col+1) if col < cols - 1 and val > matrix[row][col+1] else 0
+                )
+                dp[row][col] = dp_val
+            return dp[row][col]
+        
+        res = -sys.maxsize
+        for row in range(rows):
+            for col in range(cols):
+                res = max(res, dfs(row, col))
+        
+        return res
+```
+
+
+
 ### 337. House Robber III
 
 ```python
