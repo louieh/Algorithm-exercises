@@ -35,6 +35,34 @@ class Solution:
 
 
 
+### 63. Unique Paths II
+
+```python
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        rows, cols = len(obstacleGrid), len(obstacleGrid[0])
+        if obstacleGrid[0][0] or obstacleGrid[rows-1][cols-1]: return 0
+        
+        dp = []
+        for _ in range(rows):
+            dp.append([None] * cols)
+        dp[0][0] = 1
+        
+        for i in range(1, cols):
+            dp[0][i] = dp[0][i-1] if obstacleGrid[0][i] == 0 else 0
+        
+        for i in range(1, rows):
+            dp[i][0] = dp[i-1][0] if obstacleGrid[i][0] == 0 else 0
+        
+        for row in range(1, rows):
+            for col in range(1, cols):
+                dp[row][col] = dp[row-1][col] + dp[row][col-1] if obstacleGrid[row][col] == 0 else 0
+        
+        return dp[rows-1][cols-1]
+```
+
+
+
 ### 64. Minimum Path Sum
 
 ```python
