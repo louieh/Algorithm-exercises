@@ -33,6 +33,23 @@ class Solution:
         return grid[m-1][n-1]
 ```
 
+```python
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        
+        rows, cols = m, n
+        dp = [[None] * cols for _ in range(rows)]
+        
+        for row in range(rows):
+            for col in range(cols):
+                if not row or not col:
+                    dp[row][col] = 1
+                else:
+                    dp[row][col] = dp[row-1][col] + dp[row][col-1]
+        
+        return dp[rows-1][cols-1]
+```
+
 
 
 ### 63. Unique Paths II
