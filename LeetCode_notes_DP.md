@@ -253,7 +253,27 @@ https://mp.weixin.qq.com/s/thn3WGARmfiVc3G70PlTdQ
 
 我们定义一个长度为amount+1的一维数组，dp[i]为amount为i时的最优解，dp[0] = 0
 
-对于每个amount，遍历coints，对于小于amount的硬币，我们可求当前硬币对于当前amount的解为dp[i-coin]+1，最优解为所有小于amount的硬币的解的最小值，dp最后便为最后的解。
+对于每个amount，遍历coins，对于小于amount的硬币，我们可求当前硬币对于当前amount的解为dp[i-coin]+1，最优解为所有小于amount的硬币的解的最小值，dp最后便为最后的解。
+
+```python
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [None] * (amount + 1)
+        dp[0] = 0
+        
+        for each_amount in range(1, amount+1):
+            each_min_coins = sys.maxsize
+            for coin in coins:
+                if coin <= each_amount and dp[each_amount-coin] < each_min_coins:
+                    each_min_coins = dp[each_amount-coin] + 1
+            dp[each_amount] = each_min_coins
+        
+        return dp[-1] if dp[-1] < sys.maxsize else -1
+```
+
+我们定义一个长度为amount+1的一维数组，dp[i]为兑换数量为i时需要的最少硬币，所以当i=0时，需要0个硬币，dp[amount] = 兑换amount时需要的最少硬币，该值为最终答案。
+
+从1开始遍历每个amount，记录一个当前需要最小硬币数量的变量，再遍历每个coin，如果当前coin大于当前要兑换的amount，那没有可能兑换则跳过，如果当前coin小于当前要兑换的amount，我们要看兑换amount-coin所需最小硬币数量是否小于当前需要最小硬币数量，如果小于则更新当前需要最小硬币数量的变量为dp[each_amount-coin] + 1，兑换amount-coin所需最小硬币数量纪录在dp中，dp[each_amount-coin]，这便是自底向上的dp。
 
 
 
