@@ -599,3 +599,15 @@ class Solution:
         return firstCut * secondCut % (10 ** 9 + 7)
 ```
 
+
+
+### 2278. Percentage of Letter in String
+
+```python
+class Solution:
+    def percentageLetter(self, s: str, letter: str) -> int:
+        counter = Counter(s)
+        if letter not in counter: return 0
+        return int(counter.get(letter) / len(s) * 100)
+```
+

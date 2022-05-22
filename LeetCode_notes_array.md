@@ -2908,3 +2908,25 @@ class Solution:
         return res
 ```
 
+
+
+### 2279. Maximum Bags With Full Capacity of Rocks
+
+```python
+class Solution:
+    def maximumBags(self, capacity: List[int], rocks: List[int], additionalRocks: int) -> int:
+        remain_cap = [capacity[i] - rocks[i] for i in range(len(rocks))]
+        remain_cap.sort()
+        
+        res = 0
+        
+        for each_remain in remain_cap:
+            if additionalRocks > 0 and additionalRocks >= each_remain:
+                res += 1
+                additionalRocks -= each_remain
+            else:
+                break
+        
+        return res
+```
+
