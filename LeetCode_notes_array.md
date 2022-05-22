@@ -2930,3 +2930,62 @@ class Solution:
         return res
 ```
 
+
+
+### 2280. Minimum Lines to Represent a Line Chart
+
+```python
+class Solution:
+    def minimumLines(self, stockPrices: List[List[int]]) -> int:
+        if len(stockPrices) < 2:
+            return 0
+        
+        stockPrices.sort(key=lambda x: (x[0], x[1]))
+        
+        fir, sec = stockPrices[0], stockPrices[1]
+        cur_slope = (sec[1] - fir[1]) / (sec[0] - fir[0])
+        cur_node = fir
+        
+        res = 1
+        
+        for i in range(2, len(stockPrices)):
+            x, y = stockPrices[i]
+            slope = (y - cur_node[1]) / (x - cur_node[0])
+            if slope == cur_slope: continue
+            else:
+                res += 1
+                cur_node = stockPrices[i-1]
+                cur_slope = (y - cur_node[1]) / (x - cur_node[0])
+        
+        return res
+```
+
+```python
+class Solution:
+    
+    def minimumLines(self, stockPrices: List[List[int]]) -> int:
+        from fractions import Fraction
+        if len(stockPrices) < 2:
+            return 0
+        
+        stockPrices.sort(key=lambda x: (x[0], x[1]))
+        
+        fir, sec = stockPrices[0], stockPrices[1]
+        cur_slope = Fraction(sec[1] - fir[1], sec[0] - fir[0])
+        cur_node = fir
+        
+        res = 1
+        
+        for i in range(2, len(stockPrices)):
+            x, y = stockPrices[i]
+            slope = Fraction(y - cur_node[1], x - cur_node[0])
+            if slope == cur_slope: continue
+            else:
+                res += 1
+                cur_node = stockPrices[i-1]
+                cur_slope = Fraction(y - cur_node[1], x - cur_node[0])
+        
+        return res
+```
+
+第一个方法`[[1,1],[500000000,499999999],[1000000000,999999998]]`这个case过不去，应该是精度的问题

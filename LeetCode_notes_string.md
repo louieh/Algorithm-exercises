@@ -306,6 +306,51 @@ Similar as 1446
 
 
 
+### 647. Palindromic Substrings
+
+```python
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        
+        res = 0
+        
+        def helper(left, right):
+            nonlocal res
+            while left >= 0 and right <= len(s) - 1 and s[left] == s[right]:
+                res += 1
+                left -= 1
+                right += 1
+        
+        for i in range(len(s)):
+            helper(i, i)
+            helper(i, i+1)
+        
+        return res
+```
+
+https://leetcode.com/problems/palindromic-substrings/discuss/105688/Very-Simple-Java-Solution-with-Detail-Explanation
+
+A very easy explanation with an example
+Lets take a string "aabaa"
+
+**Step 1:** Start a for loop to point at every single character from where we will trace the palindrome string.
+checkPalindrome(s,i,i); //To check the palindrome of odd length palindromic sub-string
+checkPalindrome(s,i,i+1); //To check the palindrome of even length palindromic sub-string
+
+**Step 2:** From each character of the string, we will keep checking if the sub-string is a palindrome and increment the palindrome count. To check the palindrome, keep checking the left and right of the character if it is same or not.
+
+First loop:
+
+![Alt text](https://discuss.leetcode.com/assets/uploads/files/1500788789821-300147d3-e98e-4977-83f1-9eb8213a485e-image.png)
+
+Palindrome: a (Count=1)
+
+![Alt text](https://discuss.leetcode.com/assets/uploads/files/1500788808273-fec1dec5-ab5f-44cf-8dbd-eb2780e8d65f-image.png)
+
+Palindrome: aa (Count=2)
+
+
+
 ### 678. Valid Parenthesis String
 
 ```python
