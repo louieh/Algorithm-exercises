@@ -470,6 +470,33 @@ https://leetcode-cn.com/problems/partition-equal-subset-sum/solution/fen-ge-deng
 
 
 
+### 474. Ones and Zeroes
+
+```python
+class Solution:
+    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+        counter = []
+        for each in strs:
+            counter.append((Counter(each)["0"], Counter(each)["1"]))
+        
+        @lru_cache(None)
+        def helper(index, nums0, nums1):
+            if index >= len(strs) or nums0 == 0 and nums1 == 0:
+                return 0
+            
+            option1 = helper(index+1, nums0, nums1)
+            if nums0 >= counter[index][0] and nums1 >= counter[index][1]:
+                option2 = 1 + helper(index+1, nums0-counter[index][0], nums1-counter[index][1])
+                return max(option1, option2)
+            return option1
+        
+        return helper(0, m, n)
+```
+
+https://leetcode.com/problems/ones-and-zeroes/discuss/814077/Dedicated-to-Beginners
+
+
+
 ### 790. Domino and Tromino Tiling
 
 ```python
