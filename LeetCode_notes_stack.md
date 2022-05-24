@@ -46,6 +46,82 @@ class Solution:
 
 
 
+### 32. Longest Valid Parentheses
+
+```python
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        if len(s) <= 1: return 0
+        
+        stack = [-1]
+        res = 0
+        for index, each in enumerate(s):
+            if each == "(":
+                stack.append(index)
+            else:
+                stack.pop()
+                if not stack:
+                    stack.append(index)
+                else:
+                    res = max(res, index - stack[-1])
+        
+        return res
+                    
+```
+
+https://leetcode.com/problems/longest-valid-parentheses/solution/
+
+Instead of finding every possible string and checking its validity, we can make use of a stack while scanning the given string to:
+
+1. Check if the string scanned so far is valid.
+2. Find the length of the longest valid string.
+
+In order to do so, we start by pushing -1 onto the stack. For every ‘(’ encountered, we push its index onto the stack.
+
+For every ‘)’ encountered, we pop the topmost element. Then, the length of the currently encountered valid string of parentheses will be the difference between the current element's index and the top element of the stack.
+
+If, while popping the element, the stack becomes empty, we will push the current element's index onto the stack. In this way, we can continue to calculate the length of the valid substrings and return the length of the longest valid string at the end.
+
+```python
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        left = right = 0
+        res = 0
+        
+        # left -> right
+        for i in range(len(s)):
+            if s[i] == "(":
+                left += 1
+            else:
+                right += 1
+            if left == right:
+                res = max(res, left * 2)
+            elif right > left:
+                left = right = 0
+        
+        left = right = 0
+        # left <- right
+        for i in range(len(s)-1, -1, -1):
+            if s[i] == "(":
+                left += 1
+            else:
+                right += 1
+            if left == right:
+                res = max(res, left * 2)
+            elif left > right:
+                left = right = 0
+        
+        return res
+```
+
+In this approach, we make use of two counters left and right. First, we start traversing the string from the left towards the right and for every ‘(’ encountered, we increment the left counter and for every ‘)’ encountered, we increment the right counter. Whenever left becomes equal to right, we calculate the length of the current valid string and keep track of maximum length substring found so far. If right becomes greater than left we reset left and right to 00.
+
+Next, we start traversing the string from right to left and similar procedure is applied.
+
+不使用额外空间，先从左向右遍历，遍历过程中计算 '(' 和 ')' 个数，如果相等则得到暂时匹配的长度，如果右侧个数大于左侧，则左右括号个数均置零。再从右向左遍历，同样的逻辑，只是此时当左括号个数大于右侧时，左右个数置零。
+
+
+
 ### 71. Simplify Path
 
 ```python
