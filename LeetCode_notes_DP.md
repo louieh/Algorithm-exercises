@@ -232,6 +232,67 @@ class Solution:
 
 
 
+### 300. Longest Increasing Subsequence
+
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        
+        dp = [1] * len(nums)
+        
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[i] > nums[j] and dp[i] < dp[j] + 1:
+                    dp[i] = dp[j] + 1
+        
+        return max(dp)
+```
+
+https://leetcode.com/problems/longest-increasing-subsequence/discuss/1326308/C%2B%2BPython-DP-Binary-Search-BIT-Solutions-Picture-explain-O(NlogN)
+
+对于dp方法，首先定义一个长度为n的一维数组，并且填充1，dp[i]表示截止到 i 的最大升序子串长度。
+
+两层循环，外循环从0到n-1遍历，内循环从0到i-1，每向前移动一个i，就从0开始比较到i，看nums[i] 是否大于 nums[j]，如果大于看dp[i] 是否小于 dp[j] + 1，如果是则更新dp[i]，最后返回dp最大的
+
+```python
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        res = []
+        
+        for num in nums:
+            if not res or res[-1] < num:
+                res.append(num)
+            else:
+                index = bisect_left(res, num)
+                res[index] = num
+        return len(res)
+```
+
+**Solution 2: Greedy with Binary Search**
+
+- Let's construct the idea from following example.
+- Consider the example nums = [2, 6, 8, 3, 4, 5, 1], let's try to build the increasing subsequences starting with an empty one: sub1 = []
+  1. Let pick the first element, `sub1 = [2]`.
+  2. `6` is greater than previous number, `sub1 = [2, 6]`
+  3. `8` is greater than previous number, `sub1 = [2, 6, 8]`
+  4. `3` is less than previous number, we can't extend the subsequence `sub1`, but we must keep `3` because in the future there may have the longest subsequence start with `[2, 3]`, `sub1 = [2, 6, 8], sub2 = [2, 3]`.
+  5. With `4`, we can't extend `sub1`, but we can extend `sub2`, so `sub1 = [2, 6, 8], sub2 = [2, 3, 4]`.
+  6. With `5`, we can't extend `sub1`, but we can extend `sub2`, so `sub1 = [2, 6, 8], sub2 = [2, 3, 4, 5]`.
+  7. With `1`, we can't extend neighter `sub1` nor `sub2`, but we need to keep `1`, so `sub1 = [2, 6, 8], sub2 = [2, 3, 4, 5], sub3 = [1]`.
+  8. Finally, length of longest increase subsequence = `len(sub2)` = 4.
+- In the above steps, we need to keep different `sub` arrays (`sub1`, `sub2`..., `subk`) which causes poor performance. But we notice that we can just keep one `sub` array, when new number `x` is not greater than the last element of the subsequence `sub`, we do binary search to find the smallest element >= `x` in `sub`, and replace with number `x`.
+- Let's run that example nums = [2, 6, 8, 3, 4, 5, 1] again:
+  1. Let pick the first element, `sub = [2]`.
+  2. `6` is greater than previous number, `sub = [2, 6]`
+  3. `8` is greater than previous number, `sub = [2, 6, 8]`
+  4. `3` is less than previous number, so we can't extend the subsequence `sub`. We need to find the smallest number >= `3` in `sub`, it's `6`. Then we overwrite it, now `sub = [2, 3, 8]`.
+  5. `4` is less than previous number, so we can't extend the subsequence `sub`. We overwrite `8` by `4`, so `sub = [2, 3, 4]`.
+  6. `5` is greater than previous number, `sub = [2, 3, 4, 5]`.
+  7. `1` is less than previous number, so we can't extend the subsequence `sub`. We overwrite `2` by `1`, so `sub = [1, 3, 4, 5]`.
+  8. Finally, length of longest increase subsequence = `len(sub)` = 4.
+
+
+
 ### 322. Coin Change
 
 ```python
