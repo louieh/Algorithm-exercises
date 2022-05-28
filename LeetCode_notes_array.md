@@ -987,6 +987,34 @@ same as question 1769, similar question 42
 
 
 
+### 268. Missing Number
+
+```python
+class Solution:
+    def missingNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        nums.sort()
+        if nums[-1] != len(nums):
+            return len(nums)
+        
+        for i in range(len(nums)):
+            if i != nums[i]:
+                return i
+```
+
+```python
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        sum_should_be = (1 + len(nums)) * len(nums) // 2
+        
+        return sum_should_be - sum(nums)
+```
+
+
+
 ### 274. H-Index
 
 ```python
