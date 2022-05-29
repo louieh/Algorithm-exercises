@@ -1120,6 +1120,26 @@ class Solution:
 
 
 
+### 318. Maximum Product of Word Lengths
+
+```python
+class Solution:
+    def maxProduct(self, words: List[str]) -> int:
+        set_list = [set(word) for word in words]
+        len_list = [len(word) for word in words]
+        
+        res = 0
+        
+        for i in range(len(words)):
+            for j in range(i+1, len(words)):
+                if not set_list[i] &  set_list[j]:
+                    res = max(res, len_list[i] * len_list[j])
+        
+        return res
+```
+
+
+
 ### 341. Flatten Nested List Iterator
 
 ```python
