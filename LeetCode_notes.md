@@ -3660,6 +3660,23 @@ class Solution:
 
 
 
+### 2287. Rearrange Characters to Make Target String
+
+```python
+class Solution:
+    def rearrangeCharacters(self, s: str, target: str) -> int:
+        s_counter = Counter(s)
+        target_counter = Counter(target)
+        
+        res = sys.maxsize
+        
+        for c, num in target_counter.items():
+            if c not in s_counter or s_counter[c] < num: return 0
+            res = min(res, s_counter[c] // num)
+        
+        return res
+```
+
 
 
 ### [Amazon | OA 2019 | Favorite Genres](https://leetcode.com/discuss/interview-question/373006)

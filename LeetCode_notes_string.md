@@ -656,3 +656,31 @@ class Solution:
         return int(counter.get(letter) / len(s) * 100)
 ```
 
+
+
+### 2288. Apply Discount to Prices
+
+```python
+class Solution:
+    def discountPrices(self, sentence: str, discount: int) -> str:
+        
+        sen_list = sentence.split(" ")
+        
+        def is_price(word):
+            if not word.startswith("$"):
+                return False, 0
+            try:
+                res = float(word[1:])
+                return True, res
+            except:
+                return False, 0
+        
+        for i, word in enumerate(sen_list):
+            flag, num = is_price(word)
+            if flag:
+                new_word = "$" + format((num - num * (discount / 100)), '.2f')
+                sen_list[i] = new_word
+        
+        return " ".join(sen_list)
+```
+
