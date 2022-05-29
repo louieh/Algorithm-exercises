@@ -915,3 +915,27 @@ class CustomStack:
             self._stack[i] += val
 ```
 
+
+
+### 2289. Steps to Make Array Non-decreasing
+
+```python
+class Solution:
+    def totalSteps(self, nums: List[int]) -> int:
+        res = 0
+        dp = [0] * len(nums)
+        stack = []
+        for i in range(len(nums)-1, -1, -1):
+            while stack and nums[i] > nums[stack[-1]]:
+                stack_top = stack.pop()
+                dp[i] = max(dp[i] + 1, dp[stack_top])
+                res = max(res, dp[i])
+            stack.append(i)
+        
+        return res
+```
+
+https://leetcode.com/problems/steps-to-make-array-non-decreasing/discuss/2085864/JavaC%2B%2BPython-Stack-%2B-DP-%2B-Explanation
+
+本质上就是使用 stack 求升序序列，在求的过程中记录最大 pop 的数量
+
