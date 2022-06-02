@@ -956,6 +956,17 @@ class Solution:
 
 
 
+### 867. Transpose Matrix
+
+```python
+class Solution:
+    def transpose(self, matrix: List[List[int]]) -> List[List[int]]:
+        rows, cols = len(matrix), len(matrix[0])
+        return [[matrix[row][col] for row in range(rows)] for col in range(cols)]
+```
+
+
+
 ### 1020. Number of Enclaves
 
 ```python
