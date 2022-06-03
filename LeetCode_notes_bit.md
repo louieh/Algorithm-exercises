@@ -186,6 +186,34 @@ https://leetcode.com/problems/single-number-iii/discuss/68901/Sharing-explanatio
 
 
 
+### 304. Range Sum Query 2D - Immutable
+
+```python
+class NumMatrix:
+
+    def __init__(self, matrix: List[List[int]]):
+        rows, cols = len(matrix), len(matrix[0])
+        self.dp = [[0] * (cols+1) for _ in range(rows)]
+        for row in range(rows):
+            for col in range(cols):
+                self.dp[row][col+1] = self.dp[row][col] + matrix[row][col]
+        
+
+    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
+        res = 0
+        for row in range(row1, row2+1):
+            res += self.dp[row][col2+1] - self.dp[row][col1]
+        return res
+        
+
+
+# Your NumMatrix object will be instantiated and called as such:
+# obj = NumMatrix(matrix)
+# param_1 = obj.sumRegion(row1,col1,row2,col2)
+```
+
+
+
 ### 338. Counting Bits
 
 ```python
