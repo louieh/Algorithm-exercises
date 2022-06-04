@@ -207,6 +207,53 @@ class Solution:
 
 
 
+### 51. N-Queens
+
+```python
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        res = []
+        Q = [['.'] * n for _ in range(n)]
+        def helper(row):
+            if row == n:
+                res.append(["".join(each) for each in Q])
+                return
+            for col in range(n):
+                if valid(row, col):
+                    Q[row][col] = "Q"
+                    helper(row+1)
+                    Q[row][col] = "."
+        
+        def valid(row, col):
+            # col
+            for i in range(row):
+                if Q[i][col] == "Q":
+                    return False
+            # 90 C
+            i, j = row-1, col-1
+            while i >= 0 and j >= 0:
+                if Q[i][j] == "Q":
+                    return False
+                i -= 1
+                j -= 1
+            
+            # 135 C
+            i, j = row-1, col+1
+            while i >= 0 and j < n:
+                if Q[i][j] == "Q":
+                    return False
+                i -= 1
+                j += 1
+            return True
+        
+        helper(0)
+        return res
+```
+
+https://leetcode.com/problems/n-queens/discuss/19808/Accepted-4ms-c%2B%2B-solution-use-backtracking-and-bitmask-easy-understand.
+
+
+
 ### 77. Combinations
 
 ```python
