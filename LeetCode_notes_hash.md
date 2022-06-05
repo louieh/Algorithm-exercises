@@ -439,3 +439,19 @@ class UndergroundSystem:
 # param_3 = obj.getAverageTime(startStation,endStation)
 ```
 
+
+
+### 2295. Replace Elements in an Array
+
+```python
+class Solution:
+    def arrayChange(self, nums: List[int], operations: List[List[int]]) -> List[int]:
+        nums_dict = {num: i for i, num in enumerate(nums)}
+        for num1, num2 in operations:
+            val = nums_dict[num1]
+            nums_dict.pop(num1)
+            nums_dict[num2] = val
+        res = sorted([(k, v) for k, v in nums_dict.items()], key=lambda x:x[1])
+        return [each[0] for each in res]
+```
+

@@ -3060,3 +3060,72 @@ class Solution:
 ```
 
 第一个方法`[[1,1],[500000000,499999999],[1000000000,999999998]]`这个case过不去，应该是精度的问题
+
+
+
+### 2293. Min Max Game
+
+```python
+class Solution:
+    def minMaxGame(self, nums: List[int]) -> int:
+        if len(nums) == 1: return nums[0]
+        
+        while len(nums) > 1:
+            temp = []
+            for i, num in enumerate(nums):
+                if i % 2 == 0:
+                    if len(temp) % 2 == 0:
+                        temp.append(min(nums[i], nums[i+1]))
+                    else:
+                        temp.append(max(nums[i], nums[i+1]))
+            nums = temp
+        return nums[0]
+```
+
+
+
+### 2296. Design a Text Editor
+
+```python
+class TextEditor:
+
+    def __init__(self):
+        self.text = ""
+        self.nums = 0
+        self.cursor = 0
+    
+    def print_status(self):
+        print("self.test: ", self.text)
+        print("self.nums: ", self.nums)
+        print("self.cursor: ", self.cursor)
+        print("-----------------------------")
+
+    def addText(self, text: str) -> None:
+        self.text = self.text[:self.cursor] + text + self.text[self.cursor:]
+        self.cursor += len(text)
+        self.nums += len(text)
+
+    def deleteText(self, k: int) -> int:
+        res = min(self.cursor, k)
+        self.text = self.text[:self.cursor - res] + self.text[self.cursor:]
+        self.nums -= res
+        self.cursor -= res
+        return res
+
+    def cursorLeft(self, k: int) -> str:
+        self.cursor -= min(self.cursor, k)
+        return self.text[self.cursor-min(10, self.cursor):self.cursor]
+
+    def cursorRight(self, k: int) -> str:
+        self.cursor += min(self.nums-self.cursor, k)
+        return self.text[self.cursor-min(10, self.cursor):self.cursor]
+
+
+# Your TextEditor object will be instantiated and called as such:
+# obj = TextEditor()
+# obj.addText(text)
+# param_2 = obj.deleteText(k)
+# param_3 = obj.cursorLeft(k)
+# param_4 = obj.cursorRight(k)
+```
+
