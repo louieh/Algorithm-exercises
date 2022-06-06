@@ -3084,6 +3084,26 @@ class Solution:
 
 
 
+### 2294. Partition Array Such That Maximum Difference Is K
+
+```python
+class Solution:
+    def partitionArray(self, nums: List[int], k: int) -> int:
+        res = prev = 0
+        nums.sort()
+        for i in range(1, len(nums)):
+            if nums[i] - nums[prev] <= k: continue
+            res += 1
+            prev = i
+        return res + 1
+```
+
+原题目要求：A **subsequence** is a sequence that can be derived from another sequence by deleting some or no elements without changing the order of the remaining elements.
+
+可以对数组排序，直觉上是因为任何子数组都可以按原顺序被 pick 出来。
+
+
+
 ### 2296. Design a Text Editor
 
 ```python
