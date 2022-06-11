@@ -67,6 +67,7 @@ class Solution:
 ```
 
 ```python
+# 这个方法好
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         start = res = 0
@@ -95,6 +96,26 @@ class Solution:
                     temp.pop(s[i])
             temp[val] = right
             res = max(res, right-left+1)
+        return res
+```
+
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        res = 0
+        cur_set = set()
+        start = 0
+        for index, c in enumerate(s):
+            if c not in cur_set:
+                cur_set.add(c)
+                res = max(res, len(cur_set))
+            else:
+                for i in range(start, index):
+                    if s[i] != c:
+                        cur_set.remove(s[i])
+                    else:
+                        start = i + 1
+                        break
         return res
 ```
 
