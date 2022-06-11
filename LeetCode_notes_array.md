@@ -2886,6 +2886,94 @@ two pointers
 
 
 
+### 1658. Minimum Operations to Reduce X to Zero
+
+```python
+# 没太懂这个方法为什么不行
+class Solution:
+    def minOperations(self, nums: List[int], x: int) -> int:
+        left, right = 0, len(nums) - 1
+        res = 0
+        while x != 0:
+            if left > right: return -1
+            if nums[left] > x and nums[right] > x: return -1
+            if nums[left] > x:
+                x -= nums[right]
+                right -= 1
+            elif nums[right] > x:
+                x -= nums[left]
+                left += 1
+            elif nums[left] >= nums[right]:
+                x -= nums[left]
+                left += 1
+            else:
+                x -= nums[right]
+                right -= 1
+            res += 1
+            print(res)
+        
+        return res
+```
+
+```python
+class Solution:
+    def minOperations(self, nums: List[int], x: int) -> int:
+        target = sum(nums) - x
+        if target == 0: return len(nums)
+        res = -sys.maxsize
+        cur_sum = 0
+        sum_dict = {0: -1}
+        for i, num in enumerate(nums):
+            cur_sum += num
+            if cur_sum - target in sum_dict:
+                res = max(res, i - sum_dict[cur_sum-target])
+            sum_dict[cur_sum] = i
+        
+        return -1 if res == -sys.maxsize else len(nums) - res
+```
+
+**Key Notes:**
+
+- We could use dfs+memo or BFS, but they are too slow and will TLE (?)
+
+- If it exists an answer, then it means we have **a subarray in the middle of original array whose sum is == totalSum - x**
+
+- If we want to minimize our operations, then we should
+
+  maximize the length of the middle subarray.
+
+  - Then the qeustion becomes: *Find the Longest Subarray with Sum Equals to TotalSum - X*
+  - We could simply use Map + Prefix Sum to get it!
+
+![1](https://assets.leetcode.com/users/images/bf560734-2107-4a1b-811a-f3dd6d54c6e6_1605413025.6626496.png)
+
+```java
+int target = -x;
+for (int num : nums) target += num;
+
+if (target == 0) return nums.length;  // since all elements are positive, we have to take all of them
+
+Map<Integer, Integer> map = new HashMap<>();
+map.put(0, -1);
+int sum = 0;
+int res = Integer.MIN_VALUE;
+
+for (int i = 0; i < nums.length; ++i) {
+
+	sum += nums[i];
+	if (map.containsKey(sum - target)) {
+		res = Math.max(res, i - map.get(sum - target));
+	}
+
+    // no need to check containsKey since sum is unique
+	map.put(sum, i);
+}
+
+return res == Integer.MIN_VALUE ? -1 : nums.length - res;
+```
+
+
+
 ### 1710. Maximum Units on a Truck
 
 ```python
