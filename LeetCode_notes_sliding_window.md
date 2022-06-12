@@ -575,3 +575,43 @@ class Solution:
         return len(nums) - i
 ```
 
+
+
+### 1695. Maximum Erasure Value
+
+```python
+# TLE same idea as problem 3
+class Solution:
+    def maximumUniqueSubarray(self, nums: List[int]) -> int:
+        temp_dict = {}
+        temp_sum = start = 0
+        for i, num in enumerate(nums):
+            if num in temp_dict and temp_dict[num] >= start:
+                temp_sum = max(temp_sum, sum(nums[start:i]))
+                start = temp_dict[num] + 1
+            temp_dict[num] = i
+        
+        return max(temp_sum, sum(nums[start:]))
+```
+
+```python
+class Solution:
+    def maximumUniqueSubarray(self, nums: List[int]) -> int:
+        left = right = 0
+        res = 0
+        temp_set = set()
+        cur_sum = 0
+        
+        while right < len(nums):
+            if nums[right] not in temp_set:
+                cur_sum += nums[right]
+                temp_set.add(nums[right])
+                right += 1
+                res = max(res, cur_sum)
+            else:
+                cur_sum -= nums[left]
+                temp_set.remove(nums[left])
+                left += 1
+        return res
+```
+

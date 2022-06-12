@@ -79,6 +79,17 @@ class Solution:
                 res = max(res, i-start+1)
             temp[v] = i
         return res
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        temp_dict = {}
+        res = start = 0
+        for i, c in enumerate(s):
+            if c in temp_dict and temp_dict[c] >= start:
+                res = max(res, i-start)
+                start = temp_dict[c] + 1
+            temp_dict[c] = i
+        
+        return max(res, len(s)-1-start+1)
 ```
 
 ```python
@@ -116,6 +127,27 @@ class Solution:
                     else:
                         start = i + 1
                         break
+        return res
+```
+
+```python
+# 这个方法好 two points same as problem 1695
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        res = cur_len = 0
+        left = right = 0
+        S = set()
+        
+        while right < len(s):
+            if s[right] not in S:
+                cur_len += 1
+                S.add(s[right])
+                right += 1
+                res = max(res, cur_len)
+            else:
+                cur_len -= 1
+                S.remove(s[left])
+                left += 1
         return res
 ```
 
