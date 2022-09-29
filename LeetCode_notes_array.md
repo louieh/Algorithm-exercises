@@ -2852,6 +2852,28 @@ class Solution:
 
 
 
+### 1423. Maximum Points You Can Obtain from Cards
+
+```python
+class Solution:
+    def maxScore(self, cardPoints: List[int], k: int) -> int:
+        front_sum = [0]
+        behind_sum = [0]
+        
+        for each in cardPoints:
+            front_sum.append(each + front_sum[-1])
+        for each in cardPoints[::-1]:
+            behind_sum.append(each + behind_sum[-1])
+        
+        all_combin = [front_sum[i] + behind_sum[k-i] for i in range(k+1)]
+        
+        return max(all_combin)
+```
+
+https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/discuss/597825/Simple-Clean-Intuitive-Explanation-with-Visualization
+
+
+
 ### 1456. Maximum Number of Vowels in a Substring of Given Length
 
 ```python

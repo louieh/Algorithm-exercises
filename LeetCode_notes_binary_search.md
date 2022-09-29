@@ -1083,6 +1083,61 @@ class Solution:
             return arr[low: high+1]
 ```
 
+```python
+class Solution:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        
+        def find_index():
+            left, right = 0, len(arr) - 1
+
+            while left <= right:
+                mid = left + (right - left) // 2
+                if arr[mid] == x:
+                    return mid, True
+                elif arr[mid] > x:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return left, False
+        
+        # 找中点
+        index, exist = find_index()
+        
+        # print(f"index: {index}, exist: {exist}")
+        # 设置左右索引
+        if exist:
+            res = [arr[index]]
+            k -= 1
+            l = r = index
+        else:
+            res = []
+            l, r = index, index - 1
+        
+        # 向左， 向右遍历，比较左右元素与x差值，添加小的到结果中
+        while k:
+            if l - 1 >= 0:
+                l_diff = abs(arr[l - 1] - x)
+            else:
+                l_diff = sys.maxsize
+            
+            if r + 1 <= len(arr) - 1:
+                r_diff = abs(arr[r + 1] - x)
+            else:
+                r_diff = sys.maxsize
+            
+            
+            if l_diff <= r_diff:
+                l -= 1
+                res.insert(0, arr[l])
+            else:
+                r += 1
+                res.append(arr[r])
+            
+            k -= 1
+        
+        return res
+```
+
 
 
 ### 668. Kth Smallest Number in Multiplication Table
