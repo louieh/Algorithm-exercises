@@ -1141,6 +1141,9 @@ class Solution:
 ```python
 class Solution:
     def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+      
+      # 最后结果肯定是连续的
+      # 设置最左最右两个指针，比较两边与x差值，向里缩小直到左右长度等于k
         
         left, right = 0, len(arr) - 1
         
