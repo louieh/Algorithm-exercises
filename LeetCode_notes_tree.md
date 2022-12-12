@@ -3376,6 +3376,8 @@ class Solution:
 ```
 
 ```python
+# 上面两个解法类似，都是从顶至下遍历树的时候计算最大最小值，然后在叶子结点处计算最大差值
+# 此方法则是，计算最大最小值与最大差值均是在遍历树回溯的时候进行，也就是从低到上
 class Solution:
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
 
