@@ -3375,6 +3375,27 @@ class Solution:
         return self.ans
 ```
 
+```python
+class Solution:
+    def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
+
+        res = 0
+
+        def helper(root):
+            if not root: return 0, 10**5
+            l_max, l_min = helper(root.left)
+            r_max, r_min = helper(root.right)
+            temp_max = max(root.val, l_max, r_max)
+            temp_min = min(root.val, l_min, r_min)
+            nonlocal res
+            res = max(res, abs(root.val - temp_max), abs(root.val - temp_min))
+            return temp_max, temp_min
+
+        _max, _min = helper(root)
+
+        return res
+```
+
 
 
 ### 1038. Binary Search Tree to Greater Sum Tree
