@@ -127,6 +127,13 @@ class Solution:
 ```python
 class Solution:
     def climbStairs(self, n: int) -> int:
+        if n <= 1: return 1
+    		return self.climbStairs(n - 1) + self.climbStairs(n - 2) # 因为既可以从n-1层爬上来也可以从n-2层爬上来  
+```
+
+```python
+class Solution:
+    def climbStairs(self, n: int) -> int:
         if n == 1: return 1
         ans = [0] * (n+1)
         ans[1] = 1
