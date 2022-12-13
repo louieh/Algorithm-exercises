@@ -104,6 +104,7 @@ class Solution:
 ### 70. Climbing Stairs
 
 ```python
+# 自顶向下
 class Solution:
     def climbStairs(self, n: int) -> int:
         cache = dict()
@@ -121,6 +122,30 @@ class Solution:
             return temp
         
         return climbStairs_helper(0, n)
+```
+
+```python
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        if n == 1: return 1
+        ans = [0] * (n+1)
+        ans[1] = 1
+        ans[2] = 2
+        for i in range(3, len(ans)):
+            ans[i] = ans[i-1] + ans[i-2]
+        return ans[n]
+```
+
+```python
+# 自底向上
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        if n <= 2:
+            return n
+        a, b = 1, 2
+        for _ in range(n - 2):
+            a, b = b, a + b
+        return b
 ```
 
 
