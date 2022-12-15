@@ -667,6 +667,24 @@ https://leetcode.com/problems/ones-and-zeroes/discuss/814077/Dedicated-to-Beginn
 
 
 
+### 746. Min Cost Climbing Stairs
+
+```python
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        @cache
+        def dp(i):
+            if i <= 1: return 0
+            return min(dp(i-1) + cost[i - 1], dp(i - 2) + cost[i - 2])
+        return dp(len(cost))
+```
+
+函数dp为爬到第i层最小代价是多少
+
+当在第0层或第1层不需要爬所以代价是0，否则有两个选择要么从 i - 1 层爬上来（到顶层），同时付出代价 cost[i - 1]，要么从 i - 2 层爬上来，同时付出代价 cost[i - 2]，取其中最小。
+
+
+
 ### 790. Domino and Tromino Tiling
 
 ```python
