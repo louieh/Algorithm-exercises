@@ -639,7 +639,9 @@ class Solution:
         return ans
 ```
 
-向stack中添加数的时候保证升序，不是升序的话pop，是升序的话，升序距离就是当前元素stack[-1]-index
+向stack中添加数的时候保证升序，不是升序的话pop，是升序的话，升序距离就是当前元素stack[-1]-index。
+
+将数组从末尾开始向stock中插，每次插入前，把stack中小于当前元素的栈顶元素pop出去，这样最后stack中剩下的便是单增的，也就是栈顶元素在遍历过程中保持最小值，下面的正序遍历则是保持最大值。
 
 similar as linked list 1019. Next Greater Node In Linked List
 
@@ -656,8 +658,6 @@ class Solution:
             stack.append(i)
         return res
 ```
-
-
 
 
 
