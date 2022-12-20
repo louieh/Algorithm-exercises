@@ -661,6 +661,39 @@ https://leetcode.com/problems/path-with-minimum-effort/discuss/909017/JavaPython
 
 
 
+### 1971. Find if Path Exists in Graph
+
+```python
+class Solution:
+    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        graph = collections.defaultdict(list)
+
+        if not edges and source == destination: return True
+        
+        for f, t in edges:
+            graph[f].append(t)
+            graph[t].append(f)
+        
+        visited = set()
+
+        q = [source]
+
+        while q:
+            node = q.pop()
+            if node not in visited:
+                visited.add(node)
+                for nei in graph[node]:
+                    if nei == destination:
+                        return True
+                    q.append(nei)
+        
+        return False
+```
+
+简单的dfs即可
+
+
+
 ### Naveego OA - [Directions Reduction](https://www.codewars.com/kata/550f22f4d758534c1100025a)
 
 ```python
