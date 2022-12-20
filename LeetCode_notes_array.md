@@ -1924,6 +1924,23 @@ class Solution:
 
 
 
+### 674. Longest Continuous Increasing Subsequence
+
+```python
+class Solution:
+    def findLengthOfLCIS(self, nums: List[int]) -> int:
+        ans = temp = 1
+        for i in range(1, len(nums)):
+            if nums[i] > nums[i-1]:
+                temp += 1
+                ans = max(ans, temp)
+            else:
+                temp = 1
+        return ans
+```
+
+
+
 ### 680. Valid Palindrome II
 
 ```python

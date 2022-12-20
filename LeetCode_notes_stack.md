@@ -643,6 +643,8 @@ class Solution:
 
 将数组从末尾开始向stock中插，每次插入前，把stack中小于当前元素的栈顶元素pop出去，这样最后stack中剩下的便是单增的，也就是栈顶元素在遍历过程中保持最小值，下面的正序遍历则是保持最大值。
 
+无论是从前向后遍历还是从后向前遍历，stack都是用于暂时存放已遍历过的元素。
+
 similar as linked list 1019. Next Greater Node In Linked List
 
 ```python
