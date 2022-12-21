@@ -453,6 +453,73 @@ class Solution:
 
 
 
+### 886. Possible Bipartition
+
+```python
+class Solution:
+    def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
+        
+        ans = True
+
+        graph = collections.defaultdict(list)
+        for f, t in dislikes:
+            graph[f].append(t)
+            graph[t].append(f)
+        
+        def dfs(node, color):
+            nonlocal ans
+            color_dict[node] = color
+            for nei in graph[node]:
+                if color_dict.get(nei) == color:
+                    ans = False
+                elif nei not in color_dict:
+                    dfs(nei, 1 - color)
+
+         
+        color_dict = dict()
+
+        for i in range(1, n + 1):
+            if i not in color_dict:
+                dfs(i, 0)
+                if not ans:
+                    return False
+        return True
+```
+
+```python
+class Solution:
+    def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
+    
+        graph = collections.defaultdict(list)
+        for f, t in dislikes:
+            graph[f].append(t)
+            graph[t].append(f)
+        
+        def dfs(node, color):
+            color_dict[node] = color
+            for nei in graph[node]:
+                if color_dict.get(nei) == color:
+                    return False
+                elif nei not in color_dict:
+                    if not dfs(nei, 1 - color):
+                        return False
+            return True
+
+        color_dict = dict()
+
+        for i in range(1, n + 1):
+            if i not in color_dict:
+                if not dfs(i, 0):
+                    return False
+        return True
+```
+
+ [bipartite graph](https://en.wikipedia.org/wiki/Bipartite_graph) 问题，目的是将图中点分成两组，使得每组中点两两间没有连线。
+
+大致思路是给点着色，相邻点着反色，如果在着色过程中发现有相邻点颜色相同那么方法False
+
+
+
 ### 1192. Critical Connections in a Network
 
 ```python
