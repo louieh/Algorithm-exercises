@@ -1127,6 +1127,18 @@ class Solution:
         return ans
 ```
 
+```python
+# 从后向前遍历，过程中保存最大值，同时用之前的最大值减当前元素为最后结果
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        ans = 0
+        temp = prices[-1]
+        for i in range(len(prices)-2, -1, -1):
+            ans = max(ans, temp - prices[i])
+            temp = max(temp, prices[i])
+        return ans
+```
+
 
 
 ### 122. Best Time to Buy and Sell Stock II
