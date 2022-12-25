@@ -667,6 +667,35 @@ https://leetcode.com/problems/ones-and-zeroes/discuss/814077/Dedicated-to-Beginn
 
 
 
+### 714. Best Time to Buy and Sell Stock with Transaction Fee
+
+```python
+class Solution(object):
+    def maxProfit(self, prices, fee):
+        """
+        :type prices: List[int]
+        :type fee: int
+        :rtype: int
+        """
+        cash, hold = 0, -prices[0]
+        
+        for i in range(1, len(prices)):
+            cash = max(cash, hold + prices[i] - fee)
+            hold = max(hold, cash - prices[i]) # 与上一行可以交换顺序
+        return cash
+```
+
+At the end of the `i`-th day, we maintain `cash`, the maximum profit we could have if we did not have a share of stock, and `hold`, the maximum profit we could have if we owned a share of stock.
+
+To transition from the `i`-th day to the `i+1`-th day, we either sell our stock `cash = max(cash, hold + prices[i] - fee)` or buy a stock `hold = max(hold, cash - prices[i])`. At the end, we want to return `cash`. We can transform `cash` first without using temporary variables because selling and buying on the same day can't be better than just continuing to hold the stock.
+
+@ [vegito2002](https://leetcode.com/vegito2002/) For future readers:
+If I am holding a share after today, then either I am just continuing holding the share I had yesterday, or that I held no share yesterday, but bought in one share today: `hold = max(hold, cash - prices[i])`
+If I am not holding a share after today, then either I did not hold a share yesterday, or that I held a share yesterday but I decided to sell it out today: `cash = max(cash, hold + prices[i] - fee)`.
+Make sure `fee` is only incurred once.
+
+
+
 ### 746. Min Cost Climbing Stairs
 
 ```python
@@ -723,26 +752,6 @@ https://leetcode.com/problems/domino-and-tromino-tiling/discuss/1620975/C%2B%2BP
 放置第五种或第六种，正好填补好空隙所以不再有空隙，向前走一步，solve(i+1, previous_gap=False)
 
 放置第二种，虽然填补了之前的空隙但是有产生了新的空隙，向前走一步，solve(i+1, previous_gap=True)
-
-
-
-### 714. Best Time to Buy and Sell Stock with Transaction Fee
-
-```python
-class Solution(object):
-    def maxProfit(self, prices, fee):
-        """
-        :type prices: List[int]
-        :type fee: int
-        :rtype: int
-        """
-        cash, hold = 0, -prices[0]
-        
-        for i in range(1, len(prices)):
-            cash = max(cash, hold + prices[i] - fee)
-            hold = max(hold, cash - prices[i])
-        return cash
-```
 
 
 
