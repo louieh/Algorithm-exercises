@@ -306,6 +306,22 @@ class Solution:
 
 
 
+### 55. Jump Game
+
+```python
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        last_good_pos = len(nums) - 1
+        for i in range(len(nums)-2, -1, -1):
+            if i + nums[i] >= last_good_pos:
+                last_good_pos = i
+        return last_good_pos == 0
+```
+
+先将最后一个index设置为目标点last_good_pos，然后从倒数第二个index向前遍历，过程中判断从当前点能否到达目标点，也就是 i + nums[i] >= last_good_pos，如果可以那么把当前点设置为新目标点。存在可能中间有的点无法到达目标点，那么目标点不变，过跳该点继续向前推进，判断下一个位置可否达到。
+
+
+
 ### 61. Rotate List
 
 ```python
