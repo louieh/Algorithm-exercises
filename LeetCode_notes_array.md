@@ -270,6 +270,30 @@ class Solution:
 
 https://leetcode.com/problems/jump-game-ii/discuss/18014/Concise-O(n)-one-loop-JAVA-solution-based-on-Greedy
 
+```python
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        if len(nums) <= 1: return 0
+        
+        left, right = 0, nums[0]
+        times = 1
+
+        while right < len(nums) - 1:
+            times += 1
+            nxt = max(each + nums[each] for each in range(left, right + 1))
+            left, right = right, nxt
+        
+        return times
+```
+
+The idea is to maintain two pointers `left` and `right`, where left initialy set to be `0` and `right` set to be `nums[0]`. So points between `0` and `nums[0]` are the ones you can reach by using just 1 jump.
+Next, we want to find points I can reach using 2 jumps, so our new `left` will be set equal to `right`, and our new `right` will be set equal to the farest point we can reach by `two` jumps. which is:
+`right = max(i + nums[i] for i in range(left, right + 1)`
+
+第二个方法的逻辑是，先设置一个窗口，左边是0，右边是一步可达最大index也就是nums[0]. 下面我们要找第二个窗口位置，也就是，左边是一步可达最远的点nums[0]，右边是在第一步范围内可达最远的位置，也就是 `max(each + nums[each] for each in range(left, right + 1))`. 以此类推向前移动窗口，每移动一个窗口步数增加一，直到窗口覆盖最后一个点 `right > len(nums) - 1`。
+
+第一个方法逻辑相同，不过寻找最右节点是在遍历过程中，而没有单独写循环。
+
 
 
 ### 53. Maximum Subarray
