@@ -2980,6 +2980,72 @@ class Solution:
 
 
 
+### 872. Leaf-Similar Trees
+
+```python
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def __init__(self):
+        self.tempList1 = []
+        self.tempList2 = []
+    
+    def get_leaf_list(self, root, tempList):
+        if root.left:
+            self.get_leaf_list(root.left, tempList)
+        if not root.left and not root.right:
+            tempList.append(root.val)
+        if root.right:
+            self.get_leaf_list(root.right, tempList)
+        return tempList
+            
+    def leafSimilar(self, root1, root2):
+        """
+        :type root1: TreeNode
+        :type root2: TreeNode
+        :rtype: bool
+        """
+        if not root1 and not root2:
+            return True
+        
+        list1 = self.get_leaf_list(root1, self.tempList1)
+        list2 = self.get_leaf_list(root2, self.tempList2)
+        
+        if list1 == list2:
+            return True
+        else:
+            return False
+```
+
+```python
+class Solution:
+    def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
+
+        def get_leaf_list(root: TreeNode, res: List) -> None:
+            if not root.left and not root.right:
+                res.append(root.val)
+                return
+            if root.left:
+                get_leaf_list(root.left, res)
+            if root.right:
+                get_leaf_list(root.right, res)
+        
+        root1_leaf_list = []
+        root2_leaf_list = []
+
+        get_leaf_list(root1, root1_leaf_list)
+        get_leaf_list(root2, root2_leaf_list)
+
+        return root1_leaf_list == root2_leaf_list
+```
+
+
+
 ### 889. Construct Binary Tree from Preorder and Postorder Traversal
 
 ```python
