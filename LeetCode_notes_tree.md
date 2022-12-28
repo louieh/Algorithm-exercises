@@ -3214,7 +3214,33 @@ class Solution:
         return root.val + self.rangeSumBST(root.left, low, high) + self.rangeSumBST(root.right, low, high)
 ```
 
+```python
+class Solution:
+    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+        if not root: return 0
 
+        def helper(root):
+            if not root: return
+            nonlocal res
+            if root.val >= low and root.val <= high:
+                res += root.val
+                helper(root.left)
+                helper(root.right)
+            # 不能加 root.right.val >= low 这个条件，因为 root.right.right 可能会符合要求的，比如下面图片中的树，上下限是[7,15]，5和6是小于7的，但6的右节点是符合条件的，如果加上下面的if语句就会把7过滤掉
+            # elif root.val < low and root.right and root.right.val >= low:
+            elif root.val < low:
+                helper(root.right)
+            # elif root.val > high and root.left and root.left.val <= high:
+            elif root.val > high:
+                helper(root.left)
+        
+        res = 0
+        helper(root)
+
+        return res
+```
+
+<img src="./截屏2022-12-28 22.51.50.png" alt="截屏2022-12-28 22.51.50" style="zoom:50%;" />
 
 ### 951. Flip Equivalent Binary Trees
 
