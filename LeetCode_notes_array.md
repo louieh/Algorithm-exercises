@@ -1550,6 +1550,17 @@ class Solution:
 
 
 
+### 451. Sort Characters By Frequency
+
+```python
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        counter_list = sorted([(k, v) for k, v in collections.Counter(s).items()], key=lambda x: x[1], reverse=True)
+        return "".join([k*v for k, v in counter_list])
+```
+
+
+
 ### 456. 132 Pattern
 
 ```python
