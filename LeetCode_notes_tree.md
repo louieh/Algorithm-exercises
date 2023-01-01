@@ -3490,6 +3490,32 @@ class Solution:
         return res
 ```
 
+```python
+class Solution:
+    def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
+        
+        res = 0
+
+        def helper(root):
+            if not root: return sys.maxsize, -sys.maxsize
+            l_min, l_max = helper(root.left)
+            r_min, r_max = helper(root.right)
+
+            nonlocal res
+            if root.left:
+                res = max(res, abs(root.val - l_min), abs(root.val - l_max))
+            if root.right:
+                res = max(res, abs(root.val - r_min), abs(root.val - r_max))
+
+            cur_min = min(root.val, l_min, r_min)
+            cur_max = max(root.val, l_max, r_max)
+
+            return cur_min, cur_max
+        
+        helper(root)
+        return res
+```
+
 
 
 ### 1038. Binary Search Tree to Greater Sum Tree

@@ -1919,48 +1919,6 @@ class ValidWordAbbr:
 
 
 
-### 290. Word Pattern
-
-```python
-class Solution:
-    def wordPattern(self, pattern: str, str: str) -> bool:
-        str_list = str.split(" ")
-        if len(pattern) != len(str_list):
-            return False
-        temp = dict()
-        temp_r = dict()
-        for i in range(len(str_list)):
-            if pattern[i] in temp and str_list[i] in temp_r:
-                if temp[pattern[i]] != str_list[i] or temp_r[str_list[i]] != pattern[i]:
-                    return False
-            elif pattern[i] in temp or str_list[i] in temp_r:
-                return False
-            else:
-                temp[pattern[i]] = str_list[i]
-                temp_r[str_list[i]] = pattern[i]
-        return True
-```
-
-```python
-class Solution:
-    def wordPattern(self, pattern: str, s: str) -> bool:
-        a2b = {}
-        b2a = {}
-        s_list = s.split(" ")
-        if len(pattern) != len(s_list):
-            return False
-        for i, a in enumerate(pattern):
-            b = s_list[i]
-            if a not in a2b and b not in b2a:
-                a2b[a] = b
-                b2a[b] = a
-            elif a2b.get(a) != b or b2a.get(b) != a:
-                return False
-        return True
-```
-
-
-
 ### 292. Nim Game
 
 ```c++
