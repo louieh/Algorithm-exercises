@@ -359,6 +359,16 @@ Similar as 1446
 
 
 
+### 520. Detect Capital
+
+```python
+class Solution:
+    def detectCapitalUse(self, word: str) -> bool:
+        return word.islower() or word.isupper() or word[0].isupper() and word[1:].islower()
+```
+
+
+
 ### 647. Palindromic Substrings
 
 ```python
