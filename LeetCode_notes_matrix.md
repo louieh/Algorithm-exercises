@@ -967,6 +967,26 @@ class Solution:
 
 
 
+### 944. Delete Columns to Make Sorted
+
+```python
+class Solution:
+    def minDeletionSize(self, strs: List[str]) -> int:
+        res = 0
+
+        if len(strs) == 1: return 0
+
+        for i in range(len(strs[0])):
+            for j in range(1, len(strs)):
+                if strs[j][i] < strs[j-1][i]:
+                    res += 1
+                    break
+
+        return res        
+```
+
+
+
 ### 1020. Number of Enclaves
 
 ```python

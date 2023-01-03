@@ -422,6 +422,30 @@ class Solution:
         return ans
 ```
 
+```python
+class Solution:
+    def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        
+        g = collections.defaultdict(list)
+
+        for i, vs in enumerate(graph):
+            for v in vs:
+                g[i].append(v)
+        
+        res = []
+
+        def helper(node, path): # dfs
+            path.append(node)
+            if node == len(graph) - 1:
+                res.append(path)
+                return
+            for each in g[node]:
+                helper(each, path.copy())
+        
+        helper(0, [])
+        return res
+```
+
 
 
 ### 802. Find Eventual Safe States

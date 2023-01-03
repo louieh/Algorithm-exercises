@@ -1005,6 +1005,25 @@ class Solution:
         return head
 ```
 
+```python
+class Solution:
+    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head: return
+
+        even_head = even = ListNode()
+        odd_head = head
+
+        while head and head.next:
+            even.next = head.next
+            even = even.next
+            head.next = head.next.next
+            if head.next:
+                head = head.next
+        even.next = None
+        head.next = even_head.next
+        return odd_head
+```
+
 
 
 ### 382. Linked List Random Node
