@@ -266,28 +266,6 @@ class Solution:
 
 
 
-### 11. Container With Most Water
-
-```python
-class Solution:
-    def maxArea(self, height: List[int]) -> int:
-        l = 0
-        r = len(height) - 1
-        ans = 0
-        
-        while l < r:
-            ans = max(ans, (r - l) * min(height[l], height[r]))
-            if height[l] > height[r]:
-                r -= 1
-            else:
-                l += 1
-        return ans
-```
-
-https://leetcode.com/problems/container-with-most-water/discuss/6099/Yet-another-way-to-see-what-happens-in-the-O(n)-algorithm
-
-
-
 ### 12. Integer to Roman
 
 ```python
@@ -1100,75 +1078,6 @@ class Solution:
         
         return ans
 ```
-
-
-
-### 121. Best Time to Buy and Sell Stock
-
-```python
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        ans = 0
-        for i in range(len(prices)-1):
-            ans = max(ans, max(prices[i+1:])-prices[i])
-        return ans
-```
-
-```python
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        ans = 0
-        min_price = sys.maxsize
-        for each in prices:
-            if each < min_price:
-                min_price = each
-            elif each - min_price > ans:
-                ans = each - min_price
-        return ans
-```
-
-```python
-# 从后向前遍历，过程中保存最大值，同时用之前的最大值减当前元素为最后结果
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        ans = 0
-        temp = prices[-1]
-        for i in range(len(prices)-2, -1, -1):
-            ans = max(ans, temp - prices[i])
-            temp = max(temp, prices[i])
-        return ans
-```
-
-
-
-### 122. Best Time to Buy and Sell Stock II
-
-```python
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        ans = low = high = i = 0
-        while i < len(prices) - 1:
-            while i < len(prices) - 1 and prices[i] >= prices[i + 1]:
-                i += 1
-            low = prices[i]
-            while i < len(prices) - 1 and prices[i] <= prices[i + 1]:
-                i += 1
-            high = prices[i]
-            ans += (high - low)
-        return ans
-```
-
-```python
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        ans = 0
-        for i in range(1, len(prices)):
-            if prices[i] > prices[i-1]:
-                ans += prices[i] - prices[i-1]
-        return ans
-```
-
-https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/solutions/127712/best-time-to-buy-and-sell-stock-ii/?orderBy=most_votes
 
 
 
