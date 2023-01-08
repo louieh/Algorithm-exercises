@@ -1081,6 +1081,38 @@ class Solution:
 
 
 
+### 149. Max Points on a Line
+
+```python
+class Solution:
+    def maxPoints(self, points: List[List[int]]) -> int:
+        if len(points) <= 2:
+            return len(points)
+        
+        res = 0
+
+        for i, (i_x, i_y) in enumerate(points):
+            temp_dict = defaultdict(int)
+            same = 1 # 当前点
+            for j in range(i+1, len(points)):
+                j_x, j_y = points[j]
+                if i_x == j_x and i_y == j_y:
+                    same += 1
+                elif i_x == j_x:
+                    temp_dict[sys.maxsize] += 1
+                else:
+                    slope = (j_y - i_y) * 1.0 / (j_x - i_x)
+                    temp_dict[slope] += 1
+            if temp_dict:
+                res = max(res, max(temp_dict.values()) + same)
+        
+        return res
+```
+
+$O(n^2)$ 复杂度，遍历每个点于其余点，遍历过程中计算斜率相等的点。注意记录相同的点个数，注意计算精度问题。
+
+
+
 ### 151. Reverse Words in a String
 
 ```python
