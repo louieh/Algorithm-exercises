@@ -638,6 +638,14 @@ class Solution:
 
 几个facts：汽油总数大于等于消耗总数时是有答案的，反之没有答案。遍历过程中累积计算汽油与消耗，当发现小于零时将起始节点设置为下一节点，所以从A到B后发现累积小于零了那么把起始节点设置为B+1，累积清零，所以其中隐含着A和B中间的所有节点都无法到B。上面结论都需要证明。同样比较疑惑的是为什么把B+1设置为起始节点后，当总消耗小于总汽油量后直接返回B+1。
 
+> @daxianji007
+>
+> I have thought for a long time and got two ideas:
+>
+> - If car starts at A and can not reach B. Any station between A and B
+>   can not reach B.(B is the first station that A can not reach.) 当从A到达B时剩余小于0时，那么A和B之间的所有点都没法到达B，所以直接把起点设置为B的下一个点。
+> - If the total number of gas is bigger than the total number of cost. There must be a solution. 如果总剩余小于那么没有答案。
+
 
 
 ### 152. Maximum Product Subarray
