@@ -508,6 +508,25 @@ class Solution:
 
 
 
+### 101. Symmetric Tree
+
+```python
+class Solution:
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        if not root: return True
+
+        def helper(root1, root2): # 与 same tree 一样，只是下面递归传入的左右子树不同
+            if not root1 and not root2: return True
+            if root1 and root2 and root1.val == root2.val:
+                return helper(root1.left, root2.right) and helper(root1.right, root2.left)
+            else:
+                return False
+        
+        return helper(root.left, root.right)
+```
+
+
+
 ### 110. Balanced Binary Tree
 
 ```python
