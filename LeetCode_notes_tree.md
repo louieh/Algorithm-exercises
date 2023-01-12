@@ -4106,6 +4106,57 @@ class Solution:
 
 
 
+### 1519. Number of Nodes in the Sub-Tree With the Same Label
+
+```python
+class Solution:
+    def countSubTrees(self, n: int, edges: List[List[int]], labels: str) -> List[int]:
+
+        graph = defaultdict(list)
+
+        for f, t in edges:
+            graph[f].append(t)
+            graph[t].append(f)
+        
+        res_list, seen = [None] * n, set()
+
+        def merge(dict1, dict2):
+            for k, v in dict2.items():
+                if k not in dict1:
+                    dict1[k] = v
+                else:
+                    dict1[k]+= v
+
+        def dfs(node):
+            seen.add(node)
+            has_not_seen_nei = False
+            temp_dict = {}
+            for each in graph[node]:
+                if each not in seen:
+                    has_not_seen_nei = True
+                    merge(temp_dict, dfs(each))
+            if not has_not_seen_nei:
+                res_list[node] = 1
+                return {labels[node]: 1}
+            else:
+                merge(temp_dict, {labels[node]: 1})
+                res_list[node] = temp_dict[labels[node]]
+                return temp_dict
+        
+        dfs(0)
+        return res_list
+```
+
+本质是树的题，不过题目中用图的方式给出，所以只能按图的形式构造。本质思想还是dfs遍历树至叶子结点，在从叶子结点向上回溯的时候填充最后答案。由于我们是用图的结果存储的，所以不好直接判断是否是叶子结点，所以只能在遍历相邻结点之前增加标签（has_not_seen_nei），如果相邻结点均遇见过（has_not_seen_nei is False）那么该结点就是叶子结点。
+
+如果是叶子结点那么直接填写结果数组 res_list[node] = 1，以字典形式返回相应label数量 {labels[node]: 1}。
+
+从叶子结点网上走，非叶子结点的话，叶子结点的结果会在地26行返回，返回之后会将所有子节点的结果merge在临时字典（temp_dict）中，之后将当前节点的label数量merge进临时字典中，之后填充当前节点到结果数组中并返回临时字典作为当前节点的结果，以上步骤对应31-33行。
+
+
+
+
+
 **二叉树**
 
 第n层的节点个数最多为: 2^n-1^ 
