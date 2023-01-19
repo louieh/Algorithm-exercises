@@ -2,6 +2,41 @@
 
 [toc]
 
+### 974. Subarray Sums Divisible by K
+
+```python
+class Solution:
+    def subarraysDivByK(self, nums: List[int], k: int) -> int:
+        temp_sum = temp_mod = 0
+        res = 0
+
+        mod_dict = defaultdict(int)
+        mod_dict[0] = 1
+
+        for num in nums:
+            temp_sum += num
+            temp_mod = temp_sum % k
+            res += mod_dict[temp_mod]
+            mod_dict[temp_mod] += 1
+        
+        return res
+```
+
+https://leetcode.com/problems/subarray-sums-divisible-by-k/solutions/217979/pictured-explanation-python-o-n-clean-solution-8-lines/
+
+Running Sum[i]%K == Running Sum[j]%k that means we have sum(i,j) which is divisible by K.
+
+从左开始依次累加，每累加到一个点时，计算当时的累加值%k的结果，当两个点的累加值%k的结果相同时，这两个点之间的数字和可以被k整除，证明：
+
+A % k = x --> A = n1*k + x
+B % k = x --> B = n2*k + x
+(A-B) = n1*k + x - n2*k - x = (n1-n2)*k
+It means (A-B) % k = 0
+
+根据以上理论，我们记录每个累加值%k的结果个数即可。
+
+
+
 ### 1015. Smallest Integer Divisible by K
 
 ```python
