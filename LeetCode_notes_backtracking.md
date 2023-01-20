@@ -421,6 +421,34 @@ class Solution:
 
 
 
+### 491. Non-decreasing Subsequences
+
+```python
+class Solution:
+    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+        
+        res = []
+
+        def backtrack(temp_list, start):
+            if len(nums) >= start and len(temp_list) >= 2:
+                res.append(temp_list.copy())
+            used = {}
+            for i in range(start, len(nums)):
+                if nums[i] in used: continue
+                if temp_list and temp_list[-1] > nums[i]: continue
+                used[nums[i]] = True
+                temp_list.append(nums[i])
+                backtrack(temp_list, i+1)
+                temp_list.pop()
+        
+        backtrack([], 0)
+        return res
+```
+
+跟 Permutations II 类似
+
+
+
 ### 949. Largest Time for Given Digits
 
 ```python
