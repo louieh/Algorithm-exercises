@@ -429,19 +429,19 @@ class Solution:
         
         res = []
 
-        def backtrack(temp_list, start):
-            if len(nums) >= start and len(temp_list) >= 2:
+        def backtrack(start, temp_list):
+            if len(temp_list) >= 2:
                 res.append(temp_list.copy())
-            used = {}
+            used = set()
             for i in range(start, len(nums)):
                 if nums[i] in used: continue
-                if temp_list and temp_list[-1] > nums[i]: continue
-                used[nums[i]] = True
+                if temp_list and nums[i] < temp_list[-1]: continue
+                used.add(nums[i])
                 temp_list.append(nums[i])
-                backtrack(temp_list, i+1)
+                backtrack(i+1, temp_list)
                 temp_list.pop()
         
-        backtrack([], 0)
+        backtrack(0, [])
         return res
 ```
 
