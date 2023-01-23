@@ -3062,49 +3062,6 @@ class Solution:
 
 
 
-### 997. Find the Town Judge
-
-```python
-class Solution:
-    def findJudge(self, N: int, trust: List[List[int]]) -> int:
-        from collections import defaultdict
-        
-        trust_dict = defaultdict(set)
-        
-        for a, b in trust:
-            trust_dict[a].add(b)
-        
-        if len(trust_dict) == N-1:
-            for i in range(1, N+1):
-                if i not in trust_dict:
-                    judge_ = i
-                    break
-            for val in trust_dict.values():
-                if judge_ not in val:
-                    return -1
-            return judge_
-        return -1
-```
-
-```python
-class Solution:
-    def findJudge(self, n: int, trust: List[List[int]]) -> int:
-        all_people = {i + 1 for i in range(n)}
-        temp_dict = defaultdict(set)
-        for a, b in trust:
-            temp_dict[a].add(b)
-        
-        diff = all_people - set(temp_dict.keys())
-        if diff != 1: return -1
-        judge = list(diff)[0]
-        for each in temp_dict.values():
-            if judge not in each:
-                return -1
-        return judge
-```
-
-
-
 ### 1002. Find Common Characters
 
 ```python
