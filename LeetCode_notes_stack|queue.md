@@ -1,4 +1,4 @@
-## LeetCode - Stack
+## LeetCode - Stack|Queue
 
 [toc]
 
@@ -717,6 +717,45 @@ class StockSpanner:
         self.stack.append((price, res))
         return res
 ```
+
+
+
+### 909. Snakes and Ladders
+
+```python
+class Solution:
+    def snakesAndLadders(self, board: List[List[int]]) -> int:
+        n = len(board)
+        def label_to_position(label):
+            r, c = divmod(label-1, n)
+            if r % 2 == 0:
+                return n-1-r, c
+            else:
+                return n-1-r, n-1-c
+        
+        seen = set()
+        q = collections.deque()
+        q.append((1, 0))
+
+        while q:
+            label, res = q.popleft()
+            row, col = label_to_position(label)
+            if board[row][col] != -1:
+                label = board[row][col]
+            if label == n ** 2:
+                return res
+            for i in range(1, 7):
+                new_label = min(label + i, n ** 2)
+                if new_label in seen: continue
+                seen.add(new_label)
+                q.append((new_label, res + 1))
+
+        return -1
+```
+
+https://leetcode.com/problems/snakes-and-ladders/solutions/314202/python3-clear-bfs-solution/
+
+直接 BFS 遍历，主要是从 label 转换到坐标，也就是 label_to_position 方法。
 
 
 
