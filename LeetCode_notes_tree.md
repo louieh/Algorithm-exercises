@@ -4155,6 +4155,47 @@ class Solution:
 
 
 
+### 2359. Find Closest Node to Given Two Nodes
+
+```python
+class Solution:
+    def closestMeetingNode(self, edges: List[int], node1: int, node2: int) -> int:
+        
+        graph = defaultdict(list)
+        for i, val in enumerate(edges):
+             if val != -1:
+                graph[i].append(val)
+        
+        dis_from_node1 = {}
+        dis_from_node2 = {}
+
+        def dfs(node, dist, record):
+            if node not in seen:
+                seen.add(node)
+                record[node] = dist
+                if node in graph:
+                    for each in graph[node]:
+                        dfs(each, dist+1, record)
+                    
+        seen = set()
+        dfs(node1, 0, dis_from_node1)
+        seen = set()
+        dfs(node2, 0, dis_from_node2)
+
+        res, max_dis = -1, sys.maxsize
+        for i in range(len(edges)):
+						# check if the end node is reachable from both starting nodes
+            if i in dis_from_node1 and i in dis_from_node2:
+                temp_max_dis = max(dis_from_node1[i], dis_from_node2[i])
+								# update the distance and the final answer if relevant
+                if temp_max_dis < max_dis:
+                    max_dis = temp_max_dis
+                    res = i
+        return res
+```
+
+描述很迷惑，其实是求到达node1和node2的最大距离的最小值的那个点，min(max(dis_to_node1, dis_to_node2))
+
 
 
 **二叉树**
