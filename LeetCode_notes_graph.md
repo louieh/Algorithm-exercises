@@ -397,6 +397,21 @@ class Solution:
 
 Bellman Ford算法，执行K轮，因为题目要求at most K stops 注意每轮当中要复制一遍数组，用原数组的开始点+price与现在数组中点进行比较。
 
+```python
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        cost = [sys.maxsize for i in range(n)]
+        cost[src] = 0
+        for _ in range(k+1):
+            temp_cost = cost.copy()
+            for fr, to, price in flights:
+                if temp_cost[fr] != sys.maxsize:
+                    temp_cost[to] = min(temp_cost[to], cost[fr]+price)
+            cost = temp_cost
+        
+        return cost[dst] if cost[dst] != sys.maxsize else -1
+```
+
 
 
 ### 797. All Paths From Source to Target
