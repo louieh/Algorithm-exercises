@@ -90,6 +90,43 @@ Similar to 56
 
 
 
+### 352. Data Stream as Disjoint Intervals
+
+```python
+class SummaryRanges:
+
+    def __init__(self):
+        # heapq.heappush(self.intervals, [val, val])
+        self.intervals = []
+        self.seen = set()
+        
+
+    def addNum(self, value: int) -> None:
+        if value not in self.seen:
+            self.seen.add(value)
+            heapq.heappush(self.intervals, [value, value])
+
+    def getIntervals(self) -> List[List[int]]:
+        res = []
+        while self.intervals:
+            temp = heapq.heappop(self.intervals)
+            if not res or temp[0] > res[-1][1] + 1:
+                res.append(temp)
+            else:
+                res[-1][1] = max(res[-1][1], temp[1])
+        self.intervals = res
+        return res
+        
+
+
+# Your SummaryRanges object will be instantiated and called as such:
+# obj = SummaryRanges()
+# obj.addNum(value)
+# param_2 = obj.getIntervals()
+```
+
+
+
 ### 435. Non-overlapping Intervals
 
 ```python
