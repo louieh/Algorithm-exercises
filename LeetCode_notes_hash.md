@@ -190,6 +190,163 @@ class Solution:
 
 
 
+### 460. LFU Cache
+
+```python
+# TLE
+class LFUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cache = {}
+        self.timer = 0
+        self.key_timer_dict = defaultdict(int)
+        self.key_fre_dict = defaultdict(int)
+        self.fre_key_dict = defaultdict(set)
+
+    def get(self, key: int) -> int:
+        if key in self.cache:
+            self.timer += 1
+            fre = self.key_fre_dict[key]
+            self.key_fre_dict[key] = fre + 1
+            self.key_timer_dict[key] = self.timer
+            self.fre_key_dict[fre].remove(key)
+            self.fre_key_dict[fre+1].add(key)
+            if not self.fre_key_dict[fre]: self.fre_key_dict.pop(fre)
+            return self.cache[key]
+        return -1
+    
+    def remove_lfu_key(self):
+        lowest_fre = min(self.fre_key_dict.keys())
+        lowest_key = list(self.fre_key_dict[lowest_fre])
+        lowest_key.sort(key=lambda x: self.key_timer_dict[x])
+        need_deleted_key = lowest_key[0]
+        self.cache.pop(need_deleted_key)
+        self.key_timer_dict.pop(need_deleted_key)
+        deleted_key_fre = self.key_fre_dict.pop(need_deleted_key)
+        self.fre_key_dict[deleted_key_fre].remove(need_deleted_key)
+        if not self.fre_key_dict[deleted_key_fre]: self.fre_key_dict.pop(deleted_key_fre)
+
+    def put(self, key: int, value: int) -> None:
+        if self.capacity == 0: return
+        self.timer += 1
+        if key not in self.cache:
+            if len(self.cache) == self.capacity:
+                self.remove_lfu_key()
+            self.key_fre_dict[key] += 1
+            self.fre_key_dict[self.key_fre_dict[key]].add(key)
+        else:
+            fre = self.key_fre_dict[key]
+            self.key_fre_dict[key] = fre + 1
+            self.fre_key_dict[fre].remove(key)
+            self.fre_key_dict[fre+1].add(key)
+            if not self.fre_key_dict[fre]: self.fre_key_dict.pop(fre)
+        self.cache[key] = value
+        self.key_timer_dict[key] = self.timer
+
+
+
+# Your LFUCache object will be instantiated and called as such:
+# obj = LFUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
+```
+
+```python
+# accept
+class Node:
+    def __init__(self, key, value=None):
+        self.key = key
+        self.val = value
+        self.fre = 1
+        self.prev = self.next = None 
+
+class DoubleLinkedList:
+
+    def __init__(self):
+        self.size = 0
+        self.header = Node(-1)
+        self.tail = Node(-1)
+        self.header.next = self.tail
+        self.header.prev = None
+        self.tail.prev = self.header
+        self.tail.next = None
+    
+    def __len__(self):
+        return self.size
+    
+    def pop(self, node=None):
+        if self.size == 0: return
+        if not node:
+            node = self.tail.prev
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        self.size -= 1
+        return node
+    
+    def append(self, node):
+        node.next = self.header.next
+        node.prev = self.header
+        self.header.next.prev = node
+        self.header.next = node
+        self.size += 1
+
+
+class LFUCache:
+
+    def __init__(self, capacity: int):
+        self.size = 0
+        self.capacity = capacity
+        self.min_fre = 0
+        self.cache = {}
+        self.fre_key_dict = defaultdict(DoubleLinkedList)
+
+    def update(self, node):
+        self.fre_key_dict[node.fre].pop(node)
+        if self.min_fre == node.fre and not self.fre_key_dict[node.fre]:
+            self.min_fre += 1
+        node.fre += 1
+        self.fre_key_dict[node.fre].append(node)
+    
+    def get(self, key: int) -> int:
+        if key not in self.cache: return -1
+        node = self.cache[key]
+        self.update(node)
+        return node.val
+
+    def put(self, key: int, value: int) -> None:
+        if self.capacity == 0: return
+        if key in self.cache:
+            node = self.cache[key]
+            node.val = value
+            self.update(node)
+        else:
+            if self.size == self.capacity:
+                deleted_node = self.fre_key_dict[self.min_fre].pop()
+                self.cache.pop(deleted_node.key)
+                self.size -= 1
+            node = Node(key, value)
+            self.cache[key] = node
+            self.fre_key_dict[1].append(node)
+            self.min_fre = 1
+            self.size += 1
+        
+
+
+# Your LFUCache object will be instantiated and called as such:
+# obj = LFUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
+```
+
+https://leetcode.com/problems/lfu-cache/solutions/207673/python-concise-solution-detailed-explanation-two-dict-doubly-linked-list/
+
+主要数据结构是两个字典：self.cache: {key: node} self.fre_key_dict: {key: DoubleLinkdedList}, fre_key_dict 键是频率，值是一个双向链表，也就是把相同频率的节点存到同一个链表中，同时保持 lru 淘汰，链表对象实现 pop 与 append 方法负责增加与删除节点。
+
+最小频率值存在 LFUCache 对象属性中，同时该对象实现 update 方法，负责把待更新节点从一个链表中 pop 出后更新频率再 append 到新频率链表中。
+
+
+
 ### 535. Encode and Decode TinyURL
 
 ```python
