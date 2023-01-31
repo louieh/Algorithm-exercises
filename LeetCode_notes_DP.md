@@ -856,3 +856,44 @@ class Solution:
         return dp[0]
 ```
 
+
+
+### 1626. Best Team With No Conflicts
+
+```python
+class Solution:
+    def bestTeamScore(self, scores: List[int], ages: List[int]) -> int:
+        
+        age_score_list = sorted([(ages[i], scores[i]) for i in range(len(ages))])
+
+        res = 0
+        dp = [each[1] for each in age_score_list]
+
+        for i in range(len(ages)):
+            for j in range(i):
+                if age_score_list[i][1] >= age_score_list[j][1]:
+                    dp[i] = max(dp[i], dp[j] + age_score_list[i][1])
+            res = max(res, dp[i])
+        
+        return res
+```
+
+https://leetcode.com/problems/best-team-with-no-conflicts/solutions/2886659/best-team-with-no-conflicts/
+
+### Approach 2: Bottom-Up Dynamic Programming
+
+#### Intuition
+
+If we observe closely, after sorting the list of pairs (age, score) by age, we need to find the highest sum of a non-decreasing subsequence of scores in the list. This is because after sorting, the list has the ages in ascending order, and in order to be non-conflicting, the score also has to be in non-decreasing order. Therefore we need to find the largest sum of scores in any non-decreasing subsequence of scores in the list of pairs. This is a typical dynamic programming problem very similar to [[309\] Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/).
+
+Similar to the previous approach, we will first sort the pairs in ascending order of age and then by score. Then we will iterate over the players from left to right. For each player, we will try to find the previous player it could be paired with. We will iterate over the players on the left and find the pairing that provides the maximum score for this player. The maximum score of any player will be the answer.
+
+#### Algorithm
+
+1. Store the ages and scores of all the players in the list `ageScorePair`.
+2. Sort the list `ageScorePair` in ascending order of age and then in ascending order of score.
+3. Initialize the array `dp` of size `N`. The `dp[i]` represents the maximum score possible by taking `ith` player and possible players before it. All values initially will be equal to the score of individual players.
+4. Iterate over players from `0` to `N - 1` for each player at index `i`
+   - Iterate over the players on the left, i.e., from `0` to `i - 1`. For each such player, `j`, check if the score of the `ith` player is greater than or equal to the `jth` player's score. If it is, we can add the total score of the `jth` player (`dp[j]`) to the score of the `ith` player and update the maximum score of the `ith` player `dp[i]` accordingly.
+5. Store the maximum of all `dp[i]` in the variable `answer`.
+6. Return `answer`.
