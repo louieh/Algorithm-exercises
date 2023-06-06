@@ -2924,6 +2924,51 @@ two pointers
 
 
 
+### 1502. Can Make Arithmetic Progression From Sequence
+
+```python
+class Solution:
+    def canMakeArithmeticProgression(self, arr: List[int]) -> bool:
+        min_val, max_val = min(arr), max(arr)
+        n = len(arr)
+        if min_val == max_val: return True
+        if (max_val - min_val) % (n - 1): return False # 最大最小值的差小于等于总数
+        if len(arr) != len(set(arr)): return False
+
+        diff = (max_val - min_val) // (n - 1)
+        for each in arr:
+            if (each - min_val) % diff: return False
+        return True
+```
+
+如果一个序列相邻数字差是相同的，那么最大值最小值的差一定是相邻数字差的倍数，这个倍数是数字个数减一。例如：1，3，5，7，9，diff = (9 - 1) / 4 = 2
+
+几个提前判断条件：
+
+* 如果最大最小值一样，那么说明序列中所有数字一样，直接返回True
+* 如果最大最小值差余(n-1)不为0，说明diff不能被(n-1)整除，则找不到整数diff，直接返回False
+* 如果序列中有相同的数字直接返回False，如果第一条是False的话
+
+下面遍历每个数字，判断每个数字与最小值的差是不是diff的倍数，不是则返回False
+
+时间复杂度：O(n)
+
+```python
+class Solution:
+    def canMakeArithmeticProgression(self, arr: List[int]) -> bool:
+        arr.sort()
+        diff = arr[1] - arr[0]
+        for i in range(2, len(arr)):
+            if arr[i] - arr[i-1] != diff: return False
+        return True
+```
+
+可以直接对序列排序，判断相邻数字差是否相同。
+
+时间复杂度：O(nlogN)
+
+
+
 ### 1658. Minimum Operations to Reduce X to Zero
 
 ```python
