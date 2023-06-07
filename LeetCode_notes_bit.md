@@ -399,6 +399,44 @@ https://leetcode.com/problems/number-of-valid-words-for-each-puzzle/discuss/1567
 
 
 
+### 1318. Minimum Flips to Make a OR b Equal to c
+
+```python
+class Solution:
+    def minFlips(self, a: int, b: int, c: int) -> int:
+        
+        res = 0
+        
+        while a or b or c:
+            _a = a & 1
+            _b = b & 1
+            _c = c & 1
+            if _a | _b != _c:
+                if _c == 1:
+                    res += 1
+                elif _a & _b == 1:
+                    res += 2
+                else:
+                    res += 1
+            a >>= 1
+            b >>= 1
+            c >>= 1
+        
+        return res
+```
+
+依次将a和b的最后一位做或操作与c的最后一位相对比，如果不相等看需要进行怎样变换。
+
+如果c最后一位是1，那么a或b最后一位任意一个是1即可，所以次数加1.
+
+如果c最后一位是0，且a和b最后一位都是1，则需要转2次，把a和b最后一位均转为0
+
+如果c最后一位是0，且a和b最后一位有一个1，则需要转1次。
+
+注意while条件要判断abc三个数都是0才结束循环
+
+
+
 ### 1404. Number of Steps to Reduce a Number in Binary Representation to One
 
 ```python
