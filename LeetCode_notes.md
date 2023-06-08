@@ -3364,25 +3364,6 @@ class Solution:
 
 
 
-### 1351. Count Negative Numbers in a Sorted Matrix
-
-```python
-class Solution:
-    def countNegatives(self, grid: List[List[int]]) -> int:
-        rows, cols = len(grid), len(grid[0])
-        r, c, ans = rows-1, 0, 0
-        
-        while r >= 0 and c < cols:
-            if grid[r][c] < 0:
-                ans += cols - c
-                r -= 1
-            else:
-                c += 1
-        return ans
-```
-
-
-
 ### 1365. How Many Numbers Are Smaller Than the Current Number
 
 ```python

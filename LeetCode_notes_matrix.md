@@ -1250,6 +1250,41 @@ class Solution:
 
 
 
+### 1351. Count Negative Numbers in a Sorted Matrix
+
+```python
+class Solution:
+    def countNegatives(self, grid: List[List[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
+        r, c, ans = rows-1, 0, 0
+        
+        while r >= 0 and c < cols:
+            if grid[r][c] < 0:
+                ans += cols - c
+                r -= 1
+            else:
+                c += 1
+        return ans
+```
+
+```python
+class Solution:
+    def countNegatives(self, grid: List[List[int]]) -> int:
+        res = 0
+        rows, cols = len(grid), len(grid[0])
+
+        for row in range(rows-1, -1, -1):
+            if grid[row][cols-1] >= 0: break
+            res += 1
+            for col in range(cols-2, -1, -1):
+                if grid[row][col] >= 0: break
+                res += 1
+        
+        return res
+```
+
+
+
 ### 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
 
 ```python
