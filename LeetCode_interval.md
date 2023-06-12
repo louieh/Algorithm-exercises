@@ -90,6 +90,30 @@ Similar to 56
 
 
 
+### 228. Summary Ranges
+
+```python
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        res = []
+        if not nums: return res
+        first = nums[0]
+        for i in range(1, len(nums)):
+            if nums[i] - nums[i-1] > 1:
+                if first != nums[i-1]:
+                    res.append(f"{first}->{nums[i-1]}")
+                else:
+                    res.append(str(first))
+                first = nums[i]
+        if first != nums[-1]:
+            res.append(f"{first}->{nums[-1]}")
+        else:
+            res.append(str(first))
+        return res
+```
+
+
+
 ### 352. Data Stream as Disjoint Intervals
 
 ```python
