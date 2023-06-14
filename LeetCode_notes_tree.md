@@ -1900,6 +1900,28 @@ class Solution:
 
 the question is the same as 783
 
+```python
+class Solution:
+    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+
+        prev = res = None
+        
+        def inorder(root):
+            if not root: return
+            inorder(root.left)
+            nonlocal prev
+            nonlocal res
+            if prev is not None:
+                res = min(res, abs(root.val - prev)) if res is not None else root.val - prev
+            prev = root.val
+            inorder(root.right)
+        
+        inorder(root)
+        return res
+```
+
+中序遍历
+
 
 
 ### 538. Convert BST to Greater Tree
