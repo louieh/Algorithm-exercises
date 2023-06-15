@@ -3757,6 +3757,33 @@ class Solution:
                 return i+1
 ```
 
+```python
+class Solution:
+    def maxLevelSum(self, root: Optional[TreeNode]) -> int:
+
+        level_nodes = [root]
+        level_val = [root.val]
+
+        while level_nodes:
+            temp = []
+            for each in level_nodes:
+                if each.left:
+                    temp.append(each.left)
+                if each.right:
+                    temp.append(each.right)
+            level_nodes = temp
+            if temp: # 这里用reduce求和会有问题
+                val = 0
+                for each in temp:
+                    val += each.val
+                level_val.append(val)
+        
+        max_val = max(level_val)
+        for i, val in enumerate(level_val):
+            if val == max_val:
+                return i + 1
+```
+
 
 
 ### 1261. Find Elements in a Contaminated Binary Tree
