@@ -3152,6 +3152,30 @@ class Solution:
 
 
 
+### 2090. K Radius Subarray Averages
+
+```python
+class Solution:
+    def getAverages(self, nums: List[int], k: int) -> List[int]:
+        if len(nums) < k * 2 + 1:
+            return [-1] * len(nums)
+
+        res = []
+
+        cur_sum = None
+        for i in range(k, len(nums)-k):
+            if cur_sum is None:
+                cur_sum = sum(nums[i-k:i+k+1])
+            else:
+                cur_sum -= nums[i-k-1]
+                cur_sum += nums[i+k]
+            res.append(cur_sum // (k * 2 + 1))
+
+        return [-1] * k + res + [-1] * k
+```
+
+
+
 ### 2279. Maximum Bags With Full Capacity of Rocks
 
 ```python
