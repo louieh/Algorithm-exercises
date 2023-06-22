@@ -694,6 +694,28 @@ If I am holding a share after today, then either I am just continuing holding th
 If I am not holding a share after today, then either I did not hold a share yesterday, or that I held a share yesterday but I decided to sell it out today: `cash = max(cash, hold + prices[i] - fee)`.
 Make sure `fee` is only incurred once.
 
+```python
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        
+        # maximum profit that can be obtained without holding the stock in the first i days
+        free = [None] * len(prices)
+        free[0] = 0
+
+        # maximum profit that can be obtained holding the stock in the first i days
+        hold = [None] * len(prices)
+        hold[0] = -prices[0]
+
+        for i in range(1, len(prices)):
+            price = prices[i]
+            free[i] = max(free[i-1], hold[i-1] + price - fee) # 对于 free 数组，要在第 i 天卖掉，则卖掉的价格需要获取前一天的持有利润也就是hold[i-1] + price - fee
+            hold[i] = max(hold[i-1], free[i-1] - price) # 对于 hold 数组，要在第 i 天买，则买的价格需要获取前一天未持有利润也就是free[i-1] - price
+        
+        return free[-1]
+```
+
+很好的解答：https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/editorial/
+
 
 
 ### 746. Min Cost Climbing Stairs
