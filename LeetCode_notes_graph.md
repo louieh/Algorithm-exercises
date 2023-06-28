@@ -670,6 +670,39 @@ class Solution:
 
 
 
+### 1514. Path with Maximum Probability
+
+```python
+class Solution:
+    def maxProbability(self, n: int, edges: List[List[int]], succProb: List[float], start: int, end: int) -> float:
+
+        graph = defaultdict(list)
+        prob = dict()
+
+        for i, (a, b) in enumerate(edges):
+            graph[a].append(b)
+            graph[b].append(a)
+            prob[(a, b)] = succProb[i]
+            prob[(b, a)] = succProb[i]
+
+        seen = set()
+        records = [(-1, start)]
+
+        while records:
+            dis, node = heappop(records)
+            if node == end: return -dis # 这里之所以是负数是因为 start 初始值是 -1，而之所以初始值设置为 -1 是因为要求最大概率且默认为小根堆
+            seen.add(node)
+            for each in graph[node]:
+                if each in seen: continue
+                heappush(records, (dis * prob.get((node, each), 0), each))
+        
+        return 0
+```
+
+Dijkstra 算法
+
+
+
 ### 1557. Minimum Number of Vertices to Reach All Nodes
 
 ```python
