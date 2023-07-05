@@ -56,6 +56,35 @@ class Solution:
 
 
 
+### 137. Single Number II
+
+```python
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        
+        res = 0
+        
+        for i in range(32):
+            _sum = 0
+            for n in nums:
+                if n >> i & 1 == 1:
+                    _sum += 1
+                    _sum %= 3
+            res |= _sum << i
+        
+        # convert negative number
+        if res >= 1 << 31:
+            return res - (1 << 32)
+        else:
+            return res
+```
+
+对于这个方法我的理解是：因为最大是32位数字所以外层循环是32位，对于每一位数遍历数组，将每个数字右移 i 位，与 1 相与，如果为 1 则将 _sum + 1，之后余等 3， 这样做的效果是因为所有数字都出现三次只有一个出现一次，那么最终 _sum 剩下的便是出现一次的数字在 i 位上的数字，则最后再将 _sum 左移 i 位与 res 相或。下面的 convert negative number 操作有些不太理解，大致是因为 python 是 64 位，那么需要将超过 32 的数转换成负数。
+
+Tip: 32位整数最大值，除去首位符号位剩余31位，让31位都置为1则是最大值，那么让第32位为1再减1则相当于让31位都置为1，则 $2^{31}-1$ 也就是 (1 << 31) - 1
+
+
+
 ### 190. Reverse Bits
 
 ```python
