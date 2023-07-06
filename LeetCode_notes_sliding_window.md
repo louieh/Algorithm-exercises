@@ -105,6 +105,34 @@ class Solution:
 
 $O(n)$ 先一直向前加，加到和>=s后再从左边开始向右减，然后再从刚刚加到的位置开始。
 
+```python
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+
+        ans = sys.maxsize
+
+        left = right = 0
+        _sum = nums[0]
+
+        while left <= right:
+            if _sum >= target:
+                if right - left + 1 == 1:
+                    return 1
+                ans = min(ans, right - left + 1)
+                _sum -= nums[left]
+                left += 1
+            else:
+                right += 1
+                if right == len(nums): break
+                _sum += nums[right]
+        
+        return 0 if ans == sys.maxsize else ans
+```
+
+与上面的方法相同，维护一个窗口，当窗口中元素和大于等于target的时候记录长度然后将左边往前移动一个，当窗口中元素小于target的时候将窗口右边往前移动一个，过程中有两个跳出条件：1. 当窗口元素和大于等于target且长度为1时直接返回1，因为没可能再小了，2. 当窗口和小于target且右边到达边界直接跳出，因为当前窗口已经小于target且无法再增大。
+
+该算法时间最差时间复杂度应该是每个元素遍历2次则2N -> O(2n)
+
 
 
 ### 239. Sliding Window Maximum
