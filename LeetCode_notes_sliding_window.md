@@ -133,6 +133,8 @@ class Solution:
 
 该算法时间最差时间复杂度应该是每个元素遍历2次则2N -> O(2n)
 
+逻辑同2024，424
+
 
 
 ### 239. Sliding Window Maximum
@@ -202,6 +204,29 @@ class Solution:
 ```
 
 **`maxCount` may be invalid at some points, but this doesn't matter, because it was valid earlier in the string, and all that matters is finding the max window that occurred \*anywhere\* in the string**. Additionally, it will expand ***if and only if\*** enough repeating characters appear in the window to make it expand. So whenever it expands, it's a valid expansion.
+
+```python
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+
+        counter = collections.Counter()
+
+        ans = left = 0
+
+        for right, c in enumerate(s):
+            counter[c] += 1
+            if right - left + 1 - max(counter.values()) > k:
+                counter[s[left]] -= 1
+                left += 1
+            else:
+                ans = max(ans, right - left + 1)
+
+        return ans 
+```
+
+这里窗口不valid的条件是字符串转换的次数大于k，也就是将字符串中所有字母都转变为出现次数最多的那个字母的次数大于k，也就是窗口长度减出现最多的字母次数大于k
+
+逻辑同209，2024
 
 
 
@@ -643,3 +668,33 @@ class Solution:
         return res
 ```
 
+
+
+### 2024. Maximize the Confusion of an Exam
+
+```python
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+
+        counter = collections.Counter()
+
+        ans = left = 0
+
+        for right, c in enumerate(s):
+            counter[c] += 1
+            if right - left + 1 - max(counter.values()) > k:
+                counter[s[left]] -= 1
+                left += 1
+            else:
+                ans = max(ans, right - left + 1)
+
+        return ans 
+```
+
+这里重要的点是窗口是否valid条件也就是左边界调整条件是：当窗口中T和F的数量均大于k
+
+算法大致是：初始化一个计数器，右边每向右移动一格便向计数器中增加该元素，之后判断窗口是否valid，不是的话将左边向右移动一格，相应的将对应元素从计数器中数量减少1，否则更新ans。
+
+逻辑同209，424
+
+重要点均是判断窗口是否满足条件，不满足则将右边界右移，不同的点是这里窗口不valid的时候不用while循环右移左边界，因为这里只有两个元素，左边界右移一次窗口立即变valid。
