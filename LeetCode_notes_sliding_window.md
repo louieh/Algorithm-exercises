@@ -133,7 +133,29 @@ class Solution:
 
 该算法时间最差时间复杂度应该是每个元素遍历2次则2N -> O(2n)
 
-逻辑同2024，424
+```python
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        
+        left = _sum = 0
+        ans = sys.maxsize
+
+        for right, num in enumerate(nums):
+            
+            _sum += num
+
+            while _sum >= target:
+                ans = min(ans, right - left + 1)
+                _sum -= nums[left]
+                left += 1
+        
+        return ans if ans != sys.maxsize else 0
+
+```
+
+逻辑与代码结构同2024，424
+
+均是外循环为右边界，循环内使用while或if判断当前窗口是否valid，从而控制左边界，根据题目选择在while或if代码块中更新ans还是在外更新，当前题目是在while循环中，2024与424是在外更新。
 
 
 
@@ -226,7 +248,7 @@ class Solution:
 
 这里窗口不valid的条件是字符串转换的次数大于k，也就是将字符串中所有字母都转变为出现次数最多的那个字母的次数大于k，也就是窗口长度减出现最多的字母次数大于k
 
-逻辑同209，2024
+逻辑与代码结构同209，2024
 
 
 
@@ -695,6 +717,6 @@ class Solution:
 
 算法大致是：初始化一个计数器，右边每向右移动一格便向计数器中增加该元素，之后判断窗口是否valid，不是的话将左边向右移动一格，相应的将对应元素从计数器中数量减少1，否则更新ans。
 
-逻辑同209，424
+逻辑与代码结构同209，424
 
 重要点均是判断窗口是否满足条件，不满足则将右边界右移，不同的点是这里窗口不valid的时候不用while循环右移左边界，因为这里只有两个元素，左边界右移一次窗口立即变valid。
