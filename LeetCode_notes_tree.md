@@ -691,6 +691,30 @@ class Solution:
         return res
 ```
 
+```python
+class Solution:
+    def minDepth(self, root: Optional[TreeNode]) -> int:
+        if not root: return 0
+
+        depth = 1
+
+        Q = [root]
+
+        while Q:
+            temp = []
+            for node in Q:
+                if not node.left and not node.right:
+                    return depth
+                if node.left:
+                    temp.append(node.left)
+                if node.right:
+                    temp.append(node.right)
+            Q = temp
+            depth += 1
+        
+        return depth
+```
+
 
 
 ### 112. Path Sum
