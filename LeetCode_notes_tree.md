@@ -3026,6 +3026,42 @@ class Solution:
 
 重点
 
+```python
+class Solution:
+    def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
+
+        graph = collections.defaultdict(list)
+
+        def helper(node):
+            if not node: return
+            if node.left:
+                graph[node.val].append(node.left.val)
+                graph[node.left.val].append(node.val)
+            if node.right:
+                graph[node.val].append(node.right.val)
+                graph[node.right.val].append(node.val)
+            helper(node.left)
+            helper(node.right)
+        
+        helper(root)
+
+        ans, seen = [], set()
+        def search(node, dis):
+            if node not in seen:
+                seen.add(node)
+                if dis == k:
+                    ans.append(node)
+                    return
+                for each in graph.get(node, []):
+                    search(each, dis+1)
+        search(target.val, 0)
+        return ans
+```
+
+先将树转为图字典，然后求与target距离为k的点
+
+也可以给每个节点增加parent指针，思路类似。
+
 
 
 ### 865. Smallest Subtree with all the Deepest Nodes
