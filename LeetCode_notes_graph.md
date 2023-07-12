@@ -490,6 +490,37 @@ class Solution:
         return [index for index, val in enumerate(ans) if val]
 ```
 
+```python
+class Solution:
+    def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
+        
+        ans = [False] * len(graph)
+        G = collections.defaultdict(set)
+        q = []
+
+        for i, each in enumerate(graph):
+            if not each:
+                q.append(i)
+            for _each in each:
+                G[_each].add(i)
+        
+        while q:
+            node = q.pop()
+            ans[node] = True
+            for each in G[node]:
+                graph[each].remove(node)
+                if not graph[each]:
+                    q.append(each)
+        
+        return [i for i, each in enumerate(ans) if each]
+```
+
+给定的图为有向图，构造一个反向的图，也就是入节点指向出节点，构造过程中将出度为0的点（terminal node）插入队列中。
+
+While 循环队列，pop出一个节点，将其在ans列表中设置为True，之后遍历该节点的入度节点，也就是G[node]，将入度节点到该节点的边去掉，判断是否还有其他边，如果没有则说明此入度节点为safe node，再插入到队列中，因为题目定义safe node：A node is a **safe node** if every possible path starting from that node leads to a **terminal node** (or another safe node).
+
+graph[each].remove(node) 这一步可以优化
+
 
 
 ### 886. Possible Bipartition
