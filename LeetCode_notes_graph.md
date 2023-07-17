@@ -2,6 +2,78 @@
 
 [toc]
 
+### 207. Course Schedule
+
+```python
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        from collections import defaultdict
+        graph = defaultdict(list)
+        for i, j in prerequisites:
+            graph[j].append(i)
+            
+        ans = []
+        ans_set = set()
+        seen = set()
+        self.possible = True
+        def dfs(node):
+            seen.add(node)
+            if node in graph:
+                for each in graph.get(node):
+                    if each in seen and each not in ans_set:
+                        self.possible = False
+                    if each not in seen:
+                        dfs(each)
+            ans.append(node)
+            ans_set.add(node)
+        
+        for i in range(numCourses):
+            if i not in seen:
+                dfs(i)
+        
+        return self.possible
+```
+
+```python
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        
+        graph = defaultdict(list)
+        for i, j in prerequisites:
+            graph[j].append(i)
+        
+        seen = set()
+        topo = set()
+
+        def dfs(node):
+            seen.add(node)
+            for each in graph[node]:
+                if each in seen and each not in topo:
+                    return False
+                if each not in seen:
+                    if not dfs(each): # 这里直接return可能不会走下面topo.add(node)
+                        return False
+            topo.add(node)
+            return True
+        
+        for node in range(numCourses):
+            if node not in seen:
+                res = dfs(node)
+                if not res:
+                    return False
+        return True
+```
+
+DFS + Topological Sort 判断是否有环，参考下面 Topo sort ：
+
+1. DFS 访问完成的顺序即为拓扑排序
+
+2. 若访问到一个点发现该点已经访问过但没有访问完成，也就是没有在访问完成栈里，则说明有环。
+
+3. DFS 遍历时，访问一个点将一个点入栈，访问完成出栈，如果到某个点发现有环，则栈顶到该点的所有点构成环。
+
+
+
 ### 210. Course Schedule II
 
 ```python
@@ -1008,7 +1080,7 @@ print(solution.checkYourRoute(nodes, sources, destinations, weights, end))
 ### Topo sort 
 
 ```java
-# DFS + TOPO Sort 并判断是否有环，如果有环打印构成环的边，只能判断有一个环的图。
+# DFS + Topological Sort 并判断是否有环，如果有环打印构成环的边，只能判断有一个环的图。
 # 要点：
 # 1. DFS 访问完成的顺序即为拓扑排序
 # 2. 若访问到一个点发现该点已经访问过但没有访问完成，也就是没有在访问完成栈里，则说明有环。
