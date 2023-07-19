@@ -1185,6 +1185,7 @@ class Solution:
             return length
         
         def add_length(l, num):
+          	# 补零
             new_header = temp_header = ListNode(0)
             for i in range(num-1):
                 temp_node = ListNode(0)
@@ -1204,6 +1205,7 @@ class Solution:
         l1_length = com_length(l1)
         l2_length = com_length(l2)
         
+        # 长度不同的话将短的前面补零
         if l1_length > l2_length:
             l2 = add_length(l2, l1_length-l2_length)
         elif l1_length < l2_length:
@@ -1265,6 +1267,52 @@ class Solution:
             head = newHead
             tempSum //= 10
         return head if head.val != 0 else head.next
+```
+
+```python
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+
+        def get_list(node, temp_list):
+            if node.next:
+                get_list(node.next, temp_list)
+            temp_list.append(node.val)
+        
+        l1_list, l2_list = [], []
+
+        get_list(l1, l1_list)
+        get_list(l2, l2_list)
+
+        head = ListNode()
+        i = j = 0
+        carry = 0
+        while i < len(l1_list) and j < len(l2_list):
+            _sum = l1_list[i] + l2_list[j] + carry
+            digit, carry = _sum % 10, _sum // 10
+            new_node = ListNode(digit, head.next)
+            head.next = new_node
+            i += 1
+            j += 1
+        
+        while i < len(l1_list):
+            _sum = l1_list[i] + carry
+            digit, carry = _sum % 10, _sum // 10
+            new_node = ListNode(digit, head.next)
+            head.next= new_node
+            i += 1
+        
+        while j < len(l2_list):
+            _sum = l2_list[j] + carry
+            digit, carry = _sum % 10, _sum // 10
+            new_node = ListNode(digit, head.next)
+            head.next= new_node
+            j += 1
+        
+        if carry:
+            new_node = ListNode(carry, head.next)
+            head.next = new_node
+        
+        return head.next
 ```
 
 
