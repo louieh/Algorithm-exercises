@@ -156,17 +156,14 @@ class SummaryRanges:
 ```python
 class Solution:
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
-        if len(intervals) <= 1:
-            return 0
-        
         temp = sorted(intervals, key=lambda k: k[1])
-        ans = 1
+        ans = 1 # 保留的数量
         end = temp[0][1]
         for i in range(1, len(temp)):
             if temp[i][0] >= end:
                 end = temp[i][1]
                 ans += 1
-        return len(temp)-ans
+        return len(temp) - ans
 ```
 
 
