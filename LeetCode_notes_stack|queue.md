@@ -611,8 +611,55 @@ class Solution:
                 else:
                     if abs(each) == abs(stack[-1]) or abs(each) > abs(stack[-1]):
                         temp = stack.pop()
-                        if abs(each) == abs(temp): break
-                    else: break
+                        if abs(each) == abs(temp):
+                          break
+                    else:
+                      break
+        return stack
+```
+
+```python
+class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+
+        stack = []
+
+        for each in asteroids:
+            while stack:
+                stack_abs, each_abs = abs(stack[-1]), abs(each)
+                if each * stack[-1] > 0 or stack[-1] < 0 and each > 0:
+                    stack.append(each)
+                    break
+                if stack_abs > each_abs:
+                    break
+                elif stack_abs < each_abs:
+                    stack.pop()
+                else:
+                    stack.pop()
+                    break
+                # 上面 if 块可以简化为：
+                # if stack_abs <= each_abs:
+                #   	stack.pop()
+                # if stack_abs >= each_abs:
+                #   	break
+            else:
+                stack.append(each)
+
+        return stack
+```
+
+```python
+# 上面方法的简化
+class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        stack = []
+        for each in asteroids:
+            while stack and stack[-1] > 0 and each < 0: # collision happens
+                collision = stack[-1] + each # collision result
+                if collision <= 0: stack.pop() # stack top is destroyed or both are destroyed
+                if collision >= 0: break # new astroid is destroyed or both are destroyed
+            else:
+                stack.append(each)
         return stack
 ```
 
