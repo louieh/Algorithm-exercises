@@ -124,6 +124,79 @@ class LRUCache:
                 self.temp_dict.pop(old_key)
 ```
 
+```python
+class Node:
+    def __init__(self, key=0, val=0, next=None, prev=None):
+        self.key = key
+        self.val = val
+        self.next = next
+        self.prev = prev
+    
+    def __str__(self):
+        nxt = f"Node({self.next.key}, {self.next.val})" if self.next is not None else str(None)
+        prv = f"node({self.prev.key}, {self.prev.val})" if self.prev is not None else str(None)
+        return f"Node({self.key}, {self.val}, {nxt}, {prv})"
+
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self._dict = {}
+        self.capacity = capacity
+        self.head = Node()
+        self.tail = Node()
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    def get(self, key: int) -> int:
+        if key not in self._dict: return -1
+        node = self._dict[key]
+        self._update(node)
+        return node.val
+
+    def put(self, key: int, value: int) -> None:
+        if key in self._dict:
+            node = self._dict[key]
+            node.val = value
+            self._update(node)
+        else:
+            if len(self._dict) == self.capacity:
+                last_node = self.tail.prev
+                self._remove(last_node)
+            
+            new_node = Node(key, value)
+            self._insert(new_node)
+
+    def _insert(self, node: Node) -> None:
+        node.next = self.head.next
+        node.prev = self.head
+        self.head.next.prev = node
+        self.head.next = node
+        self._dict[node.key] = node
+
+    def _remove(self, node: Node) -> None:
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        self._dict.pop(node.key)
+    
+    def print_link(self):
+        print("--------")
+        dummy = self.head
+        while dummy:
+            print(f"node: {dummy.key}")
+            dummy = dummy.next
+    
+    def _update(self, node: Node) -> None:
+        self._remove(node)
+        self._insert(node)
+        
+
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
+```
+
 
 
 ### 290. Word Pattern
