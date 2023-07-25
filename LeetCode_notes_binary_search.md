@@ -1355,6 +1355,8 @@ class Solution:
         return left
 ```
 
+left 与 right 逐渐增大，最后 left 与 right 相等等于最大值
+
 
 
 ### 875. Koko Eating Bananas
