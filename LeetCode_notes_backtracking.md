@@ -278,6 +278,29 @@ class Solution:
         return ans
 ```
 
+```python
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+
+        res = []
+
+        def backtrack(temp_list, start):
+            if len(temp_list) == k:
+                res.append(temp_list)
+                return
+            
+            for i in range(start, n):
+                num = i + 1
+                temp_list.append(num)
+                backtrack(temp_list.copy(), i+1)
+                temp_list.pop()
+        
+        backtrack([], 0)
+        return res
+```
+
+与46题permutation类似，区别一个是当temp_list长度等于k时直接append后返回，另一个比较重要的是与permutation不同，combination需要调整下一次递归循环的起始位置，也就是第一次循环将各元素作为temp_list起始元素后，第二次递归循环从前一个元素的原始index+1开始，也就是永远从新位置开始，从起始位置向后移动，也就不需要像46题中判断重复。46题不可以这样做是因为，permutation是全排列，也就是比如把4作为起始元素后，还需要回过头将1添加到temp_list中，而不是一直向前推进。
+
 
 
 ### 78. Subsets
