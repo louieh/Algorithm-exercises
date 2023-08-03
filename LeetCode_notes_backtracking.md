@@ -31,6 +31,8 @@ class Solution:
         return res
 ```
 
+这里的递归是个digits阶的嵌套循环
+
 
 
 ### 22. Generate Parentheses
