@@ -232,7 +232,35 @@ class Solution:
 ### 139. Word Break
 
 ```python
-# 超时
+# BFS - AC
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        words = set(wordDict)
+        queue = deque([0])
+        seen = set()
+        
+        while queue:
+            start = queue.popleft()
+            if start == len(s):
+                return True
+            
+            for end in range(start + 1, len(s) + 1):
+                if end in seen:
+                    continue
+                
+                if s[start:end] in words:
+                    queue.append(end)
+                    seen.add(end)
+                
+        return False
+```
+
+https://leetcode.com/problems/word-break/editorial/
+
+将 s 中每个字符看作图中点，wordDict 中字符串看左边，连通的两个点是字符串首尾字符，起始点是 s 首字母，求能否到达终点也就是 s 尾字母。之所以是 BFS 是因为在一次遍历中将所有当前点的可到达点均加入队列。for 循环的作用是判断当前节点（start）的所有可到达点，加入队列。`start == len(s)` 作用是判断当前节点（start）是否到达了终点。
+
+```python
+# DFS - 超时
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         
@@ -255,8 +283,14 @@ class Solution:
         return self.ans
 ```
 
+该方法之所以是 DFS 是因为较上面方法，每遇到一个可到达点就从该节点进入递归，从该节点重新遍历所有可到达点。
+
+例如：`s = "aaaaaaa" wordDict = ["aaa","aaaa"]`
+
+第一次循环会发现两个可达点，一个从index=3处截断，一个从index=4处截断，因为是 DFS 所以在第一处可达点直接进入下一次递归，第二次递归中 s 变为 `aaaa` ，依旧判断可达点，还是两个，一个是index=3，一个从index=4，在index=3处截断后 s 变为 `a` 进入下一次递归，没有找到任何可达点而返回，在index=4处满足了 `len(word) == len(s)` 条件而返回。此时递归回到第一次index=4截断处进入下一次递归...
+
 ```python
-# DP
+# DP - AC
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         ans = [False] * (len(s) + 1)
@@ -271,6 +305,8 @@ class Solution:
 ```
 
 https://leetcode.com/problems/word-break/discuss/43790/Java-implementation-using-DP-in-two-ways
+
+初始化数组 ans 表示每个点是否可达，在遍历每个节点时，回顾之前所有可达点看该可达点到当前节点的字符串`s[j:i]` 是否在 wordDict 中，也就是看当前节点是否可达，最后返回数组最有一个点是否可达即可。
 
 
 
