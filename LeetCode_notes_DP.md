@@ -777,6 +777,41 @@ https://leetcode.com/problems/domino-and-tromino-tiling/discuss/1620975/C%2B%2BP
 
 
 
+### 920. Number of Music Playlists
+
+```python
+class Solution:
+    def numMusicPlaylists(self, n: int, goal: int, k: int) -> int:
+        MOD = 10**9 + 7
+
+        dp = [[0 for _ in range(n + 1)] for _ in range(goal + 1)]
+        dp[0][0] = 1
+
+        for i in range(1, goal+1):
+            for j in range(1, n+1):
+                if j > i: continue
+                scenario1 = dp[i-1][j-1] * (n - (j - 1))
+                scenario2 = dp[i-1][j] * (j - k) if j > k else 0
+                dp[i][j] = (scenario1 + scenario2) % MOD
+        
+        return dp[goal][n]
+```
+
+https://leetcode.com/problems/number-of-music-playlists/editorial/
+
+有 `n` 首歌，创建一个有 `goal` 首歌的播放列表，其中 `goal > n`，要求是1. `n` 首歌每首至少播放一遍 2. 重复播放下一首歌的条件是已经播放了 `k` 首其他的歌，问有多少种播放列表可能。
+
+创建一个二维数组`dp` ，有 `goal + 1` 行，`n + 1` 列，`dp[i][j]` 表示当 `goal=i & n=j` 时有多少种方案，显然这个二维数组中有一半也就是 `j > i` 时是空的，因为播放列表歌曲数量小于歌曲总数时，不可能将每首歌都播放。
+
+此时我们从 `dp[0][0]` 开始向下遍历，每个格的可能数量是两种情况之和：
+
+1. 歌曲总数加一 `j+1` 且播放列表中歌曲数加一 `i+1`，这种情况下因为总共有 `n` 首歌，已经添加了 `j-1` 首歌，所有还可能添加 `n-(j-1)` 首歌，每首歌都对应之前的 `dp[i-1][j-1]` 中可能，所以最终是 `dp[i-1][j-1] * (n-(j-1))`
+2. 歌曲总数不变，播放列表中歌曲数加一 `i+1`，这种情况下因为有 `j` 首歌曲可以再次播放，但是题目要求需要播放了 `k` 首其他歌曲，所以当 `j > k` 时才有可能，而且有 `j - k` 首歌可以再次播放，每首歌都对应之前的 `dp[i-1][j]` 种可能，所以最终是 `dp[i-1][j] * (j - k)` 
+
+对于 `dp[i][j]` 位置我们需要把上面两种可能相加，最后返回 `dp[goal][n]`
+
+
+
 ### 1143. Longest Common Subsequence
 
 ```python
