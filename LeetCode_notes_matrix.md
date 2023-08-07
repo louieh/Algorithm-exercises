@@ -409,6 +409,28 @@ class Solution:
 
 二分，主要问题是将index转换为matrix坐标`matrix[mid/cols][mid%cols]`
 
+```python
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+
+        rows, cols = len(matrix), len(matrix[0])
+        left, right = 1, rows * cols
+
+        while left <= right:
+            mid = left + (right - left) // 2
+            row = mid // cols if mid % cols != 0 else mid // cols - 1
+            col = mid - row * cols - 1
+            num = matrix[row][col]
+            if num == target:
+                return True
+            if num > target:
+                right = mid - 1
+            else:
+                left = mid + 1
+        
+        return False
+```
+
 
 
 ### 79. Word Search
