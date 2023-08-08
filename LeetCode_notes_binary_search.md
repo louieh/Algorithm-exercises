@@ -197,7 +197,64 @@ class Solution:
         return res if res != -1 else binary_search(peak_index+1, len(nums)-1)
 ```
 
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
 
+        def find_mid():
+            left, right = 0, len(nums) - 1
+
+            while left < right:
+                mid = left + (right - left) // 2
+                if nums[mid] > nums[mid+1]:
+                    return mid
+                # if nums[mid] < nums[left]:
+                #     right = mid
+                # else:
+                #     left = mid
+                if nums[mid] > nums[right]:
+                    left = mid + 1
+                else:
+                    right = mid
+            return left
+        
+        def find_target(left, right):
+            left, right = left, right
+            while left <= right:
+                mid = left + (right - left) //2
+                if nums[mid] == target:
+                    return mid
+                if nums[mid] > target:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return -1
+        
+        mid = find_mid()
+        print(f"mid: {mid}")
+        res1 = find_target(0, mid)
+        res2 = find_target(mid+1, len(nums)-1)
+
+        return res1 if res1 != -1 else res2
+
+```
+
+注意 `find_mid` 方法中的 `if` 判断，不能用 `nums[left]` 进行判断且不能 `right = mid - 1` 否则当数组仅剩 [7, 8] 时会是循环或者返回 7 的 index，之所以可以 `left = mid + 1` 是因为上面已经判断过 `nums[mid] > numsp[mid+1]` 这个条件没有通过说明 `mid` 不是最大值，可以向右移动。
+
+所以二分里面的一个 pattern 是，`left` 向前推进而 `right` 不动，最后返回 `left` ，最有一次判断数组中剩两个元素，`mid` 会落到 `left` 上，满足 `if` 返回右边，不满足返回左边。
+
+```python
+left, right = 0, len(nums) - 1
+while left < right:
+		mid = left + (right - left) // 2
+		if ...:
+				left = mid + 1
+		else:
+				right = mid
+return left
+```
+
+ 
 
 ### 34. Find First and Last Position of Element in Sorted Array
 
