@@ -1604,3 +1604,39 @@ class Solution:
         return left
 ```
 
+
+
+### 2616. Minimize the Maximum Difference of Pairs
+
+```python
+class Solution:
+    def minimizeMax(self, nums: List[int], p: int) -> int:
+
+        def feasible(mini):
+            i, count = 1, 0
+            while i < len(nums) and count < p:
+                if nums[i] - nums[i-1] <= mini:
+                    count += 1
+                    i += 2
+                else:
+                    i += 1
+            return count >= p
+        
+        nums.sort()
+        left, right = 0, nums[-1] - nums[0]
+
+        while left < right:
+            mid = left + (right - left) // 2
+            if feasible(mid):
+                right = mid
+            else:
+                left = mid + 1
+        
+        return left
+```
+
+https://leetcode.com/problems/minimize-the-maximum-difference-of-pairs/solutions/3883965/100-binary-search-greedy-video-in-o-n-log-m-optimal-solution/
+
+题目要求最小的，指定个数元素对中最大差值。
+
+使用二分法，范围在 0 到 所有元素最大差值间，满足的条件是数组中存在大于等于 p 个元素对，这些元素对元素差值小于等于 mid，之所以是小于等于而不是等于是因为如果所有元素对差值小于等于 mid 说明存在 p 个元素对的最大差值至少等于 mid，同时存在小于 mid 的可能，即小于等于 mid 都满足条件，不用担心所有元素对差值都小于 mid 的情况，这种情况下后面二分会继续减小 mid 的值。
