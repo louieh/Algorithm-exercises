@@ -492,6 +492,14 @@ class Solution:
         return False
 ```
 
+之所以在内层 if 增加 target 与 nums[left] 或 nums[right] 的判断 `if nums[mid] > target and target >= nums[left]` 是要确认 target 确实在左边或者右边，如果只判断 nums[mid] 与 target 的话还不能完全确定 target 在左还是右，例如：
+
+nums = [3, 1]，target = 1
+
+一开始 mid == 0，进入第二个 if 也就是左边是 sorted 或右边是 unsorted，然后进入内层 if，nuns[mid] > target 但这不能说明 target 就在左边，此时增加 target >= nums[left] 判断可以正确判断出 target 此时在右边。
+
+两个 elif 也是，or 语句两边都可以说明当前 mid 在左还是在右。
+
 
 
 ### 153. Find Minimum in Rotated Sorted Array
