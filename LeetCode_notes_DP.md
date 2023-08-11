@@ -735,6 +735,17 @@ class Solution:
 
 Down-top dp
 
+以 coins 长度加一作为行数，amount 加一作为列数创建二维数组，初始化所有元素为 0，将数组第一列初始化为 1，We initialize `dp[i][0] = 1` for all values of `i` from `0` to `n` since we can always make up the amount `0` by not selecting any coins. While moving from bottom to top, this serves as the base case for our solution.
+
+从数组左下方，倒数第二行正数第二列开始，向右上方遍历数组，和上面方法一样，i 表示当前 coins index，j 表示当前剩余额度。因为全部硬币且 0 amount 的情况我们已经知道答案就是1，所以从此种情况开始遍历。
+
+里面两种情况与上一提一样：
+
+1. 当前硬币大于当前剩余额度时，跳过当前硬币，`dp[i][j] = dp[i + 1][j]`
+2. 当前硬币可以使用时，将不使用与使用两个可能相加，`dp[i][j] = dp[i + 1][j] + dp[i][j - coins[i]]`
+
+最后使用全部硬币和全部额度是答案 `dp[0][amount]`
+
 
 
 ### 714. Best Time to Buy and Sell Stock with Transaction Fee
