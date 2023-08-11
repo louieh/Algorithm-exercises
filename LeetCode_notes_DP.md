@@ -700,7 +700,40 @@ https://leetcode.com/problems/coin-change-ii/editorial/ 官方答案写的不错
 
 Top-down dp with memo
 
+将问题分解成子问题，子问题有两个参数，一个是 coins 数量，一个是额度，也就是 helper 函数参数。
 
+helper 函数参数 i 表示当前 coins index，amount 表示当前剩余额度，其中两种递归情况：
+
+1. 当前 index 的硬币数额大于当前剩余额度，意味着不能使用当前硬币，于是跳过当前硬币，i 加 1，amount 不变 `helper(i + 1, amount)`
+2. 否则如果可以使用当前硬币，那么当前有两种选择，一个是不使用当前硬币也就是和上面 1 情况一样，一个是使用当前硬币，那么 i 不变，amount 减去当前硬币数量 `helper(i, amount - coins[i])`
+
+因为有很多重复的计算，所以我们在过程中将子问题结果缓存在字典里，可以想答案中一样使用二维数组但也可以简单使用字典（tuple 作为key），我们最终要计算的是使用全部硬币和全部额度：`helper(0, amount)` 。
+
+```python
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        n = len(coins)
+        dp = [[0] * (amount + 1) for _ in range(n + 1)]
+        for i in range(n):
+            dp[i][0] = 1
+        
+        # print(f"dp: {dp}")
+        # 硬币数组长度是行数
+        # amount 时列数
+        # 遍历是从数组左下方，倒数第二行正数第二列开始，向右上方
+        # dp[0][amount] 是答案
+        
+        for i in range(n - 1, -1, -1):
+            for j in range(1, amount + 1):
+                if coins[i] > j:
+                    dp[i][j] = dp[i + 1][j]
+                else:
+                    dp[i][j] = dp[i + 1][j] + dp[i][j - coins[i]]
+        
+        return dp[0][amount]
+```
+
+Down-top dp
 
 
 
