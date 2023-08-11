@@ -667,6 +667,43 @@ https://leetcode.com/problems/ones-and-zeroes/discuss/814077/Dedicated-to-Beginn
 
 
 
+### [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/)
+
+```python
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+
+        memo = {}
+
+        def helper(i, amount):
+            if amount == 0:
+                return 1
+            
+            if i >= len(coins):
+                return 0
+
+            if memo.get((i, amount)) is not None:
+                return memo[(i, amount)]
+            
+            if coins[i] > amount:
+                memo[(i, amount)] = helper(i + 1, amount)
+            else:
+                memo[(i, amount)] = helper(i + 1, amount) + helper(i, amount - coins[i])
+
+            return memo[(i, amount)]
+        
+        return helper(0, amount)
+
+```
+
+https://leetcode.com/problems/coin-change-ii/editorial/ 官方答案写的不错，简单易懂
+
+Top-down dp with memo
+
+
+
+
+
 ### 714. Best Time to Buy and Sell Stock with Transaction Fee
 
 ```python
