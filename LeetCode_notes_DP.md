@@ -387,8 +387,8 @@ class Solution:
         for i in range(1, amount+1):
             min_coin = 2**31 - 1
             for coin in coins:
-                if coin <= i and dp[i-coin] < min_coin:
-                    min_coin = dp[i-coin] + 1
+                if coin <= i and dp[i - coin] < min_coin:
+                    min_coin = dp[i - coin] + 1
             dp[i] = min_coin
         return dp[amount] if dp[amount] != 2**31 - 1 else -1
 ```
@@ -408,8 +408,8 @@ class Solution:
         for each_amount in range(1, amount+1):
             each_min_coins = sys.maxsize
             for coin in coins:
-                if coin <= each_amount and dp[each_amount-coin] < each_min_coins:
-                    each_min_coins = dp[each_amount-coin] + 1
+                if coin <= each_amount and dp[each_amount - coin] < each_min_coins:
+                    each_min_coins = dp[each_amount - coin] + 1
             dp[each_amount] = each_min_coins
         
         return dp[-1] if dp[-1] < sys.maxsize else -1
@@ -418,6 +418,8 @@ class Solution:
 我们定义一个长度为amount+1的一维数组，dp[i]为兑换数量为i时需要的最少硬币，所以当i=0时，需要0个硬币，dp[amount] = 兑换amount时需要的最少硬币，该值为最终答案。
 
 从1开始遍历每个amount，记录一个当前需要最小硬币数量的变量，再遍历每个coin，如果当前coin大于当前要兑换的amount，那没有可能兑换则跳过，如果当前coin小于当前要兑换的amount，我们要看兑换amount-coin所需最小硬币数量是否小于当前需要最小硬币数量，如果小于则更新当前需要最小硬币数量的变量为dp[each_amount-coin] + 1，兑换amount-coin所需最小硬币数量纪录在dp中，dp[each_amount-coin]，这便是自底向上的dp。
+
+中间 if 判断 `dp[each_amount - coin] < each_min_coins` 可以写成 `dp[each_amount - coin] + 1 < each_min_coins` 感觉更 make sense 一点
 
 
 
