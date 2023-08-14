@@ -876,6 +876,38 @@ class Solution:
         return nums[index]
 ```
 
+```python
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+
+        def partition(left, right):
+            pivot = left - 1
+            for i in range(left, right):
+                if nums[i] > nums[right]:
+                    pivot += 1
+                    if pivot != i:
+                        nums[pivot], nums[i] = nums[i], nums[pivot]
+            pivot += 1
+            nums[pivot], nums[right] = nums[right], nums[pivot]
+            return pivot
+
+        left, right = 0, len(nums) - 1
+        pivot = partition(left, right)
+
+        while pivot != k - 1:
+            if pivot > k - 1:
+                right = pivot - 1
+            else:
+                left = pivot + 1
+            pivot = partition(left, right)
+        
+        return nums[pivot]
+```
+
+类似快排中的 partition，以 right 为分割点，将大于它的数字放到左边，小于它的数字放右边，其中 pivot 是中间分割点，初始化为 left - 1，每遇到一个大于的数字就将 pivot + 1，如果 pivot 不等于当前位置也就是 i，那么将 pivot 数字与 i 数字交换，因为有可能 i 是要比 pivot 移动的快的，pivot 只是大于 nums[right] 的分割点，最后将 pivot + 1 后与 nums[right] 交换，返回 pivot。
+
+分割后看返回的 pivot 是不是等于 k - 1，也就是当前分割点是不是第 k 大，不是的话调整左右继续分割。
+
 
 
 ### 229. Majority Element II
