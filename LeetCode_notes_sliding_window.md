@@ -162,6 +162,7 @@ class Solution:
 ### 239. Sliding Window Maximum
 
 ```python
+# TLE
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         if not nums:
@@ -175,7 +176,6 @@ class Solution:
             if nums[delete_index] == max_num:
                 max_num = max(nums[delete_index+1:delete_index+1+k])
                 ans.append(max_num)
-                delete_index += 1
                 continue
             delete_index += 1
             if nums[i] > max_num:
@@ -185,7 +185,39 @@ class Solution:
 ```
 
 ```python
-# deque
+# TLE
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+
+        return [max(nums[i: i+k]) for i in range(len(nums) - k + 1)]
+```
+
+```python
+# Monotonic Deque
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        dq = deque()
+        res = []
+
+        for i in range(k):
+            while dq and nums[i] > nums[dq[-1]]:
+                dq.pop()
+            dq.append(i)
+        res.append(nums[dq[0]])
+
+        for i in range(k, len(nums)):
+            if dq[0] == i - k: # 保持窗口大小为 k
+                dq.popleft()
+            while dq and nums[i] > nums[dq[-1]]:
+                dq.pop()
+            dq.append(i)
+            res.append(nums[dq[0]])
+        
+        return res
+```
+
+```python
+# Monotonic Deque
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         from collections import deque
@@ -201,8 +233,27 @@ class Solution:
             if i >= k-1:
                 res.append(nums[dq[0]])
         return res         
-        # 0, 1, 2, 3, 4, 5
 ```
+
+https://leetcode.com/problems/sliding-window-maximum/editorial/
+
+维护一个长度为 k 的单调递减的队列，先将前三个元素插入队列插入的同时维护其单调递减，最后队列中第一个元素是当前窗口的最大值。
+
+之后从 index=k 开始向后遍历，首先看队列中第一个元素是不是等于 i - k，其目的是维持窗口大小为 k，之后写入一个新元素，同时维护单调递减性，写入后当前队列第一元素即为当前窗口最大值。
+
+其实可以不用把第一个窗口单独拿出来，下面方法是合并在一起的。
+
+#### Complexity Analysis
+
+Here *n* is the size of `nums`.
+
+- Time complexity: *O*(*n*).
+  - At first glance, it may look like the time complexity of this algorithm should be O(n2)O(n^2)*O*(*n*2), because there is a nested while loop inside the for loop. However, each element can only be added to the deque once, which means the deque is limited to nn*n* pushes. Every iteration of the while loop uses `1` pop, which means the while loop will not iterate more than nn*n* times in total, across all iterations of the for loop.
+  - An easier way to think about this is that in the worst case, every element will be pushed and popped once. This gives a time complexity of O(n)*O*(2⋅*n*)=*O*(*n*).
+- Space complexity: O*(*k).
+  - The size of the deque can grow a maximum up to a size of *k*.
+
+这个方法时间复杂度是 O(n)，有点不是太理解，当前的理解是 while 循环中操作是 O(1) 的复杂度可忽略不计。
 
 
 
