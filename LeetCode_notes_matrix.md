@@ -874,6 +874,45 @@ class Solution:
 
 从每个0开始向四周做bfs，松弛操作，可松弛的加入队列。
 
+```python
+class Solution:
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+
+        dq = deque([])
+        rows, cols = len(mat), len(mat[0])
+
+        for i in range(rows):
+            for j in range(cols):
+                if mat[i][j] == 0:
+                    dq.append((i, j, 0))
+                else:
+                    mat[i][j] = sys.maxsize
+        
+        while dq:
+            row, col, step = dq.popleft()
+
+            # up
+            if row > 0 and mat[row-1][col] > step + 1:
+                mat[row-1][col] = step + 1
+                dq.append((row-1, col, step+1))
+            # down
+            if row < rows - 1 and mat[row+1][col] > step + 1:
+                mat[row+1][col] = step + 1
+                dq.append((row+1, col, step+1))
+            # left
+            if col > 0 and mat[row][col-1] > step + 1:
+                mat[row][col-1] = step + 1
+                dq.append((row, col-1, step+1))
+            # right
+            if col < cols - 1 and mat[row][col+1] > step + 1:
+                mat[row][col+1] = step + 1
+                dq.append((row, col+1, step+1))
+        
+        return mat
+```
+
+将 1 所在位置标记为最大值，是肯定要在之后松弛的。从每个 0 所在位置为起始位置开始向四周松弛，每个 0 互不影响是因为松弛是最终到最小值，所以比如第一个 0 将某个位置松弛到一个值后，另一个 0 为起点到该位置的距离更小那么会更新该位置的值。
+
 
 
 ### 695. Max Area of Island
