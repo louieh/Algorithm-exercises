@@ -874,6 +874,162 @@ https://leetcode.com/problems/min-cost-to-connect-all-points/solution/
 
 
 
+### [1615. Maximal Network Rank](https://leetcode.com/problems/maximal-network-rank/)
+
+```python
+class Solution:
+    def maximalNetworkRank(self, n: int, roads: List[List[int]]) -> int:
+
+        if not roads: return 0
+
+        graph = defaultdict(set)
+
+        for fr, to in roads:
+            graph[fr].add(to)
+            graph[to].add(fr)
+        
+        graph_list = [(k, v) for k, v in graph.items()]
+        # graph_list.sort(key=lambda x: len(x[1]), reverse=True)
+
+        # print(f"graph_list: {graph_list}")
+        
+        res = -sys.maxsize
+        for i in range(len(graph_list)):
+            for j in range(i+1, len(graph_list)):
+                _res = len(graph_list[i][1]) + len(graph_list[j][1])
+                if graph_list[i][0] in graph_list[j][1]:
+                    _res -= 1
+                res = max(res, _res)
+        
+        return res
+```
+
+本质就是找两个出度和最大值，且如果这两个点是直接相连的，那么直接相连的边只能算一次，也就是需要减 1。
+
+因为节点数量最大就只有100个所以嵌套循环是可以接受的。
+
+最开始想的是把所有节点按出度排序，然后用最大出度点与其他点比较计算结果，但是也可能有很多最大出度点，不同最大出度点之间可能不相连，所以直接暴力循环判断不用排序了。
+
+下面是不用嵌套循环的方法：
+
+https://leetcode.com/problems/maximal-network-rank/solutions/3924675/beat-100-o-v-e-most-efficient-solution-greedy-no-hash-no-double-loop/
+
+**Intuition**
+
+The so called **network rank** of two cities is simply the sum of their degrees except when they are adjacent we minus that by 1.
+
+> We consider this as a graph problem: a city is a *vertex* and a road is an *edge*. The *degree* is the concept in the graph theory.
+
+Obviously we only care about cities with the largest degrees.
+
+- If there are more than one cities with the largest degree we call them candidates and:
+  - If there are a pair of `candidates` that are not adjacent, then the answer is `max_degree * 2`.
+  - Otherwise the answer is `max_degree * 2 - 1`.
+- If there is a single city with the largest degree, we call it king and the cities with the second largest degrees candidates.
+  - If any one from the `candidates` is **not** connected to the `king` then the answer is `max_degree + second_max_degree`.
+  - Otherwise the answer is `max_degree + second_max_degree - 1`
+
+> **Combinatorics Knowledge**:
+> The number of pairs in nn*n* items is simply:
+> (n2)=n(n−1)/2{n \choose 2} = n(n-1) / 2(2*n*​)=*n*(*n*−1)/2
+> If the total count of directly-connnected-pairs among `candidates` is less than that then we are guaranteed to have at least one pair of not-directly-connected candidates.
+
+**Approach**
+
+For max performance we avoided hash containers and double loop. We first go through all edges to find the degree info and then candidates info. Then we go through the edges again to check the connection relation between candidates (and king).
+
+**Complexity**
+
+- Time complexity:
+
+Θ(*V*+*E*)
+*V* is the *vertex* count which is the number of cities here.
+*E* is the *edge* count which is the number of roads here.
+
+- Space complexity:
+
+Θ(*V*)
+
+**code**
+
+```java
+class Solution {
+public:
+  int maximalNetworkRank(int n, vector<vector<int>>& roads) {
+    vector<int> degrees(n);
+    for (const vector<int>& road : roads) {
+      int a = road[0];
+      int b = road[1];
+      ++degrees[a];
+      ++degrees[b];
+    }
+
+    int max_degree = 0;
+    int second_max_degree = 0;
+    for (int degree : degrees) {
+      if (degree < second_max_degree) {
+        continue;
+      }
+      second_max_degree = degree;
+      if (second_max_degree > max_degree) {
+        swap(second_max_degree, max_degree);
+      }
+    }
+
+    vector<bool> is_candidate(n);
+    int candidate_count = 0;
+    int king = -1;
+    for (int i = 0; i < n; ++i) {
+      if (degrees[i] == second_max_degree) {
+        is_candidate[i] = true;
+        ++candidate_count;
+      }
+      if (max_degree > second_max_degree && degrees[i] == max_degree) {
+        king = i;
+      }
+    }
+
+    if (max_degree == second_max_degree) {
+      // Case 1: We have multiple candidates with the same max degrees.
+      if (candidate_count > max_degree + 1) {
+        return max_degree * 2;
+      }
+      int connection_count = 0;
+      for (const vector<int>& road : roads) {
+        int a = road[0];
+        int b = road[1];
+        if (is_candidate[a] && is_candidate[b]) {
+          ++connection_count;
+        }
+      }
+      if (connection_count < candidate_count * (candidate_count - 1) / 2) {
+        return max_degree * 2;
+      }
+      return max_degree * 2 - 1;
+    }
+
+    // Case 2: We have a single max degree (king) and multiple second max degree candidates.
+    int connection_count = 0;
+    for (const vector<int>& road : roads) {
+      int a = road[0];
+      int b = road[1];
+      if (a != king && b != king) {
+        continue;
+      }
+      if (is_candidate[a] || is_candidate[b]) {
+        ++connection_count;
+      }
+    }
+    if (connection_count < candidate_count) {
+      return max_degree + second_max_degree;
+    }
+    return max_degree + second_max_degree - 1;
+  }
+};
+```
+
+
+
 ### 1631. Path With Minimum Effort
 
 ```python
