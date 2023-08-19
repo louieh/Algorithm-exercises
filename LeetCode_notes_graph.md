@@ -773,6 +773,94 @@ class Solution:
 
 
 
+### [1489. Find Critical and Pseudo-Critical Edges in Minimum Spanning Tree](https://leetcode.com/problems/find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree/)
+
+```python
+class UF(object):
+    def __init__(self, n):
+        self.uf = list(range(n))
+        self.size = [1] * n
+        self.maxsize = 1
+    
+    def find(self, x):
+        if self.uf[x] != x:
+            self.uf[x] = self.find(self.uf[x])
+        return self.uf[x]
+    
+    def union(self, x, y):
+        root_x = self.find(x)
+        root_y = self.find(y)
+
+        if root_x == root_y: return False
+        if self.size[root_x] < self.size[root_y]:
+            root_x, root_y = root_y, root_x
+        self.uf[root_y] = root_x
+        self.size[root_x] += self.size[root_y]
+        self.maxsize = max(self.maxsize, self.size[root_x])
+        return True
+
+class Solution:
+    def findCriticalAndPseudoCriticalEdges(self, n: int, edges: List[List[int]]) -> List[List[int]]:
+        critical, pseudo_critical = [], []
+        edges_cp = copy.deepcopy(edges)
+        for i, edge in enumerate(edges_cp):
+            edge.append(i)
+        
+        edges_cp.sort(key=lambda x: x[2])
+        weight_std = 0
+        uf = UF(n)
+        for i, j, w, index in edges_cp:
+            if uf.union(i, j):
+                weight_std += w
+        
+        for i, j, w, index in edges_cp:
+            
+            # find critical
+            weight_critical = 0
+            uf_critical = UF(n)
+            for _i, _j, _w, _index in edges_cp:
+                if index == _index: continue
+                if uf_critical.union(_i, _j):
+                    weight_critical += _w
+                
+            if uf_critical.maxsize < n or weight_critical > weight_std:
+                critical.append(index)
+                continue
+            
+            # find pseudo-critical
+            weight_pse_critical = w
+            uf_pse_critical = UF(n)
+            uf_pse_critical.union(i, j)
+            for _i, _j, _w, _index in edges_cp:
+                if index == _index: continue
+                if uf_pse_critical.union(_i, _j):
+                    weight_pse_critical += _w
+            if weight_pse_critical == weight_std:
+                pseudo_critical.append(index)
+        
+        return [critical, pseudo_critical]
+```
+
+https://leetcode.com/problems/find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree/editorial/
+
+这道题有几个点是：
+
+1. 明确最小生成树定义与在本题中的意义：
+
+   A graph has exactly one minimum spanning tree (MST) weight, but there could be multiple MSTs with this weight.
+
+2. 明确 *critical* edge 和 *pseudo-critical* edge 的定义与查找方法：
+
+   A *critical* edge is an edge that, if removed from the graph, would increase the MST weight. It means that the edge appears in every MST.
+
+   On the other hand, a *pseudo-critical* edge is an edge that can appear in some MSTs but not all. It means that the edge isn't necessary to maintain the MST weight, but we can include it without increasing the MST weight.
+
+3. 用并查集使用 Kruskal's 算法计算最小生成树
+
+其中并查集单独使用一个类构造，类中存放父子关系的是一个长度为 n 的列表，因为我们已知图中节点个数且省去了 find 方法中设置自己是自己父节点的步骤。size 属性记录以该节点为根的集合大小，注意这里设置 size 的原因是为了计算最大集合数量，所以设置 size 时候只会把小集合加到大集合里。maxsize 属性便是最大集合数量。
+
+
+
 ### 1514. Path with Maximum Probability
 
 ```python
