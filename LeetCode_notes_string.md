@@ -395,6 +395,32 @@ Similar as 1446
 
 
 
+### 459. Repeated Substring Pattern
+
+```python
+class Solution:
+    def repeatedSubstringPattern(self, s: str) -> bool:
+        return s in (s + s)[1:-1]
+```
+
+https://leetcode.com/problems/repeated-substring-pattern/editorial/
+
+```python
+class Solution:
+    def repeatedSubstringPattern(self, s: str) -> bool:
+        n  = len(s)
+
+        for i in range(1, n // 2 + 1):
+            if n % i == 0:
+                if s[:i] * (n // i) == s:
+                    return True
+        return False
+```
+
+第二个方法容易理解一下，我们知道如果要满足题目要求的子串的长度肯定是总字符串长度的约数，且假设子串是a 则满足 `s == a * (len(s) // len(a))`， 并且子串是 s 的前缀，所以遍历所有 s 长度的约数判断能不能组合成原字符串。注意除自己之外的最大约数是 `n // 2`
+
+
+
 ### 520. Detect Capital
 
 ```python
