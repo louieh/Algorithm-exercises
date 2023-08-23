@@ -1240,6 +1240,27 @@ class Solution:
         return ''.join(result)
 ```
 
+```python
+class Solution:
+    def convertToTitle(self, columnNumber: int) -> str:
+        _dict = {i-65: chr(i) for i in range(65, 65 + 26)}
+
+        remain = columnNumber
+        res = ""
+        while remain > 0:
+            remain -= 1
+            res = _dict[remain % 26] + res
+            remain //= 26
+
+        return res
+```
+
+此题乍一看是 26 进制，但实则是由一些不同，因为题目给的数字是从 1 开始的，要满足 26 进制是要从 0-25，所以我们将字典的映射定义为 0-25 对应 A-Z，输入的 columnNumber 也相应的减一，直接做短除运算：% 26 是当前结果，// 26 是下一次计算的值。
+
+At first glance, it might be tempting to say that these numbers are just base 26, but the catch is that in a base 26 system, the numbers would start from `0`
+
+However, in the problem, we have the number starting from `1`, not `0`. But we can change them to process them like base 26 numbers. The important point to observe here is that every column title has the corresponding column number as a number in base 26 plus one. For example, let's convert the number `2002` to the letters `BXZ` by representing it as a number in base 26. Note that each part will have an extra `1` added to compensate for the fact that we are starting from `1` in our system. 
+
 
 
 ### 170. Two Sum III - Data structure design
