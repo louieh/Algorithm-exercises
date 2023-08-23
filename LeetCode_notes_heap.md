@@ -23,6 +23,33 @@ class Solution:
         return res
 ```
 
+初始化一个优先队列，先取出一个字母和对应的count，之后把这个字母和count作为一个中间变量存起来，之后再从队列里取字母，然后将中间变量中字母放入队列，将刚刚取出的字母设置为中间变量，也就是将每次赋值的字母取出队列以保证下一次不会从队列里取到。
+
+```python
+class Solution:
+    def reorganizeString(self, s: str) -> str:
+        counter = Counter(s)
+        counter_list = [(c, count) for c, count in counter.items()]
+        counter_list.sort(key=lambda x: x[1], reverse=True)
+
+        if counter_list[0][1] > math.ceil(len(s) / 2): return ""
+
+        res = [None] * len(s)
+
+        index = 0
+        for c, count in counter_list:
+            while count > 0:
+                if index >= len(s):
+                    index = 1
+                res[index] = c
+                count -= 1
+                index += 2
+        
+        return "".join(res)
+```
+
+这个方法是按偶数位置和奇数位置按序赋值，现将字母按频率排序，从最多的字母开始从偶数位置赋值，最开始判断一下最多的字母大小是否大于多大容量。不过有点没太想清楚这个方法是如何保证正确性的。
+
 
 
 ### 1046. Last Stone Weight
