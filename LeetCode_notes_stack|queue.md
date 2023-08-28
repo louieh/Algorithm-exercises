@@ -272,6 +272,50 @@ class MyStack:
 # param_4 = obj.empty()
 ```
 
+```python
+class MyStack:
+
+    def __init__(self):
+        self.cur = Deque()
+        self.nxt = Deque()
+        self._top = None
+        self.count = 0
+
+    def push(self, x: int) -> None:
+        self.cur.append(x)
+        self._top = x
+        self.count += 1
+
+    def pop(self) -> int:
+        _count = self.count
+        _last = None
+        while _count > 1:
+            _last = self.cur.popleft()
+            self.nxt.append(_last)
+            _count -= 1
+        res = self.cur.popleft()
+        self._top = _last
+        self.count -= 1
+        self.cur, self.nxt = self.nxt, self.cur
+        return res
+
+    def top(self) -> int:
+        return self._top
+
+    def empty(self) -> bool:
+        return not bool(self.cur)
+
+
+# Your MyStack object will be instantiated and called as such:
+# obj = MyStack()
+# obj.push(x)
+# param_2 = obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.empty()
+```
+
+这里用的是 deque，并且只用到了队列的 popleft 和 append 方法
+
 
 
 ### 227. Basic Calculator II
