@@ -243,7 +243,7 @@ https://leetcode.com/problems/sliding-window-maximum/editorial/
 
 其实可以不用把第一个窗口单独拿出来，下面方法是合并在一起的。
 
-#### Complexity Analysis
+**Complexity Analysis**
 
 Here *n* is the size of `nums`.
 
