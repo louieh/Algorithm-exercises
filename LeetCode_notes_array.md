@@ -816,6 +816,7 @@ class Solution:
 ### 215. Kth Largest Element in an Array
 
 ```python
+# ETL
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
         if not nums:
@@ -852,6 +853,7 @@ class Solution:
 ```
 
 ```python
+# ETL
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
         def partition(left, right):
@@ -877,6 +879,7 @@ class Solution:
 ```
 
 ```python
+# ETL
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
 
@@ -907,6 +910,67 @@ class Solution:
 类似快排中的 partition，以 right 为分割点，将大于它的数字放到左边，小于它的数字放右边，其中 pivot 是中间分割点，初始化为 left - 1，每遇到一个大于的数字就将 pivot + 1，如果 pivot 不等于当前位置也就是 i，那么将 pivot 数字与 i 数字交换，因为有可能 i 是要比 pivot 移动的快的，pivot 只是大于 nums[right] 的分割点，最后将 pivot + 1 后与 nums[right] 交换，返回 pivot。
 
 分割后看返回的 pivot 是不是等于 k - 1，也就是当前分割点是不是第 k 大，不是的话调整左右继续分割。
+
+
+
+类似于上面快排的方法，但是每次构建新的list
+
+```python
+class Solution:
+    def findKthLargest(self, nums, k):
+        def quick_select(nums, k):
+            pivot = random.choice(nums)
+            left, mid, right = [], [], []
+
+            for num in nums:
+                if num > pivot:
+                    left.append(num)
+                elif num < pivot:
+                    right.append(num)
+                else:
+                    mid.append(num)
+            
+            if k <= len(left):
+                return quick_select(left, k)
+            
+            if len(left) + len(mid) < k:
+                return quick_select(right, k - len(left) - len(mid))
+            
+            return pivot
+        
+        return quick_select(nums, k)
+```
+
+
+
+使用堆，保持小根堆大小是k
+
+```python
+class Solution:
+    def findKthLargest(self, nums, k):
+        heap = []
+        for num in nums:
+            heapq.heappush(heap, num)
+            if len(heap) > k:
+                heapq.heappop(heap)
+        
+        return heap[0]
+```
+
+```python
+# 先全部插入堆中，然后pop出len(nums)-k个元素，让堆中只有k个元素
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        
+        heap = []
+        for num in nums:
+            heapq.heappush(heap, num)
+        
+        for _ in range(len(heap) - k):
+            heapq.heappop(heap)
+        
+        return heap[0]
+```
 
 
 
