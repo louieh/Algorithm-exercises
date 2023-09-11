@@ -1131,6 +1131,26 @@ class Solution:
         return root
 ```
 
+```python
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root: return
+
+        temp = [root]
+
+        while temp:
+            nxt = []
+            for node in temp:
+                node.left, node.right = node.right, node.left
+                if node.left:
+                    nxt.append(node.left)
+                if node.right:
+                    nxt.append(node.right)
+            temp = nxt
+        
+        return root
+```
+
 
 
 ### 230. Kth Smallest Element in a BST
