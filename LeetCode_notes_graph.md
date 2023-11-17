@@ -72,6 +72,34 @@ DFS + Topological Sort 判断是否有环，参考下面 Topo sort ：
 
 3. DFS 遍历时，访问一个点将一个点入栈，访问完成出栈，如果到某个点发现有环，则栈顶到该点的所有点构成环。
 
+```python
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = defaultdict(set)
+        for a, b in prerequisites:
+            graph[a].add(b)
+
+        finish = set()
+        course_set = set(range(numCourses))
+
+        while True:
+            courses = course_set - graph.keys()
+            courses.difference_update(finish)
+            if not courses or len(finish) == numCourses: break
+            finish = finish.union(courses)
+            wait_to_delete = []
+            for k, v in graph.items():
+                v.difference_update(courses)
+                if not v:
+                    wait_to_delete.append(k)
+            for each in wait_to_delete:
+                graph.pop(each)
+        
+        return len(finish) == numCourses
+```
+
+
+
 
 
 ### 210. Course Schedule II
@@ -105,9 +133,67 @@ class Solution:
         return ans[::-1] if self.possible else []
 ```
 
-Topo order
+```python
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = defaultdict(list)
+        for a, b in prerequisites:
+            graph[a].append(b)
 
-dfs判断有环
+        seen = set()
+        fini = []
+
+        def dfs(node):
+            seen.add(node)
+            for depend_node in graph[node]:
+                if depend_node in seen and depend_node not in fini:
+                    return False
+                if depend_node not in seen:
+                    if not dfs(depend_node):
+                        return False
+            fini.append(node)
+            return True
+
+        for i in range(numCourses):
+            if i not in seen:
+                if not dfs(i):
+                    return []
+        return fini
+```
+
+Topo order，dfs判断有环
+
+最后的结果是否倒序取决于在构造图时候的方向，如果构造成 a->b && a depended on b，也就是先完成b才能完成a，边的方法是指向依赖项的话，那么最后结果不需要反转，因为 topo order 添加的顺序是最先完成子节点递归的节点到最后完成递归的节点，那么如果这样构造图的话，最先完成的节点就是没有依赖的课程先完成，所以最后不需要反转。
+
+最后循环那里，上面是遍历所有节点，理论上是可以从没有入度节点开始，也就是不作为任何课程的依赖课程的节点，但是当图有环的时候这样遍历会有问题。
+
+```python
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = defaultdict(set)
+        for a, b in prerequisites:
+            graph[a].add(b)
+
+        finish = []
+        course_set = set(range(numCourses))
+
+        while True:
+            courses = course_set - graph.keys()
+            courses.difference_update(set(finish))
+            if not courses or len(finish) == numCourses: break
+            finish += list(courses)
+            wait_to_delete = []
+            for k, v in graph.items():
+                v.difference_update(courses)
+                if not v:
+                    wait_to_delete.append(k)
+            for each in wait_to_delete:
+                graph.pop(each)
+        
+        return finish if len(finish) == numCourses else []
+```
+
+如果我们将图中边的方法定义为「任务 --> 先前任务」该方法是直接找到没有先前任务的任务开始执行，也就是找到没有出度为零的点，执行完成后，将该任务从所有任务的依赖列表中删除，也就是 release 边，之后再找到图中没有先前任务的任务，直到执行完所有任务，可以理解为直接从叶节点开始，边执行边删除边，直到根节点。
 
 
 
@@ -1141,7 +1227,7 @@ class Solution:
                         heappush(minHeap, (dist[a][b], a, b))
 ```
 
-##### Dijikstra 算法
+Dijikstra 算法
 
 https://leetcode.com/problems/path-with-minimum-effort/discuss/909017/JavaPython-Dijikstra-Binary-search-Clean-and-Concise
 
