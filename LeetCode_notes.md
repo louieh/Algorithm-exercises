@@ -3501,6 +3501,42 @@ class Solution:
 
 
 
+### [1662. Check If Two String Arrays are Equivalent](https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent/)
+
+```go
+func arrayStringsAreEqual(word1 []string, word2 []string) bool {
+    return strings.Join(word1, "") == strings.Join(word2, "")
+}
+```
+
+```go
+func arrayStringsAreEqual(word1 []string, word2 []string) bool {
+    word1List := []string{}
+    word2List := []string{}
+    for _, str := range word1 {
+        for _, c := range str {
+            word1List = append(word1List, string(c))
+        }
+    }
+    for _, str := range word2 {
+        for _, c := range str {
+            word2List = append(word2List, string(c))
+        }
+    }
+    if len(word1List) != len(word2List) {
+        return false
+    }
+    for i, _ := range word1List {
+        if word1List[i] != word2List[i] {
+            return false
+        }
+    }
+    return true
+}
+```
+
+
+
 ### 1689. Partitioning Into Minimum Number Of Deci-Binary Numbers
 
 ```python

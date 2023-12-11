@@ -2805,6 +2805,32 @@ class Solution:
 
 
 
+### [1287. Element Appearing More Than 25% In Sorted Array](https://leetcode.com/problems/element-appearing-more-than-25-in-sorted-array/)
+
+```go
+func findSpecialInteger(arr []int) int {
+    length := len(arr)
+    curr, currCount := arr[0], 1
+    if length == 1 {
+        return curr
+    }
+    for _, num := range arr[1:] {
+        if num == curr {
+            currCount += 1
+        } else {
+            curr = num
+            currCount = 1
+        }
+        if currCount > length / 4 {
+            return curr
+        }
+    }
+    return -1
+}
+```
+
+
+
 ### 1295. Find Numbers with Even Number of Digits
 
 ```python
