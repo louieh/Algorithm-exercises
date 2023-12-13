@@ -79,7 +79,7 @@ def rotateMatrix(mat):
     return mat
 ```
 
-### **Rotate matrix among Diagnals** 
+### Rotate matrix among Diagnals
 
 ```python
 """
@@ -993,6 +993,95 @@ class Solution:
 ```
 
 直接向上下左右四个方向遍历，遇到与oldColor不等就停止。
+
+```go
+func doFill(_image *[][]int, row int, col int, d string, color int, oriColor int) {
+        if row < 0 || row >= len(*_image) || col < 0 || col >= len((*_image)[0]) || (*_image)[row][col] != oriColor {
+            return
+        }
+        (*_image)[row][col] = color
+        if d == "up" {
+            doFill(_image, row, col-1, "right", color, oriColor)
+            doFill(_image, row, col+1, "left", color, oriColor)
+            doFill(_image, row+1, col, "up", color, oriColor)
+        }
+        if d == "down" {
+            doFill(_image, row, col-1, "right", color, oriColor)
+            doFill(_image, row, col+1, "left", color, oriColor)
+            doFill(_image, row-1, col, "down", color, oriColor)
+        }
+        if d == "left" {
+            doFill(_image, row+1, col, "up", color, oriColor)
+            doFill(_image, row-1, col, "down", color, oriColor)
+            doFill(_image, row, col+1, "left", color, oriColor)
+        }
+        if d == "right" {
+            doFill(_image, row+1, col, "up", color, oriColor)
+            doFill(_image, row-1, col, "down", color, oriColor)
+            doFill(_image, row, col-1, "right", color, oriColor)
+        }
+    }
+
+func floodFill(image [][]int, sr int, sc int, color int) [][]int {
+    if image[sr][sc] == color {
+        return image
+    }
+    oriColor := image[sr][sc]
+
+    image[sr][sc] = color
+    doFill(&image, sr-1, sc, "down", color, oriColor)
+    doFill(&image, sr+1, sc, "up", color, oriColor)
+    doFill(&image, sr, sc-1, "right", color, oriColor)
+    doFill(&image, sr, sc+1, "left", color, oriColor)
+    return image
+}
+```
+
+```go
+func doFill(_image *[][]int, row int, col int, color int, oriColor int) {
+	if row < 0 || row >= len(*_image) || col < 0 || col >= len((*_image)[0]) || (*_image)[row][col] != oriColor {
+		return
+	}
+	(*_image)[row][col] = color
+	doFill(_image, row, col-1, color, oriColor)
+	doFill(_image, row, col+1, color, oriColor)
+	doFill(_image, row+1, col, color, oriColor)
+	doFill(_image, row-1, col, color, oriColor)
+}
+
+func floodFill(image [][]int, sr int, sc int, color int) [][]int {
+	if image[sr][sc] == color {
+		return image
+	}
+	oriColor := image[sr][sc]
+	doFill(&image, sr, sc, color, oriColor)
+	return image
+}
+
+```
+
+```go
+func doFill(_image [][]int, row int, col int, color int, oriColor int) {
+	if row < 0 || row >= len(_image) || col < 0 || col >= len(_image[0]) || _image[row][col] != oriColor {
+		return
+	}
+	_image[row][col] = color
+	doFill(_image, row, col-1, color, oriColor)
+	doFill(_image, row, col+1, color, oriColor)
+	doFill(_image, row+1, col, color, oriColor)
+	doFill(_image, row-1, col, color, oriColor)
+}
+
+func floodFill(image [][]int, sr int, sc int, color int) [][]int {
+	if image[sr][sc] == color {
+		return image
+	}
+	oriColor := image[sr][sc]
+	doFill(image, sr, sc, color, oriColor)
+	return image
+}
+
+```
 
 
 
