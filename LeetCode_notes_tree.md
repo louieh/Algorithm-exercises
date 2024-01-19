@@ -2088,18 +2088,17 @@ diameterOfBinaryTree_tool函数负责计算节点深度，tool函数负责相加
 
 ```python
 class Solution:
-    def diameterOfBinaryTree(self, root: TreeNode) -> int:
-        self.ans = 1
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        res = 0
         def helper(root):
-            if not root:
-                return 0
+            nonlocal res
+            if not root: return 0
             left = helper(root.left)
             right = helper(root.right)
-            self.ans = max(self.ans, left+right+1)
+            res = max(res, left+right+1)
             return max(left, right) + 1
-        
         helper(root)
-        return self.ans-1
+        return res-1
 ```
 
 
