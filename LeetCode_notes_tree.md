@@ -506,6 +506,16 @@ class Solution:
             return False
 ```
 
+```python
+class Solution:
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        if not p and not q: return True
+        if p and not q or not p and q or q.val != p.val: return False
+        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
+```
+
+递归前写清所有base case
+
 
 
 ### 101. Symmetric Tree
