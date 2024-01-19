@@ -194,7 +194,7 @@ class LRUCache:
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
-# obj.put(key,value)
+# obj.put(key,value
 ```
 
 ```python
@@ -247,6 +247,84 @@ class LRUCache:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
 # obj.put(key,value)
+
+```go
+type Node struct {
+    key int
+    val int
+    prev *Node
+    next *Node
+}
+
+type LRUCache struct {
+    cache map[int]*Node
+    head *Node
+    tail *Node
+    capacity int
+}
+
+
+func Constructor(capacity int) LRUCache {
+    head := &Node{}
+    tail := &Node{}
+    head.next = tail
+    tail.prev = head
+
+    lruCache := LRUCache{
+        cache: make(map[int]*Node),
+        head: head,
+        tail: tail,
+        capacity: capacity,
+    }
+
+    return lruCache
+}
+
+func (this *LRUCache) remove(node *Node) {
+    delete(this.cache, node.key)
+    node.prev.next = node.next
+    node.next.prev = node.prev
+}
+
+func (this *LRUCache) insert(key, val int) {
+    node := new(Node)
+    node.key = key
+    node.val = val
+    node.prev = this.head
+    node.next = this.head.next
+    this.head.next.prev = node
+    this.head.next = node
+    this.cache[key] = node
+}
+
+
+func (this *LRUCache) Get(key int) int {
+    if node, found := this.cache[key]; found {
+        this.remove(node)
+        this.insert(key, node.val)
+        return node.val
+    }
+
+    return -1
+}
+
+
+func (this *LRUCache) Put(key int, value int)  {
+    if node, found := this.cache[key]; found {
+        this.remove(node)
+    } else if len(this.cache) == this.capacity {
+        this.remove(this.tail.prev)
+    }
+    this.insert(key, value)
+}
+
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * obj := Constructor(capacity);
+ * param_1 := obj.Get(key);
+ * obj.Put(key,value);
+ */
 ```
 
 
