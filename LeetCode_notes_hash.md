@@ -197,6 +197,58 @@ class LRUCache:
 # obj.put(key,value)
 ```
 
+```python
+class Node:
+    def __init__(self, key=0, val=0, prev=None, next=None):
+        self.key = key
+        self.val = val
+        self.prev = prev
+        self.next = next
+
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self._dict = dict()
+        self.head = Node()
+        self.tail = Node()
+        self.head.next = self.tail
+        self.tail.prev = self.head
+    
+    def _add(self, node):
+        self._dict[node.key] = node
+        node.next = self.head.next
+        node.prev = self.head
+        self.head.next.prev = node
+        self.head.next = node
+
+    def _remove(self, node):
+        self._dict.pop(node.key)
+        node.next.prev = node.prev
+        node.prev.next = node.next
+
+    def get(self, key: int) -> int:
+        if key not in self._dict: return -1
+        node = self._dict[key]
+        self._remove(node)
+        self._add(node)
+        return node.val
+
+    def put(self, key: int, value: int) -> None:
+        node = Node(key, value)
+        if key in self._dict:
+            self._remove(self._dict[key])
+        elif len(self._dict) == self.capacity:
+            self._remove(self.tail.prev)
+        self._add(node)
+
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
+```
+
 
 
 ### 290. Word Pattern
