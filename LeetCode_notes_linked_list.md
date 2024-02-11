@@ -250,6 +250,27 @@ class Solution(object):
             interval *= 2
 ```
 
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        res = dummy = ListNode()
+        index = [each for each in lists]
+        while any(index):
+            _min = min([each.val for each in index if each])
+            for i in range(len(index)):
+                if not index[i]: continue
+                if index[i].val == _min:
+                    dummy.next = ListNode(index[i].val)
+                    dummy = dummy.next
+                    index[i] = index[i].next
+        return res.next
+```
+
 
 
 ### 24. Swap Nodes in Pairs
