@@ -2497,6 +2497,60 @@ class Solution:
 
 
 
+### [962. Maximum Width Ramp](https://leetcode.com/problems/maximum-width-ramp/)
+
+```python
+# TLE
+class Solution:
+    def maxWidthRamp(self, nums: List[int]) -> int:
+        max_width = left = 0
+        while (start := left + max_width + 1) < len(nums):
+            for each in range(start, len(nums)):
+                if nums[each] >= nums[left]:
+                    max_width = max(max_width, each-left)
+            left += 1
+        return max_width
+```
+
+```python
+class Solution:
+    def maxWidthRamp(self, nums: List[int]) -> int:
+        index = [i for i in range(len(nums))]
+        index.sort(key=lambda i: (nums[i], i))
+        min_index = len(nums)
+        max_width = 0
+        for i in index:
+            max_width = max(max_width, i-min_index)
+            min_index = min(min_index, i)
+        return max_width
+```
+
+将index按值从小到大排序，得到的index列表后面值比前面大这样只要找到后面index与前端index最大差值。
+
+遍历这个index列表，记录最小的index值，同时将当前遍历到的index与迄今为止见到的最小的index做差，这个差值的最大值便是结果。
+
+```python
+class Solution:
+    def maxWidthRamp(self, nums: List[int]) -> int:
+        
+        max_width = 0
+        
+        stack = []
+        for i in range(len(nums)):
+            if not stack or nums[i] <= nums[stack[-1]]:
+                stack.append(i)
+        
+        for j in range(len(nums)-1, -1, -1):
+            if not stack: break
+            while stack and nums[j] >= nums[stack[-1]]:
+                max_width = max(max_width, j - stack[-1])
+                stack.pop()
+        
+        return max_width
+```
+
+没有完全理解，大致意思是，构造一个单减stack，该列表中包含最小值。然后从原列表最后向前遍历，用当前元素大于等于stack最后元素那么计算它们index差值，然后pop出stack中最后元素，因为随着遍历进行，不可能有更大距离了，所以pop出去。
+
 ### 969. Pancake Sorting
 
 ```python
