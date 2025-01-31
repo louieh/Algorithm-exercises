@@ -20,6 +20,26 @@ class Solution:
 
 设置两个点，第一个点先向前走n步，此时两个点步数间隔n，之后两个点同时先前走
 
+```python
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        fast = slow = ListNode()
+        fast.next = head
+        slow.next = head
+        for _ in range(n):
+            fast = fast.next
+        
+        if fast.next is None:
+            return slow.next.next
+
+        while fast.next is not None:
+            slow = slow.next
+            fast = fast.next
+        
+        slow.next = slow.next.next
+        return head
+```
+
 
 
 ### 21. Merge Two Sorted Lists
