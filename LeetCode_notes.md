@@ -3312,6 +3312,50 @@ class Solution:
         return True
 ```
 
+### 1298. Maximum Candies You Can Get from Boxes
+```python
+class Solution:
+    def maxCandies(self, status: List[int], candies: List[int], keys: List[List[int]], containedBoxes: List[List[int]], initialBoxes: List[int]) -> int:
+        opened, closed, res, not_used_keys = set(), set(), 0, set()
+        for each in initialBoxes:
+            if status[each]:
+                opened.add(each)
+            else:
+                closed.add(each)
+
+        while opened:
+            next_opened = set()
+            
+            # deal with current opened box
+            for each_open in opened:
+                # 1. add candies
+                res += candies[each_open]
+                # 2. deal with contained boxes
+                for contain_box in containedBoxes[each_open]:
+                    if status[contain_box]:
+                        next_opened.add(contain_box)
+                    else:
+                        closed.add(contain_box)
+                # 3. deal with keys
+                key_used = set()
+                new_not_used_keys = set()
+                for contain_key in keys[each_open]+list(not_used_keys):
+                    if contain_key in closed:
+                        key_used.add(contain_key)
+                        closed.remove(contain_key)
+                        next_opened.add(contain_key)
+                    else:
+                        new_not_used_keys.add(contain_key)
+                # delete key which has used
+                not_used_keys = not_used_keys.union(new_not_used_keys)
+                not_used_keys -= key_used
+
+            opened = next_opened
+
+        return res        
+
+```
+BFS
 
 
 ### 1306. Jump Game III
