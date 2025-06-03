@@ -3316,41 +3316,38 @@ class Solution:
 ```python
 class Solution:
     def maxCandies(self, status: List[int], candies: List[int], keys: List[List[int]], containedBoxes: List[List[int]], initialBoxes: List[int]) -> int:
-        opened, closed, res, not_used_keys = set(), set(), 0, set()
+        opened, closed, res, not_used_keys = collections.deque(), set(), 0, set()
         for each in initialBoxes:
             if status[each]:
-                opened.add(each)
+                opened.append(each)
             else:
                 closed.add(each)
+        key = [False] * len(status)
 
         while opened:
-            next_opened = set()
+            cur_box = opened.popleft()
             
-            # deal with current opened box
-            for each_open in opened:
-                # 1. add candies
-                res += candies[each_open]
-                # 2. deal with contained boxes
-                for contain_box in containedBoxes[each_open]:
-                    if status[contain_box]:
-                        next_opened.add(contain_box)
-                    else:
-                        closed.add(contain_box)
-                # 3. deal with keys
-                key_used = set()
-                new_not_used_keys = set()
-                for contain_key in keys[each_open]+list(not_used_keys):
-                    if contain_key in closed:
-                        key_used.add(contain_key)
-                        closed.remove(contain_key)
-                        next_opened.add(contain_key)
-                    else:
-                        new_not_used_keys.add(contain_key)
-                # delete key which has used
-                not_used_keys = not_used_keys.union(new_not_used_keys)
-                not_used_keys -= key_used
+            # 1. add candies
+            res += candies[cur_box]
 
-            opened = next_opened
+            # 2. deal with keys
+            for contain_key in keys[cur_box]:
+                key[contain_key] = True
+
+            # 3. deal with contained boxes
+            for contain_box in containedBoxes[cur_box]:
+                if status[contain_box] or key[contain_box]:
+                    opened.append(contain_box)
+                else:
+                    closed.add(contain_box)
+            
+            # 4. deal with closed box
+            delete_from_close = set()
+            for close_box in closed:
+                if key[close_box]:
+                    delete_from_close.add(close_box)
+                    opened.append(close_box)
+            closed -= delete_from_close
 
         return res        
 
