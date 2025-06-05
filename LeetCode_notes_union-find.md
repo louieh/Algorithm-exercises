@@ -124,3 +124,38 @@ https://leetcode.com/problems/lexicographically-smallest-equivalent-string/solut
 >         return ''.join(res)
 > ```
 
+```python
+class Solution:
+    def smallestEquivalentString(self, s1: str, s2: str, baseStr: str) -> str:
+        d = defaultdict(set)
+        for i in range(len(s1)):
+            d[s1[i]].add(s2[i])
+            d[s2[i]].add(s1[i])
+
+        res = ""
+        for each in baseStr:
+            if each not in d or each == "a":
+                res += each
+                continue
+            elif "a" in d[each]:
+                res += "a"
+                continue
+            seen = set()
+            cur_c = None
+            init_set = collections.deque(d[each])
+            while init_set:
+                c = init_set.popleft()
+                if c == "a":
+                    cur_c = c
+                    break
+                if c in seen: 
+                    continue
+                seen.add(c)
+                if cur_c is None or c < cur_c:
+                    cur_c = c
+                if c in d:
+                    init_set.extend(d[c])
+            res += cur_c
+        return res
+```
+BFS 方法
