@@ -29,15 +29,15 @@ try to use divide and conquer
 ```python
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        
+
         def merge_fun(intervals, low, high):
             mid = (low + high) // 2
             if low < high:
                 merge_fun(intervals, low, mid)
                 merge_fun(intervals, mid+1, high)
                 merge_method(intervals, low, mid, high)
-        
-        
+
+
         def merge_method(inter1, inter2):
             temp1 = inter1[-1]
             temp2 = inter2[0]
@@ -54,9 +54,9 @@ class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         res = []
         intervals.sort(key=lambda x: x[0])
-        
+
         prev = intervals[0]
-        
+
         for i in range(1, len(intervals)):
             cur = intervals[i]
             if prev[1] < cur[0]:
@@ -67,8 +67,6 @@ class Solution:
         res.append(prev)
         return res
 ```
-
-
 
 ### 57. Insert Interval
 
@@ -87,8 +85,6 @@ class Solution:
 ```
 
 Similar to 56
-
-
 
 ### 228. Summary Ranges
 
@@ -112,8 +108,6 @@ class Solution:
         return res
 ```
 
-
-
 ### 352. Data Stream as Disjoint Intervals
 
 ```python
@@ -123,7 +117,7 @@ class SummaryRanges:
         # heapq.heappush(self.intervals, [val, val])
         self.intervals = []
         self.seen = set()
-        
+
 
     def addNum(self, value: int) -> None:
         if value not in self.seen:
@@ -140,7 +134,7 @@ class SummaryRanges:
                 res[-1][1] = max(res[-1][1], temp[1])
         self.intervals = res
         return res
-        
+
 
 
 # Your SummaryRanges object will be instantiated and called as such:
@@ -148,8 +142,6 @@ class SummaryRanges:
 # obj.addNum(value)
 # param_2 = obj.getIntervals()
 ```
-
-
 
 ### 435. Non-overlapping Intervals
 
@@ -165,8 +157,6 @@ class Solution:
                 ans += 1
         return len(temp) - ans
 ```
-
-
 
 ### 452. Minimum Number of Arrows to Burst Balloons
 
@@ -193,7 +183,7 @@ class Solution:
         points.sort()
         res = 0
         cur = points[0]
-        
+
         for left, right in points[1:]:
             cur_left, cur_right = cur[0], cur[1]
             if cur_right < left:
@@ -221,23 +211,21 @@ class Solution:
                 cur_x, cur_y = nxt_x, nxt_y
             else:
                 cur_x, cur_y = max(cur_x, nxt_x), min(cur_y, nxt_y)
-        
+
         return res
 ```
-
-
 
 ### 836. Rectangle Overlap
 
 ```python
         r1x1,r1y1,r1x2,r1y2 = rec1
         r2x1,r2y1,r2x2,r2y2 = rec2
-        
+
         finx1 = max(r1x1,r2x1)
         finy1 = max(r1y1,r2y1)
         finx2 = min(r1x2,r2x2)
         finy2 = min(r1y2,r2y2)
-        
+
         if (finx2 > finx1) and (finy1 < finy2):
             return True
         else:
@@ -246,32 +234,32 @@ class Solution:
 
 求相交矩阵坐标，并判断该坐标是否可构成矩阵
 
-[假定矩形是用一对点表达的(minx, miny) (maxx, maxy)，那么两个矩形 rect1{(minx1, miny1)(maxx1, maxy1)} rect2{(minx2, miny2)(maxx2, maxy2)}  ](https://www.cnblogs.com/0001/archive/2010/05/04/1726905.html)
+[假定矩形是用一对点表达的(minx, miny) (maxx, maxy)，那么两个矩形 rect1{(minx1, miny1)(maxx1, maxy1)} rect2{(minx2, miny2)(maxx2, maxy2)} ](https://www.cnblogs.com/0001/archive/2010/05/04/1726905.html)
 
-相交的结果一定是个矩形，构成这个相交矩形rect{(minx, miny) (maxx, maxy)}的点对坐标是：  
+相交的结果一定是个矩形，构成这个相交矩形rect{(minx, miny) (maxx, maxy)}的点对坐标是：
 
-minx=max(minx1, minx2)  
+minx=max(minx1, minx2)
 
-miny=max(miny1, miny2)  
+miny=max(miny1, miny2)
 
-maxx=min(maxx1, maxx2)  
+maxx=min(maxx1, maxx2)
 
-maxy=min(maxy1, maxy2)  
+maxy=min(maxy1, maxy2)
 
-如果两个矩形不相交，那么计算得到的点对坐标必然满足：  
+如果两个矩形不相交，那么计算得到的点对坐标必然满足：
 
-（ minx > maxx ） 或者 （ miny > maxy ） 
+（ minx > maxx ） 或者 （ miny > maxy ）
 
- 判定是否相交，以及相交矩形是什么都可以用这个方法一体计算完成。
+判定是否相交，以及相交矩形是什么都可以用这个方法一体计算完成。
 
 从这个算法的结果上，我们还可以简单的生成出下面的两个内容：
 
-㈠ 相交矩形：  (minx, miny) (maxx, maxy)
+㈠ 相交矩形： (minx, miny) (maxx, maxy)
 
 ㈡ 面积： 面积的计算可以和判定一起进行
-        if ( minx>maxx ) return 0;
-        if ( miny>maxy ) return 0;
-        return (maxx-minx)*(maxy-miny)
+if ( minx>maxx ) return 0;
+if ( miny>maxy ) return 0;
+return (maxx-minx)\*(maxy-miny)
 
 第二种方法
 
@@ -316,8 +304,6 @@ class Solution:
         return ans
 ```
 
-
-
 ### 1288. Remove Covered Intervals
 
 ```python
@@ -326,7 +312,7 @@ class Solution:
         if len(intervals) == 1:
             return 1
         intervals.sort()
-        
+
         cur = intervals[0]
         res = len(intervals)
         for i in range(1, len(intervals)):
@@ -362,3 +348,20 @@ class Solution:
         return len(intervals) - res
 ```
 
+```python
+class Solution:
+    def removeCoveredIntervals(self, intervals: List[List[int]]) -> int:
+        removed = 0
+        intervals.sort(key=lambda x: (x[0], -x[1]))
+        _l = _r = None
+        for interval in intervals:
+            cur_l, cur_r = interval
+            if _l is None or cur_r > _r:
+                _l, _r = interval
+                continue
+            removed += 1
+
+        return len(intervals) - removed
+```
+
+当第一个元素相等时，按第二个元素降序排序，为了解决 `[[1,2],[1,4],[3,4]]` 这样的输入，将 `[1,4]` 排到 `[1,2]` 之前，这样实现永远是前面元素包含后面元素。
