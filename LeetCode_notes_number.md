@@ -18,7 +18,7 @@ class Solution:
             temp_mod = temp_sum % k
             res += mod_dict[temp_mod]
             mod_dict[temp_mod] += 1
-        
+
         return res
 ```
 
@@ -30,12 +30,10 @@ Running Sum[i]%K == Running Sum[j]%k that means we have sum(i,j) which is divisi
 
 A % k = x --> A = n1*k + x
 B % k = x --> B = n2*k + x
-(A-B) = n1*k + x - n2*k - x = (n1-n2)*k
+(A-B) = n1*k + x - n2*k - x = (n1-n2)\*k
 It means (A-B) % k = 0
 
 根据以上理论，我们记录每个累加值%k的结果个数即可。
-
-
 
 ### 1015. Smallest Integer Divisible by K
 
@@ -56,8 +54,6 @@ class Solution:
 
 https://leetcode.com/problems/smallest-integer-divisible-by-k/solution/
 
-
-
 ### 1291. Sequential Digits
 
 ```python
@@ -65,7 +61,7 @@ class Solution:
     def sequentialDigits(self, low: int, high: int) -> List[int]:
         ans = []
         if low == high: return ans
-        
+
         for i in range(1, 9):
             next = num = i
             while num <= high and next < 10:
@@ -75,15 +71,13 @@ class Solution:
         return sorted(ans)
 ```
 
-
-
 ### 2244. Minimum Rounds to Complete All Tasks
 
 ```python
 class Solution:
     def minimumRounds(self, tasks: List[int]) -> int:
         counter = collections.Counter(tasks)
-        
+
         res = 0
 
         for num in counter.values():
@@ -108,3 +102,24 @@ class Solution:
 https://leetcode.com/problems/minimum-rounds-to-complete-all-tasks/solutions/1955622/java-c-python-sum-up-freq-2-3/
 
 @lee215答案中把所有情况总结为 `(freq + 2) / 3` 不太能理解为什么可以这样
+
+### 3754. Concatenate Non-Zero Digits and Multiply by Sum I
+
+```python
+class Solution:
+    def sumAndMultiply(self, n: int) -> int:
+        x = 0
+        count = 0
+        sum_digits = 0
+        while n:
+            num = n % 10
+            n //= 10
+            if num == 0:
+                continue
+            sum_digits += num
+            x = num * 10 ** count + x
+            count += 1
+        return x * sum_digits
+```
+
+获取每个数字的方法是 `%10`，之后再把原数字 `//=10`
