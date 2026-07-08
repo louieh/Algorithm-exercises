@@ -123,3 +123,24 @@ class Solution:
 ```
 
 获取每个数字的方法是 `%10`，之后再把原数字 `//=10`
+
+### 3756. Concatenate Non-Zero Digits and Multiply by Sum II
+
+```python
+# Time Limit Exceeded
+class Solution:
+    def sumAndMultiply(self, s: str, queries: List[List[int]]) -> List[int]:
+        def helper(num: str):
+            x = 0
+            x_str_list = [each for each in num if each != "0"]
+            if x_str_list:
+                # 这里如果直接进行int转换会超过最大数限制而报错
+                count = 0
+                for i in range(len(x_str_list)-1, -1, -1):
+                    x = int(x_str_list[i]) * 10**count + x
+                    count += 1
+                x_sum = sum([int(each) for each in x_str_list])
+                return x * x_sum % (10**9 + 7)
+            return 0
+        return [helper(s[l:r+1]) for l, r in queries]
+```
