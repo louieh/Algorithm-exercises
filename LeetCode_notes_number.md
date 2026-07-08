@@ -144,3 +144,50 @@ class Solution:
             return 0
         return [helper(s[l:r+1]) for l, r in queries]
 ```
+
+```python
+# Time Limit Exceeded
+# https://leetcode.com/problems/concatenate-non-zero-digits-and-multiply-by-sum-ii/solutions/8383136/solution-by-la_castille-ja97/
+class Solution:
+    def sumAndMultiply(self, s: str, queries: List[List[int]]) -> List[int]:
+
+        MOD = 1000000007
+
+        sum_so_far = [0]
+        prefix_so_far = [0]
+        len_so_far = [0]
+        for num in s:
+            num = int(num)
+
+            if not len_so_far:
+                len_so_far.append(1)
+            else:
+                if num:
+                    len_so_far.append(len_so_far[-1] + 1)
+                else:
+                    len_so_far.append(len_so_far[-1])
+
+            if not sum_so_far:
+                sum_so_far.append(num)
+            else:
+                sum_so_far.append(num + sum_so_far[-1])
+
+            if not prefix_so_far:
+                prefix_so_far.append(num)
+            else:
+                if num:
+                    prefix_so_far.append(prefix_so_far[-1] * 10 + num)
+                else:
+                    prefix_so_far.append(prefix_so_far[-1])
+
+        res = []
+        for l, r in queries:
+            digit_sum = sum_so_far[r+1] - sum_so_far[l]
+            part_num = prefix_so_far[r+1] - prefix_so_far[l] * 10**(len_so_far[r+1] - len_so_far[l])
+            res.append(digit_sum * part_num % MOD)
+
+        return res
+```
+
+虽然依然TLE，但是...
+核心思想是提前计算3个列表，分别表示截止到某个位置的数字和、非零数字组合、非零数字长度，最后计算的时候右侧取值应该包含当前元素而左侧要取前一个元素的值，所以在列表先插入0的前提下，右侧index需要+1
