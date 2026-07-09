@@ -11,7 +11,7 @@ class Solution:
         graph = defaultdict(list)
         for i, j in prerequisites:
             graph[j].append(i)
-            
+
         ans = []
         ans_set = set()
         seen = set()
@@ -26,22 +26,22 @@ class Solution:
                         dfs(each)
             ans.append(node)
             ans_set.add(node)
-        
+
         for i in range(numCourses):
             if i not in seen:
                 dfs(i)
-        
+
         return self.possible
 ```
 
 ```python
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        
+
         graph = defaultdict(list)
         for i, j in prerequisites:
             graph[j].append(i)
-        
+
         seen = set()
         topo = set()
 
@@ -55,7 +55,7 @@ class Solution:
                         return False
             topo.add(node)
             return True
-        
+
         for node in range(numCourses):
             if node not in seen:
                 res = dfs(node)
@@ -94,13 +94,9 @@ class Solution:
                     wait_to_delete.append(k)
             for each in wait_to_delete:
                 graph.pop(each)
-        
+
         return len(finish) == numCourses
 ```
-
-
-
-
 
 ### 210. Course Schedule II
 
@@ -111,7 +107,7 @@ class Solution:
         graph = defaultdict(list)
         for i, j in prerequisites:
             graph[j].append(i)
-            
+
         ans = []
         ans_set = set()
         seen = set()
@@ -126,7 +122,7 @@ class Solution:
                         dfs(each)
             ans.append(node)
             ans_set.add(node)
-            
+
         for i in range(numCourses):
             if i not in seen:
                 dfs(i)
@@ -189,13 +185,11 @@ class Solution:
                     wait_to_delete.append(k)
             for each in wait_to_delete:
                 graph.pop(each)
-        
+
         return finish if len(finish) == numCourses else []
 ```
 
 如果我们将图中边的方法定义为「任务 --> 先前任务」该方法是直接找到没有先前任务的任务开始执行，也就是找到没有出度为零的点，执行完成后，将该任务从所有任务的依赖列表中删除，也就是 release 边，之后再找到图中没有先前任务的任务，直到执行完所有任务，可以理解为直接从叶节点开始，边执行边删除边，直到根节点。
-
-
 
 ### 310. Minimum Height Trees
 
@@ -209,7 +203,7 @@ class Solution:
         for i, j in edges:
             graph[i].append(j)
             graph[j].append(i)
-        
+
         leaves = [k for k,v in graph.items() if len(v) == 1]
         while n > 2:
             n -= len(leaves)
@@ -225,43 +219,39 @@ class Solution:
 
 https://leetcode.com/problems/minimum-height-trees/discuss/76055/Share-some-thoughts
 
-
-
 ### 332. Reconstruct Itinerary
 
 Eulerian Path and Eulerian Circuit 经历每条边一次，对应哈密尔顿问题
 
-|            | Eulerian Circuit                               | Eulerian Path                                                |
-| ---------- | ---------------------------------------------- | ------------------------------------------------------------ |
-| Undirected | Every vertex has an even degree                | Either every vertex has even degree or exactly two vertices have odd degree |
+|            | Eulerian Circuit                               | Eulerian Path                                                                                                                                                    |
+| ---------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Undirected | Every vertex has an even degree                | Either every vertex has even degree or exactly two vertices have odd degree                                                                                      |
 | Directed   | Every vertex has dqual indegree and out degree | At most one vertex has (outdegree) - (indegree) = 1 and at most one vertex has (indegree) - (outdegree) = 1 and all other vertices have equal in and out degrees |
 
- ```python
+```python
 class Solution:
-    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
-        from collections import defaultdict
-        dict_helper = defaultdict(list)
-        ans = []
-        for i, j in tickets:
-            dict_helper[i].append(j)
-        
-        for each in dict_helper.values():
-            each.sort()
-        
-            
-        def dfs(start):
-            while dict_helper[start]:
-                node = dict_helper[start][0]
-                dict_helper[start] = dict_helper[start][1:]
-                dfs(node)
-            ans.append(start)
-        
-        dfs("JFK")
+   def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+       from collections import defaultdict
+       dict_helper = defaultdict(list)
+       ans = []
+       for i, j in tickets:
+           dict_helper[i].append(j)
 
-        return ans[::-1]
- ```
+       for each in dict_helper.values():
+           each.sort()
 
 
+       def dfs(start):
+           while dict_helper[start]:
+               node = dict_helper[start][0]
+               dict_helper[start] = dict_helper[start][1:]
+               dfs(node)
+           ans.append(start)
+
+       dfs("JFK")
+
+       return ans[::-1]
+```
 
 ### 399. Evaluate Division
 
@@ -271,11 +261,11 @@ class Solution:
 #         a / b = x
 #         b / c = y
 #         c / d = z
-        
+
 #         a   b   a
-#         - * - = - = x * y 
+#         - * - = - = x * y
 #         b   c   c
-        
+
 #         a   b   c   a
 #         - * - * - = - = x * y * z
 #         b   c   d   d
@@ -288,7 +278,7 @@ class Solution:
             nodes.add(b)
             graph[a].update({b: values[i]})
             graph[b].update({a: 1/values[i]})
-        
+
         def dfs(node, dest, visited, res):
             if node not in visited:
                 visited.add(node)
@@ -321,8 +311,6 @@ class Solution:
         return res
 ```
 
-
-
 ### 547. Number of Provinces
 
 ```python
@@ -339,7 +327,7 @@ class Solution:
                 if isConnected[row][col] == 1:
                     graph[row].add(col)
                     graph[col].add(row)
-        
+
         for each in graph:
             if each in seen: continue
             stack = [each]
@@ -352,8 +340,6 @@ class Solution:
             res += 1
         return res
 ```
-
-
 
 ### 684. Redundant Connection
 
@@ -370,7 +356,7 @@ class Solution:
                     seen.add(each)
                     if dfs(each, target):
                         return True
-        
+
         graph = defaultdict(list)
         for u, v in edges:
             seen = {u}
@@ -383,8 +369,6 @@ class Solution:
 It's basically doing Cycle **Prevention** and not Detection, which was the key piece I missed.
 
 You're building the graph one edge at a time. However, before adding an edge between **u** and **v**, you first check if there already is a path between them, avoiding a cycle.
-
-
 
 ### 721. Accounts Merge
 
@@ -399,7 +383,7 @@ class Solution:
                 graph[acc[1]].add(email)
                 graph[email].add(acc[1])
                 email_to_name[email] = acc[0]
-        
+
         ans, seen = [], set()
         for email in graph:
             if email not in seen:
@@ -421,8 +405,6 @@ https://leetcode.com/articles/accounts-merge/
 
 把每个account的第一个邮件和剩下邮件相连，形成一个完全图，再从每个邮件开始dfs查找连通分量，每个连通分量即答案。
 
-
-
 ### 743. Network Delay Time
 
 ```python
@@ -430,16 +412,16 @@ https://leetcode.com/articles/accounts-merge/
 # TLE
 class Solution:
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-        
+
         graph = defaultdict(list)
         for source, target, time in times:
             graph[source].append((target, time))
-        
+
         for each in graph:
             graph[each].sort()
-        
+
         recev_time = [sys.maxsize] * (n + 1)
-        
+
         def dfs(node, curr_time):
             nonlocal recev_time
             if curr_time >= recev_time[node]: return
@@ -447,7 +429,7 @@ class Solution:
             for nei in graph[node]:
                 target, time = nei
                 dfs(target, curr_time + time)
-        
+
         dfs(k, 0)
         max_time = max(recev_time[1:])
         return max_time if max_time < sys.maxsize else -1
@@ -458,23 +440,23 @@ class Solution:
 # Accept
 class Solution:
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-        
+
         import queue
-        
+
         graph = defaultdict(list)
         for source, target, time in times:
             graph[source].append((target, time))
-        
+
         for each in graph:
             graph[each].sort()
-        
+
         recev_time = [sys.maxsize] * (n + 1)
-        
+
         def bfs(node):
             q = queue.Queue()
             q.put(node)
             recev_time[node] = 0
-            
+
             while not q.empty():
                 node = q.get()
                 for nei in graph[node]:
@@ -483,13 +465,11 @@ class Solution:
                     if new_recev_time < recev_time[target]:
                         recev_time[target] = new_recev_time
                         q.put(target)
-        
+
         bfs(k)
         max_time = max(recev_time[1:])
         return max_time if max_time < sys.maxsize else -1
 ```
-
-
 
 ### 785. Is Graph Bipartite?
 
@@ -497,7 +477,7 @@ class Solution:
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
         colored = {}
-        
+
         def dfs(node):
             for each in graph[node]:
                 if each not in colored:
@@ -508,7 +488,7 @@ class Solution:
                     if colored[each] == colored[node]:
                         return False
             return True
-        
+
         for i in range(len(graph)):
             if i not in colored:
                 colored[i] = 1
@@ -519,7 +499,7 @@ class Solution:
 
 To be able to split the node set `{0, 1, 2, ..., (n-1)}` into sets A and B, we will try to color nodes in set A with color A (i.e., value 1) and nodes in set B with color B (i.e., value -1), respectively.
 
-If so, ***the graph is bipartite if and only if the two ends of each edge must have opposite colors***. Therefore, we could just start with standard BFS to traverse the entire graph and
+If so, **_the graph is bipartite if and only if the two ends of each edge must have opposite colors_**. Therefore, we could just start with standard BFS to traverse the entire graph and
 
 - color neighbors with opposite color if not colored, yet;
 - ignore neighbors already colored with oppsite color;
@@ -532,8 +512,6 @@ If so, ***the graph is bipartite if and only if the two ends of each edge must h
 算法：我们对点进行着色，所以只需要判断所有边的两个点是否可以为不同颜色
 
 对未着色的点上色为1，dfs或bfs遍历相邻节点，未着色的话上相反颜色，已经有颜色的话判断颜色是否一致，一致则return False，不一致跳过。
-
-
 
 ### 787. Cheapest Flights Within K Stops
 
@@ -566,11 +544,9 @@ class Solution:
                 if temp_cost[fr] != sys.maxsize:
                     temp_cost[to] = min(temp_cost[to], cost[fr]+price)
             cost = temp_cost
-        
+
         return cost[dst] if cost[dst] != sys.maxsize else -1
 ```
-
-
 
 ### 797. All Paths From Source to Target
 
@@ -580,7 +556,7 @@ class Solution:
         graph_dict = {index:v for index, v in enumerate(graph)}
         N = len(graph)
         ans = []
-        
+
         def helper(node, path):
             for each in graph_dict[node]:
                 temp_path = path.copy()
@@ -589,22 +565,22 @@ class Solution:
                     ans.append(temp_path)
                     continue
                 helper(each, temp_path)
-        
+
         helper(0, [0])
-        
+
         return ans
 ```
 
 ```python
 class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
-        
+
         g = collections.defaultdict(list)
 
         for i, vs in enumerate(graph):
             for v in vs:
                 g[i].append(v)
-        
+
         res = []
 
         def helper(node, path): # dfs
@@ -614,12 +590,10 @@ class Solution:
                 return
             for each in g[node]:
                 helper(each, path.copy())
-        
+
         helper(0, [])
         return res
 ```
-
-
 
 ### 802. Find Eventual Safe States
 
@@ -651,7 +625,7 @@ class Solution:
 ```python
 class Solution:
     def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
-        
+
         ans = [False] * len(graph)
         G = collections.defaultdict(set)
         q = []
@@ -661,7 +635,7 @@ class Solution:
                 q.append(i)
             for _each in each:
                 G[_each].add(i)
-        
+
         while q:
             node = q.pop()
             ans[node] = True
@@ -669,7 +643,7 @@ class Solution:
                 graph[each].remove(node)
                 if not graph[each]:
                     q.append(each)
-        
+
         return [i for i, each in enumerate(ans) if each]
 ```
 
@@ -679,21 +653,19 @@ While 循环队列，pop出一个节点，将其在ans列表中设置为True，�
 
 graph[each].remove(node) 这一步可以优化
 
-
-
 ### 886. Possible Bipartition
 
 ```python
 class Solution:
     def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
-        
+
         ans = True
 
         graph = collections.defaultdict(list)
         for f, t in dislikes:
             graph[f].append(t)
             graph[t].append(f)
-        
+
         def dfs(node, color):
             nonlocal ans
             color_dict[node] = color
@@ -703,7 +675,7 @@ class Solution:
                 elif nei not in color_dict:
                     dfs(nei, 1 - color)
 
-         
+
         color_dict = dict()
 
         for i in range(1, n + 1):
@@ -717,12 +689,12 @@ class Solution:
 ```python
 class Solution:
     def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
-    
+
         graph = collections.defaultdict(list)
         for f, t in dislikes:
             graph[f].append(t)
             graph[t].append(f)
-        
+
         def dfs(node, color):
             color_dict[node] = color
             for nei in graph[node]:
@@ -742,30 +714,28 @@ class Solution:
         return True
 ```
 
- [bipartite graph](https://en.wikipedia.org/wiki/Bipartite_graph) 问题，目的是将图中点分成两组，使得每组中点两两间没有连线。
+[bipartite graph](https://en.wikipedia.org/wiki/Bipartite_graph) 问题，目的是将图中点分成两组，使得每组中点两两间没有连线。
 
 大致思路是给点着色，相邻点着反色，如果在着色过程中发现有相邻点颜色相同那么方法False
-
-
 
 ### 1192. Critical Connections in a Network
 
 ```python
 class Solution:
-    
+
     def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
         from collections import defaultdict
         graph = defaultdict(list)
         for v in connections:
             graph[v[0]].append(v[1])
             graph[v[1]].append(v[0])
-        
+
         disc = [None for _ in range(n+1)]
         low = [None for _ in range(n+1)]
 
         res = []
         self.cur = 0
-        
+
         def dfs(node, parent):
             if disc[node] is None:
                 disc[node] = self.cur
@@ -779,17 +749,15 @@ class Solution:
                 else:
                     l = min(low[i] for i in graph[node]+[low[node]])
                 low[node] = l
-        
+
         dfs(0, None)
-        
+
         for v in connections:
             if low[v[0]]>disc[v[1]] or low[v[1]]>disc[v[0]]:
                 res.append(v)
-        
+
         return res
 ```
-
-
 
 ### 1202. Smallest String With Swaps
 
@@ -802,7 +770,7 @@ class Solution:
             graph[d].append(a)
         s = list(s)
         visited = [False for _ in range(len(s))]
-        
+
         def dfs(s, i, chars, index):
             if visited[i]:
                 return
@@ -811,7 +779,7 @@ class Solution:
             visited[i] = True
             for each in graph[i]:
                 dfs(s, each, chars, index)
-        
+
         for i in range(len(s)):
             if not visited[i]:
                 chars = []
@@ -821,7 +789,7 @@ class Solution:
                 index.sort()
                 for c, i in zip(chars, index):
                     s[i] = c
-        
+
         return "".join(s)
 ```
 
@@ -834,7 +802,7 @@ class Solution:
             graph[d].append(a)
         s = list(s)
         visited = [False for _ in range(len(s))]
-        
+
         def dfs(s, i, chars, index):
             if visited[i]:
                 return
@@ -857,8 +825,6 @@ class Solution:
         return "".join(s)
 ```
 
-
-
 ### [1489. Find Critical and Pseudo-Critical Edges in Minimum Spanning Tree](https://leetcode.com/problems/find-critical-and-pseudo-critical-edges-in-minimum-spanning-tree/)
 
 ```python
@@ -867,12 +833,12 @@ class UF(object):
         self.uf = list(range(n))
         self.size = [1] * n
         self.maxsize = 1
-    
+
     def find(self, x):
         if self.uf[x] != x:
             self.uf[x] = self.find(self.uf[x])
         return self.uf[x]
-    
+
     def union(self, x, y):
         root_x = self.find(x)
         root_y = self.find(y)
@@ -891,16 +857,16 @@ class Solution:
         edges_cp = copy.deepcopy(edges)
         for i, edge in enumerate(edges_cp):
             edge.append(i)
-        
+
         edges_cp.sort(key=lambda x: x[2])
         weight_std = 0
         uf = UF(n)
         for i, j, w, index in edges_cp:
             if uf.union(i, j):
                 weight_std += w
-        
+
         for i, j, w, index in edges_cp:
-            
+
             # find critical
             weight_critical = 0
             uf_critical = UF(n)
@@ -908,11 +874,11 @@ class Solution:
                 if index == _index: continue
                 if uf_critical.union(_i, _j):
                     weight_critical += _w
-                
+
             if uf_critical.maxsize < n or weight_critical > weight_std:
                 critical.append(index)
                 continue
-            
+
             # find pseudo-critical
             weight_pse_critical = w
             uf_pse_critical = UF(n)
@@ -923,7 +889,7 @@ class Solution:
                     weight_pse_critical += _w
             if weight_pse_critical == weight_std:
                 pseudo_critical.append(index)
-        
+
         return [critical, pseudo_critical]
 ```
 
@@ -935,17 +901,15 @@ https://leetcode.com/problems/find-critical-and-pseudo-critical-edges-in-minimum
 
    A graph has exactly one minimum spanning tree (MST) weight, but there could be multiple MSTs with this weight.
 
-2. 明确 *critical* edge 和 *pseudo-critical* edge 的定义与查找方法：
+2. 明确 _critical_ edge 和 _pseudo-critical_ edge 的定义与查找方法：
 
-   A *critical* edge is an edge that, if removed from the graph, would increase the MST weight. It means that the edge appears in every MST.
+   A _critical_ edge is an edge that, if removed from the graph, would increase the MST weight. It means that the edge appears in every MST.
 
-   On the other hand, a *pseudo-critical* edge is an edge that can appear in some MSTs but not all. It means that the edge isn't necessary to maintain the MST weight, but we can include it without increasing the MST weight.
+   On the other hand, a _pseudo-critical_ edge is an edge that can appear in some MSTs but not all. It means that the edge isn't necessary to maintain the MST weight, but we can include it without increasing the MST weight.
 
 3. 用并查集使用 Kruskal's 算法计算最小生成树
 
 其中并查集单独使用一个类构造，类中存放父子关系的是一个长度为 n 的列表，因为我们已知图中节点个数且省去了 find 方法中设置自己是自己父节点的步骤。size 属性记录以该节点为根的集合大小，注意这里设置 size 的原因是为了计算最大集合数量，所以设置 size 时候只会把小集合加到大集合里。maxsize 属性便是最大集合数量。
-
-
 
 ### 1514. Path with Maximum Probability
 
@@ -972,13 +936,11 @@ class Solution:
             for each in graph[node]:
                 if each in seen: continue
                 heappush(records, (dis * prob.get((node, each), 0), each))
-        
+
         return 0
 ```
 
 Dijkstra 算法 https://www.freecodecamp.org/chinese/news/dijkstras-shortest-path-algorithm-visual-introduction/
-
-
 
 ### 1557. Minimum Number of Vertices to Reach All Nodes
 
@@ -991,7 +953,7 @@ class Solution:
             if a not in hasIndegree:
                 res.add(a)
         return list(res)
-        
+
         def dfs(node):
             seen = {node}
             stack = [node]
@@ -1010,8 +972,6 @@ class Solution:
 
 返回所有入度为0的点。dfs非递归算法。
 
-
-
 ### 1584. Min Cost to Connect All Points
 
 ```python
@@ -1021,21 +981,21 @@ class Solution:
         used = [False] * len(points)
         cost = 0
         edges_used = 0
-        
+
         while edges_used < len(points):
             weight, curr_node = heapq.heappop(heap)
-            
+
             if used[curr_node]: continue
-            
+
             used[curr_node] = True
-            
+
             cost += weight
             edges_used += 1
-            
+
             for nxt_node in range(len(points)):
                 if used[nxt_node] is True: continue
                 nxt_weight = abs(points[curr_node][0] - points[nxt_node][0]) + abs(points[curr_node][1] - points[nxt_node][1])
-                
+
                 heapq.heappush(heap, (nxt_weight, nxt_node))
         return cost
 ```
@@ -1045,8 +1005,6 @@ Prim 算法，找最小生成树
 https://zhuanlan.zhihu.com/p/136387766
 
 https://leetcode.com/problems/min-cost-to-connect-all-points/solution/
-
-
 
 ### [1615. Maximal Network Rank](https://leetcode.com/problems/maximal-network-rank/)
 
@@ -1061,12 +1019,12 @@ class Solution:
         for fr, to in roads:
             graph[fr].add(to)
             graph[to].add(fr)
-        
+
         graph_list = [(k, v) for k, v in graph.items()]
         # graph_list.sort(key=lambda x: len(x[1]), reverse=True)
 
         # print(f"graph_list: {graph_list}")
-        
+
         res = -sys.maxsize
         for i in range(len(graph_list)):
             for j in range(i+1, len(graph_list)):
@@ -1074,7 +1032,7 @@ class Solution:
                 if graph_list[i][0] in graph_list[j][1]:
                     _res -= 1
                 res = max(res, _res)
-        
+
         return res
 ```
 
@@ -1092,7 +1050,7 @@ https://leetcode.com/problems/maximal-network-rank/solutions/3924675/beat-100-o-
 
 The so called **network rank** of two cities is simply the sum of their degrees except when they are adjacent we minus that by 1.
 
-> We consider this as a graph problem: a city is a *vertex* and a road is an *edge*. The *degree* is the concept in the graph theory.
+> We consider this as a graph problem: a city is a _vertex_ and a road is an _edge_. The _degree_ is the concept in the graph theory.
 
 Obviously we only care about cities with the largest degrees.
 
@@ -1105,7 +1063,7 @@ Obviously we only care about cities with the largest degrees.
 
 > **Combinatorics Knowledge**:
 > The number of pairs in nn*n* items is simply:
-> (n2)=n(n−1)/2{n \choose 2} = n(n-1) / 2(2*n*​)=*n*(*n*−1)/2
+> (n2)=n(n−1)/2{n \choose 2} = n(n-1) / 2(2*n*​)=_n_(*n*−1)/2
 > If the total count of directly-connnected-pairs among `candidates` is less than that then we are guaranteed to have at least one pair of not-directly-connected candidates.
 
 **Approach**
@@ -1116,13 +1074,13 @@ For max performance we avoided hash containers and double loop. We first go thro
 
 - Time complexity:
 
-Θ(*V*+*E*)
-*V* is the *vertex* count which is the number of cities here.
-*E* is the *edge* count which is the number of roads here.
+Θ(_V_+_E_)
+_V_ is the _vertex_ count which is the number of cities here.
+_E_ is the _edge_ count which is the number of roads here.
 
 - Space complexity:
 
-Θ(*V*)
+Θ(_V_)
 
 **code**
 
@@ -1202,8 +1160,6 @@ public:
 };
 ```
 
-
-
 ### 1631. Path With Minimum Effort
 
 ```python
@@ -1213,7 +1169,7 @@ class Solution:
         dist = [[math.inf] * cols for i in range(rows)]
         dist[0][0] = 0
         minHeap = [(0, 0, 0)]
-        
+
         while minHeap:
             history_dist, row, col = heappop(minHeap)
             if history_dist > dist[row][col]: continue
@@ -1231,8 +1187,6 @@ Dijikstra 算法
 
 https://leetcode.com/problems/path-with-minimum-effort/discuss/909017/JavaPython-Dijikstra-Binary-search-Clean-and-Concise
 
-
-
 ### 1971. Find if Path Exists in Graph
 
 ```python
@@ -1241,11 +1195,11 @@ class Solution:
         graph = collections.defaultdict(list)
 
         if not edges and source == destination: return True
-        
+
         for f, t in edges:
             graph[f].append(t)
             graph[t].append(f)
-        
+
         visited = set()
 
         q = [source]
@@ -1258,20 +1212,43 @@ class Solution:
                     if nei == destination:
                         return True
                     q.append(nei)
-        
+
         return False
 ```
 
 简单的dfs即可
 
+### 3532. Path Existence Queries in a Graph I
 
+```python
+class Solution:
+    def pathExistenceQueries(self, n: int, nums: List[int], maxDiff: int, queries: List[List[int]]) -> List[bool]:
+        node_group = [0] * n
+        cur_group_num = 0
+
+        for i in range(1, n):
+            if abs(nums[i] - nums[i-1]) > maxDiff:
+                cur_group_num += 1
+            node_group[i] = cur_group_num
+
+        res = []
+        for i, j in queries:
+            if node_group[i] == node_group[j]:
+                res.append(True)
+            else:
+                res.append(False)
+        return res
+```
+
+https://leetcode.com/problems/path-existence-queries-in-a-graph-i/?envType=daily-question&envId=2026-07-09
+主要思路是将节点分组，在同一组的节点便是可达的，反之则不可达。分组的方式是用后面节点与其前面节点进行距离判断是否联通，能联通则它属于前面节点那组，否则它是新的一组。
 
 ### Naveego OA - [Directions Reduction](https://www.codewars.com/kata/550f22f4d758534c1100025a)
 
 ```python
 def dirReduc(arr):
     stack = []
-    
+
     for each in arr:
         if stack and ({stack[-1], each} == {'NORTH', 'SOUTH'} or {stack[-1], each} == {'EAST', 'WEST'}):
             stack.pop()
@@ -1279,8 +1256,6 @@ def dirReduc(arr):
             stack.append(each)
     return stack
 ```
-
-
 
 ```python
 def ShortestPath(strArr):
@@ -1293,7 +1268,7 @@ def ShortestPath(strArr):
       G[source].append(destination)
       G[destination].append(source)
     return G
-  
+
   def find_path(source, destination, f_node_dict):
     res = destination
     curr_node = destination
@@ -1301,7 +1276,7 @@ def ShortestPath(strArr):
       curr_node = f_node_dict.get(curr_node)
       res = curr_node + '-' + res
     return res
-  
+
   node_num = int(strArr[0])
   source = strArr[1]
   destination = strArr[node_num]
@@ -1319,11 +1294,9 @@ def ShortestPath(strArr):
       Q.append(each)
   return -1
 
-# keep this function call here 
+# keep this function call here
 print(ShortestPath(input()))
 ```
-
-
 
 ### OA
 
@@ -1405,9 +1378,7 @@ end = 4
 print(solution.checkYourRoute(nodes, sources, destinations, weights, end))
 ```
 
-
-
-### Topo sort 
+### Topo sort
 
 ```java
 # DFS + Topological Sort 并判断是否有环，如果有环打印构成环的边，只能判断有一个环的图。
@@ -1474,4 +1445,3 @@ void getTOPO() {
     }
 }
 ```
-
