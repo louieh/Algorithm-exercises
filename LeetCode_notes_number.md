@@ -71,6 +71,24 @@ class Solution:
         return sorted(ans)
 ```
 
+```python
+class Solution:
+    def sequentialDigits(self, low: int, high: int) -> List[int]:
+        res = []
+
+        for i in range(1, 9):
+            num = next = i
+            while num <= high:
+                if num >= low:
+                    res.append(num)
+                next += 1
+                if next > 9:
+                    break
+                num = num * 10 + next
+
+        return sorted(res)
+```
+
 ### 2244. Minimum Rounds to Complete All Tasks
 
 ```python
