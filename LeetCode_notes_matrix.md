@@ -7,7 +7,7 @@
 ```python
 """
 Input:
-1    2    3    4    
+1    2    3    4
 5    6    7    8
 9    10   11   12
 13   14   15   16
@@ -18,64 +18,64 @@ Output:
 14   15   16   12
 """
 
-# Function to rotate a matrix 
-def rotateMatrix(mat): 
-  
-    if not len(mat): 
+# Function to rotate a matrix
+def rotateMatrix(mat):
+
+    if not len(mat):
         return
-      
-    """ 
-        top : starting row index 
-        bottom : ending row index 
-        left : starting column index 
-        right : ending column index 
+
     """
-  
+        top : starting row index
+        bottom : ending row index
+        left : starting column index
+        right : ending column index
+    """
+
     top = 0
     bottom = len(mat)-1
-  
+
     left = 0
     right = len(mat[0])-1
-  
-    while left < right and top < bottom: 
-  
-        # Store the first element of next row, 
-        # this element will replace first element of 
-        # current row 
-        prev = mat[top+1][left] 
-  
-        # Move elements of top row one step right 
-        for i in range(left, right+1): 
-            curr = mat[top][i] 
-            mat[top][i] = prev 
-            prev = curr 
-  
+
+    while left < right and top < bottom:
+
+        # Store the first element of next row,
+        # this element will replace first element of
+        # current row
+        prev = mat[top+1][left]
+
+        # Move elements of top row one step right
+        for i in range(left, right+1):
+            curr = mat[top][i]
+            mat[top][i] = prev
+            prev = curr
+
         top += 1
-  
-        # Move elements of rightmost column one step downwards 
-        for i in range(top, bottom+1): 
-            curr = mat[i][right] 
-            mat[i][right] = prev 
-            prev = curr 
-  
+
+        # Move elements of rightmost column one step downwards
+        for i in range(top, bottom+1):
+            curr = mat[i][right]
+            mat[i][right] = prev
+            prev = curr
+
         right -= 1
-  
-        # Move elements of bottom row one step left 
-        for i in range(right, left-1, -1): 
-            curr = mat[bottom][i] 
-            mat[bottom][i] = prev 
-            prev = curr 
-  
+
+        # Move elements of bottom row one step left
+        for i in range(right, left-1, -1):
+            curr = mat[bottom][i]
+            mat[bottom][i] = prev
+            prev = curr
+
         bottom -= 1
-  
-        # Move elements of leftmost column one step upwards 
-        for i in range(bottom, top-1, -1): 
-            curr = mat[i][left] 
-            mat[i][left] = prev 
-            prev = curr 
-  
+
+        # Move elements of leftmost column one step upwards
+        for i in range(bottom, top-1, -1):
+            curr = mat[i][left]
+            mat[i][left] = prev
+            prev = curr
+
         left += 1
-  
+
     return mat
 ```
 
@@ -131,8 +131,6 @@ In [95]: while left < right and up < down:
     ...:     left += 1
 ```
 
-
-
 ### 48. Rotate Image
 
 ```python
@@ -146,9 +144,8 @@ class Solution:
             for j in range(i+1, len(matrix[0])):
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 ```
+
 https://leetcode.com/problems/rotate-image/discuss/18872/A-common-method-to-rotate-the-image
-
-
 
 ### 54. Spiral Matrix
 
@@ -158,24 +155,24 @@ class Solution:
         if not matrix:
             return[]
         ans = []
-        
+
         if len(matrix) == 1:
             return matrix[0]
         if len(matrix[0]) == 1:
             for each in matrix:
                 ans.append(each[0])
             return ans
-        
+
         up_limit = 0
         down_limit = len(matrix)-1
         right_limit = len(matrix[0])-1
         left_limit = 0
-        
+
         row = 0
         col = 0
-        
+
         direction = 'r'
-        
+
         for i in range(len(matrix)*len(matrix[0])):
             if direction == 'r':
                 ans.append(matrix[row][col])
@@ -208,19 +205,17 @@ class Solution:
         return ans
 ```
 
-
-
 ```python
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         if not matrix:
             return []
-        
+
         up = 0
         down = len(matrix)-1
         left = 0
         right = len(matrix[0])-1
-        
+
         ans = []
         count = 0
         num = len(matrix) * len(matrix[0])
@@ -253,8 +248,6 @@ class Solution:
         return ans
 ```
 
-
-
 ### 59. Spiral Matrix II
 
 ```python
@@ -262,21 +255,21 @@ class Solution:
     def generateMatrix(self, n: int) -> List[List[int]]:
         if not n:
             return [[]]
-        
+
         ans = []
         for i in range(n):
             ans.append([0]*n)
-        
+
         up_limit = 0
         down_limit = n - 1
         right_limit = n - 1
         left_limit = 0
-        
+
         row = 0
         col = 0
-        
+
         direction = 'right'
-        
+
         for i in range(n*n):
             ans[row][col] = i + 1
             if direction == 'right':
@@ -307,7 +300,7 @@ class Solution:
                     col += 1
                 else:
                     row -= 1
-            
+
         return ans
 ```
 
@@ -318,10 +311,10 @@ class Solution:
         row = [None] * n
         for _ in range(n):
             grid.append(row.copy())
-        
-        i, row, col = 0, 0, 0 
+
+        i, row, col = 0, 0, 0
         while i < n * n:
-            
+
             # left -> right
             while col <= n - 1 and grid[row][col] is None:
                 i += 1
@@ -329,7 +322,7 @@ class Solution:
                 col += 1
             col -= 1
             row += 1
-            
+
             # up -> down
             while row <= n - 1 and grid[row][col] is None:
                 i += 1
@@ -337,7 +330,7 @@ class Solution:
                 row += 1
             row -= 1
             col -= 1
-            
+
             # left <- right
             while col >= 0 and grid[row][col] is None:
                 i += 1
@@ -345,7 +338,7 @@ class Solution:
                 col -= 1
             col += 1
             row -= 1
-            
+
             # up <- down
             while row >= 0 and grid[row][col] is None:
                 i += 1
@@ -353,11 +346,9 @@ class Solution:
                 row -= 1
             row += 1
             col += 1
-            
+
         return grid
 ```
-
-
 
 ### 74. Search a 2D Matrix
 
@@ -367,14 +358,14 @@ class Solution:
         if len(matrix) == 0 or len(matrix[0]) == 0: return False
         rows, cols = len(matrix), len(matrix[0])
         if target < matrix[0][0] or target > matrix[rows-1][cols-1]: return False
-        
+
         def index_to_matrix(mid):
             if rows == 1: return 0, mid
             if cols == 1: return mid, 0
             if (mid + 1) % cols == 0:
                 return (mid + 1) // cols - 1, cols - 1
             return (mid + 1) // cols, (mid + 1) % cols - 1
-        
+
         left, right = 0, rows*cols-1
         while left <= right:
             mid = left + (right - left) // 2
@@ -427,11 +418,9 @@ class Solution:
                 right = mid - 1
             else:
                 left = mid + 1
-        
+
         return False
 ```
-
-
 
 ### 79. Word Search
 
@@ -441,7 +430,7 @@ class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
         if len(word) > len(board) * len(board[0]):
             return False
-        
+
         def dfs(row, col, index):
             if index == len(word) - 1:
                 return True
@@ -458,7 +447,7 @@ class Solution:
                 d = dfs(row+1, col, index+1)
             board[row][col] = temp
             return u or d or l or r
-        
+
         for i in range(len(board)):
             for j in range(len(board[0])):
                 if board[i][j] == word[0]:
@@ -473,20 +462,20 @@ class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
         if len(word) > len(board) * len(board[0]):
             return False
-        
+
         def dfs(row, col, index):
             if row < 0 or row >= len(board) or col < 0 or col >= len(board[0]) or board[row][col] != word[index]:
                 return False
-            
+
             if index == len(word) - 1:
                 return True
-            
+
             temp = board[row][col]
             board[row][col] = '#'
             res = dfs(row, col-1, index+1) or dfs(row, col+1, index+1) or dfs(row-1, col, index+1) or dfs(row+1, col, index+1)
             board[row][col] = temp
             return res
-        
+
         for i in range(len(board)):
             for j in range(len(board[0])):
                 if board[i][j] == word[0]:
@@ -499,8 +488,6 @@ if 语句太耗时了？？？
 
 https://leetcode.com/problems/word-search/discuss/27660/Python-dfs-solution-with-comments.
 
-
-
 ### 85. Maximal Rectangle
 
 ```python
@@ -510,7 +497,7 @@ class Solution:
         if not rows: return 0
         cols = len(matrix[0])
         if not cols: return 0
-        
+
         height = [0] * (cols+1)
         res = 0
         for i in range(rows):
@@ -521,7 +508,7 @@ class Solution:
                         height[j] += 1
                     else:
                         height[j] = 0
-                
+
                 while stack and height[stack[-1]] >= height[j]:
                     h = height[stack.pop()]
                     if stack:
@@ -529,15 +516,13 @@ class Solution:
                     else:
                         w = j
                     res = max(res, h * w)
-                
+
                 stack.append(j)
-        
+
         return res
 ```
 
 没懂
-
-
 
 ### 130. Surrounded Regions
 
@@ -548,18 +533,18 @@ class Solution:
         Do not return anything, modify board in-place instead.
         """
         q = []
-        
+
         for i in range(len(board)):
             for j in range(len(board[0])):
                 if (i == 0 or j == 0 or i == len(board)-1 or j == len(board[0])-1) and board[i][j] == 'O':
                     q.append((i, j))
-        
+
         while q:
             i, j = q.pop()
             if 0 <= i and i < len(board) and 0 <= j and j <len(board[0]) and board[i][j] == 'O':
                 board[i][j] = 'S'
                 q.extend([(i-1, j), (i+1, j), (i, j-1), (i, j+1)])
-        
+
         for i in range(len(board)):
             for j in range(len(board[0])):
                 if board[i][j] == 'S':
@@ -574,9 +559,9 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
-        
+
         rows, cols = len(board), len(board[0])
-        
+
         def capture(row, col):
             if row >= 0 and row <= rows-1 and col >= 0 and col <= cols-1 and board[row][col] == 'O':
                 board[row][col] = 'T'
@@ -584,13 +569,13 @@ class Solution:
                 capture(row-1, col)
                 capture(row, col+1)
                 capture(row, col-1)
-        
+
         for row in range(rows):
             for col in range(cols):
                 if row == 0 or row == rows-1 or col == 0 or col == cols-1:
                     if board[row][col] == 'O':
                         capture(row, col)
-        
+
         for row in range(rows):
             for col in range(cols):
                 if board[row][col] == 'O':
@@ -599,8 +584,6 @@ class Solution:
                     board[row][col] = 'O'
 ```
 
-
-
 ### 200. Number of Islands
 
 ```python
@@ -608,7 +591,7 @@ class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         if len(grid) == 0 or len(grid[0]) == 0:
             return 0
-        
+
         def delete_island(row, col, direction):
             grid[row][col] = '0'
             if direction != 'r' and col > 0 and grid[row][col-1] == '1':
@@ -619,7 +602,7 @@ class Solution:
                 delete_island(row-1, col, 'u')
             if direction != 'u' and row < len(grid)-1 and grid[row+1][col] == '1':
                 delete_island(row+1, col, 'd')
-        
+
         island = 0
         for i in range(len(grid)):
             for j in range(len(grid[0])):
@@ -633,7 +616,7 @@ class Solution:
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         if not grid or not grid[0]: return 0
-        
+
         rows, cols = len(grid), len(grid[0])
         res = 0
         def dfs(row, col):
@@ -646,7 +629,7 @@ class Solution:
                 dfs(row-1, col)
             if row < rows-1 and grid[row+1][col] == "1":
                 dfs(row+1, col)
-        
+
         for i in range(rows):
             for j in range(cols):
                 if grid[i][j] == "1":
@@ -654,8 +637,6 @@ class Solution:
                     res += 1
         return res
 ```
-
-
 
 ### 240. Search a 2D Matrix II
 
@@ -700,10 +681,10 @@ class Solution:
         """
         if not matrix or not matrix[0]:
             return False
-        
+
         row = 0
         col = len(matrix[0])-1
-        
+
         while col >= 0 and row <= len(matrix)-1:
             if target == matrix[row][col]:
                 return True
@@ -714,8 +695,6 @@ class Solution:
         return False
 ```
 
-
-
 ### 289. Game of Life
 
 ```python
@@ -725,7 +704,7 @@ class Solution:
         Do not return anything, modify board in-place instead.
         """
         change_list = []
-        
+
         def test_change(i, j):
             upper_left = board[i-1][j-1] if i > 0 and j > 0 else 0
             upper = board[i-1][j] if i > 0 else 0
@@ -743,18 +722,16 @@ class Solution:
                 if live_neighbors == 3:
                     return 1
             return None
-        
+
         for row in range(len(board)):
             for col in range(len(board[0])):
                 res = test_change(row, col)
                 if res is not None:
                     change_list.append((row, col, res))
-        
+
         for row, col, res in change_list:
             board[row][col] = res
 ```
-
-
 
 ### 419.Battleships in a Board
 
@@ -763,9 +740,9 @@ class Solution:
     def countBattleships(self, board: List[List[str]]) -> int:
         if not board or not board[0]:
             return 0
-        
+
         ans = 0
-        
+
         def delete_(row, col, direction):
             board[row][col] = '.'
             if direction != 'r' and col > 0 and board[row][col-1] == 'X':
@@ -776,7 +753,7 @@ class Solution:
                 delete_(row+1, col, 'd')
             if direction != 'd' and row > 0 and board[row-1][col] == 'X':
                 delete_(row-1, col, 'u')
-        
+
         for i in range(len(board)):
             for j in range(len(board[0])):
                 if board[i][j] == 'X':
@@ -786,8 +763,6 @@ class Solution:
 ```
 
 和数岛那个题一毛一样。
-
-
 
 ### 463. Island Perimeter
 
@@ -811,8 +786,6 @@ class Solution:
         return res
 ```
 
-
-
 ### 542. 01 Matrix
 
 ```python
@@ -820,13 +793,13 @@ class Solution:
     def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
         def compute_distance(obj1, obj2):
             return abs(obj1[0]-obj2[0]) + abs(obj1[1]-obj2[1])
-        
+
         zero_list = []
         for row in range(len(matrix)):
             for col in range(len(matrix[0])):
                 if matrix[row][col] == 0:
                     zero_list.append((row, col))
-        
+
         for row in range(len(matrix)):
             for col in range(len(matrix[0])):
                 if matrix[row][col] != 0:
@@ -846,17 +819,17 @@ class Solution:
     def updateMatrix(self, matrix: List[List[int]]) -> List[List[int]]:
         from collections import deque
         Q = deque([])
-        
+
         for i in range(len(matrix)):
             for j in range(len(matrix[0])):
                 if matrix[i][j] == 0:
                     Q.append((i,j,0))
                 else:
                     matrix[i][j] = 2**32-1
-        
+
         while Q:
             row, col, step = Q.popleft()
-            
+
             if row > 0 and matrix[row-1][col] > step+1:
                 matrix[row-1][col] = step + 1
                 Q.append((row-1, col, step+1))
@@ -887,7 +860,7 @@ class Solution:
                     dq.append((i, j, 0))
                 else:
                     mat[i][j] = sys.maxsize
-        
+
         while dq:
             row, col, step = dq.popleft()
 
@@ -907,13 +880,11 @@ class Solution:
             if col < cols - 1 and mat[row][col+1] > step + 1:
                 mat[row][col+1] = step + 1
                 dq.append((row, col+1, step+1))
-        
+
         return mat
 ```
 
 将 1 所在位置标记为最大值，是肯定要在之后松弛的。从每个 0 所在位置为起始位置开始向四周松弛，每个 0 互不影响是因为松弛是最终到最小值，所以比如第一个 0 将某个位置松弛到一个值后，另一个 0 为起点到该位置的距离更小那么会更新该位置的值。
-
-
 
 ### 695. Max Area of Island
 
@@ -923,7 +894,7 @@ class Solution:
         def bfs(i, j, direction):
             nonlocal count
             if grid[i][j] == 1:
-                count += 1 
+                count += 1
                 grid[i][j] = 0
             if direction != 'left' and j < len(grid[0])-1 and grid[i][j+1] != 0:
                 bfs(i, j+1, 'right')
@@ -943,8 +914,6 @@ class Solution:
         return max_count
 ```
 
-
-
 ### 733. Flood Fill
 
 ```python
@@ -952,7 +921,7 @@ class Solution:
     def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
         if image[sr][sc] == newColor:
             return image
-        
+
         def floodFill_helper(image, sr, sc, oldColor, newColor, direction):
             image[sr][sc] = newColor
             if direction != 'r' and sc > 0 and image[sr][sc-1] == oldColor:
@@ -963,8 +932,8 @@ class Solution:
                 floodFill_helper(image, sr-1, sc, oldColor, newColor, 'd')
             if direction != 'd' and sr < len(image) - 1 and image[sr+1][sc] == oldColor:
                 floodFill_helper(image, sr+1, sc, oldColor, newColor, 'u')
-                    
-                    
+
+
         oldColor = image[sr][sc]
         floodFill_helper(image, sr, sc, oldColor, newColor, 'r')
         floodFill_helper(image, sr, sc, oldColor, newColor, 'l')
@@ -978,7 +947,7 @@ class Solution:
     def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
         if image[sr][sc] == newColor:
             return image
-        
+
         def floodFill_helper(image, sr, sc, oldColor, newColor):
             if sr >= 0 and sr <= len(image) - 1 and sc >= 0 and sc <= len(image[0]) - 1:
                 if image[sr][sc] == oldColor:
@@ -987,7 +956,7 @@ class Solution:
                     floodFill_helper(image, sr, sc+1, oldColor, newColor)
                     floodFill_helper(image, sr-1, sc, oldColor, newColor)
                     floodFill_helper(image, sr+1, sc, oldColor, newColor)
-                    
+
         floodFill_helper(image, sr, sc, image[sr][sc], newColor)
         return image
 ```
@@ -1083,8 +1052,6 @@ func floodFill(image [][]int, sr int, sc int, color int) [][]int {
 
 ```
 
-
-
 ### 861. Score After Flipping Matrix
 
 ```python
@@ -1104,8 +1071,6 @@ class Solution:
 
 第7行，之后便可以按照每列最多1的个数根据该列index计算累加结果。
 
-
-
 ### 867. Transpose Matrix
 
 ```python
@@ -1114,8 +1079,6 @@ class Solution:
         rows, cols = len(matrix), len(matrix[0])
         return [[matrix[row][col] for row in range(rows)] for col in range(cols)]
 ```
-
-
 
 ### 944. Delete Columns to Make Sorted
 
@@ -1132,43 +1095,39 @@ class Solution:
                     res += 1
                     break
 
-        return res        
+        return res
 ```
-
-
 
 ### 1020. Number of Enclaves
 
 ```python
 class Solution:
     def numEnclaves(self, A: List[List[int]]) -> int:
-        
+
         rows, cols = len(A), len(A[0])
-        
+
         def fill(row, col):
             if row < 0 or col < 0 or row >= rows or col >= cols or A[row][col] == 0:
                 return 0
             A[row][col] = 0
             return 1 + fill(row+1, col) + fill(row-1, col) + fill(row, col+1) + fill(row, col-1)
-        
+
         for row in range(rows):
             for col in range(cols):
                 if row == 0 or col == 0 or row == rows-1 or col == cols-1:
                     fill(row, col)
-        
+
         res = 0
-        
+
         for row in range(rows):
             for col in range(cols):
                 if A[row][col] == 1:
                     res += fill(row, col)
-        
+
         return res
 ```
 
 Similar as 1254, 只是最后在填充的时候记录数量，注意fill函数递归记述方法。
-
-
 
 ### 1091. Shortest Path in Binary Matrix
 
@@ -1179,7 +1138,7 @@ class Solution:
     def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
         res = sys.maxsize
         rows, cols = len(grid), len(grid[0])
-        
+
         def dfs(row, col, path_l):
             if row < 0 or row >= rows or col < 0 or col >= cols or grid[row][col] in [1, -1]:
                 return
@@ -1199,9 +1158,9 @@ class Solution:
             dfs(row+1, col-1, path_l+1)
             dfs(row, col-1, path_l+1)
             grid[row][col] = prev_v
-        
+
         dfs(0, 0, 1)
-        
+
         return res if res != sys.maxsize else -1
 ```
 
@@ -1211,9 +1170,9 @@ class Solution:
 class Solution:
     def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
         rows, cols = len(grid), len(grid[0])
-        
+
         q = [(0, 0, 1)]
-        
+
         for row, col, d in q:
             if row < 0 or row >= rows or col < 0 or col >= cols or grid[row][col]:
                 continue
@@ -1223,20 +1182,18 @@ class Solution:
             for row_offset, col_offset in [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]:
                 new_row, new_col = row + row_offset, col + col_offset
                 q.append([new_row, new_col, d+1])
-        
+
         return -1
 ```
-
-
 
 ### 1254. Number of Closed Islands
 
 ```python
 class Solution:
     def closedIsland(self, grid: List[List[int]]) -> int:
-        
+
         rows, cols = len(grid), len(grid[0])
-        
+
         def fill(row, col):
             if row < 0 or row >= rows or col < 0 or col >= cols or grid[row][col] == 1:
                 return
@@ -1245,27 +1202,25 @@ class Solution:
             fill(row-1, col)
             fill(row, col-1)
             fill(row, col+1)
-        
-        
+
+
         for row in range(rows):
             for col in range(cols):
                 if row == 0 or col == 0 or row == len(grid) - 1 or col == len (grid[0]) - 1:
                     fill(row, col)
-        
+
         res = 0
-        
+
         for row in range(rows):
             for col in range(cols):
                 if grid[row][col] == 0:
                     res += 1
                     fill(row, col)
-        
+
         return res
 ```
 
 先从四周的0开始填充1，遇到1停止。填充完之后会剩下中间的岛，再遍历一次，遇到岛(0)岛数量+1并将其填充。
-
-
 
 ### 1260. Shift 2D Grid
 
@@ -1274,7 +1229,7 @@ class Solution:
     def shiftGrid(self, grid: List[List[int]], k: int) -> List[List[int]]:
         rows, cols = len(grid), len(grid[0])
         k %= rows * cols
-        
+
         def move_one_step(grid):
             last_one = grid[-1][-1]
             for row in range(rows):
@@ -1285,11 +1240,55 @@ class Solution:
                 last_one = this_one
         for _ in range(k):
             move_one_step(grid)
-        
+
         return grid
 ```
 
+```python
+class Solution:
+    def shiftGrid(self, grid: List[List[int]], k: int) -> List[List[int]]:
+        rows = len(grid)
+        cols = len(grid[0])
+        if k == rows * cols or k == 0:
+            return grid
 
+        res = []
+        for _ in range(rows):
+            temp = [None] * cols
+            res.append(temp)
+
+        grid_row = grid_col = 0
+
+        start_row = (k % (rows * cols)) // cols
+        start_col = start_col_cp = (k % (rows * cols)) % cols
+
+        started = False
+        for row in range(start_row, rows):
+            if started:
+                start_col = 0
+            for col in range(start_col, cols):
+                res[row][col] = grid[grid_row][grid_col]
+                if grid_col == cols - 1:
+                    grid_row += 1
+                    grid_col = 0
+                else:
+                    grid_col += 1
+                started = True
+
+        for row in range(rows):
+            for col in range(cols):
+                if row == start_row and col == start_col_cp:
+                    return res
+                num = grid[grid_row][grid_col]
+                res[row][col] = num
+                if grid_col == cols - 1:
+                    grid_row += 1
+                    grid_col = 0
+                else:
+                    grid_col += 1
+
+        return res
+```
 
 ### 1329. Sort the Matrix Diagonally
 
@@ -1297,7 +1296,7 @@ class Solution:
 class Solution:
     def diagonalSort(self, mat: List[List[int]]) -> List[List[int]]:
         rows, cols = len(mat), len(mat[0])
-        
+
         for col in range(cols-1):
             temp = []
             row_, col_ = 0, col
@@ -1311,8 +1310,8 @@ class Solution:
                 mat[row_][col_] = temp.pop()
                 row_ += 1
                 col_ += 1
-        
-        
+
+
         for row in range(1, rows-1):
             temp = []
             row_, col_ = row, 0
@@ -1326,11 +1325,9 @@ class Solution:
                 mat[row_][col_] = temp.pop()
                 row_ += 1
                 col_ += 1
-        
+
         return mat
 ```
-
-
 
 ### 1337. The K Weakest Rows in a Matrix
 
@@ -1353,7 +1350,7 @@ class Solution:
 # 二分找1的个数
 class Solution:
     def kWeakestRows(self, mat: List[List[int]], k: int) -> List[int]:
-        
+
         def numOfOne(row):
             left, right = 0, len(row) - 1
             while left < right:
@@ -1366,7 +1363,7 @@ class Solution:
                 else:
                     right = mid - 1
             return left + 1 if row[left] == 1 else 0
-        
+
         temp = []
         for index, row in enumerate(mat):
             temp.append((numOfOne(row), index))
@@ -1390,15 +1387,13 @@ class Solution:
                 else:
                     right = mid
             return left
-        
+
         temp = []
         for index, row in enumerate(mat):
             temp.append((numOfOne(row), index))
         temp.sort()
         return [each[1] for each in temp[:k]]
 ```
-
-
 
 ### 1351. Count Negative Numbers in a Sorted Matrix
 
@@ -1407,7 +1402,7 @@ class Solution:
     def countNegatives(self, grid: List[List[int]]) -> int:
         rows, cols = len(grid), len(grid[0])
         r, c, ans = rows-1, 0, 0
-        
+
         while r >= 0 and c < cols:
             if grid[r][c] < 0:
                 ans += cols - c
@@ -1429,11 +1424,9 @@ class Solution:
             for col in range(cols-2, -1, -1):
                 if grid[row][col] >= 0: break
                 res += 1
-        
+
         return res
 ```
-
-
 
 ### 1465. Maximum Area of a Piece of Cake After Horizontal and Vertical Cuts
 
@@ -1442,32 +1435,30 @@ class Solution:
     def maxArea(self, h: int, w: int, horizontalCuts: List[int], verticalCuts: List[int]) -> int:
         horizontalCuts.sort()
         verticalCuts.sort()
-        
+
         max_h = max(horizontalCuts[0], h - horizontalCuts[-1])
         max_v = max(verticalCuts[0], w - verticalCuts[-1])
-        
+
         for i in range(1, len(horizontalCuts)):
             max_h = max(max_h, horizontalCuts[i] - horizontalCuts[i-1])
         for i in range(1, len(verticalCuts)):
             max_v = max(max_v, verticalCuts[i] - verticalCuts[i-1])
-        
+
         return max_h * max_v % (10**9 + 7)
 ```
 
 求横切的最大长度，在求纵切最大长度，乘积为最大面积
-
-
 
 ### 1905. Count Sub Islands
 
 ```python
 class Solution:
     def countSubIslands(self, grid1: List[List[int]], grid2: List[List[int]]) -> int:
-        
+
         res = 0
-        
+
         rows, cols = len(grid2), len(grid2[0])
-        
+
         def dfs(row, col):
             if row >= 0 and row <= rows-1 and col >=0 and col <= cols-1 and grid2[row][col] == 1:
                 grid2[row][col] = 0
@@ -1475,12 +1466,12 @@ class Solution:
                 dfs(row-1, col)
                 dfs(row, col+1)
                 dfs(row, col-1)
-        
+
         for row in range(rows):
             for col in range(cols):
                 if grid1[row][col] == 0 and grid2[row][col] == 1:
                     dfs(row, col)
-        
+
         for row in range(rows):
             for col in range(cols):
                 if grid2[row][col] == 1:
