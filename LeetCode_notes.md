@@ -11,10 +11,10 @@ class Solution:
             return
         if not l1 or not l2:
             return l1 or l2
-        
+
         temp = 0
         dummy = ans = ListNode(0)
-        
+
         while l1 or l2:
             l1_num = l1.val if l1 else 0
             l2_num = l2.val if l2 else 0
@@ -24,24 +24,24 @@ class Solution:
             l1 = l1.next if l1 else l1
             l2 = l2.next if l2 else l2
             dummy = dummy.next
-        
+
 #         while l1:
 #             temp_result = (l1 or l2).val + temp
 #             temp = temp_result // 10
 #             dummy.next = ListNode(temp_result % 10)
-            
+
 #             dummy = dummy.next
-        
+
 #         while l2:
 #             temp_result = l2.val + temp
 #             temp = temp_result // 10
 #             dummy.next = ListNode(temp_result % 10)
 #             l2 = l2.next
 #             dummy = dummy.next
-        
+
         if temp:
             dummy.next = ListNode(temp)
-        
+
         return ans.next
 ```
 
@@ -50,7 +50,7 @@ class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         if not l1 or not l2:
             return l1 or l2
-        
+
         res = head = ListNode(0)
         plus = 0
         while l1 and l2:
@@ -72,8 +72,6 @@ class Solution:
         return res.next
 ```
 
-
-
 ### 6. ZigZag Conversion
 
 ```python
@@ -81,9 +79,9 @@ class Solution:
     def convert(self, s: str, numRows: int) -> str:
         if numRows == 1:
             return s
-        
+
         ans = [[] for i in range(min(numRows, len(s)))]
-        
+
         cur_row, down = 0, True
         for c in s:
             ans[cur_row].append(c)
@@ -99,11 +97,9 @@ class Solution:
                 cur_row += 1
             else:
                 cur_row -= 1
-        
+
         return "".join(["".join(row) for row in ans])
 ```
-
-
 
 ### 7. Reverse Integer
 
@@ -143,15 +139,15 @@ class Solution:
             sign = -1
         else:
             sign = 1
-        
+
         ans = 0
-        
+
         while x != 0:
             ans = ans * 10 + x % 10
             x //= 10
-        
+
         ans = ans if sign == 1 else -ans
-        
+
         import sys
         if ans > max_num or ans < min_num:
             return 0
@@ -173,18 +169,16 @@ class Solution:
         return 0 if res > pow(2, 31) else symbol * res
 ```
 
-
-
 ### 8. String to Ineger (atoi)
 
 ```c++
 Class Solution{
     public:
     int myAtoi(string str){
-        
+
         const int maxint = 0x7fffffff;
         const int minint = 0x80000000;
-        
+
         long long ans = 0;
         bool flag = false;
         int st = 0;
@@ -229,7 +223,7 @@ class Solution:
     def myAtoi(self, str: str) -> int:
         if not str:
             return 0
-        
+
         max_num = 2147483647
         min_num = -2147483648
         ans = 0
@@ -254,9 +248,9 @@ class Solution:
                 break
             begin = True
             ans = ans * 10 + (ord(str[i]) - 48)
-        
+
         ans = ans if sign == 1 else -ans
-        
+
         if ans > max_num:
             return max_num
         elif ans < min_num:
@@ -264,15 +258,13 @@ class Solution:
         return ans
 ```
 
-
-
 ### 12. Integer to Roman
 
 ```python
 class Solution:
     def intToRoman(self, num: int) -> str:
         res = ''
-        
+
         def helper(res, c4, c9, c5, c1, temp):
             if temp == 5:
                 return res + c5
@@ -291,18 +283,18 @@ class Solution:
                     for i in range(temp):
                         res += c1
                     return res
-        
+
         if num >= 1000:
             temp = num // 1000
             num %= 1000
             for i in range(temp):
                 res += 'M'
-                
+
         if num >= 100:
             temp = num // 100
             num %= 100
             res = helper(res, 'CD', 'CM', 'D', 'C', temp)
-            
+
         if num >= 10:
             temp = num // 10
             num %= 10
@@ -313,10 +305,8 @@ class Solution:
             res = helper(res, 'IV', 'IX', 'V', 'I', temp)
 
         return res
-            
+
 ```
-
-
 
 ### 15. 3Sum
 
@@ -324,9 +314,9 @@ class Solution:
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         ans = []
-        
+
         processed = []
-        
+
         for i in range(len(nums)):
             if nums[i] in processed:
                 continue
@@ -346,7 +336,7 @@ class Solution:
 ```python
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        
+
         nums.sort()
         ans = []
         for i in range(len(nums)):
@@ -369,8 +359,6 @@ class Solution:
                     right -= 1
         return ans
 ```
-
-
 
 ### 16. 3Sum Closest
 
@@ -398,8 +386,6 @@ class Solution:
         return ans
 ```
 
-
-
 ### 18. 4Sum
 
 ```python
@@ -420,7 +406,7 @@ class Solution:
                     left += 1
                     right -= 1
             return ans
-        
+
         def kSum(tempList, target, k):
             ans = []
             if len(tempList) == 0 or tempList[0] * k > target or tempList[-1] * k < target:
@@ -433,12 +419,10 @@ class Solution:
                 for each in kSum(tempList[i+1:], target-tempList[i], k-1):
                     ans.append([tempList[i]] + each)
             return ans
-        
+
         nums.sort()
         return kSum(nums, target, 4)
 ```
-
-
 
 ### 28. Implement strStr()
 
@@ -496,8 +480,6 @@ class Solution:
         return -1
 ```
 
-
-
 ### 36. Valid Sudoku
 
 ```python
@@ -521,8 +503,6 @@ class Solution:
 
 分别encode成`1row1 or 1col1 or 1box00`
 
-
-
 ### 43. Multiply Strings
 
 ```python
@@ -533,8 +513,6 @@ class Solution:
 
 不喜欢这个题，没做
 
-
-
 ### 49. Group Anagrams
 
 ```python
@@ -542,7 +520,7 @@ class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         from collections import defaultdict
         res = defaultdict(list)
-        
+
         for each in strs:
             res[tuple(sorted(each))].append(each)
         return res.values()
@@ -561,8 +539,6 @@ class Solution:
         return ans.values()
 ```
 
-
-
 ### 50. Pow(x, n)
 
 ```python
@@ -570,12 +546,12 @@ class Solution:
     def myPow(self, x: float, n: int) -> float:
         if n == 0:
             return 1
-        
+
         def myPow_helper(x, n, temp):
             if n == 1:
                 return x * temp
             return myPow_helper(x, n-1, x*temp)
-        
+
         if n > 0:
             return myPow_helper(x, n, 1)
         else:
@@ -587,27 +563,25 @@ recursionError: maximum recursion depth exceeded in comparison
 ```python
 class Solution:
     def myPow(self, x: float, n: int) -> float:
-        
+
         def myPow_helper(x, n):
             if n == 1:
                 return x
             if n == 0:
                 return 1
-            
+
             temp = myPow_helper(x, n//2)
-            
+
             if n % 2 == 0:
                 return temp * temp
             else:
                 return temp * temp * x
-        
+
         if n > 0:
             return myPow_helper(x, n)
         else:
             return 1/myPow_helper(x, -n)
 ```
-
-
 
 ### 58. Length of Last Word
 
@@ -644,8 +618,6 @@ class Solution:
         return len(s.strip().split(" ")[-1])
 ```
 
-
-
 ### 66. Plus one
 
 ```python
@@ -658,9 +630,9 @@ class Solution:
         temp_text = ""
         for each in digits:
             temp_text += str(each)
-            
+
         temp_text = str(int(temp_text) + 1)
-        
+
         temp_return = []
         for each in temp_text:
             temp_return.append(int(each))
@@ -671,13 +643,13 @@ class Solution:
 // 9/28/2019
 class Solution {
     public int[] plusOne(int[] digits) {
-        
+
         if(digits.length == 0){
             return null;
         }
-        
+
         int wait_plus = 0;
-        
+
         for(int i=digits.length-1; i>=0; i--){
             int temp = i == digits.length-1 ? digits[i] + wait_plus + 1 : digits[i] + wait_plus;
             int digit_ten = temp / 10;
@@ -696,12 +668,10 @@ class Solution {
         else{
             return digits;
         }
-        
+
     }
 }
 ```
-
-
 
 ### 67. Add Binary
 
@@ -755,7 +725,7 @@ class Solution:
     def addBinary(self, a: str, b: str) -> str:
         temp = 0
         ans = ''
-        
+
         l_min = min(len(a), len(b))
         for i in range(l_min):
             num = int(a[len(a)-1-i]) + int(b[len(b)-1-i]) + temp
@@ -768,7 +738,7 @@ class Solution:
             else:
                 temp = 0
                 ans = str(num) + ans
-        
+
         l = len(a) - len(b)
         i = abs(l)
         if l < 0:
@@ -797,13 +767,11 @@ class Solution:
                     temp = 0
                     ans = str(num) + ans
                 i -= 1
-        
+
         if temp == 1:
             ans = '1' + ans
         return ans
 ```
-
-
 
 ### 73. Set Matrix Zeroes
 
@@ -820,9 +788,9 @@ class Solution:
             # col
             for i in range(len(matrix)):
                 matrix[i][col] = 0
-                
+
         zero_list = []
-        
+
         for row in range(len(matrix)):
             for col in range(len(matrix[0])):
                 if matrix[row][col] == 0:
@@ -876,7 +844,7 @@ class Solution:
             for i in range(len(matrix)):
                 if matrix[i][col] != 0:
                     matrix[i][col] = val
-        
+
         for row in range(len(matrix)):
             for col in range(len(matrix[0])):
                 if matrix[row][col] == 0:
@@ -904,7 +872,7 @@ class Solution:
                         first_row = True
                     if col == 0:
                         first_col = True
-        
+
         for row in range(1, len(matrix)):
             if matrix[row][0] == 0:
                 for i in range(1, len(matrix[0])):
@@ -921,8 +889,6 @@ class Solution:
                 matrix[i][0] = 0
         return matrix
 ```
-
-
 
 ### 75. Sort Colors
 
@@ -947,10 +913,10 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        
+
         p0 = i = 0
         p2 = len(nums) - 1
-        
+
         while i <= p2:
             if nums[i] == 0:
                 nums[i], nums[p0] = nums[p0], nums[i]
@@ -963,8 +929,6 @@ class Solution:
                 i += 1
         return nums
 ```
-
-
 
 ### 118. Pascal's Triangle
 
@@ -992,8 +956,8 @@ class Solution:
                     row_list.append(ans[i-2][j]+ans[i-2][j+1])
                 row_list.append(1)
                 ans.append(row_list)
-        
-        
+
+
         return ans
 ```
 
@@ -1003,15 +967,15 @@ class Solution:
     def generate(self, numRows: int) -> List[List[int]]:
         if not numRows:
             return []
-        
+
         ans = [[1],[1,1]]
         last_temp = [1,1]
-        
+
         if numRows == 1:
             return [[1]]
         elif numRows == 2:
             return [[1],[1,1]]
-        
+
         for i in range(numRows-2):
             temp = [1]
             for j in range(len(last_temp)-1):
@@ -1036,11 +1000,9 @@ class Solution:
                 temp.append(last_row[j]+last_row[j+1])
             temp.append(1)
             ans.append(temp)
-        
+
         return ans
 ```
-
-
 
 ### 119. Pascal's Triangle II
 
@@ -1051,7 +1013,7 @@ class Solution:
             return [1]
         elif rowIndex == 1:
             return [1,1]
-        
+
         temp = [1,1]
 
         for i in range(rowIndex-1):
@@ -1060,26 +1022,24 @@ class Solution:
                 ans.append(temp[j]+temp[j+1])
             ans.append(1)
             temp = ans
-        
+
         return ans
 ```
 
 ```python
 class Solution:
     def getRow(self, rowIndex: int) -> List[int]:
-        
+
         ans = [1]
-        
+
         for i in range(1, rowIndex+1):
             temp = [1] * (i+1)
             for j in range(1,i):
                 temp[j] = ans[j-1] + ans[j]
             ans = temp
-        
+
         return ans
 ```
-
-
 
 ### 149. Max Points on a Line
 
@@ -1088,7 +1048,7 @@ class Solution:
     def maxPoints(self, points: List[List[int]]) -> int:
         if len(points) <= 2:
             return len(points)
-        
+
         res = 0
 
         for i, (i_x, i_y) in enumerate(points):
@@ -1105,13 +1065,11 @@ class Solution:
                     temp_dict[slope] += 1
             if temp_dict:
                 res = max(res, max(temp_dict.values()) + same)
-        
+
         return res
 ```
 
 $O(n^2)$ 复杂度，遍历每个点于其余点，遍历过程中计算斜率相等的点。注意记录相同的点个数，注意计算精度问题。
-
-
 
 ### 151. Reverse Words in a String
 
@@ -1120,11 +1078,11 @@ class Solution:
     def reverseWords(self, s: str) -> str:
         if not s:
             return s
-        
+
         i = len(s) - 1
         ans = ""
         temp = ""
-        
+
         while i >= 0:
             if s[i] != " ":
                 temp = s[i] + temp
@@ -1134,11 +1092,9 @@ class Solution:
             i -= 1
         if temp:
             ans += temp if not ans else (" " + temp)
-            
+
         return ans
 ```
-
-
 
 ### 165. Compare Version Numbers
 
@@ -1147,7 +1103,7 @@ class Solution:
     def compareVersion(self, version1: str, version2: str) -> int:
         v1_list = version1.split(".")
         v2_list = version2.split(".")
-        
+
         i = j = 0
         while i < len(v1_list) and j < len(v2_list):
             if int(v1_list[i]) > int(v2_list[j]):
@@ -1156,7 +1112,7 @@ class Solution:
                 return -1
             i += 1
             j += 1
-        
+
         while i < len(v1_list):
             if int(v1_list[i]) > 0:
                 return 1
@@ -1167,9 +1123,8 @@ class Solution:
             j += 1
         return 0
 ```
+
 like merge two sorted array
-
-
 
 ### 167. Two Sum II - Input array is sorted
 
@@ -1178,10 +1133,10 @@ class Solution:
     def twoSum(self, numbers: List[int], target: int) -> List[int]:
         if not numbers:
             return []
-        
+
         start = 0
         end = len(numbers) - 1
-        
+
         while start < end:
             temp = numbers[start] + numbers[end]
             if temp == target:
@@ -1224,8 +1179,6 @@ class Solution:
                 left += 1
 ```
 
-
-
 ### 168. Excel Sheet Column Title
 
 ```python
@@ -1259,9 +1212,7 @@ class Solution:
 
 At first glance, it might be tempting to say that these numbers are just base 26, but the catch is that in a base 26 system, the numbers would start from `0`
 
-However, in the problem, we have the number starting from `1`, not `0`. But we can change them to process them like base 26 numbers. The important point to observe here is that every column title has the corresponding column number as a number in base 26 plus one. For example, let's convert the number `2002` to the letters `BXZ` by representing it as a number in base 26. Note that each part will have an extra `1` added to compensate for the fact that we are starting from `1` in our system. 
-
-
+However, in the problem, we have the number starting from `1`, not `0`. But we can change them to process them like base 26 numbers. The important point to observe here is that every column title has the corresponding column number as a number in base 26 plus one. For example, let's convert the number `2002` to the letters `BXZ` by representing it as a number in base 26. Note that each part will have an extra `1` added to compensate for the fact that we are starting from `1` in our system.
 
 ### 170. Two Sum III - Data structure design
 
@@ -1323,8 +1274,6 @@ class TwoSum:
         return False
 ```
 
-
-
 ### 171. Excel Sheet Column Number
 
 ```python
@@ -1340,8 +1289,6 @@ class Solution:
             i -= 1
         return ans
 ```
-
-
 
 ### 172. Factorial Traniling Zeroes
 
@@ -1367,15 +1314,13 @@ int trailingZeroes(int n){
         # n/5 是 n/5 之前5的个数
         # 比如 12! = 12 *..* 10 *..* 5 *..* 2 * 1
         # 12 / 5 = 2 是 2 之前的质因数里有几个5，就是12*11*10*9*8*7*6*5*4*3里面质因数里有个几个5，显然10里面有一个，5里面有一个，一共2个。
-        n/=5; 
+        n/=5;
         # 上面求出了 2 之前有几个5后，问题转化为2后面有几个5，所以 n = n / 5, n = 2.
-        
+
     }
     return sum;
 }
 ```
-
-
 
 ### 202. Happy Number
 
@@ -1406,14 +1351,14 @@ def leetcode202(n):  # Accept happy number
 class Solution:
     def isHappy(self, n: int) -> bool:
         temp = set()
-        
+
         def get_next(num):
             sum = 0
             while num:
                 sum += (num % 10) ** 2
                 num //= 10
             return sum
-        
+
         slow = n
         fast = get_next(n)
         while fast != 1 and slow != fast:
@@ -1421,8 +1366,6 @@ class Solution:
             fast = get_next(get_next(fast))
         return fast == 1
 ```
-
-
 
 ### 205. Isomorphic Strings
 
@@ -1458,8 +1401,6 @@ public:
 };
 ```
 
-
-
 ### 217. Contains Duplicate
 
 ```python
@@ -1467,8 +1408,6 @@ class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
         return len(nums) != len(set(nums))
 ```
-
-
 
 ### 219. Contains Duplicate II
 
@@ -1483,8 +1422,6 @@ class Solution:
             temp[nums[i]] = i
         return False
 ```
-
-
 
 ### 242. Valid Anagram
 
@@ -1526,8 +1463,6 @@ class Solution:
         return True
 ```
 
-
-
 ### 243. Shortest Word Distance
 
 ```python
@@ -1545,8 +1480,6 @@ class Solution:
         return res
 ```
 
-
-
 ### 249. Group Shifted Strings
 
 ```python
@@ -1558,8 +1491,6 @@ class Solution:
         return groups.values()
 ```
 
-
-
 ### 258. Add Digits
 
 ```c++
@@ -1570,7 +1501,7 @@ class Solution:
 # 38%9=2; 11%9=2
 int addDigits(int num) {
     if(num==0) return 0;
-    return( (num-1)%9 + 1 ); 
+    return( (num-1)%9 + 1 );
 }
 ```
 
@@ -1590,30 +1521,28 @@ First you should understand:
 
 ```
 10^k % 9 = 1
-a*10^k % 9 = a % 9 
+a*10^k % 9 = a % 9
 ```
 
 Then let's use an example to help explain.
 
 Say a number x = 23456
 
-x = 2* 10000 + 3 * 1000 + 4 * 100 + 5 * 10 + 6
+x = 2* 10000 + 3 * 1000 + 4 _ 100 + 5 _ 10 + 6
 
-2 * 10000 % 9 = 2 % 9
+2 \* 10000 % 9 = 2 % 9
 
-3 * 1000 % 9 = 3 % 9
+3 \* 1000 % 9 = 3 % 9
 
-4 * 100 % 9 = 4 % 9
+4 \* 100 % 9 = 4 % 9
 
-5 * 10 % 9 = 5 % 9
+5 \* 10 % 9 = 5 % 9
 
-Then x % 9 = ( 2+ 3 + 4 + 5 + 6) % 9, note that x = 2* 10000 + 3 * 1000 + 4 * 100 + 5 * 10 + 6
+Then x % 9 = ( 2+ 3 + 4 + 5 + 6) % 9, note that x = 2* 10000 + 3 * 1000 + 4 _ 100 + 5 _ 10 + 6
 
 So we have 23456 % 9 = (2 + 3 + 4 + 5 + 6) % 9
 
 因此，此处蕴含着递归，23456%9 = (2+3+4+5+6)%9 = 20%9 = (2+0)%9 = 2%9 = 2
-
-
 
 ### 263. Ugly Number
 
@@ -1637,8 +1566,6 @@ n%base=[0...8]
 
 (n-1)%base + 1 =[1...9]
 
-
-
 ### 283. Move Zeroes
 
 ```python
@@ -1652,10 +1579,10 @@ class Solution:
         for each in nums:
             if each:
                 nonzero_num += 1
-        
+
         slow = 0
         fast = 0
-        
+
         while slow <= nonzero_num-1:
             if nums[fast]:
                 nums[slow] = nums[fast]
@@ -1672,7 +1599,7 @@ class Solution:
 void moveZeroes(vector<int>& nums) {
     int lastNonZeroFoundAt = 0;
     // If the current element is not 0, then we need to
-    // append it just in front of last non 0 element we found. 
+    // append it just in front of last non 0 element we found.
     for (int i = 0; i < nums.size(); i++) {
         if (nums[i] != 0) {
             nums[lastNonZeroFoundAt++] = nums[i];
@@ -1715,12 +1642,12 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        index = 0 
+        index = 0
         for i in range(len(nums)):
             if nums[i] != 0:
                 nums[index] = nums[i]
                 index += 1
-        
+
         for i in range(index, len(nums)):
             nums[i] = 0
 ```
@@ -1739,8 +1666,6 @@ class Solution:
                     nums[index] = 0
                 right_place += 1
 ```
-
-
 
 ### 284. Peeking Iterator
 
@@ -1774,7 +1699,7 @@ class PeekingIterator:
         """
         self.iterator = iterator
         self.peek_value = None
-        
+
 
     def peek(self):
         """
@@ -1799,7 +1724,7 @@ class PeekingIterator:
             return temp
         else:
             return self.iterator.next()
-        
+
 
     def hasNext(self):
         """
@@ -1809,7 +1734,7 @@ class PeekingIterator:
             return True
         else:
             return self.iterator.hasNext()
-        
+
 
 # Your PeekingIterator object will be instantiated and called as such:
 # iter = PeekingIterator(Iterator(nums))
@@ -1827,7 +1752,7 @@ class PeekingIterator:
         """
         self._next = iterator.next()
         self._iterator = iterator
-        
+
 
     def peek(self):
         """
@@ -1835,7 +1760,7 @@ class PeekingIterator:
         :rtype: int
         """
         return self._next
-        
+
 
     def next(self):
         """
@@ -1856,8 +1781,6 @@ class PeekingIterator:
         return self._next is not None
 ```
 
-
-
 ### 288. Unique Word Abbreviation
 
 ```python
@@ -1867,7 +1790,7 @@ class ValidWordAbbr:
         self._dict = defaultdict(set)
         for each in dictionary:
             self._dict[self.get_abbr(each)].add(each)
-        
+
     def get_abbr(self, word: str) -> str:
         if len(word) <= 2:
             return word
@@ -1878,8 +1801,6 @@ class ValidWordAbbr:
         words = self._dict.get(addr)
         return words is None or len(words) == 1 and word in words
 ```
-
-
 
 ### 292. Nim Game
 
@@ -1906,8 +1827,6 @@ bool canWinNim(int n) {
 }
 ```
 
-
-
 如果n存在一种方式一步到达必输状态
 
 存在x，f[n-x]==必输 其中1<=x<=3 那么f[n]则是必胜
@@ -1928,8 +1847,6 @@ bool canWinNim(int n) {
 
 取走最后一个的获胜
 
-
-
 ### 326. Power of Three
 
 ```c++
@@ -1945,8 +1862,6 @@ bool is PowerOfThree(int n){
 }
 ```
 
-
-
 ### 342. Power of Four
 
 ```c++
@@ -1960,8 +1875,6 @@ bool isPowerOfFour(int n){
     return ((n&(n-1))==0 && (n&0x55555555) );
 }
 ```
-
-
 
 ### 346. Moving Average from Data Stream
 
@@ -1983,8 +1896,6 @@ class MovingAverage:
             return sum(self.q[-self.size:]) / self.size
 ```
 
-
-
 ### 347. Top K Frequent Elements
 
 ```python
@@ -1996,8 +1907,6 @@ class Solution:
         return [each[0] for each in counter[:k]]
 ```
 
-
-
 ### 359. Logger Rate Limiter
 
 ```python
@@ -2008,7 +1917,7 @@ class Logger:
         Initialize your data structure here.
         """
         self.recorder = dict()
-        
+
 
     def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
         """
@@ -2027,8 +1936,6 @@ class Logger:
                 return True
 ```
 
-
-
 ### 380. Insert Delete GetRandom O(1)
 
 ```python
@@ -2040,7 +1947,7 @@ class RandomizedSet:
         """
         self._list = []
         self._dict = {}
-        
+
 
     def insert(self, val: int) -> bool:
         """
@@ -2051,7 +1958,7 @@ class RandomizedSet:
         self._dict[val] = len(self._list)
         self._list.append(val)
         return True
-        
+
 
     def remove(self, val: int) -> bool:
         """
@@ -2064,8 +1971,8 @@ class RandomizedSet:
         self._list.pop()
         del self._dict[val]
         return True
-        
-        
+
+
 
     def getRandom(self) -> int:
         """
@@ -2074,9 +1981,7 @@ class RandomizedSet:
         return random.choice(self._list)
 ```
 
-
-
- ### 387. First Unique Character in a String
+### 387. First Unique Character in a String
 
 ```python
 # two years ago since 3/28/2020
@@ -2127,8 +2032,6 @@ class Solution:
         return min(temp) if temp else -1
 ```
 
-
-
 ### 392. Is Subsequence
 
 ```python
@@ -2149,9 +2052,9 @@ class Solution:
     def isSubsequence(self, s: str, t: str) -> bool:
         if not s: return True
         if len(s) > len(t): return False
-        
+
         left = right = 0
-        
+
         for i, c in enumerate(t):
             if c == s[left]:
                 left += 1
@@ -2159,9 +2062,7 @@ class Solution:
         return False
 ```
 
-
-
-###  406. Queue Reconstruction by Height
+### 406. Queue Reconstruction by Height
 
 ```python
 class Solution:
@@ -2172,8 +2073,6 @@ class Solution:
             ans.insert(each[1], each)
         return ans
 ```
-
-
 
 ### 409. Longest Palindrome
 
@@ -2190,8 +2089,6 @@ class Solution:
                 if_odd = True
         return ans if not if_odd else ans+1
 ```
-
-
 
 ### 410. Split Array Largest Sum
 
@@ -2235,8 +2132,6 @@ public int splitArray(int[] nums, int m) {
 }
 ```
 
-
-
 ### 447. Number of Boomerangs
 
 ```python
@@ -2244,14 +2139,14 @@ class Solution:
     def numberOfBoomerangs(self, points: List[List[int]]) -> int:
         from collections import defaultdict
         temp = defaultdict(int)
-        
+
         def get_instance(x, y):
             a = x[0] - y[0]
             b = x[1] - y[1]
             return a*a + b*b
-        
+
         ans = 0
-        
+
         for i in range(len(points)):
             for j in range(len(points)):
                 if i == j:
@@ -2263,8 +2158,6 @@ class Solution:
             temp = defaultdict(int)
         return ans
 ```
-
-
 
 ### 454. 4Sum II
 
@@ -2290,14 +2183,12 @@ class Solution:
         for a in A:
             for b in B:
                 ab_dict[a+b] += 1
-        
+
         for c in C:
             for d in D:
                 res += ab_dict[-(c+d)]
         return res
 ```
-
-
 
 ### 470. Implement Rand10() Using Rand7()
 
@@ -2313,8 +2204,6 @@ class Solution:
         return rand40 % 10 + 1
 ```
 
-
-
 ### 509. Fibonacci Number
 
 ```python
@@ -2328,9 +2217,9 @@ class Solution:
 ```python
 class Solution:
     def fib(self, N: int) -> int:
-        
+
         cache = dict()
-        
+
         def fib_helper(N):
             if N < 2:
                 return N
@@ -2342,8 +2231,6 @@ class Solution:
                 return temp
         return fib_helper(N)
 ```
-
-
 
 ### 556. Next Greater Element III
 
@@ -2362,18 +2249,16 @@ class Solution:
         for j in range(i+2, len(nList)):
             if nList[j] > nList[i] and nList[j] < nList[smallestIndex]:
                 smallestIndex = j
-        nList[i], nList[smallestIndex] = nList[smallestIndex], nList[i] 
+        nList[i], nList[smallestIndex] = nList[smallestIndex], nList[i]
         res = int("".join([str(each) for each in nList[:i+1] + sorted(nList[i+1:])]))
         return res if res <= 0x7fffffff else -1
 ```
 
 https://leetcode.com/problems/next-greater-element-iii/discuss/101824/Simple-Java-solution-(4ms)-with-explanation.
 
-n1 = 0x80000000; *// 最大负数, -2147483648* 
+n1 = 0x80000000; _// 最大负数, -2147483648_
 
-n2 = 0x7fffffff; *// 最大正数, 2147483647*
-
-
+n2 = 0x7fffffff; _// 最大正数, 2147483647_
 
 ### 557. Reverse Words in a String III
 
@@ -2392,32 +2277,32 @@ class Solution(object):
 
 ```python
 # 10/12/2019
-# two pointers 
+# two pointers
 class Solution:
     def reverseWords(self, s: str) -> str:
         if not s:
             return s
-        
+
         s = list(s)
-        
+
         def reverseOneWord(s, head, tail):
             if not s:
                 return
-            
+
             while head < tail:
                 temp = s[head]
                 s[head] = s[tail]
                 s[tail] = temp
                 head += 1
                 tail -= 1
-            
+
         head = 0
         for i in range(len(s)):
             if s[i] == ' ':
                 reverseOneWord(s, head, i-1)
                 head = i+1
         reverseOneWord(s, head, len(s)-1)
-        
+
         return "".join(s)
 ```
 
@@ -2428,10 +2313,10 @@ class Solution:
     def reverseWords(self, s: str) -> str:
         if not s:
             return s
-        
+
         ans = ""
         temp = ""
-        
+
         i = len(s)-1
         while i >= 0:
             if s[i] != " ":
@@ -2444,27 +2329,25 @@ class Solution:
         return temp + ans
 ```
 
-
-
 ### 593. Valid Square
 
 ```python
 class Solution:
     def validSquare(self, p1: List[int], p2: List[int], p3: List[int], p4: List[int]) -> bool:
-        
+
         def distance(a, b):
             return (a[0] - b[0])**2 + (a[1] - b[1])**2
-        
+
         p1p2 = distance(p1, p2)
         p1p3 = distance(p1, p3)
         p1p4 = distance(p1, p4)
         temp = set([p1p2, p1p3, p1p4])
-        
+
         if len(temp) != 2:
             return False
         edge, diagonal = min(temp), max(temp)
         if not edge or not diagonal: return False
-        
+
         if p1p2 == diagonal:
             if distance(p2, p3) != edge or distance(p2, p4) != edge or distance(p3, p4) != diagonal:
                 return False
@@ -2477,8 +2360,6 @@ class Solution:
         return True
 ```
 
-
-
 ### 599. Minimum Index Sum of Two Lists
 
 ```python
@@ -2490,9 +2371,9 @@ class Solution:
         for each in dict1:
             if each in dict2:
                 res.append((each, dict1[each]+dict2[each]))
-        
+
         res.sort(key=lambda x:x[1])
-        
+
         for i in range(1, len(res)):
             if res[i][1] != res[0][1]:
                 return [each[0] for each in res[:i]]
@@ -2518,8 +2399,6 @@ class Solution:
         return ans
 ```
 
-
-
 ### 621. Task Scheduler
 
 ```python
@@ -2532,20 +2411,18 @@ class Solution:
         for k, v in counter.items():
             if v == maxCount:
                 sumMaxCount += 1
-        
+
         parts = maxCount - 1
         free_for_each_part = n - (sumMaxCount - 1)
         all_free_part = parts * free_for_each_part
         not_max_tasks = len(tasks) - maxCount * sumMaxCount
         remain_free_part = all_free_part - not_max_tasks
         free_part = max(0, remain_free_part)
-        
+
         return len(tasks) + free_part
 ```
 
 https://leetcode.com/problems/task-scheduler/discuss/104500/Java-O(n)-time-O(1)-space-1-pass-no-sorting-solution-with-detailed-explanation
-
-
 
 ### 628.Maximum Product of Three Numbers
 
@@ -2553,16 +2430,16 @@ https://leetcode.com/problems/task-scheduler/discuss/104500/Java-O(n)-time-O(1)-
         '''
         if len(nums) == 3:
             return nums[-1]*nums[-2]*nums[-3]
-        
+
         nums.sort()
-        
+
         if nums[0] >= 0 or nums[-1] <= 0:
             return nums[-1]*nums[-2]*nums[-3]
-        
+
         if len(nums) >= 5:
             if nums[1] <0 and nums[-3] > 0:
                 return max(nums[0]*nums[1]*nums[-1],nums[-1]*nums[-2]*nums[-3])
-        
+
         if len(nums) >= 4:
             if (nums[0] < 0 and nums[1] <= 0 and nums[2] >= 0 and nums[3] > 0) or nums[-2] <= 0:
                 return nums[0]*nums[1]*nums[-1]
@@ -2575,21 +2452,19 @@ https://leetcode.com/problems/task-scheduler/discuss/104500/Java-O(n)-time-O(1)-
 
 对数组进行排序非常耗时
 
-
-
 ### 665. Non-decreasing Array
 
 ```python
 class Solution:
     def checkPossibility(self, nums: List[int]) -> bool:
         temp = None
-        
+
         for i in range(len(nums)-1):
             if nums[i] > nums[i+1]:
                 if temp is not None:
                     return False
                 temp = i
-        
+
         if temp is None or temp == 0 or temp == len(nums) - 2:
             return True
         if nums[temp-1] <= nums[temp+1] or nums[temp] <= nums[temp+2]:
@@ -2602,8 +2477,6 @@ class Solution:
 如果此index为None或0或为倒数第二个元素可直接返回true
 
 否则判断此index前后两个组合是否符合条件：比如[2,3,3,2,4]. 不符合的index==2. 那么判断其前后两个组合[3,3,2] 和 [3,2,4]其中一个可以即可，即nums[index-1] <= nums[index+1] or nums[index] <= nums[index+2]
-
-
 
 ### 682. Baseball Game
 
@@ -2624,8 +2497,6 @@ class Solution:
         return sum(res)
 ```
 
-
-
 ### 692. Top K Frequent Words
 
 ```python
@@ -2645,18 +2516,18 @@ class Word(object):
     def __init__(self, word, value):
         self.word = word
         self.value = value
-    
+
     def __lt__(self, other):
         if self.value == other.value:
             return self.word > other.word
         return self.value < other.value
-    
+
     def __eq__(self, other):
         return self.word == other.word and self.value == other.value
 
 import heapq
 from collections import Counter
-    
+
 class Solution:
     def topKFrequent(self, words: List[str], k: int) -> List[str]:
         count = Counter(words)
@@ -2671,8 +2542,6 @@ class Solution:
         return res[::-1]
 ```
 
-
-
 ### 752. Open the Lock
 
 ```python
@@ -2681,12 +2550,12 @@ class Solution:
         deadends = set(deadends)
         if target in deadends or '0000' in deadends:
             return -1
-        
+
         ans = 0
-        
+
         Q = ['0000']
         seen = set()
-        
+
         while Q:
             size = len(Q)
             for i in range(size):
@@ -2724,8 +2593,6 @@ class Solution:
 
 列表的in操作比较耗时，可以remove该元素如果之后不再需要的话，remove后可以优化时间，但也比较有限。将 deadends 转为 set 后时间有明显缩短！因为 `Sets are significantly faster when it comes to determining if an object is present in the set (as in x in s)` set 操作是将列表转为字典，字典in操作平均为O(1)
 
-
-
 ### 779. K-th Symbol in Grammar
 
 ```python
@@ -2741,8 +2608,6 @@ class Solution:
 
 https://leetcode.com/problems/k-th-symbol-in-grammar/discuss/438528/Explanation-Python
 
-
-
 ### 811. Subdomain Visit Count
 
 ```python
@@ -2750,7 +2615,7 @@ class Solution:
     def subdomainVisits(self, cpdomains: List[str]) -> List[str]:
         from collections import Counter
         count = Counter()
-        
+
         for each in cpdomains:
             num, domain = each.split(" ")
             domain_list = domain.split(".")
@@ -2761,8 +2626,6 @@ class Solution:
         return ["{} {}".format(num, domain) for domain, num in count.items()]
 ```
 
-
-
 ### 819. Most Common Word
 
 ```python
@@ -2770,7 +2633,7 @@ class Solution:
     def mostCommonWord(self, paragraph: str, banned: List[str]) -> str:
         ban = set(banned)
         par_list = re.findall(r'\w+', paragraph.lower())
-        
+
         from collections import Counter
         par_dict = Counter(par_list)
         par_order_list = sorted([(key, value) for key, value in par_dict.items()], key=lambda t:t[1], reverse=True)
@@ -2778,8 +2641,6 @@ class Solution:
             if each[0] not in ban:
                 return each[0]
 ```
-
-
 
 ### 841. Keys and Rooms
 
@@ -2795,14 +2656,12 @@ class Solution:
                 if each not in room_num_set:
                     Q.append(each)
                     room_num_set.add(each)
-            
+
         if len(room_num_set) == len(rooms):
             return True
         else:
             return False
 ```
-
-
 
 ### 925. Long Pressed Name
 
@@ -2823,7 +2682,7 @@ class Solution:
                     return False
         if i < len(name):
             return False
-        
+
         while j < len(typed):
             if typed[j] == typed[j-1]:
                 j += 1
@@ -2831,8 +2690,6 @@ class Solution:
                 return False
         return True
 ```
-
-
 
 ### 933. Number of Recent Calls
 
@@ -2856,8 +2713,6 @@ class RecentCounter:
         return self.count
 ```
 
-
-
 ### 937. Reorder Data in Log Files
 
 ```python
@@ -2869,8 +2724,6 @@ class Solution:
 
         return sorted(logs, key = f)
 ```
-
-
 
 ### 939. Minimum Area Rectangle
 
@@ -2891,8 +2744,6 @@ class Solution:
         return ans if ans < sys.maxsize else 0
 ```
 
-
-
 ### 948. Bag of Tokens
 
 ```python
@@ -2905,15 +2756,13 @@ class Solution:
             while queue and P >= queue[0]:
                 P -= queue.popleft()
                 cur += 1
-            
+
             ans = max(ans, cur)
             if queue:
                 P += queue.pop()
                 cur -= 1
         return ans
 ```
-
-
 
 ### 952. Largest Component Size by Common Factor
 
@@ -2957,8 +2806,6 @@ https://leetcode.com/problems/largest-component-size-by-common-factor/discuss/81
 
 没做
 
-
-
 ### 967. Numbers With Same Consecutive Differences
 
 ```python
@@ -2966,29 +2813,27 @@ class Solution:
     def numsSameConsecDiff(self, N: int, K: int) -> List[int]:
         if N == 1:
             return [i for i in range(10)]
-        
+
         ans = []
-        
+
         def dfs(N, num):
             if N == 0:
                 ans.append(num)
                 return
-            
+
             last_digit = num % 10
             last_digit_list = set([last_digit + K, last_digit - K])
             for digit in last_digit_list:
                 if digit >= 0 and digit <= 9:
                     new_num = num * 10 + digit
                     dfs(N-1, new_num)
-        
+
         for i in range(1, 10):
             dfs(N-1, i)
         return ans
 ```
 
 https://leetcode.com/problems/numbers-with-same-consecutive-differences/solution/
-
-
 
 ### 973. K Closest Points to Origin
 
@@ -3034,8 +2879,6 @@ class Solution:
         return points[:K]
 ```
 
-
-
 ### 994. Rotting Oranges
 
 ```python
@@ -3043,15 +2886,15 @@ class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
         if not grid:
             return 0
-        
+
         from collections import deque
         q = deque()
-        
+
         for row in range(len(grid)):
             for col in range(len(grid[0])):
                 if grid[row][col] == 2:
                     q.append((row, col, 0))
-        
+
         def get_n(row, col):
             for row, col in [(row-1, col), (row+1, col), (row, col-1), (row, col+1)]:
                 if 0 <= row < len(grid) and 0 <= col < len(grid[0]):
@@ -3070,8 +2913,6 @@ class Solution:
                     return -1
         return ans
 ```
-
-
 
 ### 1002. Find Common Characters
 
@@ -3093,8 +2934,6 @@ class Solution:
         return ans
 ```
 
-
-
 ### 1029. Two City Scheduling
 
 ```python
@@ -3109,9 +2948,8 @@ class Solution:
             ans += costs[i][1]
         return ans
 ```
+
 https://leetcode.com/problems/two-city-scheduling/discuss/278716/C%2B%2B-O(n-log-n)-sort-by-savings
-
-
 
 ### 1041. Robot Bounded In Circle
 
@@ -3124,9 +2962,9 @@ https://leetcode.com/problems/two-city-scheduling/discuss/278716/C%2B%2B-O(n-log
 class Solution:
     def isRobotBounded(self, instructions: str) -> bool:
         x = y = index = 0
-    
+
         direction = [[0, 1], [-1, 0], [0, -1], [1, 0]]
-        
+
         for each in instructions:
             if each == 'L':
                 index = (index + 1) % 4
@@ -3138,30 +2976,26 @@ class Solution:
         return (x == 0 and y == 0) or index != 0
 ```
 
-
-
 ### 1094. Car Pooling
 
- ```python
+```python
 class Solution:
-    def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
-        
-        temp = []
-        for p_num, start, end in trips:
-            temp += [[start, p_num], [end, -p_num]]
-        
-        count = 0
-        temp.sort()
-        
-        
-        for _, p_num in temp:
-            count += p_num
-            if count > capacity:
-                return False
-        return True
- ```
+   def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
+
+       temp = []
+       for p_num, start, end in trips:
+           temp += [[start, p_num], [end, -p_num]]
+
+       count = 0
+       temp.sort()
 
 
+       for _, p_num in temp:
+           count += p_num
+           if count > capacity:
+               return False
+       return True
+```
 
 ### 1099. Two Sum Less Than K
 
@@ -3179,8 +3013,6 @@ class Solution:
                 j -= 1
         return ans
 ```
-
-
 
 ### 1103. Distribute Candies to People
 
@@ -3222,8 +3054,6 @@ class Solution:
         return ans
 ```
 
-
-
 ### 1119. Remove Vowels from a String
 
 ```python
@@ -3232,8 +3062,6 @@ class Solution:
         vowels = {'a', 'e', 'i', 'o', 'u'}
         return ("").join([each for each in S if each not in vowels])
 ```
-
-
 
 ### 1137. N-th Tribonacci Number
 
@@ -3250,8 +3078,6 @@ class Solution:
             a, b, c = b, c, a+b+c
         return c
 ```
-
-
 
 ### 1160. Find Words That Can Be Formed by Characters
 
@@ -3273,8 +3099,6 @@ class Solution:
         return ans
 ```
 
-
-
 ### 1207. Unique Number of Occurrences
 
 ```python
@@ -3288,8 +3112,6 @@ class Solution:
         return True
 ```
 
-
-
 ### 1232. Check If It Is a Straight Line
 
 ```python
@@ -3299,7 +3121,7 @@ class Solution:
             return False
         if len(coordinates) <= 2:
             return True
-        
+
         slope = None
         for i in range(1, len(coordinates)):
             point1 = coordinates[i-1]
@@ -3312,7 +3134,6 @@ class Solution:
         return True
 ```
 
-
 ### 1306. Jump Game III
 
 ```python
@@ -3323,8 +3144,6 @@ class Solution:
             return arr[start] == 0 or self.canReach(arr, start + arr[start]) or self.canReach(arr, start - arr[start])
         return False
 ```
-
-
 
 ### 1342. Number of Steps to Reduce a Number to Zero
 
@@ -3358,8 +3177,6 @@ int numberOfSteps (int num) {
     }
 ```
 
-
-
 ### 1344. Angle Between Hands of a Clock
 
 ```python
@@ -3372,15 +3189,13 @@ class Solution:
         return ans if ans < 180 else 360 - ans
 ```
 
-
-
 ### 1365. How Many Numbers Are Smaller Than the Current Number
 
 ```python
 class Solution:
     def smallerNumbersThanCurrent(self, nums: List[int]) -> List[int]:
         from collections import Counter
-        
+
         count = Counter(nums)
         ans = []
         for each in nums:
@@ -3403,29 +3218,27 @@ class Solution:
         return [array[each] for each in nums]
 ```
 
-
-
 ### 1387. Sort Integers by The Power Value
 
 ```python
 class Solution:
     def getKth(self, lo: int, hi: int, k: int) -> int:
         temp = {1:0}
-        
+
         def helper(num):
             if num in temp:
                 return temp.get(num)
-            
+
             if num % 2 == 0:
                 temp[num] = helper(num // 2) + 1
             else:
                 temp[num] = helper(3 * num + 1) + 1
             return temp[num]
-        
-        
+
+
         for i in range(lo, hi+1):
             helper(i)
-        
+
         return sorted(range(lo, hi+1), key=temp.__getitem__)[k-1]
 ```
 
@@ -3438,8 +3251,6 @@ https://leetcode.com/problems/sort-integers-by-the-power-value/discuss/546573/Ju
 
 https://stackoverflow.com/questions/3417760/how-to-sort-a-python-dicts-keys-by-value
 
-
-
 ### 1431. Kids With the Greatest Number of Candies
 
 ```python
@@ -3448,8 +3259,6 @@ class Solution:
         max_ = max(candies)
         return [each+extraCandies >= max_ for each in candies]
 ```
-
-
 
 ### 1512. Number of Good Pairs
 
@@ -3479,9 +3288,7 @@ class Solution(object):
         return sum([val * (val-1) // 2 for val in collections.Counter(nums).values()])
 ```
 
-val * (val - 1) // 2 == A(n, 2) // 2
-
-
+val \* (val - 1) // 2 == A(n, 2) // 2
 
 ### 1640. Check Array Formation Through Concatenation
 
@@ -3497,8 +3304,6 @@ class Solution:
                 i += 1
         return True
 ```
-
-
 
 ### [1662. Check If Two String Arrays are Equivalent](https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent/)
 
@@ -3534,8 +3339,6 @@ func arrayStringsAreEqual(word1 []string, word2 []string) bool {
 }
 ```
 
-
-
 ### 1689. Partitioning Into Minimum Number Of Deci-Binary Numbers
 
 ```python
@@ -3545,31 +3348,27 @@ class Solution:
         return max(res)
 ```
 
-
-
 ### 1828. Queries on Number of Points Inside a Circle
 
 ```python
 class Solution:
     def countPoints(self, points: List[List[int]], queries: List[List[int]]) -> List[int]:
-        
+
         import math
-        
+
         res = [0] * len(queries)
-        
+
         def distance(x1, y1, x2, y2):
             return math.sqrt((y2-y1)**2 + (x2-x1)**2)
-        
+
         for x, y in points:
             for i, query in enumerate(queries):
                 a, b, r = query
                 if distance(a, b, x, y) <= r:
                     res[i] += 1
-        
+
         return res
 ```
-
-
 
 ### 2287. Rearrange Characters to Make Target String
 
@@ -3578,23 +3377,65 @@ class Solution:
     def rearrangeCharacters(self, s: str, target: str) -> int:
         s_counter = Counter(s)
         target_counter = Counter(target)
-        
+
         res = sys.maxsize
-        
+
         for c, num in target_counter.items():
             if c not in s_counter or s_counter[c] < num: return 0
             res = min(res, s_counter[c] // num)
-        
+
         return res
 ```
 
+### 3499. Maximize Active Section with Trade I
 
+```python
+class Solution:
+    def maxActiveSectionsAfterTrade(self, s: str) -> int:
+        zero_one_counter = []
+        count = 1
+        c = s[0]
+        one_num = 1 if c == "1" else 0
+        for each in s[1:]:
+            if each == "1":
+                one_num += 1
+            if each == c:
+                count += 1
+            else:
+                zero_one_counter.append((c, count))
+                count = 1
+                c = each
+        zero_one_counter.append((c, count))
+
+        res = one_num
+        for i, (c, count) in enumerate(zero_one_counter):
+            if i == 0 or i == len(zero_one_counter) - 1:
+                continue
+            if c == "1" and zero_one_counter[i-1][0] == "0" and zero_one_counter[i+1][0] == "0":
+                res = max(res, one_num + zero_one_counter[i-1][1] + zero_one_counter[i+1][1])
+
+        return res
+```
+
+这道题的含义是：给定一个只包含01的字符串，最多可以进行一次操作（trade），目标是让最终字符串中 '1' 的数量最多。
+一次 trade 包含两个步骤：
+
+1. 把一个连续的一段 '1' 变成 '0'
+   但是这段 '1' 必须满足：
+   - 它是连续的一块
+   - 它左右两边都是 '0'
+2. 然后把一个连续的一段 '0' 变成 '1'
+   但是这段 '0' 必须满足：
+   - 它是连续的一块
+   - 它左右两边都是 '1'
+
+只需遍历所有被0包裹的1，计算两边0的数量最大是多少，用最大值加上所有1的数量就是结果
 
 ### Perform String Shifts
 
 You are given a string `s` containing lowercase English letters, and a matrix `shift`, where `shift[i] = [direction, amount]`:
 
-- `direction` can be `0` (for left shift) or `1` (for right shift). 
+- `direction` can be `0` (for left shift) or `1` (for right shift).
 - `amount` is the amount by which string `s` is to be shifted.
 - A left shift by 1 means remove the first character of `s` and append it to the end.
 - Similarly, a right shift by 1 means remove the last character of `s` and add it to the beginning.
@@ -3606,7 +3447,7 @@ Return the final string after all operations.
 ```
 Input: s = "abc", shift = [[0,1],[1,2]]
 Output: "cab"
-Explanation: 
+Explanation:
 [0,1] means shift to left by 1. "abc" -> "bca"
 [1,2] means shift to right by 2. "bca" -> "cab"
 ```
@@ -3616,14 +3457,12 @@ Explanation:
 ```
 Input: s = "abcdefg", shift = [[1,1],[1,1],[0,2],[1,3]]
 Output: "efgabcd"
-Explanation:  
+Explanation:
 [1,1] means shift to right by 1. "abcdefg" -> "gabcdef"
 [1,1] means shift to right by 1. "gabcdef" -> "fgabcde"
 [0,2] means shift to left by 2. "fgabcde" -> "abcdefg"
 [1,3] means shift to right by 3. "abcdefg" -> "efgabcd"
 ```
-
- 
 
 **Constraints:**
 
@@ -3639,9 +3478,9 @@ class Solution:
     def stringShift(self, s: str, shift: List[List[int]]) -> str:
         if not shift:
             return s
-        
+
         ans = s
-        
+
         if len(shift) > 1:
             for i in range(1, len(shift)):
                 if shift[0][0] == shift[i][0]:
@@ -3654,11 +3493,11 @@ class Solution:
                         shift[0] = [shift[i][0], temp]
                     else:
                         shift[0][1] = 0
-        
+
         shift[0][1] %= len(s)
         if shift[0][1] == 0:
             return s
-            
+
         if shift[0][0] == 0:
             ans += ans[:shift[0][1]]
             return ans[shift[0][1]:]
@@ -3666,8 +3505,6 @@ class Solution:
             ans = ans[-shift[0][1]:] + ans
             return ans[:-shift[0][1]]
 ```
-
-
 
 ### Leftmost Column with at Least a One
 
@@ -3698,7 +3535,7 @@ class Solution:
                 return left
             else:
                 return col_num
-        
+
         leftmost_1_list = [find_leftmost_1(i) for i in range(row_num)]
         for each in leftmost_1_list:
             if each != col_num:
