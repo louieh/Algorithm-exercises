@@ -121,6 +121,20 @@ https://leetcode.com/problems/minimum-rounds-to-complete-all-tasks/solutions/195
 
 @lee215答案中把所有情况总结为 `(freq + 2) / 3` 不太能理解为什么可以这样
 
+### 3536. Maximum Product of Two Digits
+
+```python
+class Solution:
+    def maxProduct(self, n: int) -> int:
+        nums = []
+        while n:
+            nums.append(n%10)
+            n //= 10
+
+        nums.sort(key=lambda x:-x)
+        return nums[0] * nums[1]
+```
+
 ### 3754. Concatenate Non-Zero Digits and Multiply by Sum I
 
 ```python
