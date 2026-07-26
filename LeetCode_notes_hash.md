@@ -8,7 +8,7 @@
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         temp_dict = dict()
-        
+
         for i in range(len(nums)):
             c = target - nums[i]
             if c in temp_dict:
@@ -28,8 +28,6 @@ class Solution:
             temp[val] = i
 ```
 
-
-
 ### 1679. Max Number of K-Sum Pairs
 
 ```python
@@ -48,29 +46,25 @@ class Solution:
 
 和 two sum 一样？？？
 
-
-
 ### cs6301 final Question 7
 
 Given an array of integers, and x. Provide an algorithm to find how many pairs of elements of the array sum to x. For example, if A = {3, 3, 4, 5, 3, 5, 4} them `howMany(A, 8)` return 7. RT should be `O(nlogn)` or better.
 
- ```python
-   def howMany(A, target):
-       temp_dict = dict()
-       ans = 0
-       # A = {3, 3, 4, 5, 3, 5, 4} target = 8
-       for i in range(len(A)):
-           c = target - A[i]
-           if c in temp_dict:
-               ans += temp_dict[c]
-           if A[i] in temp_dict:
-               temp_dict[A[i]] += 1
-           else:
-               temp_dict[A[i]] = 1
-       return ans
- ```
-
-
+```python
+  def howMany(A, target):
+      temp_dict = dict()
+      ans = 0
+      # A = {3, 3, 4, 5, 3, 5, 4} target = 8
+      for i in range(len(A)):
+          c = target - A[i]
+          if c in temp_dict:
+              ans += temp_dict[c]
+          if A[i] in temp_dict:
+              temp_dict[A[i]] += 1
+          else:
+              temp_dict[A[i]] = 1
+      return ans
+```
 
 ### 146. LRU Cache
 
@@ -81,13 +75,13 @@ class LRUCache:
     def __init__(self, capacity: int):
         self.capacity = capacity
         self.LRU = OrderedDict()
-        
+
     def get(self, key: int) -> int:
         if key not in self.LRU:
             return -1
         self.LRU.move_to_end(key,last = True)
         return self.LRU[key]
-            
+
     def put(self, key: int, value: int) -> None:
         if key in self.LRU:
             self.LRU.move_to_end(key,last = True)
@@ -131,7 +125,7 @@ class Node:
         self.val = val
         self.next = next
         self.prev = prev
-    
+
     def __str__(self):
         nxt = f"Node({self.next.key}, {self.next.val})" if self.next is not None else str(None)
         prv = f"node({self.prev.key}, {self.prev.val})" if self.prev is not None else str(None)
@@ -162,7 +156,7 @@ class LRUCache:
             if len(self._dict) == self.capacity:
                 last_node = self.tail.prev
                 self._remove(last_node)
-            
+
             new_node = Node(key, value)
             self._insert(new_node)
 
@@ -177,18 +171,18 @@ class LRUCache:
         node.prev.next = node.next
         node.next.prev = node.prev
         self._dict.pop(node.key)
-    
+
     def print_link(self):
         print("--------")
         dummy = self.head
         while dummy:
             print(f"node: {dummy.key}")
             dummy = dummy.next
-    
+
     def _update(self, node: Node) -> None:
         self._remove(node)
         self._insert(node)
-        
+
 
 
 # Your LRUCache object will be instantiated and called as such:
@@ -197,7 +191,7 @@ class LRUCache:
 # obj.put(key,value
 ```
 
-```python
+````python
 class Node:
     def __init__(self, key=0, val=0, prev=None, next=None):
         self.key = key
@@ -214,7 +208,7 @@ class LRUCache:
         self.tail = Node()
         self.head.next = self.tail
         self.tail.prev = self.head
-    
+
     def _add(self, node):
         self._dict[node.key] = node
         node.next = self.head.next
@@ -325,9 +319,77 @@ func (this *LRUCache) Put(key int, value int)  {
  * param_1 := obj.Get(key);
  * obj.Put(key,value);
  */
+````
+
+```python
+class Node(object):
+    def __init__(self, key, val, next=None, prev=None):
+        self.key=key
+        self.val=val
+        self.prev=prev
+        self.next=next
+
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.cur_cap = 0
+        self.node_dict = dict()
+        self.header = Node(key=None, val=None)
+        self.tail = Node(key=None, val=None)
+        self.header.next = self.tail
+        self.tail.prev = self.header
+
+    def get(self, key: int) -> int:
+        val_node = self.node_dict.get(key)
+        if not val_node:
+            return -1
+        else:
+            # 取值，更新节点
+            # 先链接前后节点
+            val_node.prev.next = val_node.next
+            val_node.next.prev = val_node.prev
+            # 移动到header后面
+            val_node.next = self.header.next
+            val_node.prev = self.header
+            self.header.next.prev = val_node
+            self.header.next = val_node
+            return val_node.val
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.node_dict:
+            val_node = self.node_dict[key]
+            val_node.val = value
+            # 先链接前后节点
+            val_node.prev.next = val_node.next
+            val_node.next.prev = val_node.prev
+            # 移动到header后面
+            val_node.next = self.header.next
+            val_node.prev = self.header
+            self.header.next.prev = val_node
+            self.header.next = val_node
+        else:
+            # 创建新节点写入最新位置
+            new_node = Node(key=key, val=value, next=self.header.next, prev=self.header)
+            self.node_dict[key] = new_node
+            self.header.next.prev = new_node
+            self.header.next = new_node
+            if self.cur_cap == self.capacity:
+                # 删除最后节点
+                last_node = self.tail.prev
+                self.node_dict.pop(last_node.key)
+                last_node.prev.next = self.tail
+                self.tail.prev = last_node.prev
+            else:
+                self.cur_cap += 1
+
+
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
 ```
-
-
 
 ### 290. Word Pattern
 
@@ -381,17 +443,15 @@ class Solution:
             val = p2s.get(p_list[i])
             if val is not None and val != s_list[i]: return False
             p2s[p_list[i]] = s_list[i]
-        
+
         s2p = {}
         for i in range(len(s_list)):
             val = s2p.get(s_list[i])
             if val is not None and val != p_list[i]: return False
             s2p[s_list[i]] = p_list[i]
-        
+
         return True
 ```
-
-
 
 ### 460. LFU Cache
 
@@ -418,7 +478,7 @@ class LFUCache:
             if not self.fre_key_dict[fre]: self.fre_key_dict.pop(fre)
             return self.cache[key]
         return -1
-    
+
     def remove_lfu_key(self):
         lowest_fre = min(self.fre_key_dict.keys())
         lowest_key = list(self.fre_key_dict[lowest_fre])
@@ -462,7 +522,7 @@ class Node:
         self.key = key
         self.val = value
         self.fre = 1
-        self.prev = self.next = None 
+        self.prev = self.next = None
 
 class DoubleLinkedList:
 
@@ -474,10 +534,10 @@ class DoubleLinkedList:
         self.header.prev = None
         self.tail.prev = self.header
         self.tail.next = None
-    
+
     def __len__(self):
         return self.size
-    
+
     def pop(self, node=None):
         if self.size == 0: return
         if not node:
@@ -486,7 +546,7 @@ class DoubleLinkedList:
         node.next.prev = node.prev
         self.size -= 1
         return node
-    
+
     def append(self, node):
         node.next = self.header.next
         node.prev = self.header
@@ -510,7 +570,7 @@ class LFUCache:
             self.min_fre += 1
         node.fre += 1
         self.fre_key_dict[node.fre].append(node)
-    
+
     def get(self, key: int) -> int:
         if key not in self.cache: return -1
         node = self.cache[key]
@@ -533,7 +593,7 @@ class LFUCache:
             self.fre_key_dict[1].append(node)
             self.min_fre = 1
             self.size += 1
-        
+
 
 
 # Your LFUCache object will be instantiated and called as such:
@@ -548,8 +608,6 @@ https://leetcode.com/problems/lfu-cache/solutions/207673/python-concise-solution
 
 最小频率值存在 LFUCache 对象属性中，同时该对象实现 update 方法，负责把待更新节点从一个链表中 pop 出后更新频率再 append 到新频率链表中。
 
-
-
 ### 535. Encode and Decode TinyURL
 
 ```python
@@ -560,7 +618,7 @@ class Codec:
         self.str_list = list(string.ascii_letters + string.digits)
         self.l = 6
         self.ans_dict = dict()
-    
+
     def get_random_str(self, l):
         temp = ''
         for i in range(l):
@@ -569,7 +627,7 @@ class Codec:
 
     def encode(self, longUrl):
         """Encodes a URL to a shortened URL.
-        
+
         :type longUrl: str
         :rtype: str
         """
@@ -578,16 +636,16 @@ class Codec:
             if temp not in self.ans_dict.keys():
                 self.ans_dict[temp] = longUrl
                 return temp
-        
+
 
     def decode(self, shortUrl):
         """Decodes a shortened URL to its original URL.
-        
+
         :type shortUrl: str
         :rtype: str
         """
         return self.ans_dict[shortUrl]
-        
+
 
 # Your Codec object will be instantiated and called as such:
 # codec = Codec()
@@ -615,14 +673,12 @@ class Codec:
         """Decodes a shortened URL to its original URL.
         """
         return self._dict2.get(shortUrl)
-        
+
 
 # Your Codec object will be instantiated and called as such:
 # codec = Codec()
 # codec.decode(codec.encode(url))
 ```
-
-
 
 ### 705. Design HashSet
 
@@ -635,7 +691,7 @@ class MyHashSet:
         """
         self.keyRange = 769
         self.bucketArray = [Bucket() for i in range(self.keyRange)]
-        
+
     def _hash(self, key):
         return key % self.keyRange
 
@@ -646,7 +702,7 @@ class MyHashSet:
     def remove(self, key: int) -> None:
         index = self._hash(key)
         self.bucketArray[index].delete(key)
-        
+
 
     def contains(self, key: int) -> bool:
         """
@@ -663,13 +719,13 @@ class Node(object):
 class Bucket(object):
     def __init__(self):
         self.head = Node(0)
-    
+
     def insert(self, val):
         if not self.exist(val):
             temp = self.head.next
             new_node = Node(val, temp)
             self.head.next = new_node
-    
+
     def exist(self, val):
         cur = self.head.next
         while cur:
@@ -677,7 +733,7 @@ class Bucket(object):
                 return True
             cur = cur.next
         return False
-    
+
     def delete(self, val):
         prev, curr = self.head, self.head.next
         while curr:
@@ -693,8 +749,6 @@ class Bucket(object):
 # param_3 = obj.contains(key)
 ```
 
-
-
 ### 706. Design HashMap
 
 ```python
@@ -706,18 +760,18 @@ class MyHashMap:
         """
         self.size = 2069
         self.hash_table = [Bucket() for i in range(self.size)]
-        
+
     def _hash(self, key):
         return key % self.size
-    
-        
+
+
     def put(self, key: int, value: int) -> None:
         """
         value will always be non-negative.
         """
         index = self._hash(key)
         self.hash_table[index].update(key, value)
-        
+
 
     def get(self, key: int) -> int:
         """
@@ -725,7 +779,7 @@ class MyHashMap:
         """
         index = self._hash(key)
         return self.hash_table[index].get(key)
-        
+
 
     def remove(self, key: int) -> None:
         """
@@ -733,29 +787,29 @@ class MyHashMap:
         """
         index = self._hash(key)
         self.hash_table[index].remove(key)
-        
+
 class Bucket(object):
     def __init__(self):
         self.bucketList = []
-    
+
     def get(self, key):
         for (k, v) in self.bucketList:
             if k == key:
                 return v
         return -1
-    
+
     def update(self, key, value):
         for i, kv in enumerate(self.bucketList):
             if kv[0] == key:
                 self.bucketList[i] = (key, value)
                 return
         self.bucketList.append((key, value))
-    
+
     def remove(self, key):
         for i, kv in enumerate(self.bucketList):
             if kv[0] == key:
                 del self.bucketList[i]
-        
+
 
 
 # Your MyHashMap object will be instantiated and called as such:
@@ -771,7 +825,7 @@ class MyHashMap:
     def __init__(self):
         self.length = 769
         self.hashmap = [Bucket() for _ in range(self.length)]
-    
+
     def _hash(self, key):
         return key % self.length
 
@@ -782,7 +836,7 @@ class MyHashMap:
     def get(self, key: int) -> int:
         index = self._hash(key)
         return self.hashmap[index].get(key)
-        
+
     def remove(self, key: int) -> None:
         index = self._hash(key)
         return self.hashmap[index].remove(key)
@@ -796,7 +850,7 @@ class Node(object):
 class Bucket(object):
     def __init__(self):
         self.head = Node(-1, -1)
-    
+
     def get(self, key):
         head = self.head
         while head:
@@ -804,7 +858,7 @@ class Bucket(object):
                 return head.val
             head = head.next
         return -1
-    
+
     def insert(self, key, val):
         head = self.head
         while head:
@@ -815,7 +869,7 @@ class Bucket(object):
         node = Node(key, val)
         node.next = self.head.next
         self.head.next = node
-    
+
     def remove(self, key):
         head = self.head
         while head.next:
@@ -832,20 +886,18 @@ class Bucket(object):
 # obj.remove(key)
 ```
 
-
-
 ### 997. Find the Town Judge
 
 ```python
 class Solution:
     def findJudge(self, N: int, trust: List[List[int]]) -> int:
         from collections import defaultdict
-        
+
         trust_dict = defaultdict(set)
-        
+
         for a, b in trust:
             trust_dict[a].add(b)
-        
+
         if len(trust_dict) == N-1:
             for i in range(1, N+1):
                 if i not in trust_dict:
@@ -865,7 +917,7 @@ class Solution:
         temp_dict = defaultdict(set)
         for a, b in trust:
             temp_dict[a].add(b)
-        
+
         diff = all_people - set(temp_dict.keys())
         if diff != 1: return -1
         judge = list(diff)[0]
@@ -885,14 +937,12 @@ class Solution:
         for a, b in trust:
             trust_dict[a].add(b)
             trusted_dict[b].add(a)
-        
+
         for i in range(1, n+1):
             if i not in trust_dict and len(trusted_dict[i]) == n - 1: return i
         return -1
 
 ```
-
-
 
 ### 1396. Design Underground System
 
@@ -923,8 +973,6 @@ class UndergroundSystem:
 # param_3 = obj.getAverageTime(startStation,endStation)
 ```
 
-
-
 ### 2295. Replace Elements in an Array
 
 ```python
@@ -938,4 +986,3 @@ class Solution:
         res = sorted([(k, v) for k, v in nums_dict.items()], key=lambda x:x[1])
         return [each[0] for each in res]
 ```
-
