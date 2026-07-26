@@ -886,6 +886,72 @@ class Bucket(object):
 # obj.remove(key)
 ```
 
+```python
+class Node(object):
+    def __init__(self, key=None, val=None, next=None):
+        self.key = key
+        self.val = val
+        self.next = next
+
+class Bucket(object):
+    def __init__(self):
+        self.header = Node()
+
+    def put(self, key, value):
+        header = self.header
+        while header.next:
+            if header.next.key == key:
+                header.next.val = value
+                return
+            header = header.next
+        new_node = Node(key=key, val=value, next=self.header.next)
+        self.header.next = new_node
+
+    def get(self, key):
+        header = self.header
+        while header.next:
+            if header.next.key == key:
+                return header.next.val
+            header = header.next
+        return -1
+
+    def remove(self, key):
+        header = self.header
+        while header.next:
+            if header.next.key == key:
+                header.next = header.next.next
+                return
+            header = header.next
+
+class MyHashMap:
+
+    def __init__(self):
+        self.capacity = 10
+        self.bucket_list = [Bucket() for _ in range(self.capacity)]
+
+    def hash(self, key: int):
+        return key % self.capacity
+
+    def put(self, key: int, value: int) -> None:
+        return self.bucket_list[self.hash(key)].put(key, value)
+
+
+    def get(self, key: int) -> int:
+        return self.bucket_list[self.hash(key)].get(key)
+
+
+    def remove(self, key: int) -> None:
+        return self.bucket_list[self.hash(key)].remove(key)
+
+
+
+# Your MyHashMap object will be instantiated and called as such:
+# obj = MyHashMap()
+# obj.put(key,value)
+# param_2 = obj.get(key)
+# obj.remove(key)
+```
+
 ### 997. Find the Town Judge
 
 ```python
