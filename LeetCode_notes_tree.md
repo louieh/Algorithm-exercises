@@ -33,8 +33,6 @@ class Solution:
         return res
 ```
 
-
-
 ### 95. Unique Binary Search Trees II
 
 ```python
@@ -42,16 +40,16 @@ class Solution:
     def generateTrees(self, n: int) -> List[TreeNode]:
         if not n:
             return []
-        
+
         def helper(start, end):
             if start > end:
                 return [None, ]
-            
+
             res = []
             for i in range(start, end+1):
                 left = helper(start, i-1)
                 right = helper(i+1, end)
-                
+
                 for j in left:
                     for k in right:
                         curr = TreeNode(i)
@@ -59,13 +57,11 @@ class Solution:
                         curr.right = k
                         res.append(curr)
             return res
-        
+
         return helper(1, n)
 ```
 
 https://leetcode.com/articles/unique-binary-search-trees-ii/
-
-
 
 ### 98. Validate Binary Search Tree
 
@@ -153,11 +149,11 @@ def isValidBST(self, root: TreeNode) -> bool:
 class Solution:
     def __init__(self):
         self.ans = True
-        
+
     def isValidBST_tool(self, root, low, high):
         if not root:
             return
-        
+
         if low is not None and high is not None:
             if not (root.val < high and root.val > low):
                 self.ans = False
@@ -174,13 +170,13 @@ class Solution:
 
         self.isValidBST_tool(root.left, low, root.val)
         self.isValidBST_tool(root.right, root.val, high)
-    
+
     def isValidBST(self, root: TreeNode) -> bool:
         if not root:
             return True
-        
+
         self.isValidBST_tool(root, None, None)
-        
+
         return self.ans
 ```
 
@@ -190,7 +186,7 @@ class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
         if not root:
             return True
-        
+
         def helper(root, low, high):
             if root.left:
                 if root.left.val < root.val and root.left.val > low:
@@ -198,7 +194,7 @@ class Solution:
                         return False
                 else:
                     return False
-            
+
             if root.right:
                 if root.right.val > root.val and root.right.val < high:
                     if not helper(root.right, root.val, high):
@@ -210,8 +206,6 @@ class Solution:
         return helper(root, -sys.maxsize, sys.maxsize)
 ```
 
-
-
 ### 99. Recover Binary Search Tree
 
 ```python
@@ -221,19 +215,19 @@ class Solution:
         Do not return anything, modify root in-place instead.
         """
         nums = []
-        
+
         def helper1(root):
             if not root: return
             helper1(root.left)
             nums.append(root.val)
             helper1(root.right)
-        
+
         def helper2(root):
             if not root: return
             helper2(root.left)
             root.val = nums.pop()
             helper2(root.right)
-        
+
         helper1(root)
         nums.sort(reverse=True)
         helper2(root)
@@ -247,7 +241,7 @@ class Solution:
         """
         self.fir = self.sec = None
         self.prev = TreeNode(-2147483649)
-        
+
         def helper(root):
             if not root: return
             helper(root.left)
@@ -257,13 +251,11 @@ class Solution:
                 self.sec = root
             self.prev = root
             helper(root.right)
-        
+
         helper(root)
-        
+
         self.fir.val, self.sec.val = self.sec.val, self.fir.val
 ```
-
-
 
 ### 104. Maximum Depth of Binary Tree
 
@@ -325,7 +317,7 @@ def maxDepth(self, root):
     return self.maxDepth_tool(root)+1
 ```
 
-求树深度两种方法，一个是队列层序遍历，一个递归，递归代码比较简洁，上面maxDepth_tool和maxDepth_tool1是递归方法，两个函数加1的位置不同而已。还有一种求深度递归方法是增加当前深度参数到递归函数中，相对好理解，参见543题。 
+求树深度两种方法，一个是队列层序遍历，一个递归，递归代码比较简洁，上面maxDepth_tool和maxDepth_tool1是递归方法，两个函数加1的位置不同而已。还有一种求深度递归方法是增加当前深度参数到递归函数中，相对好理解，参见543题。
 
 ```python
 class Solution:
@@ -344,7 +336,7 @@ class Solution:
             l = maxDepth_helper(root.left, h+1)
             r = maxDepth_helper(root.right, h+1)
             return max(l,r)
-        
+
         return maxDepth_helper(root, 1)
 ```
 
@@ -355,8 +347,6 @@ class Solution:
             return 0
         return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1
 ```
-
-
 
 ### 106. Construct Binary Tree from Inorder and Postorder Traversal
 
@@ -373,7 +363,7 @@ class Solution:
 
 the time complexity of line 5 is O(N). We can improve it to O(1) by making a dict a advance.
 
-and line 6 and line 7 also need to take O(K). 
+and line 6 and line 7 also need to take O(K).
 
 ```python
 class Solution:
@@ -381,21 +371,19 @@ class Solution:
         inorder_dict = {}
         for i, v in enumerate(inorder):
             inorder_dict[v] = i
-        
+
         def helper(low, high):
-            if low > high: return 
+            if low > high: return
             root = TreeNode(postorder.pop())
             inorder_root_index = inorder_dict[root.val]
             root.right = helper(inorder_root_index+1, high)
             root.left = helper(low, inorder_root_index-1)
             return root
-        
+
         return helper(0, len(inorder)-1)
 ```
 
- 先构造inorder字典，之后递归的时候不做切片操作，而是在helper函数中给定inorder列表范围
-
-
+先构造inorder字典，之后递归的时候不做切片操作，而是在helper函数中给定inorder列表范围
 
 ### 108. Convert Sorted Array to Binary Search Tree
 
@@ -409,7 +397,7 @@ class Solution:
         else:
             root.left = self.insertBST_tool(root.left, val)
         return root
-    
+
     def splitNum(self, root, nums, low, high):
         if low > high:
             return root
@@ -418,8 +406,8 @@ class Solution:
         root = self.splitNum(root, nums, low, mid-1)
         root = self.splitNum(root, nums, mid+1, high)
         return root
-        
-    
+
+
     def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
         if not nums:
             return
@@ -441,15 +429,13 @@ class Solution:
         root.left = self.sortedArrayToBST_tool(nums, low, mid-1)
         root.right = self.sortedArrayToBST_tool(nums, mid+1, high)
         return root
-        
+
     def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
         if not nums:
             return
         root = self.sortedArrayToBST_tool(nums, 0, len(nums)-1)
         return root
 ```
-
-
 
 ### 109. Convert Sorted List to Binary Search Tree
 
@@ -466,7 +452,7 @@ class Solution:
 #         self.left = left
 #         self.right = right
 class Solution:
-    
+
     def findMid(self, head):
         slow = fast = head
         mid_prev = None
@@ -477,9 +463,9 @@ class Solution:
         if mid_prev:
             mid_prev.next = None
         return slow
-    
+
     def sortedListToBST(self, head: ListNode) -> TreeNode:
-    
+
         if not head:
             return
         mid = self.findMid(head)
@@ -491,8 +477,6 @@ class Solution:
 ```
 
 https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/solution/
-
-
 
 ### 100. Same Tree
 
@@ -516,8 +500,6 @@ class Solution:
 
 递归前写清所有base case
 
-
-
 ### 101. Symmetric Tree
 
 ```python
@@ -531,7 +513,7 @@ class Solution:
                 return helper(root1.left, root2.right) and helper(root1.right, root2.left)
             else:
                 return False
-        
+
         return helper(root.left, root.right)
 ```
 
@@ -549,8 +531,6 @@ class Solution:
             return helper(root1.left, root2.right) and helper(root1.right, root2.left)
         return helper(root.left, root.right)
 ```
-
-
 
 ### 110. Balanced Binary Tree
 
@@ -642,29 +622,27 @@ def isBalanced(self, root):
 class Solution:
     def __init__(self):
         self.ans = True
-        
+
     def isBalanced_tool(self, root):
         if not root:
             return 0
-        
+
         left = self.isBalanced_tool(root.left)
         right = self.isBalanced_tool(root.right)
-        
+
         if left - right not in [-1, 0, 1]:
             self.ans = False
-            
+
         return max(left, right) + 1
-    
+
     def isBalanced(self, root: TreeNode) -> bool:
         if not root:
             return True
-        
+
         self.isBalanced_tool(root)
-        
+
         return self.ans
 ```
-
-
 
 ### 111. Minimum Depth of Binary Tree
 
@@ -673,7 +651,7 @@ class Solution(object):
     def __init__(self):
         self.stack_list = []
         self.depth = 1
-        
+
     def minDepth(self, root):
         """
         :type root: TreeNode
@@ -683,7 +661,7 @@ class Solution(object):
             return 0
         else:
             self.stack_list.append([root])
-        
+
         while len(self.stack_list):
             temp_list = []
             temp_node = self.stack_list.pop()
@@ -736,11 +714,9 @@ class Solution:
                     temp.append(node.right)
             Q = temp
             depth += 1
-        
+
         return depth
 ```
-
-
 
 ### 112. Path Sum
 
@@ -756,7 +732,7 @@ class Solution:
             return False
         else:
             return self.DFS(root, sum, 0)
-    
+
     def DFS(self, root, sum, sum_now):
         if not root:
             return False
@@ -774,11 +750,11 @@ class Solution:
     def hasPathSum(self, root: TreeNode, sum: int) -> bool:
         if not root:
             return False
-        
+
         def helper(root, res):
             if not root.left and not root.right and res + root.val == sum:
                 return True
-            
+
             if root.left:
                 if helper(root.left, res+root.val):
                     return True
@@ -789,8 +765,6 @@ class Solution:
         return True if ans is True else False
 ```
 
-
-
 ### 113. Path Sum II
 
 ```python
@@ -798,12 +772,12 @@ class Solution:
     def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
         if not root:
             return []
-        
+
         ans = []
         def helper(root, temp_sum, temp_str):
             if not root:
                 return
-            
+
             if not root.left and not root.right and temp_sum + root.val == sum:
                 temp_str += str(root.val)
                 ans.append(temp_str.split("*"))
@@ -813,8 +787,6 @@ class Solution:
         return ans
 ```
 
-
-
 ### 114. Flatten Binary Tree to Linked List
 
 ```python
@@ -823,13 +795,13 @@ class Solution:
         """
         Do not return anything, modify root in-place instead.
         """
-        
+
         if not root:
-            return 
+            return
         def helper(root):
             if not root.left and not root.right:
                 return
-            
+
             if root.left:
                 helper(root.left)
             if root.right:
@@ -843,8 +815,6 @@ class Solution:
         helper(root)
         return root
 ```
-
-
 
 ### 116. Populating Next Right Pointers in Each Node
 
@@ -862,9 +832,9 @@ class Solution:
     def connect(self, root: 'Node') -> 'Node':
         if not root:
             return
-        
+
         Q = [root]
-        
+
         while Q:
             temp = []
             for i in range(len(Q)):
@@ -884,7 +854,7 @@ class Solution:
 class Solution:
     def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
         if not root: return
-        
+
         q  = [root]
         while q:
             next_q = []
@@ -901,8 +871,6 @@ class Solution:
         return root
 ```
 
-
-
 ### 117. Populating Next Right Pointers in Each Node II
 
 ```python
@@ -918,13 +886,13 @@ class Node:
 class Solution:
     def connect(self, root: 'Node') -> 'Node':
         if not root:
-            return 
-        
+            return
+
         Q = [root]
-        
+
         while Q:
             temp = []
-            for i in range(len(Q)): 
+            for i in range(len(Q)):
                 if Q[i].left:
                     temp.append(Q[i].left)
                 if Q[i].right:
@@ -932,12 +900,10 @@ class Solution:
                 if i == len(Q)-1:
                     break
                 Q[i].next = Q[i+1]
-                
+
             Q = temp
         return root
 ```
-
-
 
 ### 124. Binary Tree Maximum Path Sum
 
@@ -948,20 +914,18 @@ class Solution:
         def helper(root):
             if not root:
                 return 0
-            
+
             left = max(helper(root.left), 0)
             right = max(helper(root.right), 0)
-            
+
             path_now = root.val + left + right
             self.ans = max(self.ans, path_now)
-            
+
             return root.val + max(left, right)
-        
+
         helper(root)
         return self.ans
 ```
-
-
 
 ### 129. Sum Root to Leaf Numbers
 
@@ -970,7 +934,7 @@ class Solution:
     def sumNumbers(self, root: TreeNode) -> int:
         if not root:
             return 0
-        
+
         def helper(root, num_str):
             nonlocal ans
             if root:
@@ -989,7 +953,7 @@ class Solution:
     def sumNumbers(self, root: TreeNode) -> int:
         if not root:
             return 0
-        
+
         stack = [(root, 0)]
         ans = 0
         while stack:
@@ -1009,9 +973,9 @@ class Solution:
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
         if not root: return 0
-        
+
         self.res = 0
-        
+
         def helper(root, cur):
             if not root:
                 return
@@ -1025,8 +989,6 @@ class Solution:
         helper(root, 0)
         return self.res
 ```
-
-
 
 ### 173. Binary Search Tree Iterator
 
@@ -1043,7 +1005,7 @@ class BSTIterator:
         self.temp = []
         self.helper(root)
         self.index = 0
-        
+
     def helper(self, root):
         if not root: return
         self.helper(root.left)
@@ -1072,7 +1034,7 @@ class BSTIterator:
     def __init__(self, root: Optional[TreeNode]):
         self.stack = []
         self.helper(root)
-    
+
     def helper(self, root):
         while root:
             self.stack.append(root)
@@ -1087,7 +1049,33 @@ class BSTIterator:
         return bool(self.stack)
 ```
 
+### 199. Binary Tree Right Side View
 
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        res = []
+        if not root:
+            return res
+        level = [root]
+
+        while level:
+            res.append(level[-1].val)
+            next_level = []
+            for each in level:
+                if each.left:
+                    next_level.append(each.left)
+                if each.right:
+                    next_level.append(each.right)
+            level = next_level
+        return res
+```
 
 ### 222. Count Complete Tree Nodes
 
@@ -1096,7 +1084,7 @@ class Solution:
     def countNodes(self, root: TreeNode) -> int:
         if not root:
             return 0
-        
+
         return 1 + self.countNodes(root.left) + self.countNodes(root.right)
 ```
 
@@ -1105,17 +1093,17 @@ class Solution:
     def countNodes(self, root: TreeNode) -> int:
         if not root:
             return 0
-        
+
         def get_depth(root):
             if not root:
                 return 0
             return 1 + get_depth(root.left)
-        
+
         depth = get_depth(root) - 1
-        
+
         if depth == 0:
             return 1
-        
+
         def exists(root, depth, index):
             left = 0
             right = 2**depth-1
@@ -1128,7 +1116,7 @@ class Solution:
                     root = root.right
                     left = mid + 1
             return root is not None
-        
+
         left, right = 0, 2**depth-1
         while left <= right:
             mid = left + (right - left) // 2
@@ -1136,11 +1124,9 @@ class Solution:
                 left = mid + 1
             else:
                 right = mid - 1
-        
+
         return 2**depth-1 + left
 ```
-
-
 
 ### 226. Invert Binary Tree
 
@@ -1172,21 +1158,19 @@ class Solution:
                 if node.right:
                     nxt.append(node.right)
             temp = nxt
-        
+
         return root
 ```
-
-
 
 ### 230. Kth Smallest Element in a BST
 
 ```python
 class Solution:
     def kthSmallest(self, root: TreeNode, k: int) -> int:
-        
+
         self.index = 0
         self.ans = None
-        
+
         def helper(root):
             if root.left:
                 helper(root.left)
@@ -1204,7 +1188,7 @@ class Solution:
     def kthSmallest(self, root: TreeNode, k: int) -> int:
         def inorder(r):
             return inorder(r.left) + [r.val] + inorder(r.right) if r else []
-    
+
         return inorder(root)[k - 1]
 ```
 
@@ -1212,7 +1196,7 @@ class Solution:
 class Solution:
     def kthSmallest(self, root: TreeNode, k: int) -> int:
         stack = []
-        
+
         while True:
             while root:
                 stack.append(root)
@@ -1223,6 +1207,7 @@ class Solution:
                 return root.val
             root = root.right
 ```
+
 非递归中序遍历
 
 ```python
@@ -1246,38 +1231,36 @@ while stack or root:
     root = root.right
 ```
 
-
-
 ### 235. Lowest Common Ancestor of a Binary Search Tree
 
 ```python
 class Solution:
     def __init__(self):
         self.ans = None
-        
+
     def lowestCommonAncestor_tool(self, root, p, q):
         if not root:
             return False
-        
+
 
         left = self.lowestCommonAncestor_tool(root.left, p, q)
         right = self.lowestCommonAncestor_tool(root.right, p, q)
-        
+
         if root.val == p.val or root.val == q.val:
             temp = True
         else:
             temp = False
-        
+
 
         if temp + left + right >= 2:
             self.ans = root
-            
+
         return left or right or temp
-        
+
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         if not root:
             return
-        
+
         if p.val > root.val and q.val > root.val:
             self.lowestCommonAncestor_tool(root.right, p, q)
         elif p.val < root.val and q.val < root.val:
@@ -1292,8 +1275,8 @@ class Solution:
 ```python
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         if not root:
-            return 
-        
+            return
+
         if p.val > root.val and q.val > root.val:
             return self.lowestCommonAncestor(root.right, p, q)
         elif p.val < root.val and q.val < root.val:
@@ -1301,8 +1284,6 @@ class Solution:
         else:
             return root
 ```
-
-
 
 ### 236. Lowest Common Ancestor of a Binary Tree
 
@@ -1349,8 +1330,6 @@ class Solution:
 
 DFS 回溯，应熟练掌握此模式。
 
-
-
 ### 250. Count Univalue Subtrees
 
 ```python
@@ -1370,12 +1349,10 @@ class Solution:
                 return l_score+r_score+1, root.val
             else:
                 return l_score+r_score, 'None'
-        
+
         score, value = helper(root)
         return score
 ```
-
-
 
 ### 255. Verify Preorder Sequence in Binary Search Tree
 
@@ -1384,7 +1361,7 @@ class Solution:
     def verifyPreorder(self, preorder: List[int]) -> bool:
         if not preorder:
             return True
-        
+
         def helper(start, end):
             if start == end:
                 return True
@@ -1406,9 +1383,10 @@ class Solution:
                 return helper(index1, index2-1) and helper(index2, end)
             else:
                 return helper((index1 or index2), end)
-        
+
         return helper(0, len(preorder)-1)
 ```
+
 Time Limit Exceeded
 
 ```python
@@ -1416,7 +1394,7 @@ class Solution:
     def verifyPreorder(self, preorder: List[int]) -> bool:
         if not preorder:
             return True
-        
+
         stack = []
         low = -sys.maxsize
         for each in preorder:
@@ -1428,31 +1406,29 @@ class Solution:
         return True
 ```
 
-
-
 ### 257. Binary Tree Paths
 
 ```python
 class Solution:
     def __init__(self):
         self.ans = []
-        
+
     def binaryTreePaths_tool(self, root, temp):
         if not root.left and not root.right:
             self.ans.append(temp+str(root.val))
-        
+
         if root.left:
             self.binaryTreePaths_tool(root.left, temp+str(root.val)+"->")
-        
+
         if root.right:
             self.binaryTreePaths_tool(root.right, temp+str(root.val)+"->")
-        
+
     def binaryTreePaths(self, root: TreeNode) -> List[str]:
         if not root:
             return []
-        
+
         self.binaryTreePaths_tool(root, "")
-        
+
         return self.ans
 ```
 
@@ -1461,12 +1437,12 @@ class Solution:
     def binaryTreePaths(self, root: TreeNode) -> List[str]:
         if not root:
             return []
-        
+
         ans = []
         def helper(root, temp):
             if not root.left and not root.right:
                 ans.append(temp + str(root.val))
-            
+
             if root.left:
                 helper(root.left, temp+str(root.val)+"->")
             if root.right:
@@ -1474,8 +1450,6 @@ class Solution:
         helper(root, "")
         return ans
 ```
-
-
 
 ### 285. Inorder Successor in BST
 
@@ -1496,7 +1470,7 @@ class Solution:
                 self.if_found = True
             if root.right:
                 helper(root.right)
-        
+
         helper(root)
         return self.ans
 ```
@@ -1506,25 +1480,25 @@ class Solution:
     def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
         if not root:
             return
-        
+
         if p.right:
             p = p.right
             while p.left:
                 p = p.left
             return p
-        
+
         stack = []
         temp = None
         while stack or root:
             while root:
                 stack.append(root)
                 root = root.left
-            
+
             root = stack.pop()
             if temp == p.val:
                 return root
             temp = root.val
-            
+
             root = root.right
         return None
 ```
@@ -1535,7 +1509,7 @@ class Solution:
 class Solution:
     def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
         ans = None
-        
+
         while root:
             if p.val >= root.val:
                 root = root.right
@@ -1552,8 +1526,6 @@ We start from the root, utilizing the property of BST:
 - If current node's value is greater than p's value, current node is a candidate. Go to its left subtree to see if we can find a smaller one.
 - If we reach `null`, our search is over, just return the candidate.
 
-
-
 ### 298. Binary Tree Longest Consecutive Sequence
 
 ```python
@@ -1561,7 +1533,7 @@ class Solution:
     def longestConsecutive(self, root: TreeNode) -> int:
         if not root:
             return 0
-        
+
         self.ans = 0
         def helper(root, num):
             self.ans = max(self.ans, num)
@@ -1575,12 +1547,10 @@ class Solution:
                     helper(root.right, num+1)
                 else:
                     helper(root.right, 1)
-        
+
         helper(root, 1)
         return self.ans
 ```
-
-
 
 ### 404. Sum of Left Leaves
 
@@ -1607,21 +1577,19 @@ def sumOfLeftLeaves(self, root: TreeNode) -> int:
 class Solution:
     def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
         if not root: return 0
-        
+
         self.res = 0
-        
+
         def helper(root):
             if not root: return
             if root.left and not root.left.left and not root.left.right:
                 self.res += root.left.val
             helper(root.left)
             helper(root.right)
-        
+
         helper(root)
         return self.res
 ```
-
-
 
 ### 429. N-ary Tree Level Order Traversal
 
@@ -1633,14 +1601,14 @@ class Node:
         self.val = val
         self.children = children
 """
-class Solution:    
+class Solution:
     def levelOrder(self, root: 'Node') -> List[List[int]]:
         if not root:
             return []
-        
+
         ans = [[root.val]]
         q = [[root]]
-        
+
         while q:
             valList = []
             nodeList = []
@@ -1654,7 +1622,7 @@ class Solution:
             if valList:
                 ans.append(valList)
                 q.append(nodeList)
-        
+
         return ans
 ```
 
@@ -1670,10 +1638,10 @@ class Solution:
     def levelOrder(self, root: 'Node') -> List[List[int]]:
         if not root:
             return []
-        
+
         ans = [[root.val]]
         temp = [root]
-        
+
         while temp:
             temp_ans = []
             temp_node = []
@@ -1683,11 +1651,9 @@ class Solution:
             if temp_ans:
                 ans.append(temp_ans)
             temp = temp_node
-        
+
         return ans
 ```
-
-
 
 ### 437. Path Sum III
 
@@ -1696,7 +1662,7 @@ class Solution:
     def pathSum(self, root: TreeNode, sum: int) -> int:
         if not root:
             return 0
-        
+
         self.ans = 0
         def helper(root, sum_list):
             if not root:
@@ -1708,12 +1674,10 @@ class Solution:
                     self.ans += 1
             helper(root.left, temp.copy())
             helper(root.right, temp.copy())
-        
+
         helper(root, [])
         return self.ans
 ```
-
-
 
 ### 449. Serialize and Deserialize BST
 
@@ -1723,7 +1687,7 @@ class Codec:
     def serialize(self, root: TreeNode) -> str:
         """Encodes a tree to a single string.
         """
-        
+
         if not root: return ""
         import json
         serialize_dict = dict()
@@ -1743,7 +1707,7 @@ class Codec:
             temp = child_list
             d += 1
         return json.dumps(serialize_dict)
-        
+
     def deserialize(self, data: str) -> TreeNode:
         """Decodes your encoded data to tree.
         """
@@ -1752,7 +1716,7 @@ class Codec:
         root = None
         for each in serialize_dict:
             val, d = each.split(",")
-            if d == '0': 
+            if d == '0':
                 root = TreeNode(int(val))
                 break
         temp, d = [root], 0
@@ -1772,8 +1736,6 @@ class Codec:
             temp = child_list
         return root
 ```
-
-
 
 ### 450. Delete Node in a BST
 
@@ -1815,11 +1777,11 @@ class Solution:
             self.deleteNode_tool(root.right, key)
         else:
             self.deleteNode_tool(root.left, key)
-    
+
     def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
         if not root:
             return
-        
+
         if root.val == key:
             if not root.left and not root.right:
                 return
@@ -1835,7 +1797,7 @@ class Solution:
                     root.val = root.right.val
                     root.right = root.right.right
             return root
-        
+
         ans = root
         self.deleteNode_tool(root, key)
         return ans
@@ -1843,11 +1805,11 @@ class Solution:
 
 ```python
 class Solution:
-    
+
     def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
         if not root:
             return
-        
+
         if key > root.val:
             root.right = self.deleteNode(root.right, key)
         elif key < root.val:
@@ -1869,8 +1831,6 @@ class Solution:
         return root.val
 ```
 
-
-
 ### 501. Find Mode in Binary Search Tree
 
 ```python
@@ -1878,7 +1838,7 @@ class Solution:
     def findMode(self, root: TreeNode) -> List[int]:
         if not root:
             return []
-        
+
         from collections import Counter
         self.temp_dict = Counter()
         def helper(root):
@@ -1892,8 +1852,6 @@ class Solution:
         return [k for k,v in self.temp_dict.items() if v == max_val]
 ```
 
-
-
 ### 513. Find Bottom Left Tree Value
 
 ```python
@@ -1901,9 +1859,9 @@ class Solution:
     def findBottomLeftValue(self, root: TreeNode) -> int:
         if not root:
             return
-        
+
         stack = [root]
-        
+
         while stack:
             temp_stack = []
             for node in stack:
@@ -1917,8 +1875,6 @@ class Solution:
                 stack = temp_stack
 ```
 
-
-
 ### 515. Find Largest Value in Each Tree Row
 
 ```python
@@ -1926,7 +1882,7 @@ class Solution:
     def largestValues(self, root: TreeNode) -> List[int]:
         if not root:
             return
-        
+
         list_ = [root]
         ans = [root.val]
         while list_:
@@ -1943,16 +1899,14 @@ class Solution:
         return ans
 ```
 
-
-
 ### 530. Minimum Absolute Difference in BST
 
 ```python
 class Solution:
     def getMinimumDifference(self, root: TreeNode) -> int:
-        
+
         stack = []
-        
+
         prev = None
         ans = sys.maxsize
         while stack or root:
@@ -1974,7 +1928,7 @@ class Solution:
     def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
 
         prev = res = None
-        
+
         def inorder(root):
             if not root: return
             inorder(root.left)
@@ -1984,14 +1938,12 @@ class Solution:
                 res = min(res, abs(root.val - prev)) if res is not None else root.val - prev
             prev = root.val
             inorder(root.right)
-        
+
         inorder(root)
         return res
 ```
 
 中序遍历
-
-
 
 ### 538. Convert BST to Greater Tree
 
@@ -1999,7 +1951,7 @@ class Solution:
 class Solution:
     def __init__(self):
         self.temp = 0
-        
+
     def convertBST(self, root: TreeNode) -> TreeNode:
         if not root:
             return
@@ -2014,10 +1966,10 @@ class Solution:
 class Solution:
     def convertBST(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         total = 0
-        
+
         node = root
         stack = []
-        
+
         while stack or node:
             while node:
                 stack.append(node)
@@ -2030,8 +1982,6 @@ class Solution:
 ```
 
 is the same as 1038
-
-
 
 ### 543. Diameter of Binary Tree
 
@@ -2101,8 +2051,6 @@ class Solution:
         return res-1
 ```
 
-
-
 ### 549. Binary Tree Longest Consecutive Sequence II
 
 ```python
@@ -2110,7 +2058,7 @@ class Solution:
     def longestConsecutive(self, root: TreeNode) -> int:
         if not root:
             return 0
-        
+
         self.ans = 0
         def helper(root):
             inc, dec = 1, 1
@@ -2134,8 +2082,6 @@ class Solution:
 
 No.687
 
-
-
 ### 559. Maximum Depth of N-ary Tree
 
 ```python
@@ -2150,10 +2096,10 @@ class Solution:
     def maxDepth(self, root: 'Node') -> int:
         if not root:
             return 0
-        
+
         level = 0
         q = [[root]]
-        
+
         while q:
             temp = []
             NodeList = q.pop()
@@ -2163,7 +2109,7 @@ class Solution:
             if temp:
                 q.append(temp)
         return level
-                
+
 ```
 
 ```python
@@ -2175,23 +2121,23 @@ class Node:
         self.val = val
         self.children = children
 """
-class Solution:       
+class Solution:
     def __init__(self):
         self.ans = 0
-        
+
     def maxDepth(self, root: 'Node') -> int:
         if not root:
             return 0
-        
+
         def maxDepth_helper(root, depth):
             if not root.children:
                 self.ans = max(self.ans, depth)
             else:
                 for each in root.children:
                     maxDepth_helper(each, depth+1)
-        
+
         maxDepth_helper(root, 1)
-        
+
         return self.ans
 ```
 
@@ -2203,35 +2149,31 @@ class Solution:
         return max([self.maxDepth(each) for each in root.children]) + 1
 ```
 
-
-
 ### 563. Binary Tree Tilt
 
 ```python
     def findTilt_tool(self, root):
         if not root:
             return 0
-        
+
         l = self.findTilt_tool(root.left)
         r = self.findTilt_tool(root.right)
         self.ans += abs(l-r)
         return root.val+l+r
-        
+
     def findTilt(self, root: TreeNode) -> int:
         if not root:
             return 0
         if not root.left and not root.right:
             return 0
-        
+
         self.ans = 0
         self.findTilt_tool(root)
-        
+
         return self.ans
 ```
 
 熟记此递归方法。自底向上回溯？
-
-
 
 ### 572. Subtree of Another Tree
 
@@ -2242,12 +2184,12 @@ class Solution:
             return True
         if not root1 and root2 or not root2 and root1:
             return False
-        
+
         if root1.val != root2.val:
             return False
-        
+
         return self.isSametree(root1.left, root2.left) and self.isSametree(root1.right, root2.right)
-    
+
     def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
         if not s and not t:
             return True
@@ -2260,11 +2202,9 @@ class Solution:
             return True
         if self.isSubtree(s.right,t):
             return True
-        
+
         return False
 ```
-
-
 
 ### 589. N-ary Tree Preorder Traversal
 
@@ -2279,7 +2219,7 @@ class Node:
 class Solution:
     def __init__(self):
         self.ans = []
-        
+
     def preorder(self, root: 'Node') -> List[int]:
         if not root:
             return []
@@ -2288,8 +2228,6 @@ class Solution:
             self.preorder(each)
         return self.ans
 ```
-
-
 
 ### 590. N-ary Tree Postorder Traversal
 
@@ -2304,19 +2242,17 @@ class Node:
 class Solution:
     def __init__(self):
         self.ans = []
-        
+
     def postorder(self, root: 'Node') -> List[int]:
         if not root:
             return
-        
+
         for each in root.children:
             self.postorder(each)
         self.ans.append(root.val)
-        
+
         return self.ans
 ```
-
-
 
 ### 606. Construct String from Binary Tree
 
@@ -2326,7 +2262,7 @@ class Solution:
         if not t:
             return ""
         self.ans = ""
-        
+
         def helper(t):
             self.ans += str(t.val)
             if not t.left and not t.right:
@@ -2342,8 +2278,6 @@ class Solution:
         helper(t)
         return self.ans
 ```
-
-
 
 ### 652. Find Duplicate Subtrees
 
@@ -2373,8 +2307,6 @@ class Solution(object):
 
 使用一个id去表示每个子树并存放在set中
 
-
-
 ### 653. Two Sum IV - Input is a BST
 
 ```python
@@ -2382,7 +2314,7 @@ class Solution:
     def findTarget(self, root: TreeNode, k: int) -> bool:
         if not root:
             return False
-        
+
         self._set = set()
         def helper(root):
             if not root:
@@ -2401,7 +2333,7 @@ class Solution:
     def findTarget(self, root: TreeNode, k: int) -> bool:
         if not root:
             return False
-        
+
         self._list = []
         def get_inorder_list(root):
             if not root:
@@ -2422,12 +2354,10 @@ class Solution:
         return False
 ```
 
-
-
 ### 654. Maximum Binary Tree
 
 ```python
-class Solution:  
+class Solution:
     def constructMaximumBinaryTree(self, nums: List[int]) -> TreeNode:
         if not nums:
             return
@@ -2438,8 +2368,6 @@ class Solution:
 ```
 
 注意总结此类分别向左右子树赋值的题目。
-
-
 
 ### 662. Maximum Width of Binary Tree
 
@@ -2478,7 +2406,7 @@ class Solution:
         if not root:
             return 0
         temp = dict()
-        
+
         def dfs(node, node_id, level, mapping):
             if not node:
                 return 0
@@ -2488,11 +2416,9 @@ class Solution:
             left = dfs(node.left, node_id*2, level+1, mapping)
             right = dfs(node.right, node_id*2+1, level+1, mapping)
             return max(current, left, right)
-        
+
         return dfs(root, 1, 0, temp)
 ```
-
-
 
 ### 669. Trim a Binary Search Tree
 
@@ -2508,18 +2434,18 @@ class Solution:
     def trimBST_tool(self, root, L, R):
         if not root:
             return None
-        
+
         if root.val < L:
             return self.trimBST_tool(root.right, L, R)
-        
+
         elif root.val > R:
             return self.trimBST_tool(root.left, L, R)
-        
+
         else:
             root.left = self.trimBST_tool(root.left, L, R)
             root.right = self.trimBST_tool(root.right, L, R)
             return root
-    
+
     def trimBST(self, root: TreeNode, L: int, R: int) -> TreeNode:
         if not root:
             return
@@ -2541,8 +2467,6 @@ class Solution:
             root.right = self.trimBST(root.right, low, high)
             return root
 ```
-
-
 
 ### 671. Second Minimum Node In a Binary Tree
 
@@ -2585,15 +2509,13 @@ class Solution:
         return ans if ans != sys.maxsize else -1
 ```
 
-
-
 ### 687. Longest Univalue Path
 
 ```python
     def longestUnivaluePath(self, root: TreeNode) -> int:
         if not root:
             return 0
-        
+
         self.ans = 0
         def helper(root):
             if not root:
@@ -2613,8 +2535,6 @@ class Solution:
 
 No.549
 
-
-
 ### 700. Search in a Binary Search Tree
 
 ```python
@@ -2625,8 +2545,6 @@ class Solution:
         return self.searchBST(root.right, val) if val > root.val else self.searchBST(root.left, val)
 ```
 
-
-
 ### 701. Insert into a Binary Search Tree
 
 ```python
@@ -2635,7 +2553,7 @@ class Solution:
     def insertIntoBST(self, root: TreeNode, val: int) -> TreeNode:
         if not root:
             return TreeNode(val)
-        
+
         if val > root.val:
             root.right = self.insertIntoBST(root.right, val)
         else:
@@ -2657,17 +2575,15 @@ class Solution:
                 self.insertIntoBST_tool(root.left, val)
             else:
                 root.left = TreeNode(val)
-    
+
     def insertIntoBST(self, root: TreeNode, val: int) -> TreeNode:
         if not root:
             return TreeNode(val)
-        
+
         ans = root
         self.insertIntoBST_tool(root, val)
         return ans
 ```
-
-
 
 ### 703. Kth Largest Element in a Stream
 
@@ -2739,7 +2655,7 @@ class KthLargest:
         self.root = None
         for num in nums:
             self.root = self.add_init(self.root, num)
-            
+
     def add_init(self, root, num):
         if not root:
             return self.TreeNode(num)
@@ -2749,12 +2665,12 @@ class KthLargest:
         else:
             root.left = self.add_init(root.left, num)
         return root
-        
+
 
     def add(self, val: int) -> int:
         self.root = self.add_init(self.root, val)
         return self.findKthLargest()
-    
+
     def findKthLargest(self):
         temp_root = self.root
         k = self.k
@@ -2774,9 +2690,7 @@ class KthLargest:
         return temp_root.val
 ```
 
->I reimplement this solution in Python but I got a case that exceeded time limitation. This is a case whose initialization is an empty list. Its number of `add` operations is large and the added element is in the ascending order. If we use the simple step to add nodes in the tree, it will degrade into a linked-list. In such a case, will the complexity of `findKthLargest()` get worse? That makes me confused.
-
-
+> I reimplement this solution in Python but I got a case that exceeded time limitation. This is a case whose initialization is an empty list. Its number of `add` operations is large and the added element is in the ascending order. If we use the simple step to add nodes in the tree, it will degrade into a linked-list. In such a case, will the complexity of `findKthLargest()` get worse? That makes me confused.
 
 另一个版本的 java 代码要更快一些，因为非递归。
 
@@ -2958,15 +2872,13 @@ class KthLargest:
         else:
             heapq.heappushpop(self.pool, val)
         return self.pool[0]
-        
+
 
 
 # Your KthLargest object will be instantiated and called as such:
 # obj = KthLargest(k, nums)
 # param_1 = obj.add(val)
 ```
-
-
 
 ### 771. Jewels and Stones
 
@@ -2998,13 +2910,9 @@ class Solution:
         return ans
 ```
 
-
-
 ### 783. Minimum Distance Between BST Nodes
 
 the question is the same as 530
-
-
 
 ### 814. Binary Tree Pruning
 
@@ -3020,15 +2928,13 @@ class Solution:
         if not r:
             root.right = None
         return root.val == 1 or l or r
-    
+
     def pruneTree(self, root: TreeNode) -> TreeNode:
         if not root:
             return
         self.pruneTree_tool(root)
         return root
 ```
-
-
 
 ### 863. All Nodes Distance K in Binary Tree
 
@@ -3052,7 +2958,7 @@ class Solution:
                 distance_dict[root] = right + 1
                 return right + 1
             return -1
-        
+
         def dfs(root, distance):
             if not root:
                 return
@@ -3062,7 +2968,7 @@ class Solution:
                 ans.append(root.val)
             dfs(root.left, distance + 1)
             dfs(root.right, distance + 1)
-        
+
         get_distance_dict(root)
         dfs(root, 0)
         return ans
@@ -3086,7 +2992,7 @@ class Solution:
                 graph[node.right.val].append(node.val)
             helper(node.left)
             helper(node.right)
-        
+
         helper(root)
 
         ans, seen = [], set()
@@ -3106,8 +3012,6 @@ class Solution:
 
 也可以给每个节点增加parent指针，思路类似。
 
-
-
 ### 865. Smallest Subtree with all the Deepest Nodes
 
 ```python
@@ -3118,7 +3022,7 @@ class Solution:
         if not root.left and not root.right:
             return root
         dict_ = dict()
-        
+
         def dfs(root, depth):
             if not root:
                 return
@@ -3137,8 +3041,6 @@ class Solution:
 
 两遍dfs，第一遍记录每个点的深度，第二遍返回答案。
 
-
-
 ### 872. Leaf-Similar Trees
 
 ```python
@@ -3153,7 +3055,7 @@ class Solution(object):
     def __init__(self):
         self.tempList1 = []
         self.tempList2 = []
-    
+
     def get_leaf_list(self, root, tempList):
         if root.left:
             self.get_leaf_list(root.left, tempList)
@@ -3162,7 +3064,7 @@ class Solution(object):
         if root.right:
             self.get_leaf_list(root.right, tempList)
         return tempList
-            
+
     def leafSimilar(self, root1, root2):
         """
         :type root1: TreeNode
@@ -3171,10 +3073,10 @@ class Solution(object):
         """
         if not root1 and not root2:
             return True
-        
+
         list1 = self.get_leaf_list(root1, self.tempList1)
         list2 = self.get_leaf_list(root2, self.tempList2)
-        
+
         if list1 == list2:
             return True
         else:
@@ -3193,7 +3095,7 @@ class Solution:
                 get_leaf_list(root.left, res)
             if root.right:
                 get_leaf_list(root.right, res)
-        
+
         root1_leaf_list = []
         root2_leaf_list = []
 
@@ -3203,8 +3105,6 @@ class Solution:
         return root1_leaf_list == root2_leaf_list
 ```
 
-
-
 ### 889. Construct Binary Tree from Preorder and Postorder Traversal
 
 ```python
@@ -3212,11 +3112,11 @@ class Solution:
     def constructFromPrePost(self, pre: List[int], post: List[int]) -> TreeNode:
         if not pre:
             return
-        
+
         root = TreeNode(pre[0])
         if len(pre) == 1:
             return root
-        
+
         num_left_branch = post.index(pre[1]) + 1
         root.left = self.constructFromPrePost(pre[1:num_left_branch+1], post[:num_left_branch])
         root.right = self.constructFromPrePost(pre[num_left_branch+1:], post[num_left_branch:-1])
@@ -3225,15 +3125,13 @@ class Solution:
 
 左子树的节点数是前序遍历的第二个点在后续遍历中的index+1，因为后续遍历是访问完左右子树再访问根节点。
 
-
-
 ### 894. All Possible Full Binary Trees
 
 ```python
 class Solution:
-    
+
     memo = {0: [], 1: [TreeNode(0)]}
-    
+
     def allPossibleFBT(self, N: int) -> List[TreeNode]:
         if N in self.memo:
             return self.memo[N]
@@ -3252,8 +3150,6 @@ class Solution:
 
 https://leetcode.com/articles/all-possible-full-binary-trees/
 
-
-
 ### 897. Increasing Order Search Tree
 
 ```python
@@ -3268,7 +3164,7 @@ class Solution:
     def __init__(self):
         self.ans = TreeNode(0)
         self.ans_ = self.ans
-        
+
     def temp(self, root):
         if root.left:
             self.temp(root.left)
@@ -3276,12 +3172,12 @@ class Solution:
         self.ans_ = self.ans_.right
         if root.right:
             self.temp(root.right)
-    
+
     def increasingBST(self, root: TreeNode) -> TreeNode:
         if not root:
             return
         self.temp(root)
-        
+
         return self.ans.right
 ```
 
@@ -3289,22 +3185,20 @@ class Solution:
 class Solution:
     def increasingBST(self, root: TreeNode) -> TreeNode:
         if not root: return
-        
+
         self.dummy = self.res = TreeNode()
-        
+
         def helper(root):
             if not root: return
             helper(root.left)
             self.dummy.right = TreeNode(root.val)
             self.dummy = self.dummy.right
             helper(root.right)
-        
+
         helper(root)
-        
+
         return self.res.right
 ```
-
-
 
 ### 919. Complete Binary Tree Inserter
 
@@ -3333,7 +3227,7 @@ class CBTInserter:
             node.right = self.q[-1]
             self.q.popleft()
         return node.val
-        
+
 
     def get_root(self) -> TreeNode:
         return self.root
@@ -3341,15 +3235,13 @@ class CBTInserter:
 
 树的bfs
 
-
-
 ### 938. Range Sum of BST
 
 ```python
 class Solution:
     def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
         res = 0
-        
+
         def helper(root):
             nonlocal res
             if not root: return
@@ -3357,7 +3249,7 @@ class Solution:
                 res += root.val
             helper(root.left)
             helper(root.right)
-        
+
         helper(root)
         return res
 ```
@@ -3392,7 +3284,7 @@ class Solution:
             # elif root.val > high and root.left and root.left.val <= high:
             elif root.val > high:
                 helper(root.left)
-        
+
         res = 0
         helper(root)
 
@@ -3412,8 +3304,6 @@ class Solution:
             return False
         return self.flipEquiv(root1.left, root2.left) and self.flipEquiv(root1.right, root2.right) or self.flipEquiv(root1.left, root2.right) and self.flipEquiv(root1.right, root2.left)
 ```
-
-
 
 ### 958. Check Completeness of a Binary Tree
 
@@ -3436,7 +3326,7 @@ class Solution:
 class Solution:
     def isCompleteTree(self, root: TreeNode) -> bool:
         q = collections.deque([root])
-        
+
         aboveNone = False
         while q:
             nowNone = False
@@ -3453,8 +3343,6 @@ class Solution:
         return True
 ```
 
-
-
 ### 988. Smallest String Starting From Leaf
 
 ```python
@@ -3463,11 +3351,11 @@ class Solution:
         temp_dict = {i: chr(i+97) for i in range(26)}
         if not root.left and not root.right:
             return temp_dict[root.val]
-        
+
         temp_dict = {i: chr(i+97) for i in range(26)}
-        
+
         ans = []
-        
+
         def dfs(root, cur):
             if not root.left and not root.right:
                 ans.append(temp_dict[root.val]+cur)
@@ -3476,13 +3364,11 @@ class Solution:
                 dfs(root.left, temp_dict[root.val]+cur)
             if root.right:
                 dfs(root.right, temp_dict[root.val]+cur)
-        
+
         dfs(root, "")
         ans.sort()
         return ans[0]
 ```
-
-
 
 ### 993. Cousins in Binary Tree
 
@@ -3491,7 +3377,7 @@ class Solution:
     def isCousins(self, root: TreeNode, x: int, y: int) -> bool:
         if not root:
             return False
-        
+
         q = [root]
         while q:
             next_q = []
@@ -3517,8 +3403,6 @@ class Solution:
         return False
 ```
 
-
-
 ### 998. Maximum Binary Tree II
 
 ```python
@@ -3526,7 +3410,7 @@ class Solution:
     def insertIntoMaxTree(self, root: TreeNode, val: int) -> TreeNode:
         if not root:
             return TreeNode(val)
-        
+
         if val > root.val:
             temp = TreeNode(val)
             temp.left = root
@@ -3536,14 +3420,12 @@ class Solution:
             return root
 ```
 
-
-
 ### Construct Binary Search Tree from Preorder Traversal
 
 ```python
 class Solution:
     def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
-        
+
         self.index = 0
         def helper(upper):
             if self.index >= len(preorder) or preorder[self.index] > upper:
@@ -3555,9 +3437,8 @@ class Solution:
             return root
         return helper(sys.maxsize)
 ```
+
 给定一个上限，判断下一个node是否小于当前上限，小于的话作为当前节点。
-
-
 
 ### 1022. Sum of Root To Leaf Binary Numbers
 
@@ -3565,7 +3446,7 @@ class Solution:
 class Solution:
     def __init__(self):
         self.ans = []
-        
+
     def sumRootToLeaf_tool(self, root, str_now):
         str_now += str(root.val)
         if root.left:
@@ -3574,11 +3455,11 @@ class Solution:
             self.sumRootToLeaf_tool(root.right, str_now)
         if not root.left and not root.right:
             self.ans.append(str_now)
-    
+
     def sumRootToLeaf(self, root: TreeNode) -> int:
         if not root:
             return 0
-        
+
         self.sumRootToLeaf_tool(root, '')
         sum = 0
         for each in self.ans:
@@ -3588,8 +3469,6 @@ class Solution:
 
 熟记：获取树每条路径。
 
-
-
 ### 1026. Maximum Difference Between Node and Ancestor
 
 ```python
@@ -3597,7 +3476,7 @@ class Solution:
     def maxAncestorDiff(self, root: TreeNode) -> int:
         if not root:
             return
-        
+
         def dfs(root, mx, mn):
             if not root:
                 return mx - mn
@@ -3652,7 +3531,7 @@ class Solution:
 ```python
 class Solution:
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
-        
+
         res = 0
 
         def helper(root):
@@ -3670,12 +3549,10 @@ class Solution:
             cur_max = max(root.val, l_max, r_max)
 
             return cur_min, cur_max
-        
+
         helper(root)
         return res
 ```
-
-
 
 ### 1038. Binary Search Tree to Greater Sum Tree
 
@@ -3683,7 +3560,7 @@ class Solution:
 class Solution:
     def __init__(self):
         self.temp = 0
-        
+
     def bstToGst(self, root: TreeNode) -> TreeNode:
         if not root:
             return
@@ -3696,8 +3573,6 @@ class Solution:
 
 is the same as 538
 
-
-
 ### 1080. Insufficient Nodes in Root to Leaf Paths
 
 ```python
@@ -3707,16 +3582,14 @@ class Solution:
             return None
         if not root.left and not root.right:
             return None if root.val < limit else root
-        
+
         if root.left:
             root.left = self.sufficientSubset(root.left, limit - root.val)
         if root.right:
             root.right = self.sufficientSubset(root.right, limit - root.val)
-        
+
         return root if root.left or root.right else None
 ```
-
-
 
 ### 1104. Path In Zigzag Labelled Binary Tree
 
@@ -3724,7 +3597,7 @@ class Solution:
 class Solution:
     def get_oppo(self, num_now, f):
         return 2*(2**(f-1))-1-num_now+2**(f-1)
-    
+
     def pathInZigZagTree(self, label: int) -> List[int]:
         if label == 1:
             return [1]
@@ -3744,13 +3617,11 @@ class Solution:
             f -= 1
 ```
 
-满二叉树第n个节点所在层数（层数从1开始）: `math.ceil(math.log(n+1, 2))` 
+满二叉树第n个节点所在层数（层数从1开始）: `math.ceil(math.log(n+1, 2))`
 
 设完全二叉树根节点层数为1，设有n个节点的完全二叉树层数为k，则其满足：k-1层满二叉树<=n<=k层满二叉树。
 
 $2^{k-1}-1 \leq n \leq 2^k-1$ 则 k 为 $\left \lceil \ log_2n+1\right \rceil$ 以2为底n+1的指数，向上取整。
-
-
 
 ### 1110. Delete Nodes And Return Forest
 
@@ -3759,35 +3630,33 @@ class Solution:
     def delNodes(self, root: TreeNode, to_delete: List[int]) -> List[TreeNode]:
         if not root:
             return []
-        
+
         res = []
-        
+
         def helper(root, is_root):
             if not root:
                 return False
-            
+
             deleted = root.val in to_delete
             if is_root and not deleted:
                 res.append(root)
-            
+
             if helper(root.left, deleted):
                 root.left = None
             if helper(root.right, deleted):
                 root.right = None
             return deleted
-        
+
         helper(root, True)
         return res
 ```
-
-
 
 ### 1123. Lowest Common Ancestor of Deepest Leaves
 
 ```python
 class Solution:
     def lcaDeepestLeaves(self, root: TreeNode) -> TreeNode:
-        
+
         def helper(root):
             if not root:
                 return 0, None
@@ -3799,8 +3668,6 @@ class Solution:
                 return l_height+1, root
         return helper(root)[1]
 ```
-
-
 
 ### 1130. Minimum Cost Tree From Leaf Values
 
@@ -3829,9 +3696,8 @@ class Solution:
             ans += stack.pop() * stack[-1]
         return ans
 ```
+
 https://leetcode.com/problems/minimum-cost-tree-from-leaf-values/discuss/339959/One-Pass-O(N)-Time-and-Space
-
-
 
 ### 1161. Maximum Level Sum of a Binary Tree
 
@@ -3840,7 +3706,7 @@ class Solution:
     def maxLevelSum(self, root: TreeNode) -> int:
         sum_list = [root.val]
         stack = [root]
-        
+
         while stack:
             temp_sum = 0
             next_node_list = []
@@ -3881,14 +3747,12 @@ class Solution:
                 for each in temp:
                     val += each.val
                 level_val.append(val)
-        
+
         max_val = max(level_val)
         for i, val in enumerate(level_val):
             if val == max_val:
                 return i + 1
 ```
-
-
 
 ### 1261. Find Elements in a Contaminated Binary Tree
 
@@ -3899,7 +3763,7 @@ class FindElements:
         self.val = {0}
         root.val = 0
         self.recover(root)
-    
+
     def recover(self, root: TreeNode):
         if not root:
             return
@@ -3914,8 +3778,6 @@ class FindElements:
         return target in self.val
 ```
 
-
-
 ### 1302. Deepest Leaves Sum
 
 ```python
@@ -3923,7 +3785,7 @@ class Solution:
     def deepestLeavesSum(self, root: TreeNode) -> int:
         if not root:
             return 0
-        
+
         stack = [root]
         ans = 0
         while stack:
@@ -3940,14 +3802,12 @@ class Solution:
         return ans
 ```
 
-
-
 ### 1305. All Elements in Two Binary Search Trees
 
 ```python
 class Solution:
     def getAllElements(self, root1: TreeNode, root2: TreeNode) -> List[int]:
-        
+
         stack1 = []
         stack2 = []
         ans = []
@@ -3958,7 +3818,7 @@ class Solution:
             while root2:
                 stack2.append(root2)
                 root2 = root2.left
-                
+
             if not stack2 or (stack1 and stack1[-1].val <= stack2[-1].val):
                 ans.append(stack1[-1].val)
                 root1 = stack1.pop()
@@ -3970,8 +3830,6 @@ class Solution:
         return ans
 ```
 
-
-
 ### 1315. Sum of Nodes with Even-Valued Grandparent
 
 ```python
@@ -3980,7 +3838,7 @@ class Solution:
         if not root:
             return 0
         self.ans = 0
-        
+
         def helper(root):
             if root.left:
                 if root.val % 2 == 0:
@@ -4001,15 +3859,14 @@ class Solution:
     def sumEvenGrandparent(self, root: TreeNode) -> int:
         if not root:
             return 0
-        
+
         def helper(root, parent_val, gradparent_val):
             if not root:
-                return 0 
+                return 0
             temp = root.val if gradparent_val % 2 == 0 else 0
             return temp + helper(root.left, root.val, parent_val) + helper(root.right, root.val, parent_val)
         return helper(root, 1, 1)
 ```
-
 
 ### 1325. Delete Leaves With a Given Value
 
@@ -4025,15 +3882,13 @@ class Solution:
 
 熟记，回溯删除节点
 
-
-
 ### 1361. Validate Binary Tree Nodes
 
 ```py
 class Solution:
     def validateBinaryTreeNodes(self, n: int, leftChild: List[int], rightChild: List[int]) -> bool:
         '''
-        CHECK CONDITION 1 : There must be EXACTLY (n - 1) edges 
+        CHECK CONDITION 1 : There must be EXACTLY (n - 1) edges
         '''
         # COUNT THE TOTAL EDGES - O(N)
         leftEdges = len([l for l in leftChild if l != -1])
@@ -4042,38 +3897,36 @@ class Solution:
         # CHECK FOR VIOLATION OF CONDITION 1 - O(1)
         if leftEdges + rightEdges != n - 1:
             return False
-        
+
         '''
         CHECK CONDITION 2 : Each node, except the root, has EXACTLY 1 parent
         '''
         # GET THE PARENT OF EACH NODE - O(N)
         parent = [[] for _ in range(n)]
-        
+
         # FILL THE PARENT - O(N)
         for i in range(n):
-            if leftChild[i] != -1: parent[leftChild[i]].append(i)                
-            if rightChild[i] != -1: parent[rightChild[i]].append(i)  
-        
+            if leftChild[i] != -1: parent[leftChild[i]].append(i)
+            if rightChild[i] != -1: parent[rightChild[i]].append(i)
+
         # 4
         # [1,0,3,-1]
         # [-1,-1,-1,-1]
         for i in range(n):
             if parent[i] and parent[parent[i][0]]==[i]:
                 return False
-                
+
         # FIND ALL ROOT NODES (IE. THOSE WITHOUT PARENT) - O(N)
         roots = [i for i in range(len(parent)) if not parent[i]]
 
         # CHECK IF THERE'S EXACTLY 1 ROOT NODE  - O(1)
         if len(roots) != 1:
             return False
-        
+
         # ENSURE ROOT HAS > 1 CHILD, IF N > 1 - O(N)
         root = roots[0]
         return max(leftChild[root], rightChild[root]) != -1 or n == 1
 ```
-
-
 
 ### 1367. Linked List in Binary Tree
 
@@ -4082,7 +3935,7 @@ class Solution:
     def isSubPath(self, head: ListNode, root: TreeNode) -> bool:
         if not head or not root:
             return False
-        
+
         def isSame(root, head):
             if not root and head:
                 return False
@@ -4090,11 +3943,11 @@ class Solution:
                 return True
             if root.val != head.val:
                 return False
-            
+
             left = isSame(root.left, head.next)
             right = isSame(root.right, head.next)
             return left or right
-        
+
         def helper(root):
             if not root:
                 return
@@ -4102,7 +3955,7 @@ class Solution:
                 if isSame(root, head):
                     return True
             return helper(root.left) or helper(root.right)
-        
+
         return True if helper(root) else False
 ```
 
@@ -4110,16 +3963,14 @@ class Solution:
 
 https://leetcode.com/problems/linked-list-in-binary-tree/discuss/684678/Java-DFS
 
-
-
 ### 1379. Find a Corresponding Node of a Binary Tree in a Clone of That Tree
 
 ```python
 class Solution:
     def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
-        
+
         self.res = None
-        
+
         def helper(ori, clo):
             if ori == target:
                 self.res = clo
@@ -4135,19 +3986,17 @@ class Solution:
 ```python
 class Solution:
     def getTargetCopy(self, original: TreeNode, cloned: TreeNode, target: TreeNode) -> TreeNode:
-        
+
         def pre_order(o, c):
             if not o: return
             if o is target:
                 self.ans = c
             pre_order(o.left, c.left)
             pre_order(o.right, c.right)
-        
+
         pre_order(original, cloned)
         return self.ans
 ```
-
-
 
 ### 1443. Minimum Time to Collect All Apples in a Tree
 
@@ -4159,12 +4008,12 @@ class Solution:
         for i, j in edges:
             graph[i].append(j)
             graph[j].append(i)
-        
+
         seen = set()
         def dfs(node):
             if node in seen:
                 return 0
-            
+
             seen.add(node)
             temp_ans = 0
             for child in graph[node]:
@@ -4172,13 +4021,11 @@ class Solution:
             if temp_ans > 0:
                 return temp_ans + 2
             return 2 if hasApple[node] else 0
-        
+
         return max(dfs(0)-2, 0)
 ```
 
 dfs回溯时计算
-
-
 
 ### 1448. Count Good Nodes in Binary Tree
 
@@ -4187,11 +4034,11 @@ class Solution:
     def goodNodes(self, root: TreeNode) -> int:
         if not root:
             return 0
-        
+
         self.ans = 0
         def helper(root, max_now):
             if not root:
-                return 
+                return
             if root.val >= max_now:
                 self.ans += 1
             helper(root.left, max(max_now, root.val))
@@ -4199,16 +4046,15 @@ class Solution:
         helper(root, -sys.maxsize)
         return self.ans
 ```
+
 记录每个节点的父节点和父节点的父节点
-
-
 
 ### 1457. Pseudo-Palindromic Paths in a Binary Tree
 
 ```python
 class Solution:
     def pseudoPalindromicPaths (self, root: TreeNode) -> int:
-        
+
         self.ans = 0
         def helper(root, node_set):
             if not root:
@@ -4226,8 +4072,6 @@ class Solution:
         return self.ans
 ```
 
-
-
 ### 1466. Reorder Routes to Make All Paths Lead to the City Zero
 
 ```python
@@ -4235,11 +4079,11 @@ class Solution:
     def minReorder(self, n: int, connections: List[List[int]]) -> int:
         g = collections.defaultdict(list)
         g_r = collections.defaultdict(list)
-        
+
         for a, b in connections:
             g[a].append(b)
             g_r[b].append(a)
-        
+
         ans = 0
         seen = {0}
         q = collections.deque([0])
@@ -4257,8 +4101,6 @@ class Solution:
         return ans
 ```
 
-
-
 ### 1519. Number of Nodes in the Sub-Tree With the Same Label
 
 ```python
@@ -4270,7 +4112,7 @@ class Solution:
         for f, t in edges:
             graph[f].append(t)
             graph[t].append(f)
-        
+
         res_list, seen = [None] * n, set()
 
         def merge(dict1, dict2):
@@ -4295,7 +4137,7 @@ class Solution:
                 merge(temp_dict, {labels[node]: 1})
                 res_list[node] = temp_dict[labels[node]]
                 return temp_dict
-        
+
         dfs(0)
         return res_list
 ```
@@ -4306,19 +4148,17 @@ class Solution:
 
 从叶子结点网上走，非叶子结点的话，叶子结点的结果会在地26行返回，返回之后会将所有子节点的结果merge在临时字典（temp_dict）中，之后将当前节点的label数量merge进临时字典中，之后填充当前节点到结果数组中并返回临时字典作为当前节点的结果，以上步骤对应31-33行。
 
-
-
 ### 2359. Find Closest Node to Given Two Nodes
 
 ```python
 class Solution:
     def closestMeetingNode(self, edges: List[int], node1: int, node2: int) -> int:
-        
+
         graph = defaultdict(list)
         for i, val in enumerate(edges):
              if val != -1:
                 graph[i].append(val)
-        
+
         dis_from_node1 = {}
         dis_from_node2 = {}
 
@@ -4329,7 +4169,7 @@ class Solution:
                 if node in graph:
                     for each in graph[node]:
                         dfs(each, dist+1, record)
-                    
+
         seen = set()
         dfs(node1, 0, dis_from_node1)
         seen = set()
@@ -4436,13 +4276,9 @@ if __name__ == '__main__':
     main()
 ```
 
-
-
-
-
 **二叉树**
 
-第n层的节点个数最多为: 2^n-1^ 
+第n层的节点个数最多为: 2^n-1^
 
 深度为n的二叉树最多节点个数：2^n^-1
 
@@ -4462,8 +4298,6 @@ Leetcode 105/106 已知前序中序遍历还原树
 
 leetcode 145 后序 非递归
 
-
-
 Leetcode230 找第k大的数
 
 leetcode 108
@@ -4471,8 +4305,6 @@ leetcode 108
 左儿子右兄弟表示法
 
 python 构造树和链表
-
-
 
 **617: 合并两个二叉树**
 
@@ -4486,7 +4318,7 @@ python 构造树和链表
 
 **559: n叉树最大深度**
 
-897: Increasing Order Search Tree 
+897: Increasing Order Search Tree
 
 **872: 判断两二叉树叶子结点顺序是否相同**
 
