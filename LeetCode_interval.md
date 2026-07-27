@@ -86,6 +86,25 @@ class Solution:
 
 Similar to 56
 
+### 223. Rectangle Area
+
+```python
+class Solution:
+    def computeArea(self, ax1: int, ay1: int, ax2: int, ay2: int, bx1: int, by1: int, bx2: int, by2: int) -> int:
+        # 计算相交部分面积
+        if bx1 >= ax2 or bx2 <= ax1 or by2 <= ay1 or by1 >= ay2:
+            both_area = 0
+        else:
+            left = max(ax1, bx1)
+            right = min(ax2, bx2)
+            top = min(ay2, by2)
+            bottom = max(ay1, by1)
+
+            both_area = (right - left) * (top - bottom)
+
+        return (ax2 - ax1) * (ay2 - ay1) + (bx2 - bx1) * (by2 - by1) - both_area
+```
+
 ### 228. Summary Ranges
 
 ```python
@@ -271,6 +290,16 @@ if(abs((r1.x1+r1.x2)/2-(r2.x1+r2.x2)/2)<((r1.x2+r2.x2-r1.x1-r2.x1)/2) && abs((r1
 return true;
 return false;
 }
+
+```python
+class Solution:
+    def isRectangleOverlap(self, rec1: List[int], rec2: List[int]) -> bool:
+        ax1, ay1, ax2, ay2 = rec1
+        bx1, by1, bx2, by2 = rec2
+        if bx1 >= ax2 or bx2 <= ax1 or by2 <= ay1 or by1 >= ay2:
+            return False
+        return True
+```
 
 ### 986. Interval List Intersections
 
