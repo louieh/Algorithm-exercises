@@ -1907,6 +1907,24 @@ class Solution:
         return [each[0] for each in counter[:k]]
 ```
 
+```python
+# 桶排序
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        bucket = [[] for _ in range(len(nums) + 1)]
+        counter = Counter(nums)
+        for num, count in counter.items():
+            bucket[count].append(num)
+
+        res = []
+        for i in range(len(bucket)-1, 0, -1):
+            for each in bucket[i]:
+                res.append(each)
+                if len(res) == k:
+                    return res
+        return res
+```
+
 ### 359. Logger Rate Limiter
 
 ```python
