@@ -24,7 +24,7 @@ class Solution:
 
         nums1_index = 0
         nums2_index = 0
-        
+
         for i in range(len(nums1)+len(nums2)):
             if nums1_index <= len(nums1)-1 and nums2_index <= len(nums2)-1:
                 if nums1[nums1_index] <= nums2[nums2_index]:
@@ -47,8 +47,6 @@ class Solution:
                     return new_nums[res_index]
 ```
 
-
-
 ### 26. Remove Duplicates from Sorted Array
 
 ```python
@@ -58,9 +56,9 @@ class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
         if not nums:
             return 0
-        
+
         slow = 0
-        
+
         for fast in range(1, len(nums)):
             if nums[slow] != nums[fast]:
                 slow += 1
@@ -73,7 +71,7 @@ class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
         if not nums:
             return 0
-        
+
         slow, fast = 0, 1
         temp = nums[0]
         while fast < len(nums):
@@ -83,8 +81,6 @@ class Solution:
             fast += 1
         return slow + 1
 ```
-
-
 
 ### 27. Remove Element
 
@@ -114,7 +110,7 @@ class Solution:
                         last_num += 1
             if number-last_num == i:
                 break
-                    
+
         return len(nums)-num
 ```
 
@@ -124,7 +120,7 @@ class Solution:
     def removeElement(self, nums: List[int], val: int) -> int:
         if not nums:
             return 0
-        
+
         k = 0
         for i in range(len(nums)):
             if nums[i] != val:
@@ -132,8 +128,6 @@ class Solution:
                 k += 1
         return k
 ```
-
-
 
 ### 31. Next Permutation
 
@@ -173,8 +167,6 @@ According to [Wikipedia](https://en.wikipedia.org/wiki/Permutation#Generation_in
 
 ![next-permutation-algorithm](https://www.nayuki.io/res/next-lexicographical-permutation-algorithm/next-permutation-algorithm.svg)
 
-
-
 ### 41. First Missing Positive
 
 ```python
@@ -199,8 +191,6 @@ class Solution:
 
 https://leetcode.com/problems/first-missing-positive/discuss/17214/Java-simple-solution-with-documentation
 
-
-
 ### 42. Trapping Rain Water
 
 ```python
@@ -208,21 +198,21 @@ class Solution:
     def trap(self, height: List[int]) -> int:
         res = 0
         if not height: return res
-        
+
         left_max = [0] * len(height)
         left_max[0] = height[0]
         for i in range(1, len(height)):
             left_max[i] = max(height[i], left_max[i-1])
-        
+
         right_max = [0] * len(height)
         right_max[-1] = height[-1]
         for i in range(len(height)-2, -1, -1):
             right_max[i] = max(height[i], right_max[i+1])
-        
-        
+
+
         for i in range(1, len(height)-1):
             res += (min(left_max[i], right_max[i]) - height[i])
-        
+
         return res
 ```
 
@@ -234,8 +224,6 @@ The concept is illustrated as shown:
 
 ![Screen Shot 2021-10-24 at 23.50.14](https://leetcode.com/problems/trapping-rain-water/Figures/42/trapping_rain_water.png)
 
-
-
 **Algorithm**
 
 - Find maximum height of bar from the left end upto an index i in the array left_max.
@@ -245,12 +233,9 @@ The concept is illustrated as shown:
 - Iterate over the height
 
   array and update ans:
-
   - Add min(left_max[*i*],right_max[*i*])−height[*i*] to ans
 
 similar question 238，1769
-
-
 
 ### 53. Maximum Subarray
 
@@ -259,14 +244,14 @@ class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
         if not nums:
             return 0
-        
+
         local_min = -2147483648
         global_min = -2147483648
-        
+
         for each in nums:
             local_min = max(each, each+local_min)
             global_min = max(local_min, global_min)
-        
+
         return global_min
 ```
 
@@ -275,16 +260,14 @@ class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
         if not nums:
             return 0
-        
+
         global_min = nums[0]
-        
+
         for i in range(1, len(nums)):
             nums[i] = max(nums[i], nums[i]+nums[i-1])
             global_min = max(nums[i], global_min)
         return global_min
 ```
-
-
 
 ### 61. Rotate List
 
@@ -293,35 +276,33 @@ class Solution:
     def rotateRight(self, head: ListNode, k: int) -> ListNode:
         if not head or k == 0:
             return head
-        
+
         temp_move = temp_l = head
-        
+
         # get length of linked list
         length = 0
         while temp_l:
             length += 1
             temp_l = temp_l.next
-        
+
         # 计算倒数第几个
         num = k % length
         if num == 0:
             return head
-        
+
         # 将指针挪到上面那个数的前一个, 并取出后面那个数作为新头且断开与后面那个数的链接
         for i in range(length-num-1):
             temp_move = temp_move.next
         new_head = temp3 = temp_move.next
         temp_move.next = None
-        
+
         # 将结尾与原来的头链接
         while temp3 and temp3.next:
             temp3 = temp3.next
         temp3.next = head
-        
+
         return new_head
 ```
-
-
 
 ### 80. Remove Duplicates from Sorted Array II
 
@@ -338,8 +319,6 @@ class Solution:
         return res
 ```
 
-
-
 ### 84. Largest Rectangle in Histogram
 
 ```python
@@ -350,24 +329,24 @@ class Solution:
         right_less_list = [0] * len(heights)
         left_less_list[0] = -1
         right_less_list[-1] = len(heights)
-        
+
         for i in range(1, len(heights)):
             p = i - 1
             while p >= 0 and heights[p] >= heights[i]:
                 p -= 1 # 可优化 p = left_less_list[p]
             left_less_list[i] = p
-        
+
         for i in range(len(heights)-2, -1, -1):
             p = i + 1
             while p <= len(heights) - 1 and heights[p] >= heights[i]:
                 p += 1 # 可优化 p = right_less_list[p]
             right_less_list[i] = p
-        
+
         res = 0
-        
+
         for i in range(len(heights)):
             res = max(res, heights[i] * (right_less_list[i] - left_less_list[i] - 1))
-        
+
         return res
 ```
 
@@ -378,28 +357,26 @@ class Solution:
         right_less_list = [0] * len(heights)
         left_less_list[0] = -1
         right_less_list[-1] = len(heights)
-        
+
         for i in range(1, len(heights)):
             p = i - 1
             while p >= 0 and heights[p] >= heights[i]:
                 p = left_less_list[p]
             left_less_list[i] = p
-        
+
         for i in range(len(heights)-2, -1, -1):
             p = i + 1
             while p <= len(heights) - 1 and heights[p] >= heights[i]:
                 p = right_less_list[p]
             right_less_list[i] = p
-        
+
         res = 0
-        
+
         for i in range(len(heights)):
             res = max(res, heights[i] * (right_less_list[i] - left_less_list[i] - 1))
-        
+
         return res
 ```
-
-
 
 ### 88. Merge Sorted Array
 
@@ -436,7 +413,7 @@ class Solution:
         Do not return anything, modify nums1 in-place instead.
         """
         i, j, k = m-1, n-1, m+n-1
-        
+
         while i >= 0 and j >= 0:
             if nums1[i] >= nums2[j]:
                 nums1[k] = nums1[i]
@@ -451,8 +428,6 @@ class Solution:
             j -= 1
 ```
 
-
-
 ### 126. Word Ladder II
 
 ```python
@@ -464,7 +439,7 @@ class Solution:
         node_neighbor = collections.defaultdict(list)
         solution = []
         res = []
-        
+
         def bfs():
             q = collections.deque()
             q.append(beginWord)
@@ -478,7 +453,7 @@ class Solution:
                     if neighbor not in distance:
                         distance[neighbor] = cur_distance + 1
                         q.append(neighbor)
-        
+
         # def bfs():
         #     q = collections.deque()
         #     q.append(beginWord)
@@ -499,7 +474,7 @@ class Solution:
         #                         q.append(neighbor)
         #             if found_end:
         #                 break
-        
+
         def get_neighbors(node):
             res = []
             node_list = list(node)
@@ -512,7 +487,7 @@ class Solution:
                         res.append("".join(node_list))
                     node_list[i] = old_c
             return res
-        
+
         def dfs(cur):
             solution.append(cur)
             if cur == endWord:
@@ -523,15 +498,13 @@ class Solution:
                         if distance[neighbor] == distance[cur] + 1:
                             dfs(neighbor)
             solution.pop()
-        
+
         bfs()
         dfs(beginWord)
         return res
 ```
 
 https://leetcode.com/problems/word-ladder-ii/discuss/40475/My-concise-JAVA-solution-based-on-BFS-and-DFS
-
-
 
 ### 127. Word Ladder
 
@@ -542,7 +515,7 @@ class Solution:
         word_set.add(beginWord)
         distance = {beginWord: 0}
         node_neighbor = collections.defaultdict(list)
-        
+
         def bfs():
             q = collections.deque()
             q.append(beginWord)
@@ -556,7 +529,7 @@ class Solution:
                     if neighbor not in distance:
                         distance[neighbor] = cur_distance + 1
                         q.append(neighbor)
-        
+
         def get_neighbors(node):
             res = []
             node_list = list(node)
@@ -569,7 +542,7 @@ class Solution:
                         res.append("".join(node_list))
                     node_list[i] = old_c
             return res
-        
+
         bfs()
         return distance[endWord] + 1 if endWord in distance else 0
 ```
@@ -581,7 +554,7 @@ class Solution:
         word_set.add(beginWord)
         distance = {beginWord: 0}
         node_neighbor = collections.defaultdict(list)
-        
+
         def bfs():
             q = collections.deque()
             q.append(beginWord)
@@ -597,7 +570,7 @@ class Solution:
                         if neighbor == endWord:
                             return distance[neighbor] + 1
                         q.append(neighbor)
-        
+
         def get_neighbors(node):
             res = []
             node_list = list(node)
@@ -610,12 +583,10 @@ class Solution:
                         res.append("".join(node_list))
                     node_list[i] = old_c
             return res
-        
+
         res = bfs()
         return res if res else 0
 ```
-
-
 
 ### 134. Gas Station
 
@@ -646,8 +617,6 @@ class Solution:
 >   can not reach B.(B is the first station that A can not reach.) 当从A到达B时剩余小于0时，那么A和B之间的所有点都没法到达B，所以直接把起点设置为B的下一个点。
 > - If the total number of gas is bigger than the total number of cost. There must be a solution. 如果总剩余小于那么没有答案。
 
-
-
 ### 152. Maximum Product Subarray
 
 ```python
@@ -663,15 +632,13 @@ class Solution:
         return ans
 ```
 
-
-
 ### 169. Majority Element
 
 ```python
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
         from collections import Counter
-        
+
         c = Counter(nums)
         for k,v in c.items():
             if v > len(nums) // 2:
@@ -688,7 +655,7 @@ class Solution:
 ```python
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        
+
         def partition(left, right):
             small = left - 1
             for i in range(left, right):
@@ -699,7 +666,7 @@ class Solution:
             small += 1
             nums[small], nums[right] = nums[right], nums[small]
             return small
-        
+
         left, right = 0, len(nums)-1
         mid = left + (right - left) // 2
         index = partition(left, right)
@@ -727,8 +694,6 @@ class Solution:
         return can
 ```
 
-
-
 ### 187. Repeated DNA Sequences
 
 ```python
@@ -743,8 +708,6 @@ class Solution:
                 repeat.add(s[i:i+10])
         return list(repeat)
 ```
-
-
 
 ### 189. Rotate Array
 
@@ -784,7 +747,7 @@ class Solution:
         """
         k %= len(nums)
         if k == 0: return nums
-        
+
         start = count = 0
         while count < len(nums):
             cur_index, prev_num = start, nums[start]
@@ -811,8 +774,6 @@ class Solution:
             nums[i] = nums1[i]
 ```
 
-
-
 ### 215. Kth Largest Element in an Array
 
 ```python
@@ -821,18 +782,18 @@ class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
         if not nums:
             return
-        
+
         def swap(a, b, nums=nums):
             if a == b:
                 return
             temp = nums[a]
             nums[a] = nums[b]
             nums[b] = temp
-        
+
         def findKthLargest_tool(nums, left, right, k):
             if left > right:
                 return -1
-            
+
             import random
             pivot = int((right - left + 1) * random.random()) + left
             swap(pivot, right)
@@ -842,13 +803,13 @@ class Solution:
                     swap(i, c)
                     c += 1
             swap(c, right)
-            
+
             if c == k-1:
                 return nums[c]
             elif c > k-1:
                 return findKthLargest_tool(nums, left, c-1, k)
             return findKthLargest_tool(nums, c+1, right, k)
-        
+
         return findKthLargest_tool(nums, 0, len(nums)-1, k)
 ```
 
@@ -866,7 +827,7 @@ class Solution:
             large += 1
             nums[large], nums[right] = nums[right], nums[large]
             return large
-        
+
         left, right = 0, len(nums) - 1
         index = partition(left, right)
         while index != k - 1:
@@ -903,15 +864,13 @@ class Solution:
             else:
                 left = pivot + 1
             pivot = partition(left, right)
-        
+
         return nums[pivot]
 ```
 
 类似快排中的 partition，以 right 为分割点，将大于它的数字放到左边，小于它的数字放右边，其中 pivot 是中间分割点，初始化为 left - 1，每遇到一个大于的数字就将 pivot + 1，如果 pivot 不等于当前位置也就是 i，那么将 pivot 数字与 i 数字交换，因为有可能 i 是要比 pivot 移动的快的，pivot 只是大于 nums[right] 的分割点，最后将 pivot + 1 后与 nums[right] 交换，返回 pivot。
 
 分割后看返回的 pivot 是不是等于 k - 1，也就是当前分割点是不是第 k 大，不是的话调整左右继续分割。
-
-
 
 类似于上面快排的方法，但是每次构建新的list
 
@@ -929,19 +888,17 @@ class Solution:
                     right.append(num)
                 else:
                     mid.append(num)
-            
+
             if k <= len(left):
                 return quick_select(left, k)
-            
+
             if len(left) + len(mid) < k:
                 return quick_select(right, k - len(left) - len(mid))
-            
+
             return pivot
-        
+
         return quick_select(nums, k)
 ```
-
-
 
 使用堆，保持小根堆大小是k
 
@@ -953,7 +910,7 @@ class Solution:
             heapq.heappush(heap, num)
             if len(heap) > k:
                 heapq.heappop(heap)
-        
+
         return heap[0]
 ```
 
@@ -961,18 +918,16 @@ class Solution:
 # 先全部插入堆中，然后pop出len(nums)-k个元素，让堆中只有k个元素
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
-        
+
         heap = []
         for num in nums:
             heapq.heappush(heap, num)
-        
+
         for _ in range(len(heap) - k):
             heapq.heappop(heap)
-        
+
         return heap[0]
 ```
-
-
 
 ### 229. Majority Element II
 
@@ -1002,8 +957,6 @@ class Solution:
         return [each for each in (can1, can2) if nums.count(each) > len(nums) // 3]
 ```
 
-
-
 ### 238. Product of Array Except Self
 
 ```python
@@ -1011,21 +964,21 @@ class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         if not nums:
             return []
-        
+
         left_accu = [1]
         right_accu = [1]
-        
+
         for i in range(len(nums)-1):
             left_accu.append(nums[i] * left_accu[i])
         i = len(nums)-1
         while i > 0:
             right_accu.insert(0, nums[i] * right_accu[0])
             i -= 1
-        
+
         ans = []
         for i in range(len(nums)):
             ans.append(left_accu[i] * right_accu[i])
-        
+
         return ans
 ```
 
@@ -1034,12 +987,12 @@ class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         if not nums:
             return []
-        
+
         left_accu = [1]
-        
+
         for i in range(len(nums)-1):
             left_accu.append(left_accu[i] * nums[i])
-        
+
         ans = [1] * len(nums)
         temp = 1
         for i in range(len(nums)-1, -1, -1):
@@ -1055,21 +1008,19 @@ class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         leftRes = rightRes = 1
         res = [1] * len(nums)
-        
+
         for i in range(1, len(nums)):
             leftRes *= nums[i-1]
             res[i] = leftRes
-        
+
         for i in range(len(nums)-2, -1, -1):
             rightRes *= nums[i+1]
             res[i] *= rightRes
-        
+
         return res
 ```
 
 same as question 1769, similar question 42
-
-
 
 ### 268. Missing Number
 
@@ -1083,7 +1034,7 @@ class Solution:
         nums.sort()
         if nums[-1] != len(nums):
             return len(nums)
-        
+
         for i in range(len(nums)):
             if i != nums[i]:
                 return i
@@ -1093,11 +1044,9 @@ class Solution:
 class Solution:
     def missingNumber(self, nums: List[int]) -> int:
         sum_should_be = (1 + len(nums)) * len(nums) // 2
-        
+
         return sum_should_be - sum(nums)
 ```
-
-
 
 ### 274. H-Index
 
@@ -1105,13 +1054,13 @@ class Solution:
 class Solution:
     def hIndex(self, citations: List[int]) -> int:
         count = [0]*(len(citations)+1)
-        
+
         for each in citations:
             if each > len(citations):
                 count[-1] += 1
             else:
                 count[each] += 1
-        
+
         cite_count_now = len(citations)
         total_paper_num = 0
         while cite_count_now >= 0:
@@ -1126,28 +1075,26 @@ class Solution:
 public int hIndex(int[] citations) {
     int len = citations.length;
     int[] count = new int[len + 1];
-    
+
     for (int c: citations)
-        if (c > len) 
+        if (c > len)
             count[len]++;
-        else 
+        else
             count[c]++;
-    
-    
+
+
     int total = 0;
     for (int i = len; i >= 0; i--) {
         total += count[i];
         if (total >= i)
             return i;
     }
-    
+
     return 0;
 }
 ```
 
 先记录不同引用数paper的数量，大于数组长度的引用数记在最后，其余的记录在引用数为index，之后从最后一个位置开始遍历累加paper数，当paper数量大于等于当前引用数时返回当前引用数。
-
-
 
 ### 287. Find the Duplicate Number
 
@@ -1171,7 +1118,7 @@ class Solution:
 
 ```python
 # Floyd's Tortoise and Hare (Cycle Detection)
-# same as Linked List Cycle II 
+# same as Linked List Cycle II
 class Solution:
     def findDuplicate(self, nums):
         # Find the intersection point of the two runners.
@@ -1182,14 +1129,14 @@ class Solution:
             hare = nums[nums[hare]]
             if tortoise == hare:
                 break
-        
+
         # Find the "entrance" to the cycle.
         ptr1 = nums[0]
         ptr2 = tortoise
         while ptr1 != ptr2:
             ptr1 = nums[ptr1]
             ptr2 = nums[ptr2]
-        
+
         return ptr1
 ```
 
@@ -1202,8 +1149,6 @@ class Solution:
                 return abs(num)
 ```
 
-
-
 ### 318. Maximum Product of Word Lengths
 
 ```python
@@ -1211,14 +1156,14 @@ class Solution:
     def maxProduct(self, words: List[str]) -> int:
         set_list = [set(word) for word in words]
         len_list = [len(word) for word in words]
-        
+
         res = 0
-        
+
         for i in range(len(words)):
             for j in range(i+1, len(words)):
                 if not set_list[i] &  set_list[j]:
                     res = max(res, len_list[i] * len_list[j])
-        
+
         return res
 ```
 
@@ -1244,8 +1189,6 @@ class Solution:
     return maxProduct;
 }
 ```
-
-
 
 ### 341. Flatten Nested List Iterator
 
@@ -1277,29 +1220,27 @@ class NestedIterator:
         self._list = []
         self.flatten(nestedList)
         self._index = 0
-    
+
     def flatten(self, nestedList):
         for each in nestedList:
             if each.isInteger():
                 self._list.append(each.getInteger())
             else:
                 self.flatten(each.getList())
-    
+
     def next(self) -> int:
         res = self._list[self._index]
         self._index += 1
         return res
-    
+
     def hasNext(self) -> bool:
         return self._index <= len(self._list) - 1
-         
+
 
 # Your NestedIterator object will be instantiated and called as such:
 # i, v = NestedIterator(nestedList), []
 # while i.hasNext(): v.append(i.next())
 ```
-
-
 
 ### 344. Reverse String
 
@@ -1330,7 +1271,7 @@ class Solution:
             if i1 < i2:
                 s[i1], s[i2] = s[i2], s[i1]
                 reverseString_helper(i1+1, i2-1)
-        
+
         reverseString_helper(0, len(s)-1)
 ```
 
@@ -1346,8 +1287,6 @@ class Solution:
             left += 1
             right -= 1
 ```
-
-
 
 ### 349. Intersection of Two Arrays
 
@@ -1391,13 +1330,11 @@ function intersections(l1, l2) {
         }
         if (right > left) while (left === l1[r]) r++;
          else while (right === l2[l]) l++;
-        
+
     }
     return intersections;
 }
 ```
-
-
 
 ### 350. Intersection of Two Arrays II
 
@@ -1411,14 +1348,14 @@ class Solution(object):
                 finArray.append(each)
                 nums2.remove(each)
         return finArray
-        
+
 ```
 
 ```python
 class Solution:
     def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
         from collections import Counter
-        
+
         nums1Dict = Counter(nums1)
         res = []
         for each in nums2:
@@ -1427,8 +1364,6 @@ class Solution:
                 nums1Dict[each] -= 1
         return res
 ```
-
-
 
 ### 390. Elimination Game
 
@@ -1454,8 +1389,6 @@ class Solution {
 
 https://leetcode.com/problems/elimination-game/discuss/87119/JAVA%3A-Easiest-solution-O(logN)-with-explanation
 
-
-
 ### 413. Arithmetic Slices
 
 ```python
@@ -1465,11 +1398,11 @@ class Solution:
         def count(n):
             if n < 3: return 0
             return n - 2 + count(n - 1)
-        
+
         prev = None
         res = 0
         cur = 2
-        
+
         for i in range(1, len(nums)):
             diff = nums[i] - nums[i-1]
             if diff == prev:
@@ -1485,15 +1418,13 @@ class Solution:
 
 https://leetcode.com/problems/arithmetic-slices/discuss/1814595/Python3-CACHE-()-Explained
 
-
-
 ### 414. Third Maximum Number
 
 ```python
 class Solution:
     def thirdMax(self, nums: List[int]) -> int:
         a = b = c = -sys.maxsize
-        
+
         for num in nums:
             if num in {a, b, c}:
                 continue
@@ -1503,11 +1434,9 @@ class Solution:
                 a, b, c = a, num, b
             elif num > c:
                 a, b, c = a, b, num
-        
+
         return c if c != -sys.maxsize else max(a, b)
 ```
-
-
 
 ### 442. Find All Duplicates in an Array
 
@@ -1515,7 +1444,7 @@ class Solution:
 class Solution:
     def findDuplicates(self, nums: List[int]) -> List[int]:
         ans = []
-        
+
         for each in nums:
             if nums[abs(each)-1] < 0:
                 ans.append(abs(each))
@@ -1523,8 +1452,6 @@ class Solution:
                 nums[abs(each)-1] *= -1
         return ans
 ```
-
-
 
 ### 443. String Compression
 
@@ -1579,8 +1506,6 @@ class Solution:
         return cur
 ```
 
-
-
 ### 448. Find All Numbers Disappeared in an Array
 
 ```python
@@ -1592,8 +1517,6 @@ class Solution:
         return [i + 1 for i, val in enumerate(nums) if val > 0]
 ```
 
-
-
 ### 451. Sort Characters By Frequency
 
 ```python
@@ -1602,8 +1525,6 @@ class Solution:
         counter_list = sorted([(k, v) for k, v in collections.Counter(s).items()], key=lambda x: x[1], reverse=True)
         return "".join([k*v for k, v in counter_list])
 ```
-
-
 
 ### 456. 132 Pattern
 
@@ -1639,8 +1560,6 @@ https://leetcode.com/problems/132-pattern/discuss/94071/Single-pass-C%2B%2B-O(n)
 
 我们要找s1<s3<s2，从后向前遍历插入栈，如果遇到元素(s2)大于栈顶元素则pop出栈顶元素作为s3，此时s2的index是小于s3的但其值是大于s3的(s3<s2)，那么下面如果遇到有元素小于s3我们便找到了s1，满足条件s1<s3<s2. 持续向前遍历会保证s3是最大的
 
-
-
 ### 472. Concatenated Words
 
 ```python
@@ -1648,7 +1567,7 @@ https://leetcode.com/problems/132-pattern/discuss/94071/Single-pass-C%2B%2B-O(n)
 class Solution:
     def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
         words_set = set(words)
-        
+
         def dfs(word):
             for i in range(1, len(word)):
                 prefix = word[:i]
@@ -1660,9 +1579,9 @@ class Solution:
                 if postfix in words_set and dfs(prefix):
                     return True
             return False
-        
+
         res = []
-        
+
         for word in words:
             if dfs(word):
                 res.append(word)
@@ -1689,7 +1608,7 @@ class Solution:
                 if postfix in words_set and dfs(prefix):
                     dp[word] = True
             return dp[word]
-        
+
         return [word for word in words if dfs(word)]
 ```
 
@@ -1719,7 +1638,7 @@ class Solution:
                     if res:
                         break
             return res
-        
+
         res = []
         for word in words:
             root = trie
@@ -1734,8 +1653,6 @@ class Solution:
 
 加lru_cache装饰器过了
 
-
-
 ### 485. Max Consecutive Ones
 
 ```python
@@ -1743,7 +1660,7 @@ class Solution:
     def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
         if not nums:
             return 0
-        
+
         ans = 0
         ans_temp = 0
         for each in nums:
@@ -1763,10 +1680,10 @@ class Solution:
     def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
         if not nums:
             return 0
-        
+
         ans = 0
         temp_max = 0
-        
+
         for each in nums:
             if each == 1:
                 temp_max += 1
@@ -1776,8 +1693,6 @@ class Solution:
         ans = max(ans, temp_max)
         return ans
 ```
-
-
 
 ### 525. Contiguous Array
 
@@ -1803,8 +1718,6 @@ class Solution:
 遇0减一遇1加一，并将此数作为key，index作为值存入字典，如果遇到相同的数组说明有相等的0和1出现（因为从上一个点到当前点的count没有变说明这段距离中的0和1的数量一致），用当前index值键字典中相同数字的index得到长度。
 如果遇到数字为0，说明从0到目前index为止的0和1数量相同
 
-
-
 ### 532. K-diff Pairs in an Array
 
 ```python
@@ -1820,8 +1733,6 @@ class Solution:
                 res += 1
         return res
 ```
-
-
 
 ### 560. Subarray Sum Equals K
 
@@ -1853,8 +1764,6 @@ map:
 when it comes to 13 the code check if 13 -10 = 3 in the map (我们遇到过3也就是说将现在的和减3便得到k)
 well it is in the map then that means we found sub array that sums to 10 which from index 1 to index 3 ==> [ 2 7 1 ]
 
-
-
 ### 565. Array Nesting
 
 ```python
@@ -1876,8 +1785,6 @@ class Solution:
         return res
 ```
 
-
-
 ### 581. Shortest Unsorted Continuous Subarray
 
 ```python
@@ -1885,7 +1792,7 @@ class Solution:
 class Solution:
     def findUnsortedSubarray(self, nums: List[int]) -> int:
         left, right = len(nums) - 1, 0
-        
+
         for i in range(len(nums)):
             for j in range(i+1, len(nums)):
                 if nums[i] > nums[j]:
@@ -1897,7 +1804,7 @@ class Solution:
 ```python
 class Solution:
     def findUnsortedSubarray(self, nums: List[int]) -> int:
-        
+
         nums_sorted = sorted(nums)
         left = right = 0
         for i in range(len(nums)):
@@ -1916,25 +1823,23 @@ class Solution:
     def findUnsortedSubarray(self, nums: List[int]) -> int:
         stack = []
         left, right = len(nums) - 1, 0
-        
+
         for i in range(len(nums)):
             while stack and nums[stack[-1]] > nums[i]:
                 left = min(left, stack.pop())
             stack.append(i)
-        
+
         stack = []
-        
+
         for i in range(len(nums)-1, -1, -1):
             while stack and nums[stack[-1]] < nums[i]:
                 right = max(right, stack.pop())
             stack.append(i)
-        
+
         return right - left + 1 if right > left else 0
 ```
 
 https://leetcode.com/problems/shortest-unsorted-continuous-subarray/solution/
-
-
 
 ### 605. Can Place Flowers
 
@@ -1944,7 +1849,7 @@ class Solution:
         counter = collections.Counter(flowerbed)
         if n > math.ceil(counter.get(0, 0) / 2): return False
         if counter.get(1) == 0: return n == math.ceil(counter.get(0) / 2)
-        
+
         i = res = 0
         while i < len(flowerbed):
             if flowerbed[i] == 0 and (i == len(flowerbed)-1 or flowerbed[i+1] == 0):
@@ -1955,11 +1860,9 @@ class Solution:
                 i += 2
                 continue
             i += 1
-            
+
         return res >= n
 ```
-
-
 
 ### 611. Valid Triangle Number
 
@@ -1969,7 +1872,7 @@ class Solution:
         res = 0
         nums = [num for num in nums if num != 0]
         nums.sort()
-        
+
         for i in range(len(nums)-2):
             k = i + 2
             for j in range(i+1, len(nums)-1):
@@ -1979,8 +1882,6 @@ class Solution:
         return res
 ```
 
-
-
 ### 645. Set Mismatch
 
 ```python
@@ -1988,7 +1889,7 @@ class Solution:
     def findErrorNums(self, nums: List[int]) -> List[int]:
         res = []
         temp = [None]*len(nums)
-        
+
         for num in nums:
             if temp[num-1] is not None:
                 res.append(num)
@@ -2003,7 +1904,7 @@ class Solution:
 class Solution:
     def findErrorNums(self, nums: List[int]) -> List[int]:
         dup = miss = -1
-        
+
         for i, v in enumerate(nums):
             if nums[abs(v)-1] < 0:
                 dup = abs(v)
@@ -2016,8 +1917,6 @@ class Solution:
                 break
         return [dup, miss]
 ```
-
-
 
 ### 674. Longest Continuous Increasing Subsequence
 
@@ -2033,8 +1932,6 @@ class Solution:
                 temp = 1
         return ans
 ```
-
-
 
 ### 680. Valid Palindrome II
 
@@ -2069,14 +1966,14 @@ class Solution:
 ```python
 class Solution:
     def validPalindrome(self, s: str) -> bool:
-        
+
         def helper(left, right):
             while left < right:
                 if s[left] != s[right]: return False
                 left += 1
                 right -= 1
             return True
-        
+
         left, right = 0, len(s) - 1
         while left < right :
             if s[left] != s[right]:
@@ -2086,14 +1983,14 @@ class Solution:
         return True
 ```
 
->[GeneBelcher](https://leetcode.com/GeneBelcher) Here is the solution I gave on my Meta phone screen and passed. Follow up question was asked to explain how I will extend this to work for n changes. My answer was to have a sub-function that compares left and right and calls recursively with a counter.
+> [GeneBelcher](https://leetcode.com/GeneBelcher) Here is the solution I gave on my Meta phone screen and passed. Follow up question was asked to explain how I will extend this to work for n changes. My answer was to have a sub-function that compares left and right and calls recursively with a counter.
 >
->```python
->class Solution(object):
+> ```python
+> class Solution(object):
 >    def validPalindrome(self, s):
 >        left = 0
 >        right = len(s) - 1
->        
+>
 >        while left < right:
 >            if s[left] != s[right]:
 >                one = s[left:right]
@@ -2101,11 +1998,9 @@ class Solution:
 >                return one == one[::-1] or two == two[::-1]
 >            left += 1
 >            right -= 1
->            
+>
 >        return True
->```
-
-
+> ```
 
 ### 697. Degree of an Array
 
@@ -2148,7 +2043,7 @@ class Solution:
                 left[nums[i]] = i
             right[nums[i]] = i
             count[nums[i]] += 1
-        
+
         max_degree = max(count.values())
         ans = sys.maxsize
         for key, value in count.items():
@@ -2156,8 +2051,6 @@ class Solution:
                 ans = min(ans, right[key]-left[key]+1)
         return ans
 ```
-
-
 
 ### 769. Max Chunks To Make Sorted
 
@@ -2175,22 +2068,20 @@ class Solution:
 
 因为数组元素是0-n-1的排列，所以如果某一个位置的index等于到该位置为止的最大值，则说明该位置之前是可以通过排序还原成原顺序的。
 
-
-
 ### 845. Longest Mountain in Array
 
 ```python
 class Solution:
     def longestMountain(self, A: List[int]) -> int:
-        
+
         res = cur = 0
-        
+
         while cur < len(A):
             temp = cur
             if temp < len(A)-1 and A[temp] < A[temp+1]:
                 while temp < len(A)-1 and A[temp] < A[temp+1]:
                     temp += 1
-                
+
                 while temp < len(A)-1 and A[temp] > A[temp+1]:
                     temp += 1
                     res = max(res, temp-cur+1)
@@ -2200,21 +2091,19 @@ class Solution:
 
 https://leetcode.com/problems/longest-mountain-in-array/solution/
 
-
-
 ### 846. Hand of Straights
 
 ```python
 class Solution:
     def isNStraightHand(self, hand: List[int], W: int) -> bool:
         counter = collections.Counter(hand)
-        
+
         def del_counter(num):
             if counter[num] == 1:
                 counter.pop(num)
                 return
             counter[num] -= 1
-        
+
         while counter:
             min_num = min(counter.keys())
             del_counter(min_num)
@@ -2225,8 +2114,6 @@ class Solution:
 ```
 
 same as 1296
-
-
 
 ### 849. Maximize Distance to Closest Person
 
@@ -2247,8 +2134,6 @@ class Solution:
         return res
 ```
 
-
-
 ### 905. Sort Array By Parity
 
 ```python
@@ -2256,7 +2141,7 @@ class Solution:
     def sortArrayByParity(self, A: List[int]) -> List[int]:
         odd_list = []
         even_list = []
-        
+
         for each in A:
             if each % 2 == 0:
                 even_list.append(each)
@@ -2269,7 +2154,7 @@ class Solution:
 class Solution:
     def sortArrayByParity(self, A: List[int]) -> List[int]:
         i, j = 0, len(A)-1
-        
+
         while i < j:
             if A[i] % 2 > A[j] % 2:
                 A[i], A[j] = A[j], A[i]
@@ -2285,7 +2170,7 @@ class Solution:
 class Solution:
     def sortArrayByParity(self, nums: List[int]) -> List[int]:
         left, right = 0, len(nums) - 1
-        
+
         while left < right:
             if nums[left] % 2 != 0:
                 nums[left], nums[right] = nums[right], nums[left]
@@ -2295,16 +2180,14 @@ class Solution:
         return nums
 ```
 
-
-
 ### 912. Sort an Array
 
 ```python
 # QuickSort
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
-        
-        
+
+
         def sort_method(i, j):
             oi = i
             pivot = nums[i]
@@ -2318,16 +2201,16 @@ class Solution:
                 nums[i], nums[j] = nums[j], nums[i]
             nums[oi], nums[j] = nums[j], nums[oi]
             return j
-        
+
         def quick_sort(i, j):
             if i >= j: return
-            
+
             k = random.randint(i, j)
             nums[i], nums[k] = nums[k], nums[i]
             mid = sort_method(i, j)
             quick_sort(i, mid)
             quick_sort(mid+1, j)
-        
+
         quick_sort(0, len(nums)-1)
         return nums
 ```
@@ -2336,7 +2219,7 @@ class Solution:
 # QuickSort
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
-        
+
         def sort(i, j):
             pivot = nums[i]
             slow = i
@@ -2346,19 +2229,17 @@ class Solution:
                     nums[slow], nums[fast] = nums[fast], nums[slow]
             nums[i], nums[slow] = nums[slow], nums[i]
             return slow
-        
+
         def partition(i, j):
             if i >= j: return
             mid = sort(i, j)
             partition(i, mid-1)
             partition(mid+1, j)
-            
-        
+
+
         partition(0, len(nums)-1)
         return nums
 ```
-
-
 
 ### 922. Sort Array By Parity II
 
@@ -2380,8 +2261,6 @@ class Solution:
                 ans.append(odd_list.pop())
         return ans
 ```
-
-
 
 ### 923. 3Sum With Multiplicity
 
@@ -2430,8 +2309,6 @@ For cases where there is only one instance of `arr[i]`, i.e. not a valid tuple, 
 
 Of course, if this is unintuitive to you, you can initialise `j = i+1` and increment `j` based on conditionals: `j += cnt[arr[j]]-(j == i+1)`. Hope this helps you :)
 
-
-
 ### 941. Valid Mountain Array
 
 ```python
@@ -2459,25 +2336,23 @@ class Solution:
     def validMountainArray(self, A: List[int]) -> bool:
         if len(A) < 3:
             return False
-        
+
         if A[1] <= A[0]:
             return False
         if A[-1] >= A[-2]:
             return False
-        
+
         for i in range(1, len(A)):
             if A[i] == A[i-1]:
                 return False
             if A[i] < A[i-1]:
                 break
-        
+
         for j in range(i, len(A)-1):
             if A[j] <= A[j+1]:
                 return False
         return True
 ```
-
-
 
 ### 950. Reveal Cards In Increasing Order
 
@@ -2487,15 +2362,13 @@ class Solution:
         deck.sort()
         index_q = collections.deque(range(len(deck)))
         res = [None] * len(deck)
-        
+
         for card in deck:
             res[index_q.popleft()] = card
             if index_q:
                 index_q.append(index_q.popleft())
         return res
 ```
-
-
 
 ### [962. Maximum Width Ramp](https://leetcode.com/problems/maximum-width-ramp/)
 
@@ -2532,20 +2405,20 @@ class Solution:
 ```python
 class Solution:
     def maxWidthRamp(self, nums: List[int]) -> int:
-        
+
         max_width = 0
-        
+
         stack = []
         for i in range(len(nums)):
             if not stack or nums[i] <= nums[stack[-1]]:
                 stack.append(i)
-        
+
         for j in range(len(nums)-1, -1, -1):
             if not stack: break
             while stack and nums[j] >= nums[stack[-1]]:
                 max_width = max(max_width, j - stack[-1])
                 stack.pop()
-        
+
         return max_width
 ```
 
@@ -2557,7 +2430,7 @@ class Solution:
 class Solution:
     def pancakeSort(self, A: List[int]) -> List[int]:
         ans = []
-        
+
         for i in range(len(A), 1, -1):
             # i:= len(A) -> 2
             max_i = A.index(i)
@@ -2576,8 +2449,6 @@ Python 切片：注意此处切片操作，[​a:/b:c]第三个数为step也就�
 
 开始位置a和结束位置b可以省略，当步长为正时，如果省略开始位置a那么a默认为最左位置，当步长为负时，如果省略开始位置a那么a默认为最右位置。
 
-
-
 ### 977. Squares of a Sorted Array
 
 ```python
@@ -2587,13 +2458,13 @@ class Solution:
             return [each**2 for each in A]
         if A[-1] <= 0:
             return [each**2 for each in A][::-1]
-        
+
         for i in range(len(A)):
             if A[i] >= 0:
                 break
         A = [each**2 for each in A]
         A1, A2 = A[:i][::-1], A[i:]
-        
+
         def merge(A1, A2):
             if A1[-1] <= A2[0]:
                 return A1 + A2
@@ -2602,7 +2473,7 @@ class Solution:
             else:
                 ans = []
                 i = j = 0
-                
+
                 while i < len(A1) and j < len(A2):
                     if A1[i] <= A2[j]:
                         ans.append(A1[i])
@@ -2610,7 +2481,7 @@ class Solution:
                     else:
                         ans.append(A2[j])
                         j += 1
-                
+
                 while i < len(A1):
                     ans.append(A1[i])
                     i += 1
@@ -2618,7 +2489,7 @@ class Solution:
                     ans.append(A2[j])
                     j += 1
                 return ans
-            
+
         return merge(A1, A2)
 ```
 
@@ -2630,7 +2501,7 @@ class Solution:
             if nums[-1] <= 0:
                 return res[::-1]
             return res
-        
+
         left = right = 0
         for i, num in enumerate(nums):
             if num >= 0:
@@ -2654,8 +2525,6 @@ class Solution:
         return [x**2 for x in res]
 ```
 
-
-
 ### 1007. Minimum Domino Rotations For Equal Row
 
 ```python
@@ -2664,19 +2533,17 @@ class Solution:
         countA = [0] * 7
         countB = [0] * 7
         same = [0] * 7
-        
+
         for i in range(len(A)):
             countA[A[i]] += 1
             countB[B[i]] += 1
             if A[i] == B[i]: same[A[i]] += 1
-        
+
         for i in range(1, 7):
             if countA[i] + countB[i] - same[i] == len(A):
                 return len(A) - max(countA[i], countB[i])
         return -1
 ```
-
-
 
 ### 1010. Pairs of Songs With Total Durations Divisible by 60
 
@@ -2685,7 +2552,7 @@ class Solution:
     def numPairsDivisibleBy60(self, time: List[int]) -> int:
         if not time:
             return 0
-        
+
         from collections import Counter
         temp_dict = Counter()
         ans = 0
@@ -2712,8 +2579,6 @@ class Solution:
         return ans
 ```
 
-
-
 ### 1051. Height Checker
 
 ```python
@@ -2723,8 +2588,6 @@ class Solution:
 ```
 
 此题有些问题，题目问最少交换多少次使得数组生序排列。例如：[1,1,4,2,1,3] 交换 4-1 和 4-3 两次便可以完成。但是答案为3次。
-
-
 
 ### 1054. Distant Barcodes
 
@@ -2746,8 +2609,6 @@ class Solution:
 
 注意Python字典的排序，另外Counter对象有most_common()方法，返回tuple列表
 
-
-
 ### 1089. Duplicate Zeros
 
 ```python
@@ -2767,7 +2628,7 @@ class Solution:
                     length_ -= 1
                     break
                 num_zero_remain += 1
-        
+
         last_index = length_ - num_zero_remain  # 最后位置的index
         for i in range(last_index, -1, -1):  # 从后向前遍历，此时num_zero_remain相当于与实际位置的间距，当有0出现，两个位置置0并且间距缩短1，也就是num_zero_remain-1
             if arr[i] == 0:
@@ -2777,8 +2638,6 @@ class Solution:
             else:
                 arr[i+num_zero_remain] = arr[i]
 ```
-
-
 
 ### 1200. Minimum Absolute Difference
 
@@ -2798,8 +2657,6 @@ class Solution:
         return res
 ```
 
-
-
 ### 1217. Minimum Cost to Move Chips to The Same Position
 
 ```python
@@ -2811,13 +2668,11 @@ class Solution:
                 even += 1
             else:
                 odd += 1
-        
+
         return min(odd, even)
 ```
 
 我们可以用0cost将偶数位硬币移动到0，用0cost将奇数位硬币移动到1，之后将0移动到1或将1移动到0，选择较少的即可。
-
-
 
 ### 1239. Maximum Length of a Concatenated String with Unique Characters
 
@@ -2834,8 +2689,6 @@ class Solution:
         return max([len(each) for each in temp])
 ```
 
-
-
 ### 1282. Group the People Given the Group Size They Belong To
 
 ```python
@@ -2844,10 +2697,10 @@ class Solution:
         res = []
         from collections import defaultdict
         temp = defaultdict(list)
-        
+
         for i, n in enumerate(groupSizes):
             temp[n].append(i)
-        
+
         for groupSize, nemberList in temp.items():
             if groupSize == len(nemberList):
                 res.append(nemberList)
@@ -2856,8 +2709,6 @@ class Solution:
                     res.append(nemberList[i:i+groupSize])
         return res
 ```
-
-
 
 ### [1287. Element Appearing More Than 25% In Sorted Array](https://leetcode.com/problems/element-appearing-more-than-25-in-sorted-array/)
 
@@ -2883,8 +2734,6 @@ func findSpecialInteger(arr []int) int {
 }
 ```
 
-
-
 ### 1295. Find Numbers with Even Number of Digits
 
 ```python
@@ -2893,21 +2742,19 @@ class Solution:
         return len([each for each in nums if len(str(each)) % 2 == 0])
 ```
 
-
-
-###  1296. Divide Array in Sets of K Consecutive Numbers
+### 1296. Divide Array in Sets of K Consecutive Numbers
 
 ```python
 class Solution:
     def isPossibleDivide(self, nums: List[int], k: int) -> bool:
         counter = collections.Counter(nums)
-        
+
         def del_counter(num):
             if counter[num] == 1:
                 counter.pop(num)
                 return
             counter[num] -= 1
-        
+
         while counter:
             min_num = min(counter.keys())
             del_counter(min_num)
@@ -2921,18 +2768,16 @@ class Solution:
 class Solution:
     def isPossibleDivide(self, nums: List[int], k: int) -> bool:
         counter = collections.Counter(nums)
-        
+
         for num in sorted(counter):
             if counter[num] > 0:
                 for i in range(k)[::-1]:
                     counter[num+i] -= counter[num]
                     if counter[num+i] < 0:
                         return False
-                    
+
         return True
 ```
-
-
 
 ### 1299. Replace Elements with Greatest Element on Right Side
 
@@ -2941,7 +2786,7 @@ class Solution:
     def replaceElements(self, arr: List[int]) -> List[int]:
         if not arr:
             return
-        
+
         ans = [-1]
         temp_max = -sys.maxsize
         for i in range(len(arr)-1, 0, -1):
@@ -2949,8 +2794,6 @@ class Solution:
             ans.append(temp_max)
         return list(reversed(ans))
 ```
-
-
 
 ### 1306. Jump Game III
 
@@ -2963,8 +2806,6 @@ class Solution:
         return False
 ```
 
-
-
 ### 1346. Check If N and Its Double Exist
 
 ```python
@@ -2972,9 +2813,9 @@ class Solution:
     def checkIfExist(self, arr: List[int]) -> bool:
         if not arr:
             return False
-        
+
         temp_set = set()
-        
+
         for each in arr:
             if each * 2 in temp_set:
                 return True
@@ -2983,8 +2824,6 @@ class Solution:
             temp_set.add(each)
         return False
 ```
-
-
 
 ### 1385. Find the Distance Value Between Two Arrays
 
@@ -2995,7 +2834,7 @@ class Solution:
         arr1.sort()
         arr2.sort()
         res = 0
-        
+
         while i < len(arr1) and j < len(arr2):
             if arr1[i] > arr2[j]:
                 if arr1[i] - arr2[j] > d:
@@ -3028,8 +2867,6 @@ class Solution:
 # the correction.
 ```
 
-
-
 ### 1413. Minimum Value to Get Positive Step by Step Sum
 
 ```python
@@ -3042,8 +2879,6 @@ class Solution:
         return 1-_min if _min < 0 else 1
 ```
 
-
-
 ### 1423. Maximum Points You Can Obtain from Cards
 
 ```python
@@ -3051,20 +2886,18 @@ class Solution:
     def maxScore(self, cardPoints: List[int], k: int) -> int:
         front_sum = [0]
         behind_sum = [0]
-        
+
         for each in cardPoints:
             front_sum.append(each + front_sum[-1])
         for each in cardPoints[::-1]:
             behind_sum.append(each + behind_sum[-1])
-        
+
         all_combin = [front_sum[i] + behind_sum[k-i] for i in range(k+1)]
-        
+
         return max(all_combin)
 ```
 
 https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/discuss/597825/Simple-Clean-Intuitive-Explanation-with-Visualization
-
-
 
 ### 1456. Maximum Number of Vowels in a Substring of Given Length
 
@@ -3093,12 +2926,28 @@ class Solution:
             if i >= k and s[i - k] in vowels:
                 cnt -= 1
             ans  = max(cnt, ans)
-        return ans  
+        return ans
 ```
 
 two pointers
 
+### 1464. Maximum Product of Two Elements in an Array
 
+```python
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        nums.sort(key=lambda x:-x)
+        res1 = res2 = 1
+        for num in nums:
+            if num != 1:
+                if res1 == 1:
+                    res1 = num
+                elif res2 == 1:
+                    res2 = num
+                    break
+
+        return (res1-1) * (res2-1)
+```
 
 ### 1502. Can Make Arithmetic Progression From Sequence
 
@@ -3121,9 +2970,9 @@ class Solution:
 
 几个提前判断条件：
 
-* 如果最大最小值一样，那么说明序列中所有数字一样，直接返回True
-* 如果最大最小值差余(n-1)不为0，说明diff不能被(n-1)整除，则找不到整数diff，直接返回False
-* 如果序列中有相同的数字直接返回False，如果第一条是False的话
+- 如果最大最小值一样，那么说明序列中所有数字一样，直接返回True
+- 如果最大最小值差余(n-1)不为0，说明diff不能被(n-1)整除，则找不到整数diff，直接返回False
+- 如果序列中有相同的数字直接返回False，如果第一条是False的话
 
 下面遍历每个数字，判断每个数字与最小值的差是不是diff的倍数，不是则返回False
 
@@ -3142,8 +2991,6 @@ class Solution:
 可以直接对序列排序，判断相邻数字差是否相同。
 
 时间复杂度：O(nlogN)
-
-
 
 ### 1658. Minimum Operations to Reduce X to Zero
 
@@ -3170,7 +3017,7 @@ class Solution:
                 right -= 1
             res += 1
             print(res)
-        
+
         return res
 ```
 
@@ -3187,7 +3034,7 @@ class Solution:
             if cur_sum - target in sum_dict:
                 res = max(res, i - sum_dict[cur_sum-target])
             sum_dict[cur_sum] = i
-        
+
         return -1 if res == -sys.maxsize else len(nums) - res
 ```
 
@@ -3200,8 +3047,7 @@ class Solution:
 - If we want to minimize our operations, then we should
 
   maximize the length of the middle subarray.
-
-  - Then the qeustion becomes: *Find the Longest Subarray with Sum Equals to TotalSum - X*
+  - Then the qeustion becomes: _Find the Longest Subarray with Sum Equals to TotalSum - X_
   - We could simply use Map + Prefix Sum to get it!
 
 ![1](https://assets.leetcode.com/users/images/bf560734-2107-4a1b-811a-f3dd6d54c6e6_1605413025.6626496.png)
@@ -3231,8 +3077,6 @@ for (int i = 0; i < nums.length; ++i) {
 return res == Integer.MIN_VALUE ? -1 : nums.length - res;
 ```
 
-
-
 ### 1710. Maximum Units on a Truck
 
 ```python
@@ -3250,8 +3094,6 @@ class Solution:
         return res
 ```
 
-
-
 ### 1769. Minimum Number of Operations to Move All Balls to Each Box
 
 ```python
@@ -3259,18 +3101,18 @@ class Solution:
     def minOperations(self, boxes: str) -> List[int]:
         tempSet = set()
         res = []
-        
+
         for i, box in enumerate(boxes):
             if box == '1':
                 tempSet.add(i)
-        
+
         for i, box in enumerate(boxes):
             tempSum = 0
             for each1 in tempSet:
                 if each1 == i: continue
                 tempSum += abs(each1 - i)
             res.append(tempSum)
-        
+
         return res
 ```
 
@@ -3279,11 +3121,11 @@ class Solution:
 ```python
 class Solution:
     def minOperations(self, boxes: str) -> List[int]:
-        
+
         res = [0] * len(boxes)
-        
+
         leftCount = leftCost = rightCount = rightCost = 0
-        
+
         # left:
         for i in range(1, len(boxes)):
             if boxes[i-1] == '1':
@@ -3309,8 +3151,6 @@ For each index, the cost to move all boxes to it is sum of the cost `leftCost` t
 
 same as question 238，similar question 42
 
-
-
 ### 1877. Minimize Maximum Pair Sum in Array
 
 ```python
@@ -3325,8 +3165,6 @@ class Solution:
             right -= 1
         return res
 ```
-
-
 
 ### 2090. K Radius Subarray Averages
 
@@ -3350,8 +3188,6 @@ class Solution:
         return [-1] * k + res + [-1] * k
 ```
 
-
-
 ### 2279. Maximum Bags With Full Capacity of Rocks
 
 ```python
@@ -3359,20 +3195,18 @@ class Solution:
     def maximumBags(self, capacity: List[int], rocks: List[int], additionalRocks: int) -> int:
         remain_cap = [capacity[i] - rocks[i] for i in range(len(rocks))]
         remain_cap.sort()
-        
+
         res = 0
-        
+
         for each_remain in remain_cap:
             if additionalRocks > 0 and additionalRocks >= each_remain:
                 res += 1
                 additionalRocks -= each_remain
             else:
                 break
-        
+
         return res
 ```
-
-
 
 ### 2280. Minimum Lines to Represent a Line Chart
 
@@ -3381,15 +3215,15 @@ class Solution:
     def minimumLines(self, stockPrices: List[List[int]]) -> int:
         if len(stockPrices) < 2:
             return 0
-        
+
         stockPrices.sort(key=lambda x: (x[0], x[1]))
-        
+
         fir, sec = stockPrices[0], stockPrices[1]
         cur_slope = (sec[1] - fir[1]) / (sec[0] - fir[0])
         cur_node = fir
-        
+
         res = 1
-        
+
         for i in range(2, len(stockPrices)):
             x, y = stockPrices[i]
             slope = (y - cur_node[1]) / (x - cur_node[0])
@@ -3398,26 +3232,26 @@ class Solution:
                 res += 1
                 cur_node = stockPrices[i-1]
                 cur_slope = (y - cur_node[1]) / (x - cur_node[0])
-        
+
         return res
 ```
 
 ```python
 class Solution:
-    
+
     def minimumLines(self, stockPrices: List[List[int]]) -> int:
         from fractions import Fraction
         if len(stockPrices) < 2:
             return 0
-        
+
         stockPrices.sort(key=lambda x: (x[0], x[1]))
-        
+
         fir, sec = stockPrices[0], stockPrices[1]
         cur_slope = Fraction(sec[1] - fir[1], sec[0] - fir[0])
         cur_node = fir
-        
+
         res = 1
-        
+
         for i in range(2, len(stockPrices)):
             x, y = stockPrices[i]
             slope = Fraction(y - cur_node[1], x - cur_node[0])
@@ -3426,13 +3260,11 @@ class Solution:
                 res += 1
                 cur_node = stockPrices[i-1]
                 cur_slope = Fraction(y - cur_node[1], x - cur_node[0])
-        
+
         return res
 ```
 
 第一个方法`[[1,1],[500000000,499999999],[1000000000,999999998]]`这个case过不去，应该是精度的问题
-
-
 
 ### 2293. Min Max Game
 
@@ -3440,7 +3272,7 @@ class Solution:
 class Solution:
     def minMaxGame(self, nums: List[int]) -> int:
         if len(nums) == 1: return nums[0]
-        
+
         while len(nums) > 1:
             temp = []
             for i, num in enumerate(nums):
@@ -3452,8 +3284,6 @@ class Solution:
             nums = temp
         return nums[0]
 ```
-
-
 
 ### 2294. Partition Array Such That Maximum Difference Is K
 
@@ -3473,8 +3303,6 @@ class Solution:
 
 可以对数组排序，直觉上是因为任何子数组都可以按原顺序被 pick 出来。
 
-
-
 ### 2296. Design a Text Editor
 
 ```python
@@ -3484,7 +3312,7 @@ class TextEditor:
         self.text = ""
         self.nums = 0
         self.cursor = 0
-    
+
     def print_status(self):
         print("self.test: ", self.text)
         print("self.nums: ", self.nums)
@@ -3519,4 +3347,3 @@ class TextEditor:
 # param_3 = obj.cursorLeft(k)
 # param_4 = obj.cursorRight(k)
 ```
-
