@@ -40,7 +40,7 @@ class Solution:
 
         graph = defaultdict(list)
         for i, j in prerequisites:
-            graph[j].append(i)
+            graph[j].append(i). # 这里graph[i].append(j)也可以而且更make sense一些
 
         seen = set()
         topo = set()
