@@ -2468,7 +2468,8 @@ https://leetcode.com/problems/task-scheduler/discuss/104500/Java-O(n)-time-O(1)-
         return max(nums[0]*nums[1]*nums[-1],nums[-1]*nums[-2]*nums[-3])
 ```
 
-对数组进行排序非常耗时
+最大值只可能是数组中三个最大值相乘，或者两个最小负数和一个最大正数相承，所以排序后：
+`max(nums[-1]*nums[-2]*nums[-3], nums[0]*nums[1]*nums[-1])`
 
 ### 665. Non-decreasing Array
 
