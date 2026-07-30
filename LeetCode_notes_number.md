@@ -121,6 +121,25 @@ https://leetcode.com/problems/minimum-rounds-to-complete-all-tasks/solutions/195
 
 @lee215答案中把所有情况总结为 `(freq + 2) / 3` 不太能理解为什么可以这样
 
+### 3014. Minimum Number of Pushes to Type Word I
+
+```python
+class Solution:
+    def minimumPushes(self, word: str) -> int:
+        num1 = len(word) // 8
+        num2 = len(word) % 8
+
+        res = 0
+        times = 1
+        for _ in range(num1):
+            res += (8 * times)
+            times += 1
+        res += (num2 * times)
+        return res
+```
+
+先看给定的字符串长度是8的几倍，因为有8个按键上可以有字母，然后按倍数增加：`8*1 + 8*2 + 8*3...`，因为第一组八个字母要分别按一次，第二组八个字母要分别按两次，以此类推，最后增加余8的结果按当前倍数增加
+
 ### 3536. Maximum Product of Two Digits
 
 ```python
