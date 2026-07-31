@@ -140,6 +140,31 @@ class Solution:
 
 先看给定的字符串长度是8的几倍，因为有8个按键上可以有字母，然后按倍数增加：`8*1 + 8*2 + 8*3...`，因为第一组八个字母要分别按一次，第二组八个字母要分别按两次，以此类推，最后增加余8的结果按当前倍数增加
 
+### 3016. Minimum Number of Pushes to Type Word II
+
+```python
+class Solution:
+    def minimumPushes(self, word: str) -> int:
+        counter = Counter(word)
+        counter_list = [(c, num) for c, num in counter.items()]
+        counter_list.sort(key=lambda x:-x[1])
+        print(f"counter list: {counter_list}")
+
+        res = 0  # 结果
+        times = 1  # 按键次数
+        c_mount = 1  # 累计不同字母数
+        for c, num in counter_list:
+            res += num * times
+            c_mount += 1
+            times = math.ceil(c_mount/8)
+
+        return res
+
+```
+
+这一题相对3014题区别是输入的 word 可以有重复字母，思路和上一题类似，只要将对应字母按键次数再乘以字母数量即可，注意将数量多的字母排到前面，这样减少按键总次数。
+先取 counter 然后排序，按数量降序，然后挨个字母计算其按键次数，每 8 个字母按键倍数加一。
+
 ### 3536. Maximum Product of Two Digits
 
 ```python
