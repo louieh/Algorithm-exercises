@@ -14,8 +14,6 @@ class Solution:
         return last_good_pos == 0
 ```
 
-
-
 ### 62. Unique Paths
 
 ```python
@@ -36,21 +34,19 @@ class Solution:
 ```python
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        
+
         rows, cols = m, n
         dp = [[None] * cols for _ in range(rows)]
-        
+
         for row in range(rows):
             for col in range(cols):
                 if not row or not col:
                     dp[row][col] = 1
                 else:
                     dp[row][col] = dp[row-1][col] + dp[row][col-1]
-        
+
         return dp[rows-1][cols-1]
 ```
-
-
 
 ### 63. Unique Paths II
 
@@ -59,26 +55,24 @@ class Solution:
     def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
         rows, cols = len(obstacleGrid), len(obstacleGrid[0])
         if obstacleGrid[0][0] or obstacleGrid[rows-1][cols-1]: return 0
-        
+
         dp = []
         for _ in range(rows):
             dp.append([None] * cols)
         dp[0][0] = 1
-        
+
         for i in range(1, cols):
             dp[0][i] = dp[0][i-1] if obstacleGrid[0][i] == 0 else 0
-        
+
         for i in range(1, rows):
             dp[i][0] = dp[i-1][0] if obstacleGrid[i][0] == 0 else 0
-        
+
         for row in range(1, rows):
             for col in range(1, cols):
                 dp[row][col] = dp[row-1][col] + dp[row][col-1] if obstacleGrid[row][col] == 0 else 0
-        
+
         return dp[rows-1][cols-1]
 ```
-
-
 
 ### 64. Minimum Path Sum
 
@@ -87,19 +81,17 @@ class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
         if not grid:
             return 0
-        
+
         for i in range(1, len(grid[0])):
             grid[0][i] += grid[0][i-1]
         for i in range(1, len(grid)):
             grid[i][0] += grid[i-1][0]
-            
+
         for row in range(1, len(grid)):
             for col in range(1, len(grid[0])):
                 grid[row][col] += min(grid[row-1][col], grid[row][col-1])
         return grid[-1][-1]
 ```
-
-
 
 ### 70. Climbing Stairs
 
@@ -108,11 +100,11 @@ class Solution:
 class Solution:
     def climbStairs(self, n: int) -> int:
         cache = dict()
-        
+
         def climbStairs_helper(i, n):
             if i in cache:
                 return cache[i]
-            
+
             if i > n:
                 return 0
             if i == n:
@@ -120,7 +112,7 @@ class Solution:
             temp = climbStairs_helper(i+1, n) + climbStairs_helper(i+2, n)
             cache[i] = temp
             return temp
-        
+
         return climbStairs_helper(0, n)
 ```
 
@@ -128,7 +120,7 @@ class Solution:
 class Solution:
     def climbStairs(self, n: int) -> int:
         if n <= 1: return 1
-    		return self.climbStairs(n - 1) + self.climbStairs(n - 2) # 因为既可以从n-1层爬上来也可以从n-2层爬上来  
+    		return self.climbStairs(n - 1) + self.climbStairs(n - 2) # 因为既可以从n-1层爬上来也可以从n-2层爬上来
 ```
 
 ```python
@@ -155,14 +147,12 @@ class Solution:
         return b
 ```
 
-
-
 ### [72. Edit Distance](https://leetcode.com/problems/edit-distance/)
 
 ```python
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
-        
+
         memo = dict()
 
         def helper(w1, w2):
@@ -180,7 +170,7 @@ class Solution:
                 replace = 1 + helper(w1[1:], w2[1:])
                 memo[(w1, w2)] = min(insert, delete, replace)
             return memo[(w1, w2)]
-        
+
         return helper(word1, word2)
 ```
 
@@ -230,7 +220,7 @@ md("horse", "hello")
 	md("orse", "ello")
 		md("orse", "llo")
 			md("orse", "lo")
-			md("rse", "llo") <- 
+			md("rse", "llo") <-
 			md("rse", "lo")
 		md("rse", "ello")
 			md("rse", "llo") <-
@@ -258,7 +248,7 @@ class Solution:
         if (i, j) not in memo:
             if word1[i] == word2[j]:
                 ans = self.minDistance2(word1, word2, i + 1, j + 1, memo)
-            else: 
+            else:
                 insert = 1 + self.minDistance2(word1, word2, i, j + 1, memo)
                 delete = 1 + self.minDistance2(word1, word2, i + 1, j, memo)
                 replace = 1 + self.minDistance2(word1, word2, i + 1, j + 1, memo)
@@ -301,20 +291,20 @@ Bottom - Up solution from @YaokaiYang
         if (word1 == null || word2 == null) return -1;
         if (word1.length() == 0) return word2.length();
         if (word2.length() == 0) return word1.length();
-        
+
         char[] c1 = word1.toCharArray();
         char[] c2 = word2.toCharArray();
-        
+
         int[][] matched = new int[c1.length + 1][c2.length + 1];
         //matched[length of c1 already been matched][length of c2 already been matched]
-        
+
         for (int i = 0; i <= c1.length; i++) {
             matched[i][0] = i;
         }
         for (int j = 0; j <= c2.length; j++) {
             matched[0][j] = j;
         }
-        
+
         for (int i = 0; i < c1.length; i++) {
             for (int j = 0; j < c2.length; j++) {
                 if (c1[i] == c2[j]) {
@@ -322,17 +312,15 @@ Bottom - Up solution from @YaokaiYang
                 } else {
                     matched[i + 1][j + 1] = Math.min(Math.min(matched[i][j + 1], matched[i + 1][j]), matched[i][j]) + 1;
                     //Since it is bottom up, we are considering in the ascending order of indexes.
-                    //Insert means plus 1 to j, delete means plus 1 to i, replace means plus 1 to both i and j. 
-                    //above sequence is delete, insert and replace. 
+                    //Insert means plus 1 to j, delete means plus 1 to i, replace means plus 1 to both i and j.
+                    //above sequence is delete, insert and replace.
                 }
             }
         }
-        
+
         return matched[c1.length][c2.length];
     }
 ```
-
-
 
 ### 91. Decode Ways
 
@@ -342,17 +330,15 @@ class Solution:
         dp = [0] * (len(s) + 1)
         dp[0] = 1
         dp[1] = 0 if s[0] == "0" else 1
-        
+
         for i in range(2, len(s)+1):
             if 0 < int(s[i-1:i]) <= 9:
                 dp[i] += dp[i-1]
             if 10 <= int(s[i-2:i]) <= 26:
                 dp[i] += dp[i-2]
-        
+
         return dp[len(s)]
 ```
-
-
 
 ### 96. Unique Binary Search Trees
 
@@ -373,19 +359,17 @@ class Solution:
 
 https://leetcode.com/problems/unique-binary-search-trees/discuss/1565543/C%2B%2BPython-5-Easy-Solutions-w-Explanation-or-Optimization-from-Brute-Force-to-DP-to-Catalan-O(N)
 
-
-
 ### 120. Triangle
 
 ```python
 class Solution:
     def minimumTotal(self, triangle: List[List[int]]) -> int:
         dp = triangle[-1]
-        
+
         for layer in range(len(triangle)-2, -1, -1):
             for i in range(layer+1):
                 dp[i] = triangle[layer][i] + min(dp[i], dp[i+1])
-        
+
         return dp[0]
 ```
 
@@ -403,7 +387,7 @@ Or even better, since the row minpath[k+1] would be useless after minpath[k] is 
 
 ```
 For the kth level:
-minpath[i] = min( minpath[i], minpath[i+1]) + triangle[k][i]; 
+minpath[i] = min( minpath[i], minpath[i+1]) + triangle[k][i];
 ```
 
 Thus, we have the following solution
@@ -417,14 +401,12 @@ int minimumTotal(vector<vector<int> > &triangle) {
         for (int i = 0; i <= layer; i++) // Check its every 'node'
         {
             // Find the lesser of its two children, and sum the current value in the triangle with it.
-            minlen[i] = min(minlen[i], minlen[i+1]) + triangle[layer][i]; 
+            minlen[i] = min(minlen[i], minlen[i+1]) + triangle[layer][i];
         }
     }
     return minlen[0];
 }
 ```
-
-
 
 ### 198. House Robber
 
@@ -432,12 +414,12 @@ int minimumTotal(vector<vector<int> > &triangle) {
 # TLE
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        
+
         def rob_helper(i):
             if i < 0:
                 return 0
             return max(nums[i]+rob_helper(i-2), rob_helper(i-1))
-        
+
         return rob_helper(len(nums)-1)
 ```
 
@@ -445,9 +427,9 @@ class Solution:
 # with memo
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        
+
         rem = dict()
-        
+
         def rob_helper(i):
             if i < 0:
                 return 0
@@ -456,7 +438,7 @@ class Solution:
             rem_val = max(nums[i]+rob_helper(i-2), rob_helper(i-1))
             rem[i] = rem_val
             return rem_val
-        
+
         return rob_helper(len(nums)-1)
 ```
 
@@ -473,38 +455,34 @@ class Solution:
 
 https://leetcode.com/problems/house-robber/discuss/156523/From-good-to-great.-How-to-approach-most-of-DP-problems.
 
-
-
 ### 213. House Robber II
 
 ```python
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        
+
         def rob_helper(nums):
             prev = curr = 0
             for num in nums:
                 prev, curr = curr, max(curr, prev + num)
             return curr
-        
+
         return max(nums[0] + rob_helper(nums[2:-1]), rob_helper(nums[1:]))
 ```
-
-
 
 ### 300. Longest Increasing Subsequence
 
 ```python
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
-        
+
         dp = [1] * len(nums)
-        
+
         for i in range(len(nums)):
             for j in range(i):
                 if nums[i] > nums[j] and dp[i] < dp[j] + 1:
                     dp[i] = dp[j] + 1
-        
+
         return max(dp)
 ```
 
@@ -518,7 +496,7 @@ https://leetcode.com/problems/longest-increasing-subsequence/discuss/1326308/C%2
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
         res = []
-        
+
         for num in nums:
             if not res or res[-1] < num:
                 res.append(num)
@@ -551,8 +529,6 @@ class Solution:
   7. `1` is less than previous number, so we can't extend the subsequence `sub`. We overwrite `2` by `1`, so `sub = [1, 3, 4, 5]`.
   8. Finally, length of longest increase subsequence = `len(sub)` = 4.
 
-
-
 ### 322. Coin Change
 
 ```python
@@ -560,7 +536,7 @@ class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         dp = [-1] * (amount + 1)
         dp[0] = 0
-        
+
         for i in range(1, amount+1):
             min_coin = 2**31 - 1
             for coin in coins:
@@ -581,14 +557,14 @@ class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         dp = [None] * (amount + 1)
         dp[0] = 0
-        
+
         for each_amount in range(1, amount+1):
             each_min_coins = sys.maxsize
             for coin in coins:
                 if coin <= each_amount and dp[each_amount - coin] < each_min_coins:
                     each_min_coins = dp[each_amount - coin] + 1
             dp[each_amount] = each_min_coins
-        
+
         return dp[-1] if dp[-1] < sys.maxsize else -1
 ```
 
@@ -597,8 +573,6 @@ class Solution:
 从1开始遍历每个amount，记录一个当前需要最小硬币数量的变量，再遍历每个coin，如果当前coin大于当前要兑换的amount，那没有可能兑换则跳过，如果当前coin小于当前要兑换的amount，我们要看兑换amount-coin所需最小硬币数量是否小于当前需要最小硬币数量，如果小于则更新当前需要最小硬币数量的变量为dp[each_amount-coin] + 1，兑换amount-coin所需最小硬币数量纪录在dp中，dp[each_amount-coin]，也就是在每一个额度上面看能不能加一个硬币得到当前额度，这便是自底向上的dp。
 
 中间 if 判断 `dp[each_amount - coin] < each_min_coins` 可以写成 `dp[each_amount - coin] + 1 < each_min_coins` 感觉更 make sense 一点
-
-
 
 ### 329. Longest Increasing Path in a Matrix
 
@@ -609,7 +583,7 @@ class Solution:
         dp = []
         for _ in range(rows):
             dp.append(([0] * cols).copy())
-        
+
         def dfs(row, col):
             if not dp[row][col]:
                 val = matrix[row][col]
@@ -621,16 +595,14 @@ class Solution:
                 )
                 dp[row][col] = dp_val
             return dp[row][col]
-        
+
         res = -sys.maxsize
         for row in range(rows):
             for col in range(cols):
                 res = max(res, dfs(row, col))
-        
+
         return res
 ```
-
-
 
 ### 337. House Robber III
 
@@ -639,28 +611,26 @@ class Solution:
     def rob(self, root: TreeNode) -> int:
         if not root:
             return 0
-        
+
         def helper(root, temp_dict):
             if not root:
                 return 0
             if root in temp_dict:
                 return temp_dict.get(root)
-            
+
             val = 0
-            
+
             if root.left:
                 val += helper(root.left.left, temp_dict) + helper(root.left.right, temp_dict)
             if root.right:
                 val += helper(root.right.left, temp_dict) + helper(root.right.right, temp_dict)
-            
+
             val = max(root.val + val, helper(root.left, temp_dict) + helper(root.right, temp_dict))
             temp_dict[root] = val
             return val
-        
+
         return helper(root, {})
 ```
-
-
 
 ### 354. Russian Doll Envelopes
 
@@ -686,8 +656,6 @@ class Solution:
         return size
 ```
 
-
-
 ### 368. Largest Divisible Subset
 
 ```python
@@ -695,7 +663,7 @@ class Solution:
     def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
         temp = [None] * len(nums)
         prev = [None] * len(nums)
-        
+
         nums.sort()
         _max = 0
         index = -1
@@ -720,15 +688,13 @@ https://leetcode.com/problems/largest-divisible-subset/discuss/684677/3-STEPS-c%
 
 不太明白
 
-
-
 ### 416. Partition Equal Subset Sum
 
 ```python
 # TLE
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        
+
         all_sum = sum(nums)
         temp_mask = 1 << len(nums)
 
@@ -749,21 +715,21 @@ class Solution:
         all_sum = sum(nums)
         if all_sum % 2 == 1: return False
         all_sum //= 2
-        
+
         dp = []
         for i in range(len(nums)+1):
             dp.append([False] * (all_sum + 1))
-        
+
         for i in range(len(nums)+1):
             dp[i][0] = True
-        
+
         for i in range(1, len(nums)+1):
             for j in range(1, (all_sum+1)):
                 if nums[i-1] > j:
                     dp[i][j] = dp[i-1][j]
                 else:
                     dp[i][j] = dp[i-1][j] or dp[i-1][j-nums[i-1]]
-        
+
         return dp[len(nums)][all_sum]
 ```
 
@@ -773,13 +739,13 @@ https://leetcode-cn.com/problems/partition-equal-subset-sum/solution/fen-ge-deng
 
 例：[1, 5, 11, 5]
 
-| -    | 0    | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   | 11   |
-| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| 0    | o    | x    | x    | x    | x    | x    | x    | x    | x    | x    | x    | x    |
-| 1    | o    | o    | x    | x    | x    | x    | x    | x    | x    | x    | x    | x    |
-| 5    | o    | o    | x    | x    | x    | o    | o    | x    | x    | x    | x    | x    |
-| 11   | o    | o    | x    | x    | x    | o    | o    | x    | x    | x    | x    | o    |
-| 5    | o    | o    | x    | x    | x    | o    | o    | x    | x    | x    | o    | o    |
+| -   | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   | 10  | 11  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0   | o   | x   | x   | x   | x   | x   | x   | x   | x   | x   | x   | x   |
+| 1   | o   | o   | x   | x   | x   | x   | x   | x   | x   | x   | x   | x   |
+| 5   | o   | o   | x   | x   | x   | o   | o   | x   | x   | x   | x   | x   |
+| 11  | o   | o   | x   | x   | x   | o   | o   | x   | x   | x   | x   | o   |
+| 5   | o   | o   | x   | x   | x   | o   | o   | x   | x   | x   | o   | o   |
 
 此题为0/1背包问题变形，每个数字有两个选择，要么选要么不选，最后求和为数组和的一半。定义dp[i] [j] 为截止到地 i 个元素是否有和为 j 的组合。
 
@@ -789,35 +755,31 @@ https://leetcode-cn.com/problems/partition-equal-subset-sum/solution/fen-ge-deng
 
 否则 dp[i] [j] = dp[i-1] [j] || dp[i-1] [j-nums[i]]
 
-
-
 对于典型的0/1背包问题：
 
 例：背包容量10
 
 物品：
 
-|        | a    | b    | c    | d    | e    |
-| ------ | ---- | ---- | ---- | ---- | ---- |
-| value  | 6    | 3    | 5    | 4    | 6    |
-| weight | 2    | 2    | 6    | 5    | 4    |
+|        | a   | b   | c   | d   | e   |
+| ------ | --- | --- | --- | --- | --- |
+| value  | 6   | 3   | 5   | 4   | 6   |
+| weight | 2   | 2   | 6   | 5   | 4   |
 
 定义dp[i] [j]为截止到 i 物品，背包容量为 j 的最大价值，我们多加一行一列
 
-| v    | w    | 0    | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   |
-| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-| 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    |
-| 6    | 2    | 0    | 0    | 6    | 6    | 6    | 6    | 6    | 6    | 6    | 6    | 6    |
-| 3    | 2    | 0    | 0    | 6    | 6    | 9    | 9    | 9    | 9    | 9    | 9    | 9    |
-| 5    | 6    | 0    | 0    | 6    | 6    | 9    | 9    | 9    | 9    | 11   | 11   | 11   |
-| 4    | 5    | 0    | 0    | 6    | 6    | 9    | 9    | 9    | 10   | 11   | 13   | 13   |
-| 6    | 4    | 0    | 0    | 6    | 6    | 9    | 9    | 12   | 12   | 15   | 15   | 15   |
+| v   | w   | 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   | 10  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   | 0   |
+| 6   | 2   | 0   | 0   | 6   | 6   | 6   | 6   | 6   | 6   | 6   | 6   | 6   |
+| 3   | 2   | 0   | 0   | 6   | 6   | 9   | 9   | 9   | 9   | 9   | 9   | 9   |
+| 5   | 6   | 0   | 0   | 6   | 6   | 9   | 9   | 9   | 9   | 11  | 11  | 11  |
+| 4   | 5   | 0   | 0   | 6   | 6   | 9   | 9   | 9   | 10  | 11  | 13  | 13  |
+| 6   | 4   | 0   | 0   | 6   | 6   | 9   | 9   | 12  | 12  | 15  | 15  | 15  |
 
 状态转移方程：如果该物品大小大于当前背包容量，则不能选，则当前状态取决于前面的状态也就是dp[i-1] [j]
 
 否则当前状态为不选和选之中的最大值，选的话价值为前面一个价值加当前物品价值，也就是dp[i-1] [j-nums[i-1]]
-
-
 
 ### 474. Ones and Zeroes
 
@@ -827,24 +789,46 @@ class Solution:
         counter = []
         for each in strs:
             counter.append((Counter(each)["0"], Counter(each)["1"]))
-        
+
         @lru_cache(None)
         def helper(index, nums0, nums1):
             if index >= len(strs) or nums0 == 0 and nums1 == 0:
                 return 0
-            
+
             option1 = helper(index+1, nums0, nums1)
             if nums0 >= counter[index][0] and nums1 >= counter[index][1]:
                 option2 = 1 + helper(index+1, nums0-counter[index][0], nums1-counter[index][1])
                 return max(option1, option2)
             return option1
-        
+
         return helper(0, m, n)
 ```
 
 https://leetcode.com/problems/ones-and-zeroes/discuss/814077/Dedicated-to-Beginners
 
+### 486. Predict the Winner
 
+```python
+class Solution:
+    def predictTheWinner(self, nums: List[int]) -> bool:
+        if len(nums) <= 1:
+            return True
+
+        def maxDiff(i, j):
+            if i == j:
+                return nums[i]
+
+            return max(
+                nums[i] - maxDiff(i+1, j),
+                nums[j] - maxDiff(i, j-1)
+            )
+
+        return maxDiff(0, len(nums)-1) >= 0
+```
+
+递归解法：定义 maxDiff 函数含义为在长度为 [i,j] 的数组下，对方比自己获得的最大分数差。
+所以当当前选手选择 nums[i] 时，他将立即获得 nums[i] 分数，同时需要减去对手在剩余数组中获得的最大的领先分数差额，也就是 nums[i] - maxDiff(i+1, j)，选择 nums[j] 时同理。
+https://leetcode.com/problems/predict-the-winner/solutions/8433447/solution-by-la_castille-ia0j/
 
 ### [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/)
 
@@ -857,20 +841,20 @@ class Solution:
         def helper(i, amount):
             if amount == 0:
                 return 1
-            
+
             if i >= len(coins):
                 return 0
 
             if memo.get((i, amount)) is not None:
                 return memo[(i, amount)]
-            
+
             if coins[i] > amount:
                 memo[(i, amount)] = helper(i + 1, amount)
             else:
                 memo[(i, amount)] = helper(i + 1, amount) + helper(i, amount - coins[i])
 
             return memo[(i, amount)]
-        
+
         return helper(0, amount)
 
 ```
@@ -895,20 +879,20 @@ class Solution:
         dp = [[0] * (amount + 1) for _ in range(n + 1)]
         for i in range(n):
             dp[i][0] = 1
-        
+
         # print(f"dp: {dp}")
         # 硬币数组长度是行数
         # amount 时列数
         # 遍历是从数组左下方，倒数第二行正数第二列开始，向右上方
         # dp[0][amount] 是答案
-        
+
         for i in range(n - 1, -1, -1):
             for j in range(1, amount + 1):
                 if coins[i] > j:
                     dp[i][j] = dp[i + 1][j]
                 else:
                     dp[i][j] = dp[i + 1][j] + dp[i][j - coins[i]]
-        
+
         return dp[0][amount]
 ```
 
@@ -925,8 +909,6 @@ Down-top dp
 
 最后使用全部硬币和全部额度是答案 `dp[0][amount]`
 
-
-
 ### 714. Best Time to Buy and Sell Stock with Transaction Fee
 
 ```python
@@ -938,7 +920,7 @@ class Solution(object):
         :rtype: int
         """
         cash, hold = 0, -prices[0]
-        
+
         for i in range(1, len(prices)):
             cash = max(cash, hold + prices[i] - fee)
             hold = max(hold, cash - prices[i]) # 与上一行可以交换顺序
@@ -957,7 +939,7 @@ Make sure `fee` is only incurred once.
 ```python
 class Solution:
     def maxProfit(self, prices: List[int], fee: int) -> int:
-        
+
         # maximum profit that can be obtained without holding the stock in the first i days
         free = [None] * len(prices)
         free[0] = 0
@@ -970,13 +952,11 @@ class Solution:
             price = prices[i]
             free[i] = max(free[i-1], hold[i-1] + price - fee) # 对于 free 数组，要在第 i 天卖掉，则卖掉的价格需要获取前一天的持有利润也就是hold[i-1] + price - fee
             hold[i] = max(hold[i-1], free[i-1] - price) # 对于 hold 数组，要在第 i 天买，则买的价格需要获取前一天未持有利润也就是free[i-1] - price
-        
+
         return free[-1]
 ```
 
 很好的解答：https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/editorial/
-
-
 
 ### 746. Min Cost Climbing Stairs
 
@@ -993,8 +973,6 @@ class Solution:
 函数dp为爬到第i层最小代价是多少
 
 当在第0层或第1层不需要爬所以代价是0，否则有两个选择要么从 i - 1 层爬上来（到顶层），同时付出代价 cost[i - 1]，要么从 i - 2 层爬上来，同时付出代价 cost[i - 2]，取其中最小。
-
-
 
 ### 790. Domino and Tromino Tiling
 
@@ -1017,7 +995,7 @@ https://leetcode.com/problems/domino-and-tromino-tiling/discuss/1620975/C%2B%2BP
 
 ![9a096afe-85f9-4358-a179-5563f960fc37_1639115832.0220907](https://assets.leetcode.com/users/images/9a096afe-85f9-4358-a179-5563f960fc37_1639115832.0220907.png)
 
-题目大意为现在有两种类型的图形，想拼成2*n的矩形，也就是两行n列，求有多少种拼法。
+题目大意为现在有两种类型的图形，想拼成2\*n的矩形，也就是两行n列，求有多少种拼法。
 
 对于这两种图形，答案中给出了6种情况，下面分别分析了每种情况的拼法。
 
@@ -1035,8 +1013,6 @@ https://leetcode.com/problems/domino-and-tromino-tiling/discuss/1620975/C%2B%2BP
 
 放置第二种，虽然填补了之前的空隙但是有产生了新的空隙，向前走一步，solve(i+1, previous_gap=True)
 
-
-
 ### 920. Number of Music Playlists
 
 ```python
@@ -1053,7 +1029,7 @@ class Solution:
                 scenario1 = dp[i-1][j-1] * (n - (j - 1))
                 scenario2 = dp[i-1][j] * (j - k) if j > k else 0
                 dp[i][j] = (scenario1 + scenario2) % MOD
-        
+
         return dp[goal][n]
 ```
 
@@ -1066,11 +1042,9 @@ https://leetcode.com/problems/number-of-music-playlists/editorial/
 此时我们从 `dp[0][0]` 开始向下遍历，每个格的可能数量是两种情况之和：
 
 1. 歌曲总数加一 `j+1` 且播放列表中歌曲数加一 `i+1`，这种情况下因为总共有 `n` 首歌，已经添加了 `j-1` 首歌，所有还可能添加 `n-(j-1)` 首歌，每首歌都对应之前的 `dp[i-1][j-1]` 中可能，所以最终是 `dp[i-1][j-1] * (n-(j-1))`
-2. 歌曲总数不变，播放列表中歌曲数加一 `i+1`，这种情况下因为有 `j` 首歌曲可以再次播放，但是题目要求需要播放了 `k` 首其他歌曲，所以当 `j > k` 时才有可能，而且有 `j - k` 首歌可以再次播放，每首歌都对应之前的 `dp[i-1][j]` 种可能，所以最终是 `dp[i-1][j] * (j - k)` 
+2. 歌曲总数不变，播放列表中歌曲数加一 `i+1`，这种情况下因为有 `j` 首歌曲可以再次播放，但是题目要求需要播放了 `k` 首其他歌曲，所以当 `j > k` 时才有可能，而且有 `j - k` 首歌可以再次播放，每首歌都对应之前的 `dp[i-1][j]` 种可能，所以最终是 `dp[i-1][j] * (j - k)`
 
 对于 `dp[i][j]` 位置我们需要把上面两种可能相加，最后返回 `dp[goal][n]`
-
-
 
 ### 1143. Longest Common Subsequence
 
@@ -1078,7 +1052,7 @@ https://leetcode.com/problems/number-of-music-playlists/editorial/
 # longest common subsequence using recursion: LTE
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        
+
         def helper(str1, str2, index1, index2):
             if index1 < 0 or index2 < 0:
                 return 0
@@ -1093,7 +1067,7 @@ class Solution:
 # longest common subsequence recursion with memorization or top-down approach: Accept
 class Solution:
     def longestCommonSubsequence(self, text1: str, text2: str) -> int:
-        
+
         def helper(str1, str2, index1, index2, dp_dict):
             if index1 < 0 or index2 < 0:
                 return 0
@@ -1114,7 +1088,7 @@ class Solution:
         dp = []
         for i in range(len(text1)+1):
             dp.append([None] * (len(text2)+1))
-                      
+
         for i in range(len(text1)+1):
             for j in range(len(text2)+1):
                 if i == 0 or j == 0:
@@ -1155,8 +1129,6 @@ class Solution:
         return memo[len(text1)-1][len(text2)-1]
 ```
 
-
-
 ### 1262. Greatest Sum Divisible by Three
 
 ```python
@@ -1173,14 +1145,12 @@ class Solution:
         return dp[0]
 ```
 
-
-
 ### 1626. Best Team With No Conflicts
 
 ```python
 class Solution:
     def bestTeamScore(self, scores: List[int], ages: List[int]) -> int:
-        
+
         age_score_list = sorted([(ages[i], scores[i]) for i in range(len(ages))])
 
         res = 0
@@ -1191,7 +1161,7 @@ class Solution:
                 if age_score_list[i][1] >= age_score_list[j][1]:
                     dp[i] = max(dp[i], dp[j] + age_score_list[i][1])
             res = max(res, dp[i])
-        
+
         return res
 ```
 
