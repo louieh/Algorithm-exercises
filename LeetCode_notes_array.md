@@ -3347,3 +3347,20 @@ class TextEditor:
 # param_3 = obj.cursorLeft(k)
 # param_4 = obj.cursorRight(k)
 ```
+
+### 3731. Find Missing Elements
+
+```python
+class Solution:
+    def findMissingElements(self, nums: List[int]) -> List[int]:
+        _min = 101
+        _max = 0
+        for num in nums:
+            if num < _min:
+                _min = num
+            if num > _max:
+                _max = num
+
+        nums_set = set(nums)
+        return [each for each in range(_min+1, _max) if each not in nums_set]
+```
