@@ -1218,6 +1218,71 @@ class Solution:
 
 简单的dfs即可
 
+### 3310. Remove Methods From Project
+
+```python
+class Solution:
+    def remainingMethods(self, n: int, k: int, invocations: List[List[int]]) -> List[int]:
+        invo_graph = defaultdict(list)
+        invoed_graph = defaultdict(list)
+
+        for a, b in invocations:
+            invo_graph[a].append(b)
+            invoed_graph[b].append(a)
+
+        q = deque()
+        q.append(k)
+        seen = set()
+
+        while q:
+            node = q.popleft()
+            if node not in seen:
+                seen.add(node)
+                for each in invo_graph[node]:
+                    q.append(each)
+
+        removed = seen.copy()
+        normals = set([i for i in range(n)]) - seen
+        for node in seen:
+            for invoed in invoed_graph[node]:
+                if invoed in normals:
+                    return list(range(n))
+
+        return list(set([i for i in range(n)]) - removed)
+```
+
+题目意思是只要有一个节点由非 suspicious 节点 invoke 的话就保留全部节点
+
+```python
+class Solution:
+    def remainingMethods(self, n: int, k: int, invocations: List[List[int]]) -> List[int]:
+        invo_graph = defaultdict(list)
+        in_degree = [0] * n
+        for a, b in invocations:
+            invo_graph[a].append(b)
+            in_degree[b] += 1
+
+        q = deque([k])
+        seen = set([k])
+
+        while q:
+            node = q.popleft()
+            for each in invo_graph[node]:
+                in_degree[each] -= 1
+                if each not in seen:
+                    seen.add(each)
+                    q.append(each)
+
+        for i, node in enumerate(in_degree):
+            if i in seen and node != 0:
+                return list(range(n))
+
+        return [i for i in range(n) if i not in seen]
+
+```
+
+这个方法是根据节点入度判断是否存在边，在遍历的时候减少入度，最后判断是否存在入度非零的 suspicious 节点
+
 ### 3532. Path Existence Queries in a Graph I
 
 ```python
