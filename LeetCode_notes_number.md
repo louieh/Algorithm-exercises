@@ -165,6 +165,26 @@ class Solution:
 这一题相对3014题区别是输入的 word 可以有重复字母，思路和上一题类似，只要将对应字母按键次数再乘以字母数量即可，注意将数量多的字母排到前面，这样减少按键总次数。
 先取 counter 然后排序，按数量降序，然后挨个字母计算其按键次数，每 8 个字母按键倍数加一。
 
+### 3345. Smallest Divisible Digit Product I
+
+```python
+class Solution:
+    def smallestNumber(self, n: int, t: int) -> int:
+
+        def get_digit_list(num):
+            digit_list = []
+            while num:
+                digit = num % 10
+                num //= 10
+                digit_list.insert(0, digit)
+            return digit_list
+
+        while math.prod(get_digit_list(n)) % t != 0:
+            n += 1
+
+        return n
+```
+
 ### 3536. Maximum Product of Two Digits
 
 ```python
