@@ -3348,6 +3348,32 @@ class TextEditor:
 # param_4 = obj.cursorRight(k)
 ```
 
+### 2933. High-Access Employees
+
+```python
+class Solution:
+    def findHighAccessEmployees(self, access_times: List[List[str]]) -> List[str]:
+        access_times.sort(key=lambda a:a[1])
+        access_dict = defaultdict(list)
+        for name, access_time in access_times:
+            access_dict[name].append(access_time)
+
+        res = []
+        for name, access_time_list in access_dict.items():
+            if len(access_time_list) < 3:
+                continue
+            for i in range(len(access_time_list)-2):
+                first_time = int(access_time_list[i])
+                second_time = int(access_time_list[i+2])
+                if second_time < first_time + 100:
+                    res.append(name)
+                    break
+
+        return res
+```
+
+先按时间排序然后按名字分组，然后判断时间列表中 index 相差 2 的两个时间是否相差小于 1 小时
+
 ### 3731. Find Missing Elements
 
 ```python
